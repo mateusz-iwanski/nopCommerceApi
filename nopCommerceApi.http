@@ -1,0 +1,6 @@
+@nopCommerceApi_HostAddress = http://localhost:5159
+
+GET {{nopCommerceApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
