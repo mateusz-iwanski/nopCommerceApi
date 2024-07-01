@@ -3,7 +3,6 @@
     public class AddressDto
     {
         public int Id { get; set; }
-        public int? CountryId { get; set; }
         public int? StateProvinceId { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
@@ -18,6 +17,8 @@
         public string? FaxNumber { get; set; }
         public DateTime CreatedOnUtc { get; set; }
 
+        public CountryDto? Country { get; set; }
+        public StateProvinceDto? StateProvince { get; set; }
     }
 
 }
