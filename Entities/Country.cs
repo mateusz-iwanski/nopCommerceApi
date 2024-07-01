@@ -32,4 +32,7 @@ public partial class Country
     public virtual ICollection<StateProvince> StateProvinces { get; set; } = new List<StateProvince>();
 
     public virtual ICollection<ShippingMethod> ShippingMethods { get; set; } = new List<ShippingMethod>();
+
+    public virtual ICollection<Customer> Customers { get; set; } = new List<Customer>();
+
 }
