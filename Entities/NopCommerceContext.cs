@@ -639,6 +639,17 @@ public partial class NopCommerceContext : DbContext
                 .WithMany(c => c.Customers) 
                 .HasForeignKey(c => c.CountryId)
                 .IsRequired(false);
+
+            entity.HasOne(c => c.StateProvince)
+                .WithMany(c => c.Customers)
+                .HasForeignKey(c => c.StateProvinceId)
+                .IsRequired(false);
+
+            entity.HasOne(c => c.Currency)
+                .WithMany(c => c.Customers)
+                .HasForeignKey(c => c.CurrencyId)
+                .IsRequired(false);
+
         });
 
         modelBuilder.Entity<CustomerAttribute>(entity =>
