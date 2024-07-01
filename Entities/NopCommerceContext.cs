@@ -6,14 +6,11 @@ namespace nopCommerceApi.Entities;
 
 public partial class NopCommerceContext : DbContext
 {
-    public NopCommerceContext()
-    {
-    }
+
+    private string _connectionString = "Server=(localdb)\\mssqllocaldb;Database=nopCommerce;Trusted_Connection=True;";
 
     public NopCommerceContext(DbContextOptions<NopCommerceContext> options)
-        : base(options)
-    {
-    }
+        : base(options) {}
 
     public virtual DbSet<AclRecord> AclRecords { get; set; }
 
@@ -268,8 +265,8 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<ZettleRecord> ZettleRecords { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=nopCommerce;Integrated Security=True");
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer(_connectionString);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -611,7 +608,7 @@ public partial class NopCommerceContext : DbContext
                 .HasConstraintName("FK_Customer_CurrencyId_Currency_Id");
 
             entity.HasOne(d => d.Language).WithMany(p => p.Customers)
-                .HasForeignKey(d => d.LanguageId)
+                .HasForeignKey(d => d.LanguageId)                
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_Customer_LanguageId_Language_Id");
 
@@ -637,6 +634,11 @@ public partial class NopCommerceContext : DbContext
                         j.IndexerProperty<int>("CustomerId").HasColumnName("Customer_Id");
                         j.IndexerProperty<int>("CustomerRoleId").HasColumnName("CustomerRole_Id");
                     });
+
+             entity.HasOne(c => c.Country)
+                .WithMany(c => c.Customers) 
+                .HasForeignKey(c => c.CountryId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<CustomerAttribute>(entity =>
