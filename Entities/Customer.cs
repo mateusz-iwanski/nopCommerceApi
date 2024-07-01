@@ -101,6 +101,8 @@ public partial class Customer
 
     public virtual Address? BillingAddress { get; set; }
 
+    public virtual Country? Country { get; set; }
+
     public virtual ICollection<BlogComment> BlogComments { get; set; } = new List<BlogComment>();
 
     public virtual Currency? Currency { get; set; }
@@ -120,6 +122,8 @@ public partial class Customer
     public virtual ICollection<ForumsTopic> ForumsTopics { get; set; } = new List<ForumsTopic>();
 
     public virtual Language? Language { get; set; }
+
+    public virtual StateProvince? StateProvince { get; set; }
 
     public virtual ICollection<Log> Logs { get; set; } = new List<Log>();
 
