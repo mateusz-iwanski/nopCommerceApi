@@ -27,7 +27,9 @@ public partial class Currency
 
     public DateTime UpdatedOnUtc { get; set; }
 
+    // TODO: check what is this
     public int RoundingTypeId { get; set; }
 
     public virtual ICollection<Customer> Customers { get; set; } = new List<Customer>();
+
 }
