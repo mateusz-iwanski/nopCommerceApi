@@ -20,4 +20,6 @@ public partial class StateProvince
     public virtual ICollection<Address> Addresses { get; set; } = new List<Address>();
 
     public virtual Country Country { get; set; } = null!;
+
+    public virtual ICollection<Customer> Customers { get; set; }
 }
