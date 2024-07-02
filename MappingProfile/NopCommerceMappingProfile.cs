@@ -9,6 +9,7 @@ namespace nopCommerceApi.MappingProfile
         public NopCommerceMappingProfile()
         {
             CreateMap<CustomerRole, CustomerRoleDto>();
+            CreateMap<TierPrice, TierPriceDto>();
             CreateMap<Currency, CurrencyDto>();
             CreateMap<StateProvince, StateProvinceDto>();
             CreateMap<Language, LanguageDto>();
