@@ -1,6 +1,6 @@
 ﻿namespace nopCommerceApi.Models
 {
-    public class TaxCatecogyDto 
+    public class TaxCategoryDto 
     {
         public int Id { get; set; }
         public string Name { get; set; }
