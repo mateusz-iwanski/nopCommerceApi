@@ -2,26 +2,24 @@
 using Microsoft.AspNetCore.Mvc;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Models;
+using nopCommerceApi.Services;
 
 namespace nopCommerceApi.Controllers
 {
     [Route("api/currency")]
     public class CurrencyController : ControllerBase
     {
-        private readonly NopCommerceContext _context;
-        private readonly IMapper _mapper;
+        private readonly ICurrencyService _currencyService;
 
-        public CurrencyController(NopCommerceContext context, IMapper mapper)
+        public CurrencyController(ICurrencyService currencyService)
         {
-            _context = context;
-            _mapper = mapper;
+            _currencyService = currencyService;
         }
 
         [HttpGet]
         public ActionResult<CurrencyDto> GetAll()
         {
-            var currency = _context.Currencies.ToList();
-            var currencyDtos = _mapper.Map<List<CurrencyDto>>(currency);
+            var currencyDtos = _currencyService.GetAll();
             return Ok(currencyDtos);
         }
     }

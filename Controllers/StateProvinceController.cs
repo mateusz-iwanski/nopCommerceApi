@@ -3,31 +3,24 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Models;
+using nopCommerceApi.Services;
 
 namespace nopCommerceApi.Controllers
 {
     public class StateProvinceController : ControllerBase
     {
-        private readonly NopCommerceContext _context;
-        private readonly IMapper _mapper;
+        private readonly IStateProvinceService _stateProvinceService;
 
-        public StateProvinceController(NopCommerceContext context, IMapper mapper)
+        public StateProvinceController(IStateProvinceService stateProvince)
         {
-            _context = context;
-            _mapper = mapper;
+            _stateProvinceService = stateProvince;
         }
 
         [HttpGet]
         public ActionResult<StateProvince> GetAll()
         {
-            var customers = _context
-                .StateProvinces
-                .Include(c => c.Country)
-                .ToList();
-
-            var customerDtos = _mapper.Map<List<StateProvinceDto>>(customers);
-
-            return Ok(customerDtos);
+            var stateProvinceDtos = _stateProvinceService.GetAll();
+            return Ok(stateProvinceDtos);
         }
     }
 }

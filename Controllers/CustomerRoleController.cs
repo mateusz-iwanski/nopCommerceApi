@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Models;
+using nopCommerceApi.Services;
 
 
 namespace nopCommerceApi.Controllers
@@ -10,20 +11,17 @@ namespace nopCommerceApi.Controllers
     [Route("api/customerrole")]
     public class CustomerRoleController : ControllerBase
     {
-        private readonly NopCommerceContext _context;
-        private readonly IMapper _mapper;
+        private readonly ICustomerRoleService _customerRoleService;
 
-        public CustomerRoleController(NopCommerceContext context, IMapper mapper)
+        public CustomerRoleController(ICustomerRoleService customerRoleService)
         {
-            _context = context;
-            _mapper = mapper;
+            _customerRoleService = customerRoleService;
         }
 
         [HttpGet]
         public ActionResult<CustomerRole> GetAll()
         {
-            var customerRoles = _context.CustomerRoles.ToList();
-            var customerRoleDtos = _mapper.Map<List<CustomerRoleDto>>(customerRoles);
+            var customerRoleDtos = _customerRoleService.GetAll();   
             return Ok(customerRoleDtos);
         }
     }

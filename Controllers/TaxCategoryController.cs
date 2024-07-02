@@ -2,6 +2,8 @@
 
 using Microsoft.AspNetCore.Mvc;
 using nopCommerceApi.Entities;
+using nopCommerceApi.Models;
+using nopCommerceApi.Services;
 //using nopCommerceApi.Models;
 
 namespace nopCommerceApi.Controllers
@@ -9,15 +11,16 @@ namespace nopCommerceApi.Controllers
     [Route("api/taxcategory")]
     public class TaxCategoryController : ControllerBase
     {
-        private readonly NopCommerceContext _context;
-        public TaxCategoryController(NopCommerceContext context)
+        private readonly ITaxCategoryService _taxCategoryService;
+        public TaxCategoryController(ITaxCategoryService taxCategoryService)
         {
-           _context = context;
+            _taxCategoryService = taxCategoryService;
         }
 
-        public ActionResult<IEnumerable<TaxCategory>> GetAll()
+        public ActionResult<IEnumerable<Models.TaxCategoryDto>> GetAll()
         {
-            var taxCategories = _context.TaxCategories.ToList();
+            var taxCategories = _taxCategoryService.GetAll();
+
             return Ok(taxCategories);
         }
     }

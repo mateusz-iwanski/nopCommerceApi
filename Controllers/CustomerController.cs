@@ -3,36 +3,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Models;
+using nopCommerceApi.Services;
 
 namespace nopCommerceApi.Controllers
 {
     [Route("api/customer")]
     public class CustomerController : ControllerBase
     {
-        private readonly NopCommerceContext _context;
-        private readonly IMapper _mapper;
-
-        public CustomerController(NopCommerceContext context, IMapper mapper)
+        private readonly ICustomerService _customerService;
+        public CustomerController(ICustomerService customerService)
         {
-            _context = context;
-            _mapper = mapper;
+            _customerService = customerService;
         }
 
         [HttpGet]
         public ActionResult<CustomerDto> GetAll()
         {
-            var customers = _context
-                .Customers
-                .Include(c => c.BillingAddress).ThenInclude(a => a.Country).ThenInclude(c => c.StateProvinces)
-                .Include(c => c.ShippingAddress).ThenInclude(a => a.Country).ThenInclude(c => c.StateProvinces)
-                .Include(c => c.Language)
-                .Include(c => c.Country)
-                .Include(c => c.StateProvince)
-                .Include(c => c.Currency)
-                .ToList();
-
-            var customerDtos = _mapper.Map<List<CustomerDto>>(customers);
-
+            var customerDtos = _customerService.GetAll();
             return Ok(customerDtos);
         }
     }

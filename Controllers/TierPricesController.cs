@@ -5,35 +5,24 @@ using nopCommerceApi.Entities;
 using nopCommerceApi.Models;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using nopCommerceApi.Services;
 
 namespace nopCommerceApi.Controllers
 {
     [Route("api/tierprices")]
     public class TierPricesController : ControllerBase
     {
-        private readonly NopCommerceContext _context;
-        private readonly IMapper _mapper;
+        private readonly ITierPriceService _tierPriceService;
         
-        public TierPricesController(NopCommerceContext context, IMapper mapper)
+        public TierPricesController(ITierPriceService tierPriceService)
         {
-            _context = context;
-            _mapper = mapper;
+            _tierPriceService = tierPriceService;
         }
 
         [HttpGet]
         public ActionResult<TierPrice> GetAll()
         {
-            var tierPrices = _context
-                .TierPrices
-                .ToList();
-
-            var tierPriceDtos = _mapper.Map<List<TierPriceDto>>(tierPrices);
-
-            // if you want to add connection to table CustomerRole uncomment  
-            // var options = new JsonSerializerOptions { ReferenceHandler = ReferenceHandler.IgnoreCycles };
-            // string jsonString = JsonSerializer.Serialize(tierPriceDtos, options);            
-            // return Ok(jsonString);
-
+            var tierPriceDtos = _tierPriceService.GetAll();
             return Ok(tierPriceDtos);
         }
     }

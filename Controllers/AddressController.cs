@@ -3,31 +3,27 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Models;
+using nopCommerceApi.Services;
 
 namespace nopCommerceApi.Controllers
 {
     [Route("api/address")]
     public class AddressController : ControllerBase
     {
-        private readonly NopCommerceContext _context;
-        private readonly IMapper _mapper;
+        private readonly IAddressService _addressService;
 
-        public AddressController(NopCommerceContext context, IMapper mapper)
+        public AddressController(IAddressService addressService)
         {
-            _context = context;
-            _mapper = mapper;
+            _addressService = addressService;
         }
 
         [HttpGet]
         public ActionResult<AddressDto> GetAll()
         {
-            var addresses = _context.Addresses
-                .Include(a => a.Country)
-                .Include(a => a.StateProvince).ThenInclude(c => c.Country)
-                .ToList();
-            var addressDtos = _mapper.Map<List<AddressDto>>(addresses);
+            var adressesDtos = _addressService.GetAll();
          
-            return Ok(addressDtos);
+            return Ok(adressesDtos);
         }
+
     }
 }
