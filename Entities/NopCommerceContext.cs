@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using nopCommerceApi.Entities.Configurations;
 
 namespace nopCommerceApi.Entities;
 
@@ -270,6 +271,18 @@ public partial class NopCommerceContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        // usable
+        new AddressConfiguration().Configure(modelBuilder.Entity<Address>());
+        new CountryConfiguration().Configure(modelBuilder.Entity<Country>());
+        new CurrencyConfiguration().Configure(modelBuilder.Entity<Currency>());
+        new CustomerConfiguration().Configure(modelBuilder.Entity<Customer>());
+        new CustomerRoleConfiguration().Configure(modelBuilder.Entity<CustomerRole>());
+        new StateProvinceConfiguration().Configure(modelBuilder.Entity<StateProvince>());
+        new TaxCategoryConfiguration().Configure(modelBuilder.Entity<TaxCategory>());
+        new TierPriceConfiguration().Configure(modelBuilder.Entity<TierPrice>());
+
+
+        // not usable
         modelBuilder.Entity<AclRecord>(entity =>
         {
             entity.ToTable("AclRecord");
@@ -316,43 +329,7 @@ public partial class NopCommerceContext : DbContext
             entity.Property(e => e.SystemKeyword).HasMaxLength(100);
         });
 
-        modelBuilder.Entity<Address>(entity =>
-        {
-            entity.ToTable("Address");
-
-            entity.HasIndex(e => e.CountryId, "IX_Address_CountryId");
-
-            entity.HasIndex(e => e.StateProvinceId, "IX_Address_StateProvinceId");
-
-            entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
-
-            entity.HasOne(d => d.Country).WithMany(p => p.Addresses)
-                .HasForeignKey(d => d.CountryId)
-                .HasConstraintName("FK_Address_CountryId_Country_Id");
-
-            entity.HasOne(d => d.StateProvince).WithMany(p => p.Addresses)
-                .HasForeignKey(d => d.StateProvinceId)
-                .HasConstraintName("FK_Address_StateProvinceId_StateProvince_Id");
-
-            entity.HasMany(d => d.Customers).WithMany(p => p.Addresses)
-                .UsingEntity<Dictionary<string, object>>(
-                    "CustomerAddress",
-                    r => r.HasOne<Customer>().WithMany()
-                        .HasForeignKey("CustomerId")
-                        .HasConstraintName("FK_CustomerAddresses_Customer_Id_Customer_Id"),
-                    l => l.HasOne<Address>().WithMany()
-                        .HasForeignKey("AddressId")
-                        .HasConstraintName("FK_CustomerAddresses_Address_Id_Address_Id"),
-                    j =>
-                    {
-                        j.HasKey("AddressId", "CustomerId");
-                        j.ToTable("CustomerAddresses");
-                        j.HasIndex(new[] { "AddressId" }, "IX_CustomerAddresses_Address_Id");
-                        j.HasIndex(new[] { "CustomerId" }, "IX_CustomerAddresses_Customer_Id");
-                        j.IndexerProperty<int>("AddressId").HasColumnName("Address_Id");
-                        j.IndexerProperty<int>("CustomerId").HasColumnName("Customer_Id");
-                    });
-        });
+        
 
         modelBuilder.Entity<AddressAttribute>(entity =>
         {
@@ -519,138 +496,13 @@ public partial class NopCommerceContext : DbContext
                 .HasConstraintName("FK_CheckoutAttributeValue_CheckoutAttributeId_CheckoutAttribute_Id");
         });
 
-        modelBuilder.Entity<Country>(entity =>
-        {
-            entity.ToTable("Country");
-
-            entity.HasIndex(e => e.DisplayOrder, "IX_Country_DisplayOrder");
-
-            entity.Property(e => e.Name).HasMaxLength(100);
-            entity.Property(e => e.ThreeLetterIsoCode).HasMaxLength(3);
-            entity.Property(e => e.TwoLetterIsoCode).HasMaxLength(2);
-        });
+       
 
         modelBuilder.Entity<CrossSellProduct>(entity =>
         {
             entity.ToTable("CrossSellProduct");
         });
 
-        modelBuilder.Entity<Currency>(entity =>
-        {
-            entity.ToTable("Currency");
-
-            entity.HasIndex(e => e.DisplayOrder, "IX_Currency_DisplayOrder");
-
-            entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
-            entity.Property(e => e.CurrencyCode).HasMaxLength(5);
-            entity.Property(e => e.CustomFormatting).HasMaxLength(50);
-            entity.Property(e => e.DisplayLocale).HasMaxLength(50);
-            entity.Property(e => e.Name).HasMaxLength(50);
-            entity.Property(e => e.Rate).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.UpdatedOnUtc).HasPrecision(6);
-        });
-
-        modelBuilder.Entity<Customer>(entity =>
-        {
-            entity.ToTable("Customer");
-
-            entity.HasIndex(e => e.BillingAddressId, "IX_Customer_BillingAddress_Id");
-
-            entity.HasIndex(e => e.CreatedOnUtc, "IX_Customer_CreatedOnUtc").IsDescending();
-
-            entity.HasIndex(e => e.CurrencyId, "IX_Customer_CurrencyId");
-
-            entity.HasIndex(e => e.CustomerGuid, "IX_Customer_CustomerGuid");
-
-            entity.HasIndex(e => e.Email, "IX_Customer_Email");
-
-            entity.HasIndex(e => e.LanguageId, "IX_Customer_LanguageId");
-
-            entity.HasIndex(e => e.ShippingAddressId, "IX_Customer_ShippingAddress_Id");
-
-            entity.HasIndex(e => e.SystemName, "IX_Customer_SystemName");
-
-            entity.HasIndex(e => e.Username, "IX_Customer_Username");
-
-            entity.Property(e => e.BillingAddressId).HasColumnName("BillingAddress_Id");
-            entity.Property(e => e.CannotLoginUntilDateUtc).HasPrecision(6);
-            entity.Property(e => e.City).HasMaxLength(1000);
-            entity.Property(e => e.Company).HasMaxLength(1000);
-            entity.Property(e => e.County).HasMaxLength(1000);
-            entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
-            entity.Property(e => e.CustomCustomerAttributesXml).HasColumnName("CustomCustomerAttributesXML");
-            entity.Property(e => e.Email).HasMaxLength(1000);
-            entity.Property(e => e.EmailToRevalidate).HasMaxLength(1000);
-            entity.Property(e => e.Fax).HasMaxLength(1000);
-            entity.Property(e => e.FirstName).HasMaxLength(1000);
-            entity.Property(e => e.Gender).HasMaxLength(1000);
-            entity.Property(e => e.LastActivityDateUtc).HasPrecision(6);
-            entity.Property(e => e.LastIpAddress).HasMaxLength(100);
-            entity.Property(e => e.LastLoginDateUtc).HasPrecision(6);
-            entity.Property(e => e.LastName).HasMaxLength(1000);
-            entity.Property(e => e.Phone).HasMaxLength(1000);
-            entity.Property(e => e.ShippingAddressId).HasColumnName("ShippingAddress_Id");
-            entity.Property(e => e.StreetAddress).HasMaxLength(1000);
-            entity.Property(e => e.StreetAddress2).HasMaxLength(1000);
-            entity.Property(e => e.SystemName).HasMaxLength(400);
-            entity.Property(e => e.TimeZoneId).HasMaxLength(1000);
-            entity.Property(e => e.Username).HasMaxLength(1000);
-            entity.Property(e => e.VatNumber).HasMaxLength(1000);
-            entity.Property(e => e.ZipPostalCode).HasMaxLength(1000);
-
-            entity.HasOne(d => d.BillingAddress).WithMany(p => p.CustomerBillingAddresses)
-                .HasForeignKey(d => d.BillingAddressId)
-                .HasConstraintName("FK_Customer_BillingAddress_Id_Address_Id");
-
-            entity.HasOne(d => d.Currency).WithMany(p => p.Customers)
-                .HasForeignKey(d => d.CurrencyId)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_Customer_CurrencyId_Currency_Id");
-
-            entity.HasOne(d => d.Language).WithMany(p => p.Customers)
-                .HasForeignKey(d => d.LanguageId)                
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_Customer_LanguageId_Language_Id");
-
-            entity.HasOne(d => d.ShippingAddress).WithMany(p => p.CustomerShippingAddresses)
-                .HasForeignKey(d => d.ShippingAddressId)
-                .HasConstraintName("FK_Customer_ShippingAddress_Id_Address_Id");
-
-            entity.HasMany(d => d.CustomerRoles).WithMany(p => p.Customers)
-                .UsingEntity<Dictionary<string, object>>(
-                    "CustomerCustomerRoleMapping",
-                    r => r.HasOne<CustomerRole>().WithMany()
-                        .HasForeignKey("CustomerRoleId")
-                        .HasConstraintName("FK_Customer_CustomerRole_Mapping_CustomerRole_Id_CustomerRole_Id"),
-                    l => l.HasOne<Customer>().WithMany()
-                        .HasForeignKey("CustomerId")
-                        .HasConstraintName("FK_Customer_CustomerRole_Mapping_Customer_Id_Customer_Id"),
-                    j =>
-                    {
-                        j.HasKey("CustomerId", "CustomerRoleId");
-                        j.ToTable("Customer_CustomerRole_Mapping");
-                        j.HasIndex(new[] { "CustomerRoleId" }, "IX_Customer_CustomerRole_Mapping_CustomerRole_Id");
-                        j.HasIndex(new[] { "CustomerId" }, "IX_Customer_CustomerRole_Mapping_Customer_Id");
-                        j.IndexerProperty<int>("CustomerId").HasColumnName("Customer_Id");
-                        j.IndexerProperty<int>("CustomerRoleId").HasColumnName("CustomerRole_Id");
-                    });
-
-             entity.HasOne(c => c.Country)
-                .WithMany(c => c.Customers) 
-                .HasForeignKey(c => c.CountryId)
-                .IsRequired(false);
-
-            entity.HasOne(c => c.StateProvince)
-                .WithMany(c => c.Customers)
-                .HasForeignKey(c => c.StateProvinceId)
-                .IsRequired(false);
-
-            entity.HasOne(c => c.Currency)
-                .WithMany(c => c.Customers)
-                .HasForeignKey(c => c.CurrencyId)
-                .IsRequired(false);
-
-        });
 
         modelBuilder.Entity<CustomerAttribute>(entity =>
         {
@@ -683,14 +535,6 @@ public partial class NopCommerceContext : DbContext
             entity.HasOne(d => d.Customer).WithMany(p => p.CustomerPasswords)
                 .HasForeignKey(d => d.CustomerId)
                 .HasConstraintName("FK_CustomerPassword_CustomerId_Customer_Id");
-        });
-
-        modelBuilder.Entity<CustomerRole>(entity =>
-        {
-            entity.ToTable("CustomerRole");
-
-            entity.Property(e => e.Name).HasMaxLength(255);
-            entity.Property(e => e.SystemName).HasMaxLength(255);
         });
 
         modelBuilder.Entity<DeliveryDate>(entity =>
@@ -2030,19 +1874,6 @@ public partial class NopCommerceContext : DbContext
                 .HasConstraintName("FK_SpecificationAttributeOption_SpecificationAttributeId_SpecificationAttribute_Id");
         });
 
-        modelBuilder.Entity<StateProvince>(entity =>
-        {
-            entity.ToTable("StateProvince");
-
-            entity.HasIndex(e => e.CountryId, "IX_StateProvince_CountryId");
-
-            entity.Property(e => e.Abbreviation).HasMaxLength(100);
-            entity.Property(e => e.Name).HasMaxLength(100);
-
-            entity.HasOne(d => d.Country).WithMany(p => p.StateProvinces)
-                .HasForeignKey(d => d.CountryId)
-                .HasConstraintName("FK_StateProvince_CountryId_Country_Id");
-        });
 
         modelBuilder.Entity<StockQuantityHistory>(entity =>
         {
@@ -2094,12 +1925,6 @@ public partial class NopCommerceContext : DbContext
             entity.Property(e => e.PickupFee).HasColumnType("decimal(18, 4)");
         });
 
-        modelBuilder.Entity<TaxCategory>(entity =>
-        {
-            entity.ToTable("TaxCategory");
-
-            entity.Property(e => e.Name).HasMaxLength(400);
-        });
 
         modelBuilder.Entity<TaxRate>(entity =>
         {
@@ -2115,27 +1940,6 @@ public partial class NopCommerceContext : DbContext
             entity.Property(e => e.CreatedDateUtc).HasPrecision(6);
         });
 
-        modelBuilder.Entity<TierPrice>(entity =>
-        {
-            entity.ToTable("TierPrice");
-
-            entity.HasIndex(e => e.CustomerRoleId, "IX_TierPrice_CustomerRoleId");
-
-            entity.HasIndex(e => e.ProductId, "IX_TierPrice_ProductId");
-
-            entity.Property(e => e.EndDateTimeUtc).HasPrecision(6);
-            entity.Property(e => e.Price).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.StartDateTimeUtc).HasPrecision(6);
-
-            entity.HasOne(d => d.CustomerRole).WithMany(p => p.TierPrices)
-                .HasForeignKey(d => d.CustomerRoleId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK_TierPrice_CustomerRoleId_CustomerRole_Id");
-
-            entity.HasOne(d => d.Product).WithMany(p => p.TierPrices)
-                .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("FK_TierPrice_ProductId_Product_Id");
-        });
 
         modelBuilder.Entity<Topic>(entity =>
         {
