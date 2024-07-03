@@ -1,13 +1,15 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
-using nopCommerceApi.Models;
+using nopCommerceApi.Models.Address;
 
 namespace nopCommerceApi.Services
 {
     public interface IAddressService
     {
-        IEnumerable<AddressDto> GetAll();
+        IEnumerable<DetailsAddressDto> GetAll();
+        Address CreateWithNip(CreateAddressDto newAdressDto);
     }
 
     public class AddressService : IAddressService
@@ -20,16 +22,33 @@ namespace nopCommerceApi.Services
             _context = context;
             _mapper = mapper;
         }
-        public IEnumerable<AddressDto> GetAll()
+
+        public IEnumerable<DetailsAddressDto> GetAll()
         {
-            var addresses = _context.Addresses
+            var detailsAddresses = _context.Addresses
                .Include(a => a.Country)
                .Include(a => a.StateProvince).ThenInclude(c => c.Country)
                .ToList();
-            var addressDtos = _mapper.Map<List<AddressDto>>(addresses);
+            var addressDtos = _mapper.Map<List<DetailsAddressDto>>(detailsAddresses);
 
             return addressDtos;
         }
+
+        /// <summary>
+        /// Create a new address with NIP as a additional field
+        /// </summary>
+        public Address CreateWithNip(CreateAddressDto newAdressDto)
+        {
+            var address = _mapper.Map<Address>(newAdressDto);
+
+            address.CreatedOnUtc = DateTime.Now;
+
+            _context.Addresses.Add(address);
+            _context.SaveChanges();
+
+            return address;
+        }
+
     }
 
 }

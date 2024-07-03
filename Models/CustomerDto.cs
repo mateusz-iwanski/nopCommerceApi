@@ -1,4 +1,5 @@
 ﻿using nopCommerceApi.Entities;
+using nopCommerceApi.Models.Address;
 
 namespace nopCommerceApi.Models
 {

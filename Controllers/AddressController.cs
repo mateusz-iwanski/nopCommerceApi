@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
-using nopCommerceApi.Models;
+using nopCommerceApi.Models.Address;
 using nopCommerceApi.Services;
 
 namespace nopCommerceApi.Controllers
@@ -18,12 +18,41 @@ namespace nopCommerceApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult<AddressDto> GetAll()
+        public ActionResult<DetailsAddressDto> GetAll()
         {
             var adressesDtos = _addressService.GetAll();
          
             return Ok(adressesDtos);
         }
 
+        /// <summary>
+        /// Add address with the NIP value as a custom attribute.
+        /// 
+        /// Default nopCommerce not have this feature.
+        /// CustomAttribute will look like this:
+        /// 
+        /// <Attributes>
+        ///     <AddressAttribute ID="1">
+        ///         <AddressAttributeValue>
+        ///             <Value>NIP NUMBER</Value>
+        ///          </AddressAttributeValue>
+        ///     </AddressAttribute>
+        /// </Attributes>      
+        /// 
+        /// AddressAttribute ID="1" - 
+        /// 
+        /// </summary>
+        [HttpPost("add/pl")]
+        public ActionResult CreateWithNip([FromBody] CreateAddressDto createAddressDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var address = _addressService.CreateWithNip(createAddressDto);
+
+            return Created($"/api/address/{address.Id}", null);
+        }
     }
 }
