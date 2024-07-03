@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Models;
+using nopCommerceApi.Models.Address;
 
 namespace nopCommerceApi.MappingProfile
 {
@@ -14,8 +15,12 @@ namespace nopCommerceApi.MappingProfile
             CreateMap<StateProvince, StateProvinceDto>();
             CreateMap<Language, LanguageDto>();
             CreateMap<Country, CountryDto>();
-            CreateMap<Address, AddressDto>();
+            CreateMap<Address, DetailsAddressDto>();
             CreateMap<Customer, CustomerDto>();
+            CreateMap<AddressAttribute, AddressAttributeDto>();
+
+            CreateMap<CreateAddressDto, Address>();
+                
         }
     }
 }

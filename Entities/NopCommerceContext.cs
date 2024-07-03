@@ -280,6 +280,7 @@ public partial class NopCommerceContext : DbContext
         new StateProvinceConfiguration().Configure(modelBuilder.Entity<StateProvince>());
         new TaxCategoryConfiguration().Configure(modelBuilder.Entity<TaxCategory>());
         new TierPriceConfiguration().Configure(modelBuilder.Entity<TierPrice>());
+        new AddressAttributeConfiguration().Configure(modelBuilder.Entity<AddressAttribute>());
 
 
         // not usable
@@ -330,13 +331,6 @@ public partial class NopCommerceContext : DbContext
         });
 
         
-
-        modelBuilder.Entity<AddressAttribute>(entity =>
-        {
-            entity.ToTable("AddressAttribute");
-
-            entity.Property(e => e.Name).HasMaxLength(400);
-        });
 
         modelBuilder.Entity<AddressAttributeValue>(entity =>
         {

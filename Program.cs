@@ -33,6 +33,7 @@ builder.Services.AddScoped<ILanguageService, LanguageService>();
 builder.Services.AddScoped<IStateProvinceService, StateProvinceService>();
 builder.Services.AddScoped<ITaxCategoryService, TaxCategoryService>();
 builder.Services.AddScoped<ITierPriceService, TierPriceService>();
+builder.Services.AddScoped<IAddressAttributeService, AddressAttributeService>();
 
 
 
