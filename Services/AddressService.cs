@@ -9,7 +9,7 @@ namespace nopCommerceApi.Services
     public interface IAddressService
     {
         IEnumerable<DetailsAddressDto> GetAll();
-        Address CreateWithNip(CreateAddressDto newAdressDto);
+        Address CreateWithNip(CreatePolishEnterpriseAddressDto newAdressDto);
     }
 
     public class AddressService : IAddressService
@@ -35,9 +35,9 @@ namespace nopCommerceApi.Services
         }
 
         /// <summary>
-        /// Create a new address with NIP as a additional field
+        /// Create a new address with NIP as a additional field for enterprises
         /// </summary>
-        public Address CreateWithNip(CreateAddressDto newAdressDto)
+        public Address CreateWithNip(CreatePolishEnterpriseAddressDto newAdressDto)
         {
             var address = _mapper.Map<Address>(newAdressDto);
             
@@ -59,9 +59,15 @@ namespace nopCommerceApi.Services
                 _context.SaveChanges();
             }
 
+            // Get Country->Poland ID
+            var country = _context.Countries.FirstOrDefault(c => c.Name == "Poland");
+
+
             // Add NIP to the address as a custom attribute
             address.CustomAttributes =
                     $"<Attributes><AddressAttribute ID=\"{addressAttribute.Id}\"><AddressAttributeValue><Value>{newAdressDto.Nip}</Value></AddressAttributeValue></AddressAttribute></Attributes>";
+            // For polish addresses, the country is always Poland
+            address.Country = country;
             address.CreatedOnUtc = DateTime.Now;
 
             _context.Addresses.Add(address);

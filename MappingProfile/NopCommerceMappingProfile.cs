@@ -19,7 +19,7 @@ namespace nopCommerceApi.MappingProfile
             CreateMap<Customer, CustomerDto>();
             CreateMap<AddressAttribute, AddressAttributeDto>();
 
-            CreateMap<CreateAddressDto, Address>();
+            CreateMap<CreatePolishEnterpriseAddressDto, Address>();
                 
         }
     }

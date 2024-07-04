@@ -43,7 +43,7 @@ namespace nopCommerceApi.Controllers
         /// 
         /// </summary>
         [HttpPost("add-with-nip")]
-        public ActionResult CreateWithNip([FromBody] CreateAddressDto createAddressDto)
+        public ActionResult CreateWithNip([FromBody] CreatePolishEnterpriseAddressDto createAddressDto)
         {
             if (!ModelState.IsValid)
             {
