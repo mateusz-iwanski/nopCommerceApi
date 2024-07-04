@@ -26,7 +26,7 @@ namespace nopCommerceApi.Controllers
         }
 
         /// <summary>
-        /// Add address with the NIP value as a custom attribute.
+        /// Add address with the NIP value as a custom attribute for Poland.
         /// 
         /// Default nopCommerce not have this feature.
         /// CustomAttribute will look like this:
@@ -42,7 +42,7 @@ namespace nopCommerceApi.Controllers
         /// AddressAttribute ID="1" - 
         /// 
         /// </summary>
-        [HttpPost("add/pl")]
+        [HttpPost("add-with-nip")]
         public ActionResult CreateWithNip([FromBody] CreateAddressDto createAddressDto)
         {
             if (!ModelState.IsValid)
