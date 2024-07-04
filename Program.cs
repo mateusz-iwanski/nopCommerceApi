@@ -1,6 +1,8 @@
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Http.Json;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Models;
+using nopCommerceApi.Models.Address;
 using nopCommerceApi.Services;
 using System.Text.Json.Serialization;
 
@@ -16,14 +18,13 @@ builder.Services.Configure<JsonOptions>(options =>
 
 
 // Add services to the container.
-
 builder.Services.AddControllers();
-//builder.Services.AddDbContext<nopCommerceDbContext>();
 
 builder.Services.AddDbContext<NopCommerceContext>();
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
+// Configure services for controllers
 builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<ICountryService, CountryService>();
 builder.Services.AddScoped<ICurrencyService, CurrencyService>();
@@ -35,6 +36,8 @@ builder.Services.AddScoped<ITaxCategoryService, TaxCategoryService>();
 builder.Services.AddScoped<ITierPriceService, TierPriceService>();
 builder.Services.AddScoped<IAddressAttributeService, AddressAttributeService>();
 
+// Configure custom validators
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreatePolishEnterpriseAddressDto>());
 
 
 var app = builder.Build();
