@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Xml;
 
 namespace nopCommerceApi.Models.Address
 {
@@ -19,6 +20,41 @@ namespace nopCommerceApi.Models.Address
         public virtual string? FaxNumber { get; set; }
         public virtual string? CustomAttributes { get; set; }
         public DateTime CreatedOnUtc { get; set; }
+
+        /// <summary>
+        /// Get Value from CustomAttributes
+        /// 
+        /// Custom attribute is stored in XML format
+        /// </summary>
+        /// <param name="customAttribute">Data in xml format</param>
+        /// <returns></returns>
+        public static string? GetValueFromCustomAttribute(string customAttribute)
+        {
+
+            if (string.IsNullOrWhiteSpace(customAttribute))
+                return default;
+            else
+            {
+                try
+                {
+                    XmlDocument doc = new XmlDocument();
+
+                    string xml = customAttribute;
+
+                    doc.LoadXml(xml);
+
+                    // query to select the <Value> node
+                    XmlNode valueNode = doc.SelectSingleNode("//Value");
+
+                    return valueNode != null ? valueNode.InnerText : null;
+                }
+                catch (XmlException)
+                {
+                    return default;
+                }
+            }
+
+        }
     }
 
 }
