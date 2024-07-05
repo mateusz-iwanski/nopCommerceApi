@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Models.Address;
 using nopCommerceApi.Services;
+using nopCommerceApi.Validations;
 
 namespace nopCommerceApi.Controllers
 {
@@ -21,7 +22,7 @@ namespace nopCommerceApi.Controllers
         public ActionResult<DetailsAddressDto> GetAll()
         {
             var adressesDtos = _addressService.GetAll();
-         
+
             return Ok(adressesDtos);
         }
 
@@ -39,7 +40,7 @@ namespace nopCommerceApi.Controllers
         ///     </AddressAttribute>
         /// </Attributes>      
         /// 
-        /// AddressAttribute ID="1" - 
+        /// AddressAttribute ID="1" 
         /// 
         /// </summary>
         [HttpPost("add-with-nip")]
@@ -54,5 +55,40 @@ namespace nopCommerceApi.Controllers
 
             return Created($"/api/address/{address.Id}", null);
         }
+
+        /// <summary>
+        /// Update address for Polish enterprises
+        /// 
+        /// Update data without NIP, if you want to update NIP, you have to create a new address with nip for enterprises
+        /// </summary>
+        [HttpPut("update-with-nip/{id}")]
+        public ActionResult UpdateWithNip(int id, [FromBody] UpdatePolishEnterpriseAddressDto updateAddressDto)
+        {
+            updateAddressDto.Id = id;
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var addressUpdated = _addressService.UpdateWithNip(id, updateAddressDto);
+
+                if (!addressUpdated)
+                {
+                    return NotFound();
+                }
+            }
+            catch (UpdateAddressException updateException)
+            {
+                return BadRequest(updateException.Message);
+            }
+
+
+            return Ok(updateAddressDto);
+        }
+
+
     }
 }

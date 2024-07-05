@@ -7,14 +7,14 @@ using System.Xml;
 
 namespace nopCommerceApi.Validations
 {
-    public class AddressDtoValidator : AbstractValidator<CreatePolishEnterpriseAddressDto>
+    public class CreatePolishEnterpriseAddressDtoValidator : AbstractValidator<CreatePolishEnterpriseAddressDto>
     {
         private readonly NopCommerceContext _context;
 
         /// <summary>
         /// Validates the address DTO.
         /// </summary>
-        public AddressDtoValidator(NopCommerceContext context)
+        public CreatePolishEnterpriseAddressDtoValidator(NopCommerceContext context)
         {
             _context = context;
 
@@ -29,7 +29,7 @@ namespace nopCommerceApi.Validations
             RuleFor(x => x.Nip)
                 .Must(nip =>
                 {
-                    var addresses = _context.Addresses.ToList(); 
+                    var addresses = _context.Addresses.ToList();
                     var filteredAddresses = addresses.Where(addr => AddressDto.GetValueFromCustomAttribute(addr.CustomAttributes) == nip).ToList();
 
                     return filteredAddresses.Count == 0 ? true : false;
@@ -37,6 +37,6 @@ namespace nopCommerceApi.Validations
                 .WithMessage("The NIP already exists in the database.");
         }
 
-        
+
     }
 }
