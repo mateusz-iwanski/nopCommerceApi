@@ -22,10 +22,28 @@ namespace nopCommerceApi.Validations
             RuleFor(x => x.Nip)
                 .MaximumLength(12)
                 .Matches(@"^((PL)?[0-9]{10})$")
-                .WithMessage("The NIP format is invalid. Properly format is with/without prefix \"PL\" and 10 digits.");
+                .WithMessage("The NIP format is invalid. Properly format is with/without prefix \"PL\" and 10 digits. Can't be empty, if you don't want to update, just remove from body.");
+
+            RuleFor(x => x.Company)
+                .Must(company => company == null || !string.IsNullOrWhiteSpace(company))
+                .WithMessage("The Company name can't be empty. If you don't want to update, just remove from body.");
+
+            RuleFor(x => x.City)
+                .Must(city => city == null || !string.IsNullOrWhiteSpace(city))
+                .WithMessage("The City name can't be empty. If you don't want to update, just remove from body.");
+
+            RuleFor(x => x.Address1)
+                .Must(address => address == null || !string.IsNullOrWhiteSpace(address))
+                .WithMessage("The Address1 name can't be empty. If you don't want to update, just remove from body.");
+
+            RuleFor(x => x.Email)
+                .Must(email => email == null || !string.IsNullOrWhiteSpace(email))
+                .WithMessage("The Email name can't be empty. If you don't want to update, just remove from body.");
+
+            RuleFor(x => x.PhoneNumber)
+                .Must(phoneNumber => phoneNumber == null || !string.IsNullOrWhiteSpace(phoneNumber))
+                .WithMessage("The PhoneNumber name can't be empty. If you don't want to update, just remove from body.");
         }
-
-
     }
 }
 

@@ -10,17 +10,16 @@ namespace nopCommerceApi.Services
 {
     public class UpdateAddressException : Exception
     {
-
         public UpdateAddressException(string message, string dtoProperty)
         : base(FormatErrorMessage(message, dtoProperty))
         {
         }
 
         /// <summary>
-        /// Format the error message to be returned in JSON format, the same as Validator format
+        /// Format the error message to be returned in JSON format
         /// </summary>
         /// <param name="message">Message to show</param>
-        /// <param name="dtoProperty">The property for which the message is to be displayed</param>
+        /// <param name="dtoProperty">The property for which the message is to be display</param>
         /// <returns></returns>
         private static string FormatErrorMessage(string message, string dtoProperty)
         {
@@ -43,8 +42,6 @@ namespace nopCommerceApi.Services
     {
         private readonly NopCommerceContext _context;
         private readonly IMapper _mapper;
-
-        private UpdatePolishEnterpriseAddressDtoValidator _updateValidator;
 
         public AddressService(NopCommerceContext context, IMapper mapper)
         {
@@ -114,39 +111,64 @@ namespace nopCommerceApi.Services
         /// <summary>
         /// Update address for Polish enterprises
         /// 
-        /// Validator check only nip format, in function check if the nip already exists in the database.
+        /// Nip has to be always set in the request body.
         /// In function check if the nip already exists in the database excluding the updated object from the check.
+        /// If property not set in the request body, it will not be updated.
+        /// Cant set empty string on: Company, City, Email, Address1, PhoneNumber. If you don't want to update, just remove from body.
         /// </summary>
         public bool UpdateWithNip(int id, UpdatePolishEnterpriseAddressDto updateAddressDto)
         {
             var address = _context.Addresses
-            .Include(a => a.Country)
-            .Include(a => a.StateProvince)
-            .FirstOrDefault(a => a.Id == id);
+                .Include(a => a.Country)
+                .Include(a => a.StateProvince)
+                .FirstOrDefault(a => a.Id == id);
 
             var addressAttribute = _context.AddressAttributes
                 .FirstOrDefault(c => c.Name == "NIP" && c.AttributeControlTypeId == 4);
 
             if (address == null) return false;
 
-            address.FirstName = updateAddressDto.FirstName;
-            address.LastName = updateAddressDto.LastName;
-            address.Email = updateAddressDto.Email;
-            address.Company = updateAddressDto.Company;
-            address.County = updateAddressDto.County;
-            address.City = updateAddressDto.City;
-            address.Address1 = updateAddressDto.Address1;
-            address.Address2 = updateAddressDto.Address2;
-            address.ZipPostalCode = updateAddressDto.ZipPostalCode;
-            address.PhoneNumber = updateAddressDto.PhoneNumber;
+            // Only update this fields which are not null
+
+            if (updateAddressDto.FirstName != null)
+                address.FirstName = updateAddressDto.FirstName;
+
+            if (updateAddressDto.LastName != null)
+                address.LastName = updateAddressDto.LastName;
+
+            if (updateAddressDto.Email != null)
+                address.Email = updateAddressDto.Email;
+
+            if (updateAddressDto.Company != null)
+                address.Company = updateAddressDto.Company;
+
+            if (updateAddressDto.County != null)
+                address.County = updateAddressDto.County;
+
+            if (updateAddressDto.City != null)
+                address.City = updateAddressDto.City;
+
+            if (updateAddressDto.Address1 != null)
+                address.Address1 = updateAddressDto.Address1;
+
+            if (updateAddressDto.Address2 != null)
+                address.Address2 = updateAddressDto.Address2;
+
+            if (updateAddressDto.ZipPostalCode != null)
+                address.ZipPostalCode = updateAddressDto.ZipPostalCode;
+
+            if (updateAddressDto.PhoneNumber != null)
+                address.PhoneNumber = updateAddressDto.PhoneNumber;
+
             // Set to Poland every time, this function is only for Polish enterprises
             address.Country = _context.Countries.FirstOrDefault(c => c.Name == "Poland");
 
             // Validate if the NIP already exists in the database
+            // but exclude the updated object from the check
             if (!string.IsNullOrEmpty(updateAddressDto.Nip))
             {
                 var addresses = _context.Addresses.ToList();
-                    
+
                 var filteredAddresses = addresses.Where(addr => AddressDto.GetValueFromCustomAttribute(addr.CustomAttributes) == updateAddressDto.Nip).ToList();
                 // Exclude the updated object from the check
                 filteredAddresses = filteredAddresses.Where(addr => addr.Id != updateAddressDto.Id).ToList();
@@ -159,7 +181,6 @@ namespace nopCommerceApi.Services
             _context.SaveChanges();
 
             return true;
-            
         }
 
     }
