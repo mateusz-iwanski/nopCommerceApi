@@ -2,11 +2,9 @@
 {
     public class CreatePolishEnterpriseAddressDto : AddressDto
     {
-        public int CountryId { get; set; }
-        public virtual string Company { get; set; }
+        public string Company { get; set; }
         public string Nip { get; set; }
-        public virtual string City { get; set; }
-        public virtual string Address1 { get; set; }
-        public virtual string CustomAttributes { get; set; }
+        public string City { get; set; }
+        public string Address1 { get; set; }
     }
 }
