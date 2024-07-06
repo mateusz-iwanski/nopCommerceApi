@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace nopCommerceApi.Validations
 {
-    public class UpdatePolishEnterpriseAddressDtoValidator : AbstractValidator<UpdatePolishEnterpriseAddressDto>
+    public class UpdatePolishEnterpriseAddressDtoValidator : BaseValidator<UpdatePolishEnterpriseAddressDto>
     {
         private readonly NopCommerceContext _context;
 
@@ -24,6 +24,8 @@ namespace nopCommerceApi.Validations
                 .Matches(@"^((PL)?[0-9]{10})$")
                 .WithMessage("The NIP format is invalid. Properly format is with/without prefix \"PL\" and 10 digits. Can't be empty, if you don't want to update, just remove from body.");
 
+            // Validate empty properties 
+
             RuleFor(x => x.Company)
                 .Must(company => company == null || !string.IsNullOrWhiteSpace(company))
                 .WithMessage("The Company name can't be empty. If you don't want to update, just remove from body.");
@@ -35,10 +37,6 @@ namespace nopCommerceApi.Validations
             RuleFor(x => x.Address1)
                 .Must(address => address == null || !string.IsNullOrWhiteSpace(address))
                 .WithMessage("The Address1 name can't be empty. If you don't want to update, just remove from body.");
-
-            RuleFor(x => x.Email)
-                .Must(email => email == null || !string.IsNullOrWhiteSpace(email))
-                .WithMessage("The Email name can't be empty. If you don't want to update, just remove from body.");
 
             RuleFor(x => x.PhoneNumber)
                 .Must(phoneNumber => phoneNumber == null || !string.IsNullOrWhiteSpace(phoneNumber))
