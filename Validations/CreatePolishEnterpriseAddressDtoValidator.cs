@@ -1,13 +1,14 @@
 ﻿using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
+using nopCommerceApi.Models;
 using nopCommerceApi.Models.Address;
 using System.Reflection.Metadata;
 using System.Xml;
 
 namespace nopCommerceApi.Validations
 {
-    public class CreatePolishEnterpriseAddressDtoValidator : AbstractValidator<CreatePolishEnterpriseAddressDto>
+    public class CreatePolishEnterpriseAddressDtoValidator : BaseValidator<CreatePolishEnterpriseAddressDto>
     {
         private readonly NopCommerceContext _context;
 
