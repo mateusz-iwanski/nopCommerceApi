@@ -8,9 +8,9 @@ using System.Text.Json;
 
 namespace nopCommerceApi.Services
 {
-    public class UpdateAddressException : Exception
+    public class AddressException : Exception
     {
-        public UpdateAddressException(string message, string dtoProperty)
+        public AddressException(string message, string dtoProperty)
         : base(FormatErrorMessage(message, dtoProperty))
         {
         }
@@ -36,6 +36,9 @@ namespace nopCommerceApi.Services
         IEnumerable<DetailsAddressDto> GetAll();
         Address CreateWithNip(CreatePolishEnterpriseAddressDto newAdressDto);
         bool UpdateWithNip(int id, UpdatePolishEnterpriseAddressDto updateAddressDto);
+        Address Create(CreateAddressDto addressDto);
+        bool Delete(int id);
+        bool Update(int id, UpdateAddressDto updateAddressDto);
     }
 
     public class AddressService : IAddressService
@@ -47,8 +50,6 @@ namespace nopCommerceApi.Services
         {
             _context = context;
             _mapper = mapper;
-
-            
         }
 
         public IEnumerable<DetailsAddressDto> GetAll()
@@ -98,6 +99,7 @@ namespace nopCommerceApi.Services
             // Add NIP to the address as a custom attribute
             address.CustomAttributes =
                     $"<Attributes><AddressAttribute ID=\"{addressAttribute.Id}\"><AddressAttributeValue><Value>{newAdressDto.Nip}</Value></AddressAttributeValue></AddressAttribute></Attributes>";
+            
             // For polish addresses, the country is always Poland
             address.Country = country;
             address.CreatedOnUtc = DateTime.Now;
@@ -175,7 +177,7 @@ namespace nopCommerceApi.Services
 
                 address.CustomAttributes = filteredAddresses.Count == 0 ?
                     $"<Attributes><AddressAttribute ID=\"{addressAttribute.Id}\"><AddressAttributeValue><Value>{updateAddressDto.Nip}</Value></AddressAttributeValue></AddressAttribute></Attributes>"
-                    : throw new UpdateAddressException("NIP already exists in the database", "Nip");
+                    : throw new AddressException("NIP already exists in the database", "Nip");
             }
 
             _context.SaveChanges();
@@ -183,6 +185,78 @@ namespace nopCommerceApi.Services
             return true;
         }
 
+        public Address Create(CreateAddressDto addressDto)
+        {
+            var address = _mapper.Map<Address>(addressDto);
+
+            _context.Addresses.Add(address);
+            _context.SaveChanges();
+
+            return address;
+        }
+
+        public bool Delete(int id)
+        {
+            var address = _context.Addresses.FirstOrDefault(a => a.Id == id);
+
+            if (address == null) return false;
+
+            _context.Addresses.Remove(address);
+            _context.SaveChanges();
+
+            return true;
+        }
+
+        public bool Update(int id, UpdateAddressDto updateAddressDto)
+        {
+            var address = _context.Addresses.FirstOrDefault(a => a.Id == id);
+
+            if (address == null) return false;
+
+            // If is enterprise address, can't update
+            if (AddressDto.IsEnterpriseAddress(address, _context.AddressAttributes))
+                throw new AddressException("Address is enterprise, can\'t update. Use update-with-nip enterprise addresses.", "Enterprise");
+
+
+            // Only update this fields which are not null
+
+            if (updateAddressDto.FirstName != null)
+                address.FirstName = updateAddressDto.FirstName;
+
+            if (updateAddressDto.LastName != null)
+                address.LastName = updateAddressDto.LastName;
+
+            if (updateAddressDto.Email != null)
+                address.Email = updateAddressDto.Email;
+
+            if (updateAddressDto.Company != null)
+                address.Company = updateAddressDto.Company;
+
+            if (updateAddressDto.County != null)
+                address.County = updateAddressDto.County;
+
+            if (updateAddressDto.City != null)
+                address.City = updateAddressDto.City;
+
+            if (updateAddressDto.Address1 != null)
+                address.Address1 = updateAddressDto.Address1;
+
+            if (updateAddressDto.Address2 != null)
+                address.Address2 = updateAddressDto.Address2;
+
+            if (updateAddressDto.ZipPostalCode != null)
+                address.ZipPostalCode = updateAddressDto.ZipPostalCode;
+
+            if (updateAddressDto.PhoneNumber != null)
+                address.PhoneNumber = updateAddressDto.PhoneNumber;
+
+            if (updateAddressDto.CountryId != null)
+                address.CountryId = updateAddressDto.CountryId;
+
+            _context.SaveChanges();
+
+            return true;
+        }
     }
 
 }
