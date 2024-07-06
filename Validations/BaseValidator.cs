@@ -11,6 +11,7 @@ namespace nopCommerceApi.Validations
     /// 
     /// Checking if the input contains unexpected fields. If input contains unexpected fields, 
     /// it will return an error message with the unexpected fields and the expected fields.
+    /// BaseValidator uses from object property UnexpectedProperties.
     /// </summary>
     /// <typeparam name="T">Objects inherited from IBaseDto</typeparam>
     public class BaseValidator<T> : AbstractValidator<T> where T : IBaseDto
