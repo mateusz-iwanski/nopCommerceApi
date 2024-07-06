@@ -1,7 +1,10 @@
-﻿namespace nopCommerceApi.Models.Address
+﻿using nopCommerceApi.Entities;
+using System.Text.Json.Serialization;
+
+namespace nopCommerceApi.Models.Address
 {
-    public class UpdateAddressDto : AddressDto
+    public class UpdateAddressDto : AddressDto 
     {
-        public int Id { get; set; }
+        public int? CountryId { get; set; }
     }
 }
