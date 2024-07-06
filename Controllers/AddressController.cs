@@ -44,7 +44,7 @@ namespace nopCommerceApi.Controllers
         /// 
         /// </summary>
         [HttpPost("add-with-nip")]
-        public ActionResult CreateWithNip([FromBody] CreatePolishEnterpriseAddressDto createAddressDto)
+        public ActionResult CreateWithNipPl([FromBody] CreatePolishEnterpriseAddressDto createAddressDto)
         {
             if (!ModelState.IsValid)
             {
@@ -80,15 +80,73 @@ namespace nopCommerceApi.Controllers
                     return NotFound();
                 }
             }
-            catch (UpdateAddressException updateException)
+            catch (AddressException updateException)
             {
                 return BadRequest(updateException.Message);
             }
 
-
             return Ok(updateAddressDto);
         }
 
+        /// <summary>
+        /// Add address for typical user
+        /// </summary>
+        /// <param name="createAddressDto"></param>
+        /// <returns></returns>
+        [HttpPost("add")]
+        public ActionResult Create([FromBody] CreateAddressDto createAddressDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);  
+            }
 
+            try
+            {
+                var address = _addressService.Create(createAddressDto);
+                return Created($"/api/address/{address.Id}", null);
+            }
+            catch (AddressException createException)
+            {
+                return BadRequest(createException.Message);
+            }
+        }
+
+        [HttpDelete("delete/{id}")]
+        public ActionResult Delete(int id)
+        {
+            var address = _addressService.Delete(id);
+
+            if (!address)
+            {
+                return NotFound();
+            }
+
+            return Ok(address);
+        }
+
+        [HttpPut("update/{id}")]
+        public ActionResult Update(int id, [FromBody] UpdateAddressDto updateAddressDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var address = _addressService.Update(id, updateAddressDto);
+
+                if (!address)
+                {
+                    return NotFound();
+                }
+                return Ok(updateAddressDto);
+            }
+            catch (AddressException updateException)
+            {
+                return BadRequest(updateException.Message);
+            }
+        }
     }
 }
