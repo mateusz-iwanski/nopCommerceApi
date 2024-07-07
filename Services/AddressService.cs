@@ -39,6 +39,7 @@ namespace nopCommerceApi.Services
         Address Create(CreateAddressDto addressDto);
         bool Delete(int id);
         bool Update(int id, UpdateAddressDto updateAddressDto);
+        DetailsAddressDto GetById(int id);
     }
 
     public class AddressService : IAddressService
@@ -61,6 +62,16 @@ namespace nopCommerceApi.Services
             var addressDtos = _mapper.Map<List<DetailsAddressDto>>(detailsAddresses);
 
             return addressDtos;
+        }
+
+        public DetailsAddressDto GetById(int id) {             
+            var address = _context.Addresses
+                .Include(a => a.Country)
+                .Include(a => a.StateProvince).ThenInclude(c => c.Country)
+                .FirstOrDefault(a => a.Id == id);
+            
+            var addressDto = _mapper.Map<DetailsAddressDto>(address);
+            return addressDto;
         }
 
         /// <summary>

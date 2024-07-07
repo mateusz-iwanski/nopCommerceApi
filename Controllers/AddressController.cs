@@ -26,6 +26,19 @@ namespace nopCommerceApi.Controllers
             return Ok(adressesDtos);
         }
 
+        [HttpGet("{id}")]
+        public ActionResult<DetailsAddressDto> GetById([FromRoute] int id)
+        {
+            var address = _addressService.GetById(id);
+
+            if (address == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(address);
+        }
+
         /// <summary>
         /// Add address with the NIP value as a custom attribute for Poland.
         /// 
