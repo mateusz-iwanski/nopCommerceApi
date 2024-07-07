@@ -5,17 +5,21 @@ using Xunit;
 
 namespace Tests
 {
-    public class AddressControllerTests
+    public class AddressControllerTests : IClassFixture<WebApplicationFactory<Program>>
     {
+        private readonly HttpClient _client;
+
+        public AddressControllerTests(WebApplicationFactory<Program> factory)
+        {
+            // Arrange
+            _client = factory.CreateClient();
+        }
+
         [Fact]
         public async Task GetAll_WithoutParamater_ReturnsOkResult()
         {
-            // Arrange
-            var factory = new WebApplicationFactory<Program>();
-            var client = factory.CreateClient();
-
             // Act
-            var response = await client.GetAsync("/api/address");
+            var response = await _client.GetAsync("/api/address");
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -23,20 +27,17 @@ namespace Tests
 
         [Theory]
         [InlineData("1")] // Assuming 1 is a valid ID and exists
-        [InlineData("")] // Empty string, invalid scenario
+        [InlineData("")] // Empty string, shoud return GetAll data
         public async Task GetById_WithParamater_ReturnsOkResult(string queryParams)
         {
-            // Arrange
-            var factory = new WebApplicationFactory<Program>();
-            var client = factory.CreateClient();
-
             // Act
-            var response = await client.GetAsync($"/api/address/{queryParams}");
+            var response = await _client.GetAsync($"/api/address/{queryParams}");
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
+        [Theory]
         [InlineData("999")] // Assuming 999 is a valid ID but does not exist
         [InlineData("-1")] // Negative ID, likely invalid
         [InlineData("0")] // Zero ID, might be considered invalid depending on the API
@@ -44,17 +45,13 @@ namespace Tests
         [InlineData("%20")] // URL encoded space, also invalid
         [InlineData("2147483647")] // Max int value, boundary condition if ID is an int
         [InlineData("1' OR '1'='1")] // SQL Injection attempt, should be handled gracefully
-        public async Task GetById_WithParamater_ReturnsBadRequest(string queryParams)
+        public async Task GetById_WithParamater_ReturnsNotFound(string queryParams)
         {
-            // Arrange
-            var factory = new WebApplicationFactory<Program>();
-            var client = factory.CreateClient();
-
             // Act
-            var response = await client.GetAsync($"/api/address/{queryParams}");
+            var response = await _client.GetAsync($"/api/address/{queryParams}");
 
             // Assert
-            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
     }
 }
