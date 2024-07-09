@@ -1,0 +1,15 @@
+[
+  {
+    "FirstName": "John",
+    "LastName": "Doe",
+    "Email": "api@api.com",
+    "Company": "API Company",
+    "County": "małopolska",
+    "City": "Kraków",
+    "Address1": "ul. API",
+    "Address2": "API 2",
+    "ZipPostalCode": "30-000",
+    "PhoneNumber": "123456789",
+    "Nip": "7343216884"
+  }
+]
