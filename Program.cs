@@ -38,6 +38,9 @@ builder.Services.AddScoped<ITaxCategoryService, TaxCategoryService>();
 builder.Services.AddScoped<ITierPriceService, TierPriceService>();
 builder.Services.AddScoped<IAddressAttributeService, AddressAttributeService>();
 
+// Add Swagger
+builder.Services.AddSwaggerGen();
+
 // Configure custom validators
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateAddressDtoValidator>());
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreatePolishEnterpriseAddressDtoValidator>());
@@ -51,6 +54,13 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 
 app.UseHttpsRedirection();
+
+// Use Swagger
+app.UseSwagger();
+app.UseSwaggerUI(app =>
+{
+    app.SwaggerEndpoint("/swagger/v1/swagger.json", "nopCommerceApi v1");
+});
 
 app.UseAuthorization();
 
