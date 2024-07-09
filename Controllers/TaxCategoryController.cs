@@ -17,6 +17,7 @@ namespace nopCommerceApi.Controllers
             _taxCategoryService = taxCategoryService;
         }
 
+        [HttpGet]
         public ActionResult<IEnumerable<Models.TaxCategoryDto>> GetAll()
         {
             var taxCategories = _taxCategoryService.GetAll();
