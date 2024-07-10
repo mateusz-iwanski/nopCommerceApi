@@ -1,15 +1,19 @@
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Http.Json;
+using NLog.Web;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Models;
 using nopCommerceApi.Models.Address;
 using nopCommerceApi.Services;
 using nopCommerceApi.Validations;
 using System.Text.Json.Serialization;
+using nopCommerceApi.Middleware;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Initializes NLog
+builder.Host.UseNLog(); 
 
 // Configure JSON options to handle circular references
 builder.Services.Configure<JsonOptions>(options =>
@@ -21,6 +25,7 @@ builder.Services.Configure<JsonOptions>(options =>
 
 // Add services to the container.
 builder.Services.AddControllers();
+
 
 builder.Services.AddDbContext<NopCommerceContext>();
 
@@ -38,6 +43,9 @@ builder.Services.AddScoped<ITaxCategoryService, TaxCategoryService>();
 builder.Services.AddScoped<ITierPriceService, TierPriceService>();
 builder.Services.AddScoped<IAddressAttributeService, AddressAttributeService>();
 
+// Add Own Middleware to the container.
+builder.Services.AddScoped<ErrorHandlingMiddleware>();
+
 // Add Swagger
 builder.Services.AddSwaggerGen();
 
@@ -51,9 +59,12 @@ builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyCont
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Register the ErrorHandlingMiddleware
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
+// Configure the HTTP request pipeline.
 app.UseHttpsRedirection();
+
 
 // Use Swagger
 app.UseSwagger();
