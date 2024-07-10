@@ -41,6 +41,12 @@ namespace nopCommerceApi.Validations
             RuleFor(x => x.PhoneNumber)
                 .Must(phoneNumber => phoneNumber == null || !string.IsNullOrWhiteSpace(phoneNumber))
                 .WithMessage("The PhoneNumber name can't be empty. If you don't want to update, just remove from body.");
+
+            // Check if address is enterprise
+            RuleFor(x => x)
+                .Must(address => _context.Addresses.Any(a => a.Id == address.Id && a.CustomAttributes != null && a.CustomAttributes != string.Empty))
+                .WithMessage("Address is not enterprise, can't update. Use enterprise with NIP addresses.")
+                .When(address => address != null);
         }
     }
 }
