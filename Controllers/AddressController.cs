@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
+using nopCommerceApi.Exceptions;
 using nopCommerceApi.Models.Address;
 using nopCommerceApi.Services;
 using nopCommerceApi.Validations;
@@ -18,7 +20,7 @@ namespace nopCommerceApi.Controllers
             _addressService = addressService;
         }
 
-        [HttpGet]
+        [HttpGet]        
         public ActionResult<DetailsAddressDto> GetAll()
         {
             var adressesDtos = _addressService.GetAll();
@@ -29,13 +31,7 @@ namespace nopCommerceApi.Controllers
         [HttpGet("{id}")]
         public ActionResult<DetailsAddressDto> GetById([FromRoute] int id)
         {
-            var address = _addressService.GetById(id);
-
-            if (address == null)
-            {
-                return NotFound();
-            }
-
+            var address = _addressService.GetById(id) ?? throw new NotFoundExceptions($"Adress with ID {id} not found.");
             return Ok(address);
         }
 
@@ -86,12 +82,7 @@ namespace nopCommerceApi.Controllers
 
             try
             {
-                var addressUpdated = _addressService.UpdateWithNip(id, updateAddressDto);
-
-                if (!addressUpdated)
-                {
-                    return NotFound();
-                }
+                var addressUpdated = _addressService.UpdateWithNip(id, updateAddressDto) ?? throw new NotFoundExceptions($"Address with ID {id} not found.");
             }
             catch (AddressException updateException)
             {
@@ -121,20 +112,15 @@ namespace nopCommerceApi.Controllers
             }
             catch (AddressException createException)
             {
-                return BadRequest(createException.Message);
+                throw new BadRequestException(createException.Message);
             }
         }
 
         [HttpDelete("delete/{id}")]
         public ActionResult Delete(int id)
         {
-            var address = _addressService.Delete(id);
-
-            if (!address)
-            {
-                return NotFound();
-            }
-
+            var address = _addressService.Delete(id) ?? throw new NotFoundExceptions($"Address with ID {id} not found.");
+            
             return Ok(address);
         }
 
@@ -148,12 +134,7 @@ namespace nopCommerceApi.Controllers
 
             try
             {
-                var address = _addressService.Update(id, updateAddressDto);
-
-                if (!address)
-                {
-                    return NotFound();
-                }
+                var address = _addressService.Update(id, updateAddressDto) ?? throw new NotFoundExceptions($"Address with ID {id} not found.");
                 return Ok(updateAddressDto);
             }
             catch (AddressException updateException)

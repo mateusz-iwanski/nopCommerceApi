@@ -35,10 +35,10 @@ namespace nopCommerceApi.Services
     {
         IEnumerable<DetailsAddressDto> GetAll();
         Address CreateWithNip(CreatePolishEnterpriseAddressDto newAdressDto);
-        bool UpdateWithNip(int id, UpdatePolishEnterpriseAddressDto updateAddressDto);
+        bool? UpdateWithNip(int id, UpdatePolishEnterpriseAddressDto updateAddressDto);
         Address Create(CreateAddressDto addressDto);
-        bool Delete(int id);
-        bool Update(int id, UpdateAddressDto updateAddressDto);
+        bool? Delete(int id);
+        bool? Update(int id, UpdateAddressDto updateAddressDto);
         DetailsAddressDto GetById(int id);
     }
 
@@ -129,7 +129,7 @@ namespace nopCommerceApi.Services
         /// If property not set in the request body, it will not be updated.
         /// Cant set empty string on: Company, City, Email, Address1, PhoneNumber. If you don't want to update, just remove from body.
         /// </summary>
-        public bool UpdateWithNip(int id, UpdatePolishEnterpriseAddressDto updateAddressDto)
+        public bool? UpdateWithNip(int id, UpdatePolishEnterpriseAddressDto updateAddressDto)
         {
             var address = _context.Addresses
                 .Include(a => a.Country)
@@ -139,7 +139,7 @@ namespace nopCommerceApi.Services
             var addressAttribute = _context.AddressAttributes
                 .FirstOrDefault(c => c.Name == "NIP" && c.AttributeControlTypeId == 4);
 
-            if (address == null) return false;
+            if (address == null) return null;
 
             // Only update this fields which are not null
 
@@ -206,11 +206,11 @@ namespace nopCommerceApi.Services
             return address;
         }
 
-        public bool Delete(int id)
+        public bool? Delete(int id)
         {
             var address = _context.Addresses.FirstOrDefault(a => a.Id == id);
 
-            if (address == null) return false;
+            if (address == null) return null;
 
             _context.Addresses.Remove(address);
             _context.SaveChanges();
@@ -218,11 +218,11 @@ namespace nopCommerceApi.Services
             return true;
         }
 
-        public bool Update(int id, UpdateAddressDto updateAddressDto)
+        public bool? Update(int id, UpdateAddressDto updateAddressDto)
         {
             var address = _context.Addresses.FirstOrDefault(a => a.Id == id);
 
-            if (address == null) return false;
+            if (address == null) return null;
 
             // If is enterprise address, can't update
             if (AddressDto.IsEnterpriseAddress(address, _context.AddressAttributes))
