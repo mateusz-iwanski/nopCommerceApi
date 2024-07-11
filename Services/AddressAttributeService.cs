@@ -13,12 +13,14 @@ namespace nopCommerceApi.Services
         void Update(int id, AddressAttributeDto addressAttributeDto);
     }
 
-    public class AddressAttributeService : IAddressAttributeService
+    public class AddressAttributeService : BaseService, IAddressAttributeService
     {
         private readonly NopCommerceContext _context;
         private readonly IMapper _mapper;
 
-        public AddressAttributeService(NopCommerceContext context, IMapper mapper)
+        public AddressAttributeService(
+            NopCommerceContext context, IMapper mapper, ILogger<AddressAttributeService> logger
+            ) : base(logger)
         {
             _context = context;
             _mapper = mapper;
@@ -26,6 +28,7 @@ namespace nopCommerceApi.Services
 
         public IEnumerable<AddressAttributeDto> GetAll()
         {
+
             var addressAttributes = _context.AddressAttributes.ToList();
             var addressAttributeDtos = _mapper.Map<List<AddressAttributeDto>>(addressAttributes);
 
