@@ -23,7 +23,7 @@ using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Initializes NLog
-builder.Host.UseNLog(); 
+builder.Host.UseNLog();
 
 // Configure JSON options to handle circular references
 builder.Services.Configure<JsonOptions>(options =>
@@ -35,6 +35,14 @@ builder.Services.Configure<JsonOptions>(options =>
 
 // Add services to the container.
 builder.Services.AddControllers();
+
+// Load IMySettings configuration
+var settings = new ConfigurationBuilder<IMySettings>()
+                .UseIniFile("appsettings.ini")
+                .Build();
+
+// Register IMySettings - custom settings
+builder.Services.AddSingleton<IMySettings>(settings);
 
 builder.Services.AddDbContext<NopCommerceContext>();
 
