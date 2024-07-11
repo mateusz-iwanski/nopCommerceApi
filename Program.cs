@@ -8,6 +8,16 @@ using nopCommerceApi.Services;
 using nopCommerceApi.Validations;
 using System.Text.Json.Serialization;
 using nopCommerceApi.Middleware;
+using nopCommerceApi.Controllers;
+using nopCommerceApi.Services.User;
+using nopCommerceApi.Config;
+using Config.Net;
+using Microsoft.AspNetCore.Identity;
+using nopCommerceApi.Models.User;
+using nopCommerceApi;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.OpenApi.Models;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,7 +36,6 @@ builder.Services.Configure<JsonOptions>(options =>
 // Add services to the container.
 builder.Services.AddControllers();
 
-
 builder.Services.AddDbContext<NopCommerceContext>();
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
@@ -42,6 +51,33 @@ builder.Services.AddScoped<IStateProvinceService, StateProvinceService>();
 builder.Services.AddScoped<ITaxCategoryService, TaxCategoryService>();
 builder.Services.AddScoped<ITierPriceService, TierPriceService>();
 builder.Services.AddScoped<IAddressAttributeService, AddressAttributeService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
+// Password hasher for users accounts
+builder.Services.AddScoped<IPasswordHasher<UserDto>, PasswordHasher<UserDto>>();
+
+// Authentication settings
+var authenticationSettings = new AuthenticationSettings();
+/// from appsettings.json
+ConfigurationBinder.Bind(builder.Configuration.GetSection("Authentication"), authenticationSettings);
+builder.Services.AddSingleton(authenticationSettings);
+builder.Services.AddAuthentication(option =>
+{
+    option.DefaultAuthenticateScheme = "Bearer";
+    option.DefaultChallengeScheme = "Bearer";
+    option.DefaultChallengeScheme = "Bearer";
+}).AddJwtBearer(cfg =>
+{
+    cfg.RequireHttpsMetadata = false;
+    cfg.SaveToken = true;
+    cfg.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidIssuer = authenticationSettings.JwtIssuer,
+        ValidAudience = authenticationSettings.JwtIssuer,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationSettings.JwtKey))
+    };
+});
 
 // Add Own Middleware to the container.
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
@@ -55,12 +91,12 @@ builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyCont
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UpdatePolishEnterpriseAddressDtoValidator>());
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UpdateAddressDtoValidator>());
 
-
-
 var app = builder.Build();
 
 // Register the ErrorHandlingMiddleware
 app.UseMiddleware<ErrorHandlingMiddleware>();
+
+app.UseAuthentication();
 
 // Configure the HTTP request pipeline.
 app.UseHttpsRedirection();
@@ -73,6 +109,7 @@ app.UseSwaggerUI(app =>
     app.SwaggerEndpoint("/swagger/v1/swagger.json", "nopCommerceApi v1");
 });
 
+// Authorize users
 app.UseAuthorization();
 
 app.MapControllers();
