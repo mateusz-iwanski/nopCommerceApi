@@ -12,10 +12,11 @@ namespace nopCommerceApi.Controllers
     /// We can't add/update/delete roles from the API. It's a fixed set of roles.
     /// </summary>
     [Route("api/account-role")]
-    [Authorize(Roles="Admin")]
+    [ApiController]
     public class RoleController : ControllerBase
     {
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public ActionResult GetAll()
         {
             // return all roles as list in table

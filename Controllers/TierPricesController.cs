@@ -6,10 +6,12 @@ using nopCommerceApi.Models;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using nopCommerceApi.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace nopCommerceApi.Controllers
 {
     [Route("api/tierprices")]
+    [ApiController]
     public class TierPricesController : ControllerBase
     {
         private readonly ITierPriceService _tierPriceService;
@@ -20,6 +22,7 @@ namespace nopCommerceApi.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,User,Viewer")]
         public ActionResult<TierPrice> GetAll()
         {
             var tierPriceDtos = _tierPriceService.GetAll();

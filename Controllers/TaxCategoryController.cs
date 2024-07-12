@@ -1,5 +1,6 @@
 ﻿
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Models;
@@ -9,6 +10,7 @@ using nopCommerceApi.Services;
 namespace nopCommerceApi.Controllers
 {
     [Route("api/taxcategory")]
+    [ApiController]
     public class TaxCategoryController : ControllerBase
     {
         private readonly ITaxCategoryService _taxCategoryService;
@@ -18,6 +20,7 @@ namespace nopCommerceApi.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,User,Viewer")]
         public ActionResult<IEnumerable<Models.TaxCategoryDto>> GetAll()
         {
             var taxCategories = _taxCategoryService.GetAll();

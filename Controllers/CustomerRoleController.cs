@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
@@ -9,6 +10,7 @@ using nopCommerceApi.Services;
 namespace nopCommerceApi.Controllers
 {
     [Route("api/customerrole")]
+    [ApiController]
     public class CustomerRoleController : ControllerBase
     {
         private readonly ICustomerRoleService _customerRoleService;
@@ -19,6 +21,7 @@ namespace nopCommerceApi.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,User,Viewer")]
         public ActionResult<CustomerRole> GetAll()
         {
             var customerRoleDtos = _customerRoleService.GetAll();   

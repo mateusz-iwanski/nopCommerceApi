@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using nopCommerceApi.Models.User;
 using nopCommerceApi.Services.User;
 
@@ -24,6 +25,7 @@ namespace nopCommerceApi.Controllers
         }
 
         [HttpPost("register")]
+        [Authorize(Roles = "Admin")]
         public ActionResult RegisterUser([FromBody] RegisterUserDto registerUserDto)
         {
             _accountService.RegisterUser(registerUserDto);
@@ -31,6 +33,7 @@ namespace nopCommerceApi.Controllers
         }
 
         [HttpPost("login")]
+        [Authorize(Roles = "Admin,User,Viewer")]
         public ActionResult Login([FromBody] LoginDto loginDto)
         {
             string token = _accountService.GenerateJwt(loginDto);

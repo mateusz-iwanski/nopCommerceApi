@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
@@ -7,6 +8,8 @@ using nopCommerceApi.Services;
 
 namespace nopCommerceApi.Controllers
 {
+    [Route("api/state-province")]
+    [ApiController]
     public class StateProvinceController : ControllerBase
     {
         private readonly IStateProvinceService _stateProvinceService;
@@ -17,6 +20,7 @@ namespace nopCommerceApi.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,User,Viewer")]
         public ActionResult<StateProvince> GetAll()
         {
             var stateProvinceDtos = _stateProvinceService.GetAll();
