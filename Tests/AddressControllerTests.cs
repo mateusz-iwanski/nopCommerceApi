@@ -10,6 +10,11 @@ using nopCommerceApi.Models.Address;
 using nopCommerceApi.Services;
 using System.Net;
 using Xunit;
+using FluentValidation;
+using System.Text.Json.Serialization;
+using System.Text.Json;
+using System.Text;
+using Microsoft.AspNetCore.Authorization.Policy;
 
 namespace Tests
 {
@@ -22,7 +27,18 @@ namespace Tests
         public AddressControllerTests(WebApplicationFactory<Program> factory)
         {
             // Arrange
-            _client = factory.CreateClient();
+
+            // Register authorization and authentication for the service for web application
+            _client = factory.WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureServices(services =>
+                {
+                    // when a query requires authorization it will be delegated to FakePolicyEvaluator
+                    services.AddSingleton<IPolicyEvaluator, FakePolicyEvaluator>();
+                });
+            })
+            .CreateClient();
+
             _addressServiceMock = new Mock<IAddressService>();
             _controller = new AddressController(_addressServiceMock.Object);
         }
@@ -92,7 +108,7 @@ namespace Tests
         }
 
         [Theory]
-        [JsonFileData("Data/AddressControllerData.json")]
+        [JsonFileData("Data/AddressWithNipPLValidControllerTests.json")]
         public void CreateWithNipPl_ValidData_ReturnsCreatedResult(CreatePolishEnterpriseAddressDto addressDto)
         {
             _addressServiceMock.Setup(x => x.CreateWithNip(It.IsAny<CreatePolishEnterpriseAddressDto>()))
@@ -105,5 +121,38 @@ namespace Tests
             var createdResult = Assert.IsType<CreatedResult>(result);
             createdResult.Location.Should().Be("/api/address/1");
         }
+
+        [Theory]
+        [JsonFileData("Data/AddressWithNipPLInValidControllerTests.json")]
+        public void CreateWithNipPl_InValidData_ReturnsCreatedResult(CreatePolishEnterpriseAddressDto addressDto)
+        {
+            // Arrange
+            _addressServiceMock.Setup(x => x.CreateWithNip(It.IsAny<CreatePolishEnterpriseAddressDto>()))
+                               .Throws(new ValidationException("FluentValidation invalid")); // Simulate FluentValidation failure
+
+            // Act
+            var result = _controller.CreateWithNipPl(addressDto);
+
+            // Assert
+            var createdResult = Assert.IsType<CreatedResult>(result);
+            createdResult.Should().BeOfType<BadRequestObjectResult>();
+        }
+
+        //[Theory]
+        //[JsonFileData("Data/AddressWithNipPLInValidControllerTests.json")]
+        //public void CreateWithNipPl_InValidData_ReturnsCreatedResult(CreatePolishEnterpriseAddressDto addressDto)
+        //{
+        //    // Arrange
+        //    _addressServiceMock.Setup(x => x.CreateWithNip(It.IsAny<CreatePolishEnterpriseAddressDto>()))
+        //                       .Throws(new ValidationException("FluentValidation invalid")); // Simulate FluentValidation failure
+
+        //    // Act
+        //    var result = _controller.CreateWithNipPl(addressDto);
+
+        //    // Assert
+        //    var createdResult = Assert.IsType<CreatedResult>(result);
+        //    createdResult.Should().BeOfType<BadRequestObjectResult>();
+        //}
+
     }
 }
