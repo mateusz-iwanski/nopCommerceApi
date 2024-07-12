@@ -55,6 +55,7 @@ namespace Tests
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
+        #region GetById
         [Theory]
         [InlineData("1")] // Assuming 1 is a valid ID and exists
         [InlineData("")] // Empty string, shoud return GetAll data        [InlineData("")] // Empty string, shoud return GetAll data
@@ -71,11 +72,7 @@ namespace Tests
         [Theory]
         [InlineData("999")] // Assuming 999 is a valid ID but does not exist
         [InlineData("-1")] // Negative ID, likely invalid if ID is expected to be positive
-        [InlineData("0")] // Zero ID, might be considered invalid depending on the API
-        [InlineData("abc")] // Non-numeric string, should be invalid if ID is expected to be numeric
-        [InlineData("%20")] // URL encoded space, also invalid
-        [InlineData("2147483648")] // Max int value + 1, boundary condition if ID is an int
-        [InlineData("1' OR '1'='1")] // SQL Injection attempt, should be handled gracefully        
+        [InlineData("0")] // Zero ID, might be considered invalid depending on the API        
         public async Task GetById_WithParamater_ReturnsNotFound(string queryParams)
         {
             // Act
@@ -85,6 +82,22 @@ namespace Tests
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
+        [Theory]
+        [InlineData("%20")] // URL encoded space, also invalid
+        [InlineData("1' OR '1'='1")] // SQL Injection attempt, should be handled gracefully
+        [InlineData("2147483648")] // Max int value + 1, boundary condition if ID is an int
+        [InlineData("abc")] // Non-numeric string, should be invalid if ID is expected to be numeric        
+        public async Task GetById_WithParamater_ReturnsBadRequest(string queryParams)
+        {
+            // Act
+            var response = await _client.GetAsync($"/api/address/{queryParams}");
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+        #endregion
+
+        #region CreateWithNipPl
         [Theory]
         [JsonFileData("Data/AddressWithNipPLValidControllerTests.json")]
         public void CreateWithNipPl_ValidData_ReturnsCreatedResult(CreatePolishEnterpriseAddressDto addressDto)
@@ -113,7 +126,7 @@ namespace Tests
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
-
+        #endregion
 
     }
 }
