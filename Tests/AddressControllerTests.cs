@@ -15,6 +15,7 @@ using System.Text.Json.Serialization;
 using System.Text.Json;
 using System.Text;
 using Microsoft.AspNetCore.Authorization.Policy;
+using Tests.Helpers;
 
 namespace Tests
 {
@@ -43,30 +44,7 @@ namespace Tests
             _controller = new AddressController(_addressServiceMock.Object);
         }
 
-        private IEnumerable<CreatePolishEnterpriseAddressDto> PolishEnterpriseAddressDto()
-        {
-            var dto = new List<CreatePolishEnterpriseAddressDto>
-            {
-                
-                new CreatePolishEnterpriseAddressDto()
-                { 
-                    FirstName = "John",
-                    LastName = "Doe",
-                    Email = "api@api.com",
-                    Company = "API Company",
-                    County = "małopolska",
-                    City = "Kraków",
-                    Address1 = "ul. API",
-                    Address2 = "API 2",
-                    ZipPostalCode = "30-000",
-                    PhoneNumber = "123456789",
-                    Nip = "7343216884"
-                },
-            };
-            
-            return dto;
-        }
-
+     
         [Fact]
         public async Task GetAll_WithoutParamater_ReturnsOkResult()
         {
@@ -124,35 +102,18 @@ namespace Tests
 
         [Theory]
         [JsonFileData("Data/AddressWithNipPLInValidControllerTests.json")]
-        public void CreateWithNipPl_InValidData_ReturnsCreatedResult(CreatePolishEnterpriseAddressDto addressDto)
+        public async Task CreateWithNipPl_InValidData_ReturnsCreatedResult(CreatePolishEnterpriseAddressDto addressDto)
         {
             // Arrange
-            _addressServiceMock.Setup(x => x.CreateWithNip(It.IsAny<CreatePolishEnterpriseAddressDto>()))
-                               .Throws(new ValidationException("FluentValidation invalid")); // Simulate FluentValidation failure
+            var httpContent = addressDto.ToJsonHttpContent();
 
             // Act
-            var result = _controller.CreateWithNipPl(addressDto);
+            var response = await _client.PostAsync("/api/address/add-with-nip", httpContent);
 
             // Assert
-            var createdResult = Assert.IsType<CreatedResult>(result);
-            createdResult.Should().BeOfType<BadRequestObjectResult>();
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-        //[Theory]
-        //[JsonFileData("Data/AddressWithNipPLInValidControllerTests.json")]
-        //public void CreateWithNipPl_InValidData_ReturnsCreatedResult(CreatePolishEnterpriseAddressDto addressDto)
-        //{
-        //    // Arrange
-        //    _addressServiceMock.Setup(x => x.CreateWithNip(It.IsAny<CreatePolishEnterpriseAddressDto>()))
-        //                       .Throws(new ValidationException("FluentValidation invalid")); // Simulate FluentValidation failure
-
-        //    // Act
-        //    var result = _controller.CreateWithNipPl(addressDto);
-
-        //    // Assert
-        //    var createdResult = Assert.IsType<CreatedResult>(result);
-        //    createdResult.Should().BeOfType<BadRequestObjectResult>();
-        //}
 
     }
 }
