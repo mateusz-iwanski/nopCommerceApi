@@ -1,0 +1,94 @@
+[
+  {
+    "FirstName": "John",
+    "LastName": "Doe",
+    "Email": "api@api.com",
+    "Company": "API Company",
+    "County": "małopolska",
+    "City": "Kraków",
+    "Address1": "ul. API",
+    "Address2": "API 2",
+    "ZipPostalCode": "30-000",
+    "PhoneNumber": "123456789",
+    "Nip": "73432168845"
+  },
+  {
+    "FirstName": "John",
+    "LastName": "Doe",
+    "Email": "api@api",
+    "Company": "API Company",
+    "County": "małopolska",
+    "City": "Kraków",
+    "Address1": "ul. API",
+    "Address2": "API 2",
+    "ZipPostalCode": "30-000",
+    "PhoneNumber": "123456789",
+    "Nip": ""
+  },
+
+  {
+    "FirstName": "John",
+    "LastName": "Doe",
+    "Email": "apiapi.com",
+    "Company": "API Company",
+    "County": "małopolska",
+    "City": "Kraków",
+    "Address1": "ul. API",
+    "Address2": "API 2",
+    "ZipPostalCode": "30-000",
+    "PhoneNumber": "123456789",
+    "Nip": "PL7343216884"
+  },
+  {
+    "FirstName": "John",
+    "LastName": "Doe",
+    "Email": "apiapi.com",
+    "Company": "API Company",
+    "County": "małopolska",
+    "City": "Kraków",
+    "Address1": "ul. API",
+    "Address2": "API 2",
+    "ZipPostalCode": "30-000",
+    "PhoneNumber": "123456789"
+  },
+  {
+    "Email": "api@api",
+    "County": "małopolska",
+    "City": "Kraków",
+    "Address1": "ul. API",
+    "Address2": "API 2",
+    "ZipPostalCode": "30-000",
+    "PhoneNumber": "123456789",
+    "Nip": "PL7343216884"
+  },
+  {
+    "Email": "api@api",
+    "Company": "API Company",
+    "County": "małopolska",
+    "City": "Kraków",
+    "Address1": "ul. API",
+    "Address2": "API 2",
+    "ZipPostalCode": "30-000",
+    "PhoneNumber": "123456789"
+  },
+  {
+    "Email": "api@api",
+    "Company": "API Company",
+    "County": "małopolska",
+    "Address1": "ul. API",
+    "Address2": "API 2",
+    "ZipPostalCode": "30-000",
+    "PhoneNumber": "123456789",
+    "Nip": "PL7343216884"
+  },
+  {
+    "Email": "api@api",
+    "Company": "API Company",
+    "County": "małopolska",
+    "City": "Kraków",
+    "Address2": "API 2",
+    "ZipPostalCode": "30-000",
+    "PhoneNumber": "123456789",
+    "Nip": "PL7343216884"
+  }
+]
