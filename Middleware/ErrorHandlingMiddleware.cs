@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using nopCommerceApi.Exceptions;
+using System.Diagnostics;
 using System.Text;
 
 namespace nopCommerceApi.Middleware
@@ -36,8 +37,16 @@ namespace nopCommerceApi.Middleware
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                context.Response.StatusCode = 500;  // internal server error
-                await context.Response.WriteAsync("Something went wrong");
+                if (Debugger.IsAttached)
+                {
+                    await context.Response.WriteAsync(ex.Message);
+                    Debug.WriteLine($"ERROR ==== {ex.Message}");
+                }
+                else
+                {
+                    context.Response.StatusCode = 500;  // internal server error
+                    await context.Response.WriteAsync("Something went wrong");
+                }
             }
         }
 
