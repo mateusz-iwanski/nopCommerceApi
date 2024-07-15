@@ -60,6 +60,10 @@ builder.Services.AddScoped<IStateProvinceService, StateProvinceService>();
 builder.Services.AddScoped<ITaxCategoryService, TaxCategoryService>();
 builder.Services.AddScoped<ITierPriceService, TierPriceService>();
 builder.Services.AddScoped<IAddressAttributeService, AddressAttributeService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<ICustomerRoleService, CustomerRoleService>();
+
+// Configure services for api user controllers
 builder.Services.AddScoped<IAccountService, ApiUserAccountService>();
 builder.Services.AddScoped<IUserService, ApiUserService>();
 
