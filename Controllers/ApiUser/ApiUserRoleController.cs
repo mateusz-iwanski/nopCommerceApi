@@ -11,9 +11,9 @@ namespace nopCommerceApi.Controllers.User
     /// Role is an enum which contains all the roles that are available in the system.
     /// We can't add/update/delete roles from the API. It's a fixed set of roles.
     /// </summary>
-    [Route("api/account-role")]
+    [Route("api/api-user-role")]
     [ApiController]
-    public class RoleController : ControllerBase
+    public class ApiUserRoleController : ControllerBase
     {
         [HttpGet]
         [Authorize(Roles = "Admin")]

@@ -13,13 +13,13 @@ namespace nopCommerceApi.Controllers.User
     /// Every operations On this controller will be store in json file. 
     /// This controller will not use entities for storing data.
     /// </summary>
-    [Route("api/account")]
+    [Route("api/api-user-account")]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class ApiUserAccountController : ControllerBase
     {
         private readonly IAccountService _accountService;
 
-        public AccountController(IAccountService accountService)
+        public ApiUserAccountController(IAccountService accountService)
         {
             _accountService = accountService;
         }
