@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Models;
-using nopCommerceApi.Services;
+using nopCommerceApi.Services.User;
 
 
 namespace nopCommerceApi.Controllers.User

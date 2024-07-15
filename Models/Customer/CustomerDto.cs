@@ -1,7 +1,7 @@
 ﻿using nopCommerceApi.Entities;
 using nopCommerceApi.Models.Address;
 
-namespace nopCommerceApi.Models.User
+namespace nopCommerceApi.Models.Customer
 {
     public class CustomerDto
     {

@@ -1,4 +1,4 @@
-﻿namespace nopCommerceApi.Models.User
+﻿namespace nopCommerceApi.Models.Customer
 {
     public class CustomerRoleDto
     {

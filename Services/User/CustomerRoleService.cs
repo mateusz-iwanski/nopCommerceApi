@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using nopCommerceApi.Entities;
-using nopCommerceApi.Models.User;
+using nopCommerceApi.Models.Customer;
 
-namespace nopCommerceApi.Services
+namespace nopCommerceApi.Services.User
 {
     public interface ICustomerRoleService
     {

@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
-using nopCommerceApi.Models.User;
+using nopCommerceApi.Models.Customer;
 
-namespace nopCommerceApi.Services
+namespace nopCommerceApi.Services.User
 {
     public interface ICustomerService
     {

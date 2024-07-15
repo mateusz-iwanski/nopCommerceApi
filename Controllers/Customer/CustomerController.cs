@@ -1,13 +1,11 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using nopCommerceApi.Entities;
 using nopCommerceApi.Models.Customer;
-using nopCommerceApi.Services.User;
+using nopCommerceApi.Services.Customer;
 
-namespace nopCommerceApi.Controllers.User
+namespace nopCommerceApi.Controllers.Customer
 {
+
     [Route("api/customer")]
     [ApiController]
     public class CustomerController : ControllerBase
@@ -18,12 +16,13 @@ namespace nopCommerceApi.Controllers.User
             _customerService = customerService;
         }
 
+        // GET: api/customer
         [HttpGet]
-        [Authorize(Roles = "Admin,User,Viewer")]
-        public ActionResult<CustomerDto> GetAll()
+        //[Authorize(Roles = "Admin,User,Viewer")]
+        public IEnumerable<CustomerDto> GetAll()
         {
-            var customerDtos = _customerService.GetAll();
-            return Ok(customerDtos);
+            var customers = _customerService.GetAll();
+            return customers;
         }
     }
 }
