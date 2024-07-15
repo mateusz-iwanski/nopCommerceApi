@@ -1,0 +1,28 @@
+[
+  {
+    "Street": "",
+    "City": "Anytown",
+    "ZipCode": "12345",
+    "Country": "Wonderland"
+  },
+  {
+    "Street": "456 Elm St",
+    "City": "",
+    "ZipCode": "67890",
+    "Country": "Neverland"
+  },
+  {
+    "Street": "789 Oak St",
+    "City": "Sometown",
+    "ZipCode": "ABCDE",
+    "Country": "Fantasyland"
+  },
+  {
+    "Street": "789 Oak St",
+    "City": "Sometown",
+    "ZipCode": "ABCDE",
+    "Country": "Fantasyland",
+    "Nip":  "PL7343522405"
+  }
+]
+

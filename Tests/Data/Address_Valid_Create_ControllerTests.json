@@ -1,0 +1,14 @@
+[
+  {
+    "Street": "123 Main St",
+    "City": "Anytown",
+    "ZipCode": "12345",
+    "Country": "Wonderland"
+  },
+  {
+    "Street": "456 Elm St",
+    "City": "Othertown",
+    "ZipCode": "67890",
+    "Country": "Neverland"
+  }
+]
