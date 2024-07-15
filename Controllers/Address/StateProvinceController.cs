@@ -6,7 +6,7 @@ using nopCommerceApi.Entities;
 using nopCommerceApi.Models;
 using nopCommerceApi.Services;
 
-namespace nopCommerceApi.Controllers
+namespace nopCommerceApi.Controllers.Address
 {
     [Route("api/state-province")]
     [ApiController]

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using nopCommerceApi.Models.Address;
 using nopCommerceApi.Models.User;
 
-namespace nopCommerceApi.Controllers
+namespace nopCommerceApi.Controllers.User
 {
     /// <summary>
     /// Role controller is only responsible to get all roles

@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Identity.Client;
 using Moq;
-using nopCommerceApi.Controllers;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Models.Address;
 using nopCommerceApi.Services;
@@ -16,6 +15,7 @@ using System.Text.Json;
 using System.Text;
 using Microsoft.AspNetCore.Authorization.Policy;
 using Tests.Helpers;
+using nopCommerceApi.Controllers.Address;
 
 namespace Tests
 {
@@ -228,7 +228,5 @@ namespace Tests
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
         #endregion
-
-
     }
 }

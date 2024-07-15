@@ -7,7 +7,7 @@ using nopCommerceApi.Models;
 using nopCommerceApi.Services;
 
 
-namespace nopCommerceApi.Controllers
+namespace nopCommerceApi.Controllers.User
 {
     [Route("api/customerrole")]
     [ApiController]
@@ -24,7 +24,7 @@ namespace nopCommerceApi.Controllers
         [Authorize(Roles = "Admin,User,Viewer")]
         public ActionResult<CustomerRole> GetAll()
         {
-            var customerRoleDtos = _customerRoleService.GetAll();   
+            var customerRoleDtos = _customerRoleService.GetAll();
             return Ok(customerRoleDtos);
         }
     }

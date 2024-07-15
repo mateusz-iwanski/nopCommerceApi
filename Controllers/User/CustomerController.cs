@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
-using nopCommerceApi.Models;
+using nopCommerceApi.Models.User;
 using nopCommerceApi.Services;
 
-namespace nopCommerceApi.Controllers
+namespace nopCommerceApi.Controllers.User
 {
     [Route("api/customer")]
     [ApiController]

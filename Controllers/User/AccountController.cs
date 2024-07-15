@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using nopCommerceApi.Models.User;
 using nopCommerceApi.Services.User;
 
-namespace nopCommerceApi.Controllers
+namespace nopCommerceApi.Controllers.User
 {
     /// <summary>
     /// It's a controller class for account related operations

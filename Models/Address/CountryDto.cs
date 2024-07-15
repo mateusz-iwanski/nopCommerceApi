@@ -1,4 +1,4 @@
-﻿namespace nopCommerceApi.Models
+﻿namespace nopCommerceApi.Models.Address
 {
     public class CountryDto
     {

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Services;
 
-namespace nopCommerceApi.Controllers
+namespace nopCommerceApi.Controllers.Address
 {
     /// <summary>
     /// 

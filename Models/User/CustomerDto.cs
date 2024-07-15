@@ -1,7 +1,7 @@
 ﻿using nopCommerceApi.Entities;
 using nopCommerceApi.Models.Address;
 
-namespace nopCommerceApi.Models
+namespace nopCommerceApi.Models.User
 {
     public class CustomerDto
     {
@@ -28,7 +28,7 @@ namespace nopCommerceApi.Models
         public AddressDto? BillingAddress { get; set; }
         public AddressDto? ShippingAddress { get; set; }
         public LanguageDto? Language { get; set; }
-        
+
         public CountryDto? Country { get; set; }
         public StateProvinceDto? StateProvince { get; set; }
         public CurrencyDto? Currency { get; set; }

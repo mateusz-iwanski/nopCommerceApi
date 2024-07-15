@@ -8,7 +8,7 @@ using nopCommerceApi.Models.Address;
 using nopCommerceApi.Services;
 using nopCommerceApi.Validations;
 
-namespace nopCommerceApi.Controllers
+namespace nopCommerceApi.Controllers.Address
 {
     [Route("api/address")]
     [ApiController]
@@ -113,7 +113,7 @@ namespace nopCommerceApi.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);  
+                return BadRequest(ModelState);
             }
 
             try
@@ -133,7 +133,7 @@ namespace nopCommerceApi.Controllers
         public ActionResult Delete(int id)
         {
             var address = _addressService.Delete(id) ?? throw new NotFoundExceptions($"Address with ID {id} not found.");
-            
+
             return Ok(address);
         }
 
