@@ -1,0 +1,26 @@
+[
+  {
+    "Id": 1,
+    "Nip": "1234567890",
+    "Email": "example@example.com",
+    "FirstName": "John",
+    "LastName": "Doe",
+    "Company": "Example Inc.",
+    "City": "CityName",
+    "Address1": "Address Line 1",
+    "ZipPostalCode": "12345",
+    "PhoneNumber": "123456789"
+  },
+  {
+    "Id": 2,
+    "Nip": "0987654321",
+    "Email": "jane@example.com",
+    "FirstName": "Jane",
+    "LastName": "Doe",
+    "Company": "Another Example Inc.",
+    "City": "Another City",
+    "Address1": "Another Address Line 1",
+    "ZipPostalCode": "54321",
+    "PhoneNumber": "987654321"
+  }
+]
