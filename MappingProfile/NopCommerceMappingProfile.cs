@@ -18,8 +18,8 @@ namespace nopCommerceApi.MappingProfile
             CreateMap<Country, CountryDto>();
             CreateMap<Address, DetailsAddressDto>();
             CreateMap<Customer, CustomerDto>();
+            CreateMap<CustomerRole, CustomerRoleDto>();
             CreateMap<AddressAttribute, AddressAttributeDto>();
-
 
             CreateMap<CreatePolishEnterpriseAddressDto, Address>()
                 .ForMember(x => x.FirstName, opt => opt.MapFrom(y => y.FirstName.Trim()))
