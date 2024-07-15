@@ -24,6 +24,7 @@ namespace Tests
         private readonly HttpClient _client;
         private readonly Mock<IAddressService> _addressServiceMock;
         private readonly AddressController _controller;
+        private UpdatePolishEnterpriseAddressDto test = new UpdatePolishEnterpriseAddressDto();
 
         public AddressControllerTests(WebApplicationFactory<Program> factory)
         {
@@ -42,9 +43,10 @@ namespace Tests
 
             _addressServiceMock = new Mock<IAddressService>();
             _controller = new AddressController(_addressServiceMock.Object);
+
         }
 
-     
+        #region GetAll
         [Fact]
         public async Task GetAll_WithoutParamater_ReturnsOkResult()
         {
@@ -54,6 +56,7 @@ namespace Tests
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
+        #endregion
 
         #region GetById
         [Theory]
@@ -99,7 +102,7 @@ namespace Tests
 
         #region CreateWithNipPl
         [Theory]
-        [JsonFileData("Data/AddressWithNipPLValidControllerTests.json")]
+        [JsonFileData("Data/AddressWithNipPL_Valid_Create_ControllerTests.json", typeof(CreatePolishEnterpriseAddressDto))]
         public void CreateWithNipPl_ValidData_ReturnsCreatedResult(CreatePolishEnterpriseAddressDto addressDto)
         {
             _addressServiceMock.Setup(x => x.CreateWithNip(It.IsAny<CreatePolishEnterpriseAddressDto>()))
@@ -114,7 +117,7 @@ namespace Tests
         }
 
         [Theory]
-        [JsonFileData("Data/AddressWithNipPLInValidControllerTests.json")]
+        [JsonFileData("Data/AddressWithNipPL_InValid_Create_ControllerTests.json", typeof(CreatePolishEnterpriseAddressDto))]
         public async Task CreateWithNipPl_InValidData_ReturnsCreatedResult(CreatePolishEnterpriseAddressDto addressDto)
         {
             // Arrange
@@ -127,6 +130,8 @@ namespace Tests
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
         #endregion
+
+        
 
     }
 }
