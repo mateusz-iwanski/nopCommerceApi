@@ -163,5 +163,42 @@ namespace Tests
         }
         #endregion
 
+        #region Create
+        [Theory]
+        [JsonFileData("Data/Address_Valid_Create_ControllerTests.json", typeof(CreateAddressDto))]
+        public async Task Create_ValidData_ReturnsCreatedResult(CreateAddressDto createAddressDto)
+        {
+            // Arrange
+            var expectedAddressId = 1; // Assuming the service will set the ID of the new address to 1
+            _addressServiceMock.Setup(x => x.Create(It.IsAny<CreateAddressDto>()))
+                               .Returns(new Address { Id = expectedAddressId });
+
+            // Act
+            var result = _controller.Create(createAddressDto);
+
+            // Assert
+            var createdResult = Assert.IsType<CreatedResult>(result);
+            createdResult.Location.Should().Be($"/api/address/{expectedAddressId}");
+        }
+
+        [Theory]
+        [JsonFileData("Data/Address_Invalid_Create_ControllerTests.json", typeof(CreateAddressDto))]
+        public async Task Create_InvalidData_BadRequestObjectResult(CreateAddressDto createAddressDto)
+        {
+            // Arrange
+            _controller.ModelState.AddModelError("Error", "Model validation error"); // Simulate model validation failure
+
+            // Act
+            var result = _controller.Create(createAddressDto);
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
+
+
+        #endregion
+
+        
+
     }
 }
