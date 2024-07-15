@@ -21,6 +21,7 @@ namespace nopCommerceApi.Controllers
             _addressService = addressService;
         }
 
+        // Has tests
         [HttpGet]
         [Authorize(Roles = "Admin,User,Viewer")]
         public ActionResult<DetailsAddressDto> GetAll()
@@ -30,6 +31,7 @@ namespace nopCommerceApi.Controllers
             return Ok(adressesDtos);
         }
 
+        // Has tests
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin,User,Viewer")]
         public ActionResult<DetailsAddressDto> GetById([FromRoute] int id)
@@ -38,6 +40,7 @@ namespace nopCommerceApi.Controllers
             return Ok(address);
         }
 
+        // Has tests
         /// <summary>
         /// Add address with the NIP value as a custom attribute for Poland.
         /// 
@@ -69,6 +72,7 @@ namespace nopCommerceApi.Controllers
             return Created($"/api/address/{address.Id}", null);
         }
 
+        // Has tests
         /// <summary>
         /// Update address for Polish enterprises
         /// 
@@ -97,6 +101,7 @@ namespace nopCommerceApi.Controllers
             return Ok(updateAddressDto);
         }
 
+        // Has test
         /// <summary>
         /// Add address for typical user
         /// </summary>
@@ -122,6 +127,7 @@ namespace nopCommerceApi.Controllers
             }
         }
 
+        // Has test
         [HttpDelete("delete/{id}")]
         [Authorize(Roles = "Admin,User")]
         public ActionResult Delete(int id)
