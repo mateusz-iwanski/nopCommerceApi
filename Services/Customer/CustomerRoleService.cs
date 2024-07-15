@@ -2,7 +2,7 @@
 using nopCommerceApi.Entities;
 using nopCommerceApi.Models.Customer;
 
-namespace nopCommerceApi.Services.User
+namespace nopCommerceApi.Services.Customer
 {
     public interface ICustomerRoleService
     {

@@ -18,7 +18,7 @@ namespace nopCommerceApi.Controllers.Customer
 
         // GET: api/customer
         [HttpGet]
-        //[Authorize(Roles = "Admin,User,Viewer")]
+        //[Authorize(ApiUserRoles = "Admin,User,Viewer")]
         public IEnumerable<CustomerDto> GetAll()
         {
             var customers = _customerService.GetAll();

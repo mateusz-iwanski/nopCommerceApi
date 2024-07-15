@@ -18,6 +18,7 @@ using nopCommerceApi;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using nopCommerceApi.Services.Customer;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -59,11 +60,11 @@ builder.Services.AddScoped<IStateProvinceService, StateProvinceService>();
 builder.Services.AddScoped<ITaxCategoryService, TaxCategoryService>();
 builder.Services.AddScoped<ITierPriceService, TierPriceService>();
 builder.Services.AddScoped<IAddressAttributeService, AddressAttributeService>();
-builder.Services.AddScoped<IAccountService, AccountService>();
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAccountService, ApiUserAccountService>();
+builder.Services.AddScoped<IUserService, ApiUserService>();
 
 // Password hasher for users accounts
-builder.Services.AddScoped<IPasswordHasher<UserDto>, PasswordHasher<UserDto>>();
+builder.Services.AddScoped<IPasswordHasher<ApiUserDto>, PasswordHasher<ApiUserDto>>();
 
 // Authentication settings
 var authenticationSettings = new AuthenticationSettings();

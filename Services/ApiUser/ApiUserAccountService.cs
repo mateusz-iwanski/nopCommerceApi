@@ -17,21 +17,21 @@ namespace nopCommerceApi.Services.User
 {
     public interface IAccountService
     {
-        void RegisterUser(RegisterUserDto registerUserDto);
-        string GenerateJwt(LoginDto loginDto);
+        void RegisterUser(RegisterApiUserDto registerUserDto);
+        string GenerateJwt(LoginApiUserDto loginDto);
     }
 
     /// <summary>
     /// Service for maintaining the list of authorization users
     /// </summary>
-    public class AccountService : IAccountService
+    public class ApiUserAccountService : IAccountService
     {
         private readonly NopCommerceContext _context;
         private readonly IMySettings _settings;
-        private readonly IPasswordHasher<UserDto> _passwordHasher;
+        private readonly IPasswordHasher<ApiUserDto> _passwordHasher;
         private readonly AuthenticationSettings _authenticationSettings;
 
-        public AccountService(NopCommerceContext nopCommerceContext, IMySettings mySettings, IPasswordHasher<UserDto> passwordHasher, AuthenticationSettings authenticationSettings)
+        public ApiUserAccountService(NopCommerceContext nopCommerceContext, IMySettings mySettings, IPasswordHasher<ApiUserDto> passwordHasher, AuthenticationSettings authenticationSettings)
         {
             _context = nopCommerceContext;
             _settings = mySettings; 
@@ -42,16 +42,16 @@ namespace nopCommerceApi.Services.User
         /// <summary>
         /// Saving the user from DTO to the json file
         /// </summary>
-        public void RegisterUser(RegisterUserDto registerUserDto)
+        public void RegisterUser(RegisterApiUserDto registerUserDto)
         {
             // Create a new user
-            var user = new UserDto(name: registerUserDto.Name, email: registerUserDto.Email, passwordHash: registerUserDto.PasswordHash, roleName: registerUserDto.Role);
+            var user = new ApiUserDto(name: registerUserDto.Name, email: registerUserDto.Email, passwordHash: registerUserDto.PasswordHash, roleName: registerUserDto.Role);
 
             // Hash the password and set to user
             var hashedPassword = _passwordHasher.HashPassword(user, user.PasswordHash);
             user.PasswordHash = hashedPassword;
 
-            var users = UserService.GetUsersFromJson(_settings.UsersFilePath);
+            var users = ApiUserService.GetUsersFromJson(_settings.UsersFilePath);
 
             if (users != null)
             {
@@ -71,7 +71,7 @@ namespace nopCommerceApi.Services.User
                 // Append JSON string to the end of the file
                 File.WriteAllText(
                     _settings.UsersFilePath,
-                    JsonConvert.SerializeObject(new List<UserDto>() { user }, Formatting.Indented)
+                    JsonConvert.SerializeObject(new List<ApiUserDto>() { user }, Formatting.Indented)
                     );
             }
         }
@@ -79,9 +79,9 @@ namespace nopCommerceApi.Services.User
         /// <summary>
         /// JWT generation for the user authentication
         /// </summary>
-        public string GenerateJwt(LoginDto loginDto)
+        public string GenerateJwt(LoginApiUserDto loginDto)
         {
-            var users = UserService.GetUsersFromJson(_settings.UsersFilePath);
+            var users = ApiUserService.GetUsersFromJson(_settings.UsersFilePath);
 
             if (users == null) throw new NotFoundExceptions("No users found");
 

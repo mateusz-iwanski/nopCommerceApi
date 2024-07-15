@@ -11,23 +11,23 @@ namespace nopCommerceApi.Models.User
     /// Data is stored in json format not in Database.
     /// </summary>
 
-    public class UserDto : BaseDto
+    public class ApiUserDto : BaseDto
     {
-        private Roles _role;
+        private ApiUserRoles _role;
         public string Name { get; set; }
         [EmailAddress]
         public string Email { get; set; }
         [MinLength(6)]
         public string PasswordHash { get; set; }
-        public Roles Role 
+        public ApiUserRoles Role 
         {
             get => _role;
             set => _role = value;
         }
 
-        public UserDto(){ return; }
+        public ApiUserDto(){ return; }
 
-        public UserDto(string name, string email, string passwordHash, string roleName)
+        public ApiUserDto(string name, string email, string passwordHash, string roleName)
         {
             Name = name;
             Email = email;
@@ -35,17 +35,17 @@ namespace nopCommerceApi.Models.User
             SetRoleByName(roleName);
         }
 
-        public UserDto(string name, string email, string passwordHash, int role)
+        public ApiUserDto(string name, string email, string passwordHash, int role)
         {
             Name = name;
             Email = email;
             PasswordHash = passwordHash;
-            Role = (Roles)role;
+            Role = (ApiUserRoles)role;
         }
 
         private void SetRoleByName(string roleName)
         {
-            if (Enum.TryParse<Roles>(roleName, out Roles role))
+            if (Enum.TryParse<ApiUserRoles>(roleName, out ApiUserRoles role))
             {
                 _role = role;
             }

@@ -20,8 +20,8 @@ namespace nopCommerceApi.Controllers.User
         public ActionResult GetAll()
         {
             // return all roles as list in table
-            var roles = Enum.GetValues(typeof(Roles))
-                           .Cast<Roles>()
+            var roles = Enum.GetValues(typeof(ApiUserRoles))
+                           .Cast<ApiUserRoles>()
                            .Select(role => new
                            {
                                Name = role.ToString(),

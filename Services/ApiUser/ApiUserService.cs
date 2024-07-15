@@ -7,22 +7,22 @@ namespace nopCommerceApi.Services.User
 {
     public interface IUserService {}
 
-    public class UserService : IUserService
+    public class ApiUserService : IUserService
     {
         private readonly IMySettings _settings;
-        public UserService(IMySettings settings) 
+        public ApiUserService(IMySettings settings) 
         { 
             _settings = settings;
         }
 
-        public static List<UserDto> GetUsersFromJson(string filePath)
+        public static List<ApiUserDto> GetUsersFromJson(string filePath)
         {            
 
             if (!File.Exists(filePath))
                 return null;
 
             string jsonContent = File.ReadAllText(filePath);
-            var users = JsonConvert.DeserializeObject<List<UserDto>>(jsonContent);
+            var users = JsonConvert.DeserializeObject<List<ApiUserDto>>(jsonContent);
             
             return users;
         }

@@ -2,7 +2,7 @@
 using nopCommerceApi.Entities;
 using nopCommerceApi.Models;
 using nopCommerceApi.Models.Address;
-using nopCommerceApi.Models.User;
+using nopCommerceApi.Models.Customer;
 
 namespace nopCommerceApi.MappingProfile
 {

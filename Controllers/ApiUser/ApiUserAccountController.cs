@@ -26,7 +26,7 @@ namespace nopCommerceApi.Controllers.User
 
         [HttpPost("register")]
         [Authorize(Roles = "Admin")]
-        public ActionResult RegisterUser([FromBody] RegisterUserDto registerUserDto)
+        public ActionResult RegisterUser([FromBody] RegisterApiUserDto registerUserDto)
         {
             _accountService.RegisterUser(registerUserDto);
             return Ok();
@@ -34,7 +34,7 @@ namespace nopCommerceApi.Controllers.User
 
         [HttpPost("login")]
         [Authorize(Roles = "Admin,User,Viewer")]
-        public ActionResult Login([FromBody] LoginDto loginDto)
+        public ActionResult Login([FromBody] LoginApiUserDto loginDto)
         {
             string token = _accountService.GenerateJwt(loginDto);
             return Ok(token);

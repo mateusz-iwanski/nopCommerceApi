@@ -3,7 +3,7 @@
     /// <summary>
     /// Used to store the access level for logged in users
     /// </summary>
-    public enum Roles
+    public enum ApiUserRoles
     {
         Admin,  // Admin has full access to the API
         User,  // User has limited access to the API

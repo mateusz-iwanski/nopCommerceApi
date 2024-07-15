@@ -4,8 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Models;
-using nopCommerceApi.Services.User;
-
+using nopCommerceApi.Services.Customer;
 
 namespace nopCommerceApi.Controllers.Customer
 {
@@ -21,7 +20,7 @@ namespace nopCommerceApi.Controllers.Customer
         }
 
         [HttpGet]
-        //[Authorize(Roles = "Admin,User,Viewer")]
+        //[Authorize(ApiUserRoles = "Admin,User,Viewer")]
         public ActionResult<CustomerRole> GetAll()
         {
             var customerRoleDtos = _customerRoleService.GetAll();

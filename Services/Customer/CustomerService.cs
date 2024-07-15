@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Models.Customer;
 
@@ -23,9 +23,19 @@ namespace nopCommerceApi.Services.Customer
 
         public IEnumerable<CustomerDto> GetAll()
         {
-            var customers = _context.Customers.ToList();
-            var customerDto = _mapper.Map<List<CustomerDto>>(customers);
-            return customerDto;
+            var customers = _context
+                .Customers
+                .Include(c => c.BillingAddress).ThenInclude(a => a.Country).ThenInclude(c => c.StateProvinces)
+                .Include(c => c.ShippingAddress).ThenInclude(a => a.Country).ThenInclude(c => c.StateProvinces)
+                .Include(c => c.Language)
+                .Include(c => c.Country)
+                .Include(c => c.StateProvince)
+                .Include(c => c.Currency)
+                .ToList();
+
+            var customerDtos = _mapper.Map<List<CustomerDto>>(customers);
+
+            return customerDtos;
         }
     }
 }
