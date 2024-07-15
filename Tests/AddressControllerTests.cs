@@ -131,7 +131,37 @@ namespace Tests
         }
         #endregion
 
-        
+        #region UpdateWithNip
+        [Theory]
+        [JsonFileData("Data/AddressWithNipPL_Invalid_Update_ControllerTests.json", typeof(UpdatePolishEnterpriseAddressDto))]
+        public async Task UpdateWithNipPl_InvalidData_ReturnsBadRequest(UpdatePolishEnterpriseAddressDto updateAddressDto)
+        {
+            // Arrange
+            var httpContent = JsonSerializer.Serialize(updateAddressDto);
+            var stringContent = new StringContent(httpContent, Encoding.UTF8, "application/json");
+
+            // Act
+            var response = await _client.PutAsync($"/api/address/update-with-nip/{updateAddressDto.Id}", stringContent);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Theory]
+        [JsonFileData("Data/AddressWithNipPL_Valid_Update_ControllerTests.json", typeof(UpdatePolishEnterpriseAddressDto))]
+        public async Task UpdateWithNipPl_ValidData_ReturnsOkRequest(UpdatePolishEnterpriseAddressDto updateAddressDto)
+        {
+            // Arrange
+            var httpContent = JsonSerializer.Serialize(updateAddressDto);
+            var stringContent = new StringContent(httpContent, Encoding.UTF8, "application/json");
+
+            // Act
+            var response = await _client.PutAsync($"/api/address/update-with-nip/{updateAddressDto.Id}", stringContent);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+        #endregion
 
     }
 }
