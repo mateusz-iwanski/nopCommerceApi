@@ -194,11 +194,41 @@ namespace Tests
             // Assert
             Assert.IsType<BadRequestObjectResult>(result);
         }
-
-
         #endregion
 
-        
+        #region delete
+        [Theory]
+        [InlineData(1)] // Assuming 1 is a valid ID and exists
+        [InlineData(2)] // Assuming 2 is another valid ID and exists
+        public async Task Delete_ValidId_ReturnsOkResult(int validId)
+        {
+            // Arrange
+            var addressServiceMock = new Mock<IAddressService>();
+            addressServiceMock.Setup(x => x.Delete(validId)).Returns(true);
+            var controller = new AddressController(addressServiceMock.Object);
+
+            // Act
+            var result = controller.Delete(validId);
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            Assert.Equal((int)HttpStatusCode.OK, okResult.StatusCode);
+        }
+
+        [Theory]
+        [InlineData(0)] // Assuming 0 is an invalid ID for demonstration purposes
+        [InlineData(-1)] // Another example of an invalid ID
+        public async Task Delete_InvalidId_ReturnsNotFound(int invalidId)
+        {
+            // Act
+            var request = new HttpRequestMessage(HttpMethod.Delete, $"/api/address/delete/{invalidId}");
+            var response = await _client.SendAsync(request);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+        #endregion
+
 
     }
 }
