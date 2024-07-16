@@ -20,6 +20,22 @@ namespace nopCommerceApi.MappingProfile
             CreateMap<Customer, CustomerDto>();
             CreateMap<CustomerRole, CustomerRoleDto>();
             CreateMap<AddressAttribute, AddressAttributeDto>();
+            CreateMap<TaxCategory, TaxCategoryDto>();
+
+            CreateMap<CreateBaseCustomerPLDto, Customer>()
+                .ForMember(x => x.Email, opt => opt.MapFrom(y => y.Email.Trim()))
+                .ForMember(x => x.Username, opt => opt.MapFrom(y => y.Username.Trim()))
+                .ForMember(x => x.FirstName, opt => opt.MapFrom(y => y.FirstName.Trim()))
+                .ForMember(x => x.LastName, opt => opt.MapFrom(y => y.LastName.Trim()))
+                .ForMember(x => x.Company, opt => opt.MapFrom(y => y.Company.Trim()))
+                .ForMember(x => x.StreetAddress, opt => opt.MapFrom(y => y.StreetAddress.Trim()))
+                .ForMember(x => x.StreetAddress2, opt => opt.MapFrom(y => y.StreetAddress2.Trim()))
+                .ForMember(x => x.ZipPostalCode, opt => opt.MapFrom(y => y.ZipPostalCode.Trim()))
+                .ForMember(x => x.City, opt => opt.MapFrom(y => y.City.Trim()))
+                .ForMember(x => x.County, opt => opt.MapFrom(y => y.County.Trim()))
+                .ForMember(x => x.Phone, opt => opt.MapFrom(y => y.Phone.Trim()))
+                .ForMember(x => x.VatNumber, opt => opt.MapFrom(y => y.VatNumber.Trim()))
+                .ForMember(x => x.SystemName, opt => opt.MapFrom(y => y.SystemName.Trim()));
 
             CreateMap<CreatePolishEnterpriseAddressDto, Address>()
                 .ForMember(x => x.FirstName, opt => opt.MapFrom(y => y.FirstName.Trim()))
