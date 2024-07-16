@@ -1,6 +1,6 @@
 ﻿namespace nopCommerceApi.Models.Customer
 {
-    public class CustomerRoleDto
+    public class CustomerRoleDto : BaseDto
     {
         public int Id { get; set; }
         public string Name { get; set; } = null!;
