@@ -19,6 +19,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using nopCommerceApi.Services.Customer;
+using nopCommerceApi.Seeder;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -63,12 +64,16 @@ builder.Services.AddScoped<IAddressAttributeService, AddressAttributeService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<ICustomerRoleService, CustomerRoleService>();
 
+// Register Seeder
+builder.Services.AddScoped<TaxCategorySeeder>();
+
 // Configure services for api user controllers
 builder.Services.AddScoped<IAccountService, ApiUserAccountService>();
 builder.Services.AddScoped<IUserService, ApiUserService>();
 
 // Password hasher for users accounts
 builder.Services.AddScoped<IPasswordHasher<ApiUserDto>, PasswordHasher<ApiUserDto>>();
+
 
 // Authentication settings
 var authenticationSettings = new AuthenticationSettings();
@@ -140,8 +145,16 @@ options.AddSecurityRequirement(new OpenApiSecurityRequirement
 
 var app = builder.Build();
 
+// Run seeders
+using (var scope = app.Services.CreateScope())
+{
+    var taxCategorySeeder = scope.ServiceProvider.GetRequiredService<TaxCategorySeeder>();
+    taxCategorySeeder.SeedPL();
+}
+
 // Register the ErrorHandlingMiddleware
 app.UseMiddleware<ErrorHandlingMiddleware>();
+
 
 app.UseAuthentication();
 
