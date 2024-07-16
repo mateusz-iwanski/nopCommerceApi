@@ -4,8 +4,8 @@ namespace nopCommerceApi.Models.Address
 {
     public class CreatePolishUserAddressDto : AddressDto
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string PhoneNumber { get; set; }
+        public override string FirstName { get; set; }
+        public override string LastName { get; set; }
+        public override string PhoneNumber { get; set; }
     }
 }

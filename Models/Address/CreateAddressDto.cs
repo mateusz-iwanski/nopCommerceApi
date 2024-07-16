@@ -8,8 +8,8 @@ namespace nopCommerceApi.Models.Address
     /// </summary>
     public class CreateAddressDto : AddressDto
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public override string FirstName { get; set; }
+        public override string LastName { get; set; }
         public int CountryId { get; set; }
     }
 }

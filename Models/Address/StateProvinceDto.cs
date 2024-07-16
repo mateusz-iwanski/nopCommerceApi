@@ -1,6 +1,6 @@
 ﻿namespace nopCommerceApi.Models.Address
 {
-    public class StateProvinceDto
+    public class StateProvinceDto : BaseDto
     {
         public int Id { get; set; }
         public string Name { get; set; }

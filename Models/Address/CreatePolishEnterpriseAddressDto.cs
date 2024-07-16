@@ -2,9 +2,9 @@
 {
     public class CreatePolishEnterpriseAddressDto : AddressDto
     {
-        public string Company { get; set; }
+        public override string Company { get; set; }
         public string Nip { get; set; }
-        public string City { get; set; }
-        public string Address1 { get; set; }
+        public override string City { get; set; }
+        public override string Address1 { get; set; }
     }
 }

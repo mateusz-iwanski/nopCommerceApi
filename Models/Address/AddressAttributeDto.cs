@@ -3,7 +3,7 @@
     /// <summary>
     /// Additional attribute for address
     /// </summary>
-    public class AddressAttributeDto
+    public class AddressAttributeDto : BaseDto
     {        
         public int Id { get; set; }
 
