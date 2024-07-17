@@ -24,22 +24,22 @@ namespace nopCommerceApi.Seeder
             {
                 if (_context.CustomerRoles.FirstOrDefault(a => a.Name == "Administrators") == null)
                     _context.CustomerRoles.Add(
-                        new CustomerRole { Name = "Administrators", SystemName = "Administrators" }
+                        new CustomerRole { Name = "Administrators", SystemName = "Administrators", Active = true}
                     );
 
                 if (_context.CustomerRoles.FirstOrDefault(a => a.Name == "Registered") == null)
                     _context.CustomerRoles.Add(
-                        new CustomerRole { Name = "Registered", SystemName = "Registered" }
+                        new CustomerRole { Name = "Registered", SystemName = "Registered", Active = true }
                     );
 
                 if (_context.CustomerRoles.FirstOrDefault(a => a.Name == "Guests") == null)
                     _context.CustomerRoles.Add(
-                        new CustomerRole { Name = "Guests", SystemName = "Guests" }
+                        new CustomerRole { Name = "Guests", SystemName = "Guests", Active = true }
                     );
 
                 if (_context.CustomerRoles.FirstOrDefault(a => a.Name == "Guests") == null)
                     _context.CustomerRoles.Add(
-                        new CustomerRole { Name = "Vendors", SystemName = "Vendors" }
+                        new CustomerRole { Name = "Vendors", SystemName = "Vendors", Active = true }
                     );
 
                 _context.SaveChanges();
