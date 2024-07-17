@@ -15,7 +15,7 @@ using System.Text;
 
 namespace nopCommerceApi.Services.User
 {
-    public interface IAccountService
+    public interface IApiUserAccountService
     {
         void RegisterUser(RegisterApiUserDto registerUserDto);
         string GenerateJwt(LoginApiUserDto loginDto);
@@ -24,7 +24,7 @@ namespace nopCommerceApi.Services.User
     /// <summary>
     /// Service for maintaining the list of authorization users
     /// </summary>
-    public class ApiUserAccountService : IAccountService
+    public class ApiUserAccountService : IApiUserAccountService
     {
         private readonly NopCommerceContext _context;
         private readonly IMySettings _settings;

@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 namespace nopCommerceApi.Services.User
 {
-    public interface IUserService {}
+    public interface IApiUserService {}
 
-    public class ApiUserService : IUserService
+    public class ApiUserService : IApiUserService
     {
         private readonly IMySettings _settings;
         public ApiUserService(IMySettings settings) 
