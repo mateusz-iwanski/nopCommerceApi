@@ -24,7 +24,6 @@ namespace Tests
         private readonly HttpClient _client;
         private readonly Mock<IAddressService> _addressServiceMock;
         private readonly AddressController _controller;
-        private UpdatePolishEnterpriseAddressDto test = new UpdatePolishEnterpriseAddressDto();
 
         public AddressControllerTests(WebApplicationFactory<Program> factory)
         {
