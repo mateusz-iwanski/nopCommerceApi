@@ -18,6 +18,7 @@ using Tests.Helpers;
 using nopCommerceApi.Controllers.Address;
 using nopCommerceApi.Services.Customer;
 using nopCommerceApi.Controllers.Customer;
+using nopCommerceApi.Models.Customer;
 
 
 namespace Tests
@@ -57,5 +58,22 @@ namespace Tests
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
+
+        #region CreateWithNipPl
+        [Theory]
+        [JsonFileData("Data/CustomerBasePLWith23_Valid_Create_ControllerTest.json", typeof(CreateBaseCustomerPLDto))]
+        public void CreateBasePL_ValidData_ReturnsCreatedResult(CreateBaseCustomerPLDto addressDto)
+        {
+            _customerServiceMock.Setup(x => x.CreateBasePL(It.IsAny<CreateBaseCustomerPLDto>()))
+                               .Returns(JsonSerializer.Serialize(new Customer { Id = 1 }));
+
+            // Act
+            var result = _controller.CreateBasePLWith23Vat(addressDto);
+
+            // Assert
+            var createdResult = Assert.IsType<OkObjectResult>(result);
+            createdResult.StatusCode.Should().Be((int)HttpStatusCode.OK);
+        }
+        #endregion
     }
 }

@@ -1,0 +1,47 @@
+[
+  {
+    "Username": "userOne",
+    "Email": "userOne@example.com",
+    "IsTaxExempt": false,
+    "VendorId": 1,
+    "Active": true,
+    "Deleted": false,
+    "IsSystemAccount": false
+  },
+  {
+    "Username": "taxExemptUser",
+    "Email": "taxExemptUser@example.net",
+    "IsTaxExempt": false,
+    "VendorId": 2,
+    "Active": true,
+    "Deleted": false,
+    "IsSystemAccount": false
+  },
+  {
+    "Username": "inactiveDeletedUser",
+    "Email": "inactiveDeletedUser@sample.org",
+    "IsTaxExempt": false,
+    "VendorId": 3,
+    "Active": false,
+    "Deleted": true,
+    "IsSystemAccount": false
+  },
+  {
+    "Username": "systemAccount",
+    "Email": "systemAccount@system.local",
+    "IsTaxExempt": false,
+    "VendorId": 0,
+    "Active": true,
+    "Deleted": false,
+    "IsSystemAccount": false
+  },
+  {
+    "Username": "vendorUser",
+    "Email": "vendorUser@vendor.com",
+    "IsTaxExempt": false,
+    "VendorId": 5,
+    "Active": true,
+    "Deleted": false,
+    "IsSystemAccount": false
+  }
+]
