@@ -72,6 +72,7 @@ builder.Services.AddScoped<IApiUserService, ApiUserService>();
 builder.Services.AddScoped<TaxCategorySeeder>();
 builder.Services.AddScoped<AdminApiUserSeeder>();
 builder.Services.AddScoped<CustomerRolesSeeder>();
+builder.Services.AddScoped<TaxRateSeeder>();
 
 // Password hasher for users accounts
 builder.Services.AddScoped<IPasswordHasher<ApiUserDto>, PasswordHasher<ApiUserDto>>();
@@ -165,6 +166,13 @@ using (var scope = app.Services.CreateScope())
     var adminAccount = scope.ServiceProvider.GetRequiredService<CustomerRolesSeeder>();
     adminAccount.SeedBasic();
 }
+
+using (var scope = app.Services.CreateScope())
+{
+    var adminAccount = scope.ServiceProvider.GetRequiredService<TaxRateSeeder>();
+    adminAccount.Seed();
+}
+
 
 
 // Register the ErrorHandlingMiddleware
