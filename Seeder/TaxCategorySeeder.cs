@@ -14,7 +14,7 @@ namespace nopCommerceApi.Seeder
 
         public TaxCategorySeeder(NopCommerceContext context)
         {
-            _context = context;    
+            _context = context;
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace nopCommerceApi.Seeder
                     _context.TaxCategories.Add(taxCategory);
                     _context.SaveChanges();
                 }
-                
+
             }
         }
 
