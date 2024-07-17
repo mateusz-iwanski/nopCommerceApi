@@ -17,9 +17,9 @@ namespace nopCommerceApi.Controllers.User
     [ApiController]
     public class ApiUserAccountController : ControllerBase
     {
-        private readonly IAccountService _accountService;
+        private readonly IApiUserAccountService _accountService;
 
-        public ApiUserAccountController(IAccountService accountService)
+        public ApiUserAccountController(IApiUserAccountService accountService)
         {
             _accountService = accountService;
         }
