@@ -64,12 +64,14 @@ builder.Services.AddScoped<IAddressAttributeService, AddressAttributeService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<ICustomerRoleService, CustomerRoleService>();
 
+// Configure services for api user controllers
+builder.Services.AddScoped<IApiUserAccountService, ApiUserAccountService>();
+builder.Services.AddScoped<IApiUserService, ApiUserService>();
+
 // Register Seeder
 builder.Services.AddScoped<TaxCategorySeeder>();
-
-// Configure services for api user controllers
-builder.Services.AddScoped<IAccountService, ApiUserAccountService>();
-builder.Services.AddScoped<IUserService, ApiUserService>();
+builder.Services.AddScoped<AdminApiUserSeeder>();
+builder.Services.AddScoped<CustomerRolesSeeder>();
 
 // Password hasher for users accounts
 builder.Services.AddScoped<IPasswordHasher<ApiUserDto>, PasswordHasher<ApiUserDto>>();
@@ -151,6 +153,19 @@ using (var scope = app.Services.CreateScope())
     var taxCategorySeeder = scope.ServiceProvider.GetRequiredService<TaxCategorySeeder>();
     taxCategorySeeder.SeedPL();
 }
+
+using (var scope = app.Services.CreateScope())
+{
+    var adminAccount = scope.ServiceProvider.GetRequiredService<AdminApiUserSeeder>();
+    adminAccount.Seed();
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var adminAccount = scope.ServiceProvider.GetRequiredService<CustomerRolesSeeder>();
+    adminAccount.SeedBasic();
+}
+
 
 // Register the ErrorHandlingMiddleware
 app.UseMiddleware<ErrorHandlingMiddleware>();
