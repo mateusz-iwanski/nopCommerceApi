@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using nopCommerceApi.Entities;
+using nopCommerceApi.Exceptions;
 using nopCommerceApi.Helpers;
 using nopCommerceApi.Models.Customer;
 using System.Net;
@@ -13,6 +14,7 @@ namespace nopCommerceApi.Services.Customer
     {
         IEnumerable<CustomerDto> GetAll();
         string CreateBasePL(CreateBaseCustomerDto createCustomerDto);
+        bool ConnectToAddress(Guid customerGuid, int addressId);
     }
 
     public class CustomerService : ICustomerService
@@ -72,7 +74,30 @@ namespace nopCommerceApi.Services.Customer
             return jsonString;
         }
 
+        public bool ConnectToAddress(Guid customerGuid, int addressId)
+        {
+            var customer = _context.Customers.FirstOrDefault(c => c.CustomerGuid == customerGuid);
+            var address = _context.Addresses.FirstOrDefault(a => a.Id == addressId);
 
+            if (customer != null && address != null)
+            {
+                // Check if the address is already associated with another customer
+                var existingCustomer = _context.Customers.FirstOrDefault(c => c.Addresses.Any(a => a.Id == addressId && c.Id != customer.Id));
+                if (existingCustomer != null)
+                {
+                    throw new BadRequestException("This address is already associated with another customer.");
+                }
+
+                customer.Addresses.Add(address);
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new BadRequestException("This address or customer does not exists.");
+            }
+
+            return true;
+        }
 
     }
 }
