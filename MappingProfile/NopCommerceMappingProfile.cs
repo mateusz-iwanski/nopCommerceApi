@@ -16,11 +16,14 @@ namespace nopCommerceApi.MappingProfile
             CreateMap<StateProvince, StateProvinceDto>();
             CreateMap<Language, LanguageDto>();
             CreateMap<Country, CountryDto>();
-            CreateMap<Address, DetailsAddressDto>();
+            
             CreateMap<Customer, CustomerDto>();
             CreateMap<CustomerRole, CustomerRoleDto>();
             CreateMap<AddressAttribute, AddressAttributeDto>();
             CreateMap<TaxCategory, TaxCategoryDto>();
+
+            CreateMap<Address, DetailsAddressDto>()
+                .ForMember(x => x.NIP, opt => opt.MapFrom(y => AddressDto.GetValueFromCustomAttribute(y.CustomAttributes)));
 
             CreateMap<CreateBaseCustomerDto, Customer>()
                 .ForMember(x => x.Email, opt => opt.MapFrom(y => y.Email.Trim()))
