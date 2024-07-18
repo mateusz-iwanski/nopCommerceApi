@@ -5,7 +5,7 @@ using nopCommerceApi.Models.Customer;
 
 namespace nopCommerceApi.Validations
 {
-    public class CreateBaseCustomerPLDtoValidator : BaseValidator<CreateBaseCustomerPLDto>
+    public class CreateBaseCustomerPLDtoValidator : BaseValidator<CreateBaseCustomerDto>
     {
         private readonly NopCommerceContext _context;
 

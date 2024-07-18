@@ -22,7 +22,7 @@ namespace nopCommerceApi.MappingProfile
             CreateMap<AddressAttribute, AddressAttributeDto>();
             CreateMap<TaxCategory, TaxCategoryDto>();
 
-            CreateMap<CreateBaseCustomerPLDto, Customer>()
+            CreateMap<CreateBaseCustomerDto, Customer>()
                 .ForMember(x => x.Email, opt => opt.MapFrom(y => y.Email.Trim()))
                 .ForMember(x => x.Username, opt => opt.MapFrom(y => y.Username.Trim()))
                 .ForMember(x => x.FirstName, opt => opt.MapFrom(y => y.FirstName.Trim()))

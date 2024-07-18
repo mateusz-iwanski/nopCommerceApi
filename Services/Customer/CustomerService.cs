@@ -12,7 +12,7 @@ namespace nopCommerceApi.Services.Customer
     public interface ICustomerService
     {
         IEnumerable<CustomerDto> GetAll();
-        string CreateBasePL(CreateBaseCustomerPLDto createCustomerDto);
+        string CreateBasePL(CreateBaseCustomerDto createCustomerDto);
     }
 
     public class CustomerService : ICustomerService
@@ -48,7 +48,7 @@ namespace nopCommerceApi.Services.Customer
         /// </summary>
         /// <param name="createCustomerDto"></param>
         /// <returns></returns>
-        public string CreateBasePL(CreateBaseCustomerPLDto createCustomerDto)
+        public string CreateBasePL(CreateBaseCustomerDto createCustomerDto)
         {
             var customer = _mapper.Map<Entities.Customer>(createCustomerDto);
 
