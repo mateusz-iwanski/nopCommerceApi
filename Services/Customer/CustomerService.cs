@@ -1,21 +1,25 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using nopCommerceApi.Entities;
+using nopCommerceApi.Helpers;
 using nopCommerceApi.Models.Customer;
 using System.Net;
+using System.Text.Json;
 
 namespace nopCommerceApi.Services.Customer
 {
     public interface ICustomerService
     {
         IEnumerable<CustomerDto> GetAll();
-        Entities.Customer AddBasePL(CreateBaseCustomerPLDto createCustomerDto);
+        string CreateBasePL(CreateBaseCustomerPLDto createCustomerDto);
     }
 
     public class CustomerService : ICustomerService
     {
         private readonly NopCommerceContext _context;
         private readonly IMapper _mapper;
+        private readonly TaxCategoryService _taxCategoryService;
 
         public CustomerService(NopCommerceContext context, IMapper mapper)
         {
@@ -39,19 +43,22 @@ namespace nopCommerceApi.Services.Customer
         }
 
         /// <summary>
-        /// Create with base customer data for Polish customers
+        /// Create with base customer data for Polish customers.
+        /// Default customer role is Registered.
         /// </summary>
         /// <param name="createCustomerDto"></param>
         /// <returns></returns>
-        public Entities.Customer AddBasePL(CreateBaseCustomerPLDto createCustomerDto)
+        public string CreateBasePL(CreateBaseCustomerPLDto createCustomerDto)
         {
             var customer = _mapper.Map<Entities.Customer>(createCustomerDto);
-            
+
             var languageId = _context.Languages.FirstOrDefault(l => l.UniqueSeoCode == "pl").Id;
             var currenyId = _context.Currencies.FirstOrDefault(c => c.CurrencyCode == "PLN").Id;
             var countryId = _context.Countries.FirstOrDefault(c => c.TwoLetterIsoCode == "PL").Id;
-            // customer connect role with customer [Customer_CustomerRole_Mapping]
-            var cumerRoleId = _context.CustomerRoles.FirstOrDefault(cr => cr.SystemName == "Registered"); 
+            
+            // customer connect to role with customer [Customer_CustomerRole_Mapping]
+            var customerRole = _context.CustomerRoles.FirstOrDefault(cr => cr.SystemName == "Registered");
+            customer.CustomerRoles.Add(customerRole);
 
             customer.LanguageId = languageId;
             customer.CurrencyId = currenyId;
@@ -60,8 +67,12 @@ namespace nopCommerceApi.Services.Customer
             _context.Customers.Add(customer);
             _context.SaveChanges();
 
-            return customer;
+            string jsonString = createCustomerDto.JsonSerializeReferenceLoopHandlingIgnore();
+
+            return jsonString;
         }
+
+
 
     }
 }
