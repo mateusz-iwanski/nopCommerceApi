@@ -61,19 +61,34 @@ namespace Tests
 
         #region CreateWithNipPl
         [Theory]
-        [JsonFileData("Data/CustomerBasePLWith23_Valid_Create_ControllerTest.json", typeof(CreateBaseCustomerPLDto))]
-        public void CreateBasePL_ValidData_ReturnsCreatedResult(CreateBaseCustomerPLDto addressDto)
+        [JsonFileData("Data/CustomerBasePL_Valid_Create_ControllerTest.json", typeof(CreateBaseCustomerPLDto))]
+        public void CreateBasePL_ValidData_ReturnsHttpStatusCodeOk(CreateBaseCustomerPLDto addressDto)
         {
             _customerServiceMock.Setup(x => x.CreateBasePL(It.IsAny<CreateBaseCustomerPLDto>()))
                                .Returns(JsonSerializer.Serialize(new Customer { Id = 1 }));
 
             // Act
-            var result = _controller.CreateBasePLWith23Vat(addressDto);
+            var result = _controller.CreateBasePL(addressDto);
 
             // Assert
             var createdResult = Assert.IsType<OkObjectResult>(result);
             createdResult.StatusCode.Should().Be((int)HttpStatusCode.OK);
         }
+
+        [Theory]
+        [JsonFileData("Data/CustomerBasePL_Invalid_Create_ControllerTest.json", typeof(CreateBaseCustomerPLDto))]
+        public async void CreateBasePL_InvalidData_ReturnsBadRequestResult(CreateBaseCustomerPLDto addressDto)
+        {
+            var httpContent = JsonSerializer.Serialize(addressDto);
+            var stringContent = new StringContent(httpContent, Encoding.UTF8, "application/json");
+
+            // Act
+            var response = await _client.PostAsync($"/api/customer/add-base-pl/", stringContent);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
         #endregion
     }
 }
