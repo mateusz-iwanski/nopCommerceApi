@@ -33,9 +33,7 @@ namespace nopCommerceApi.MappingProfile
                 .ForMember(x => x.ZipPostalCode, opt => opt.MapFrom(y => y.ZipPostalCode.Trim()))
                 .ForMember(x => x.City, opt => opt.MapFrom(y => y.City.Trim()))
                 .ForMember(x => x.County, opt => opt.MapFrom(y => y.County.Trim()))
-                .ForMember(x => x.Phone, opt => opt.MapFrom(y => y.Phone.Trim()))
-                .ForMember(x => x.VatNumber, opt => opt.MapFrom(y => y.VatNumber.Trim()))
-                .ForMember(x => x.SystemName, opt => opt.MapFrom(y => y.SystemName.Trim()));
+                .ForMember(x => x.Phone, opt => opt.MapFrom(y => y.Phone.Trim()));
 
             CreateMap<CreatePolishEnterpriseAddressDto, Address>()
                 .ForMember(x => x.FirstName, opt => opt.MapFrom(y => y.FirstName.Trim()))
