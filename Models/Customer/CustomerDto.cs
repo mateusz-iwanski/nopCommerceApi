@@ -7,6 +7,7 @@ namespace nopCommerceApi.Models.Customer
 {
     public class CustomerDto : BaseDto
     {
+        private Guid _customerGuid = Guid.NewGuid();
         // If we not set/get Email over private _email, we will get an error 'Access violation' from IIS
         protected string? _email { get; set; }
         protected string? _username { get; set; }
@@ -16,7 +17,7 @@ namespace nopCommerceApi.Models.Customer
         public virtual string? Username
         {
             get => _username;
-            set => _username = value?.Trim(); //= !string.IsNullOrWhiteSpace(value) ? value.Trim() : throw new BadRequestException("Username is empty");
+            set => _username = value?.Trim();
         }
 
         [EmailAddress]
@@ -25,6 +26,7 @@ namespace nopCommerceApi.Models.Customer
             get => _email;
             set => _email = value?.Trim();
         }
+        public virtual DateTime CreatedOnUtc { get; set; } = DateTime.UtcNow;
         public virtual string? FirstName { get; set; }
         public virtual string? LastName { get; set; }
         public virtual string? Company { get; set; }
@@ -36,6 +38,7 @@ namespace nopCommerceApi.Models.Customer
         public virtual string? Phone { get; set; }
         public virtual string? VatNumber { get; set; }
         public virtual string? SystemName { get; set; }
+        public virtual bool IsSystemAccount { get; set; } = false;
 
         public virtual AddressDto? BillingAddress { get; set; }
         public virtual AddressDto? ShippingAddress { get; set; }
@@ -44,10 +47,17 @@ namespace nopCommerceApi.Models.Customer
         public virtual StateProvinceDto? StateProvince { get; set; }
         public virtual CurrencyDto? Currency { get; set; }
 
-        public virtual Guid CustomerGuid { get; set; }
+        public virtual Guid CustomerGuid
+        {
+            get => _customerGuid;
+            set
+            {
+                _customerGuid = Guid.NewGuid();
+            }
+        }
         public virtual bool IsTaxExempt { get; set; }
-        public virtual int VendorId { get; set; } 
-        public virtual bool Active { get; set; }
+        public virtual int VendorId { get; set; }
+        public virtual bool Active { get; set; } = true;
         public virtual bool Deleted { get; set; }
     }
 }
