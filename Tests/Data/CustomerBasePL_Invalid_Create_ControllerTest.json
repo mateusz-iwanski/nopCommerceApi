@@ -1,0 +1,33 @@
+[
+  {
+    "Username": "", 
+    "Email": "notAnEmail" 
+  },
+  {
+    "Username": null, 
+    "Email": "missingUsername@example.com"
+  },
+  {
+    "Username": "userWithoutEmail", 
+    "IsTaxExempt": true, 
+    "VendorId": 999, 
+    "Active": false, 
+    "Deleted": true, 
+    "IsSystemAccount": true 
+  },
+  {
+    "Username": "",
+    "Email": "validEmail@example.com",
+    "FirstName": null, 
+    "LastName": null 
+  },
+  {
+    "Username": "overriddenReadOnlyFields",
+    "Email": "overriddenReadOnly@example.com",
+    "IsTaxExempt": true,
+    "Active": false,
+    "Deleted": true,
+    "IsSystemAccount": true,
+    "StateProvinceId": 1
+  }
+]

@@ -24,5 +24,12 @@ namespace nopCommerceApi.Controllers.Customer
             var customers = _customerService.GetAll();
             return customers;
         }
+
+        [HttpPost("add-base-pl")]
+        public IActionResult CreateBasePL([FromBody] CreateBaseCustomerPLDto createCustomerDto)
+        {
+            var customer = _customerService.CreateBasePL(createCustomerDto);
+            return Ok(customer);
+        }
     }
 }
