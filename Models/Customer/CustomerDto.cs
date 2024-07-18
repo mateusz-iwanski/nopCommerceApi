@@ -7,26 +7,12 @@ namespace nopCommerceApi.Models.Customer
 {
     public class CustomerDto : BaseDto
     {
-        private Guid _customerGuid = Guid.NewGuid();
-        // If we not set/get Email over private _email, we will get an error 'Access violation' from IIS
-        protected string? _email { get; set; }
-        protected string? _username { get; set; }
-
-        // username can't be null, default it will be set as email when 
-        // not set username
-        public virtual string? Username
-        {
-            get => _username;
-            set => _username = value?.Trim();
-        }
+        public virtual string Id { get; set; }  
+        public virtual string? Username { get; set; }
 
         [EmailAddress]
-        public virtual string Email
-        {
-            get => _email;
-            set => _email = value?.Trim();
-        }
-        public virtual DateTime CreatedOnUtc { get; set; } = DateTime.UtcNow;
+        public virtual string Email { get; set; }
+        public virtual DateTime CreatedOnUtc { get; set; }
         public virtual string? FirstName { get; set; }
         public virtual string? LastName { get; set; }
         public virtual string? Company { get; set; }
@@ -46,15 +32,7 @@ namespace nopCommerceApi.Models.Customer
         public virtual CountryDto? Country { get; set; }
         public virtual StateProvinceDto? StateProvince { get; set; }
         public virtual CurrencyDto? Currency { get; set; }
-
-        public virtual Guid CustomerGuid
-        {
-            get => _customerGuid;
-            set
-            {
-                _customerGuid = Guid.NewGuid();
-            }
-        }
+        public virtual Guid CustomerGuid { get; set; }
         public virtual bool IsTaxExempt { get; set; }
         public virtual int VendorId { get; set; }
         public virtual bool Active { get; set; } = true;
