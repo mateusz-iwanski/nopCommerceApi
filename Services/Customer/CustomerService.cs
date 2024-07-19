@@ -2,6 +2,7 @@
 using Azure.Core;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using nopCommerceApi.Config;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Entities.Usable;
 using nopCommerceApi.Exceptions;
@@ -25,11 +26,13 @@ namespace nopCommerceApi.Services.Customer
         private readonly NopCommerceContext _context;
         private readonly IMapper _mapper;
         private readonly TaxCategoryService _taxCategoryService;
+        private readonly IMySettings _settings;
 
-        public CustomerService(NopCommerceContext context, IMapper mapper)
+        public CustomerService(NopCommerceContext context, IMapper mapper, IMySettings settings)
         {
             _context = context;
             _mapper = mapper;
+            _settings = settings;
         }
         
         public IEnumerable<CustomerDto> GetAll()
@@ -73,7 +76,7 @@ namespace nopCommerceApi.Services.Customer
             _context.SaveChanges();
 
             // add password
-            _context.CustomerPasswords.Add(CustomerPasswordManager.CreatePassword(PasswordFormat.Hashed, customer, createCustomerDto.Password));
+            _context.CustomerPasswords.Add(CustomerPasswordManager.CreatePassword(customer, createCustomerDto.Password, _settings));
             _context.SaveChanges();
 
             string jsonString = createCustomerDto.JsonSerializeReferenceLoopHandlingIgnore();

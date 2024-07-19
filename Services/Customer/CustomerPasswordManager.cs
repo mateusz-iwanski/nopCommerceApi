@@ -1,18 +1,19 @@
-﻿using nopCommerceApi.Entities.Usable;
+﻿using nopCommerceApi.Config;
+using nopCommerceApi.Entities.Usable;
 
 namespace nopCommerceApi.Services.Customer
 {
     public class CustomerPasswordManager
     {
-        public static CustomerPassword CreatePassword(PasswordFormat passwordFormat, Entities.Usable.Customer customer, string password)
+        public static CustomerPassword CreatePassword(Entities.Usable.Customer customer, string password, IMySettings settings)
         {
             PasswordEncryptionService _encryptionService = new PasswordEncryptionService(
                 new SecuritySettings
                 {
-                    EncryptionKey = GenerateRandomDigitCode(16),
+                    EncryptionKey = GenerateRandomDigitCode(settings.PasswordEncryptionKeyLength),
                     AdminAreaAllowedIpAddresses = null,
                     HoneypotEnabled = false,
-                    HoneypotInputName = "hpinput",
+                    HoneypotInputName = settings.HoneypotInputName,
                     AllowNonAsciiCharactersInHeaders = true,
                     UseAesEncryptionAlgorithm = true,
                     AllowStoreOwnerExportImportCustomersWithHashedPassword = true
@@ -21,11 +22,10 @@ namespace nopCommerceApi.Services.Customer
             var customerPassword = new CustomerPassword
             {
                 CustomerId = customer.Id,
-                PasswordFormatId = (int)passwordFormat,
                 CreatedOnUtc = DateTime.UtcNow
             };
 
-            switch (passwordFormat)
+            switch ((PasswordFormat)settings.PasswordFormat)
             {
                 case PasswordFormat.Clear:
                     customerPassword.Password = password;
@@ -34,14 +34,9 @@ namespace nopCommerceApi.Services.Customer
                     customerPassword.Password = _encryptionService.EncryptText(password);
                     break;
                 case PasswordFormat.Hashed:
-                    // default from nopcommerce class NopCustomerServicesDefaults
-                    // Gets a password salt key size
-                    //public static int PasswordSaltKeySize => 5;
-                    //public static string DefaultHashedPasswordFormat => "SHA512"; - Gets or sets a customer password format (SHA1, MD5) when passwords are hashed (DO NOT edit in production environment)
-
-                    var saltKey = _encryptionService.CreateSaltKey(5);
+                    var saltKey = _encryptionService.CreateSaltKey(settings.PasswordSaltKeySize);
                     customerPassword.PasswordSalt = saltKey;
-                    customerPassword.Password = _encryptionService.CreatePasswordHash(password, saltKey, "SHA512");
+                    customerPassword.Password = _encryptionService.CreatePasswordHash(password, saltKey, settings.CustomerPasswordFormat);
                     break;
             }
 
