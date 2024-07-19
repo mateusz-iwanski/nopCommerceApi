@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace nopCommerceApi.Entities;
+namespace nopCommerceApi.Entities.Usable;
 
 /// <summary>
 /// In order to use this functionality, you have to disable the following setting: Catalog settings > Ignore ACL rules.

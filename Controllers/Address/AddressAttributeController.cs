@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using nopCommerceApi.Entities;
+using nopCommerceApi.Entities.Usable;
 using nopCommerceApi.Services;
 
 namespace nopCommerceApi.Controllers.Address

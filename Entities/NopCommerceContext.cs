@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities.Configurations;
+using nopCommerceApi.Entities.Usable;
 
 namespace nopCommerceApi.Entities;
 
@@ -13,257 +14,138 @@ public partial class NopCommerceContext : DbContext
     public NopCommerceContext(DbContextOptions<NopCommerceContext> options)
         : base(options) {}
 
-    public virtual DbSet<AclRecord> AclRecords { get; set; }
-
-    public virtual DbSet<ActivityLog> ActivityLogs { get; set; }
-
-    public virtual DbSet<ActivityLogType> ActivityLogTypes { get; set; }
-
+    #region Usable entities
     public virtual DbSet<Address> Addresses { get; set; }
-
-    public virtual DbSet<AddressAttribute> AddressAttributes { get; set; }
-
-    public virtual DbSet<AddressAttributeValue> AddressAttributeValues { get; set; }
-
-    public virtual DbSet<Affiliate> Affiliates { get; set; }
-
-    public virtual DbSet<AvalaraItemClassification> AvalaraItemClassifications { get; set; }
-
-    public virtual DbSet<BackInStockSubscription> BackInStockSubscriptions { get; set; }
-
-    public virtual DbSet<BlogComment> BlogComments { get; set; }
-
-    public virtual DbSet<BlogPost> BlogPosts { get; set; }
-
-    public virtual DbSet<Campaign> Campaigns { get; set; }
-
-    public virtual DbSet<Category> Categories { get; set; }
-
-    public virtual DbSet<CategoryTemplate> CategoryTemplates { get; set; }
-
-    public virtual DbSet<CheckoutAttribute> CheckoutAttributes { get; set; }
-
-    public virtual DbSet<CheckoutAttributeValue> CheckoutAttributeValues { get; set; }
-
     public virtual DbSet<Country> Countries { get; set; }
-
-    public virtual DbSet<CrossSellProduct> CrossSellProducts { get; set; }
-
     public virtual DbSet<Currency> Currencies { get; set; }
-
     public virtual DbSet<Customer> Customers { get; set; }
-
-    public virtual DbSet<CustomerAttribute> CustomerAttributes { get; set; }
-
-    public virtual DbSet<CustomerAttributeValue> CustomerAttributeValues { get; set; }
-
-    public virtual DbSet<CustomerPassword> CustomerPasswords { get; set; }
-
     public virtual DbSet<CustomerRole> CustomerRoles { get; set; }
-
-    public virtual DbSet<DeliveryDate> DeliveryDates { get; set; }
-
-    public virtual DbSet<Discount> Discounts { get; set; }
-
-    public virtual DbSet<DiscountRequirement> DiscountRequirements { get; set; }
-
-    public virtual DbSet<DiscountUsageHistory> DiscountUsageHistories { get; set; }
-
-    public virtual DbSet<Download> Downloads { get; set; }
-
-    public virtual DbSet<EmailAccount> EmailAccounts { get; set; }
-
-    public virtual DbSet<ExternalAuthenticationRecord> ExternalAuthenticationRecords { get; set; }
-
-    public virtual DbSet<FacebookPixelConfiguration> FacebookPixelConfigurations { get; set; }
-
-    public virtual DbSet<ForumsForum> ForumsForums { get; set; }
-
-    public virtual DbSet<ForumsGroup> ForumsGroups { get; set; }
-
-    public virtual DbSet<ForumsPost> ForumsPosts { get; set; }
-
-    public virtual DbSet<ForumsPostVote> ForumsPostVotes { get; set; }
-
-    public virtual DbSet<ForumsPrivateMessage> ForumsPrivateMessages { get; set; }
-
-    public virtual DbSet<ForumsSubscription> ForumsSubscriptions { get; set; }
-
-    public virtual DbSet<ForumsTopic> ForumsTopics { get; set; }
-
-    public virtual DbSet<GdprConsent> GdprConsents { get; set; }
-
-    public virtual DbSet<GdprLog> GdprLogs { get; set; }
-
-    public virtual DbSet<GenericAttribute> GenericAttributes { get; set; }
-
-    public virtual DbSet<GiftCard> GiftCards { get; set; }
-
-    public virtual DbSet<GiftCardUsageHistory> GiftCardUsageHistories { get; set; }
-
-    public virtual DbSet<GoogleAuthenticatorRecord> GoogleAuthenticatorRecords { get; set; }
-
-    public virtual DbSet<Language> Languages { get; set; }
-
-    public virtual DbSet<LocaleStringResource> LocaleStringResources { get; set; }
-
-    public virtual DbSet<LocalizedProperty> LocalizedProperties { get; set; }
-
-    public virtual DbSet<Log> Logs { get; set; }
-
-    public virtual DbSet<Manufacturer> Manufacturers { get; set; }
-
-    public virtual DbSet<ManufacturerTemplate> ManufacturerTemplates { get; set; }
-
-    public virtual DbSet<MeasureDimension> MeasureDimensions { get; set; }
-
-    public virtual DbSet<MeasureWeight> MeasureWeights { get; set; }
-
-    public virtual DbSet<MessageTemplate> MessageTemplates { get; set; }
-
-    public virtual DbSet<MigrationVersionInfo> MigrationVersionInfos { get; set; }
-
-    public virtual DbSet<News> News { get; set; }
-
-    public virtual DbSet<NewsComment> NewsComments { get; set; }
-
-    public virtual DbSet<NewsLetterSubscription> NewsLetterSubscriptions { get; set; }
-
-    public virtual DbSet<Order> Orders { get; set; }
-
-    public virtual DbSet<OrderItem> OrderItems { get; set; }
-
-    public virtual DbSet<OrderNote> OrderNotes { get; set; }
-
-    public virtual DbSet<PermissionRecord> PermissionRecords { get; set; }
-
-    public virtual DbSet<Picture> Pictures { get; set; }
-
-    public virtual DbSet<PictureBinary> PictureBinaries { get; set; }
-
-    public virtual DbSet<Poll> Polls { get; set; }
-
-    public virtual DbSet<PollAnswer> PollAnswers { get; set; }
-
-    public virtual DbSet<PollVotingRecord> PollVotingRecords { get; set; }
-
-    public virtual DbSet<PredefinedProductAttributeValue> PredefinedProductAttributeValues { get; set; }
-
-    public virtual DbSet<Product> Products { get; set; }
-
-    public virtual DbSet<ProductAttribute> ProductAttributes { get; set; }
-
-    public virtual DbSet<ProductAttributeCombination> ProductAttributeCombinations { get; set; }
-
-    public virtual DbSet<ProductAttributeCombinationPicture> ProductAttributeCombinationPictures { get; set; }
-
-    public virtual DbSet<ProductAttributeValue> ProductAttributeValues { get; set; }
-
-    public virtual DbSet<ProductAttributeValuePicture> ProductAttributeValuePictures { get; set; }
-
-    public virtual DbSet<ProductAvailabilityRange> ProductAvailabilityRanges { get; set; }
-
-    public virtual DbSet<ProductCategoryMapping> ProductCategoryMappings { get; set; }
-
-    public virtual DbSet<ProductManufacturerMapping> ProductManufacturerMappings { get; set; }
-
-    public virtual DbSet<ProductPictureMapping> ProductPictureMappings { get; set; }
-
-    public virtual DbSet<ProductProductAttributeMapping> ProductProductAttributeMappings { get; set; }
-
-    public virtual DbSet<ProductReview> ProductReviews { get; set; }
-
-    public virtual DbSet<ProductReviewHelpfulness> ProductReviewHelpfulnesses { get; set; }
-
-    public virtual DbSet<ProductReviewReviewTypeMapping> ProductReviewReviewTypeMappings { get; set; }
-
-    public virtual DbSet<ProductSpecificationAttributeMapping> ProductSpecificationAttributeMappings { get; set; }
-
-    public virtual DbSet<ProductTag> ProductTags { get; set; }
-
-    public virtual DbSet<ProductTemplate> ProductTemplates { get; set; }
-
-    public virtual DbSet<ProductVideo> ProductVideos { get; set; }
-
-    public virtual DbSet<ProductWarehouseInventory> ProductWarehouseInventories { get; set; }
-
-    public virtual DbSet<QueuedEmail> QueuedEmails { get; set; }
-
-    public virtual DbSet<RecurringPayment> RecurringPayments { get; set; }
-
-    public virtual DbSet<RecurringPaymentHistory> RecurringPaymentHistories { get; set; }
-
-    public virtual DbSet<RelatedProduct> RelatedProducts { get; set; }
-
-    public virtual DbSet<ReturnRequest> ReturnRequests { get; set; }
-
-    public virtual DbSet<ReturnRequestAction> ReturnRequestActions { get; set; }
-
-    public virtual DbSet<ReturnRequestReason> ReturnRequestReasons { get; set; }
-
-    public virtual DbSet<ReviewType> ReviewTypes { get; set; }
-
-    public virtual DbSet<RewardPointsHistory> RewardPointsHistories { get; set; }
-
-    public virtual DbSet<ScheduleTask> ScheduleTasks { get; set; }
-
-    public virtual DbSet<SearchTerm> SearchTerms { get; set; }
-
-    public virtual DbSet<Setting> Settings { get; set; }
-
-    public virtual DbSet<Shipment> Shipments { get; set; }
-
-    public virtual DbSet<ShipmentItem> ShipmentItems { get; set; }
-
-    public virtual DbSet<ShippingByWeightByTotalRecord> ShippingByWeightByTotalRecords { get; set; }
-
-    public virtual DbSet<ShippingMethod> ShippingMethods { get; set; }
-
-    public virtual DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
-
-    public virtual DbSet<SpecificationAttribute> SpecificationAttributes { get; set; }
-
-    public virtual DbSet<SpecificationAttributeGroup> SpecificationAttributeGroups { get; set; }
-
-    public virtual DbSet<SpecificationAttributeOption> SpecificationAttributeOptions { get; set; }
-
     public virtual DbSet<StateProvince> StateProvinces { get; set; }
-
-    public virtual DbSet<StockQuantityHistory> StockQuantityHistories { get; set; }
-
-    public virtual DbSet<Store> Stores { get; set; }
-
-    public virtual DbSet<StoreMapping> StoreMappings { get; set; }
-
-    public virtual DbSet<StorePickupPoint> StorePickupPoints { get; set; }
-
     public virtual DbSet<TaxCategory> TaxCategories { get; set; }
-
-    public virtual DbSet<TaxRate> TaxRates { get; set; }
-
-    public virtual DbSet<TaxTransactionLog> TaxTransactionLogs { get; set; }
-
     public virtual DbSet<TierPrice> TierPrices { get; set; }
+    public virtual DbSet<AddressAttribute> AddressAttributes { get; set; }
+    public virtual DbSet<CustomerPassword> CustomerPasswords { get; set; }
+    public virtual DbSet<Language> Languages { get; set; }
+    #endregion
 
+
+    #region Not usable entites
+    public virtual DbSet<AclRecord> AclRecords { get; set; }
+    public virtual DbSet<ActivityLog> ActivityLogs { get; set; }
+    public virtual DbSet<ActivityLogType> ActivityLogTypes { get; set; }
+    public virtual DbSet<AddressAttributeValue> AddressAttributeValues { get; set; }
+    public virtual DbSet<Affiliate> Affiliates { get; set; }
+    public virtual DbSet<AvalaraItemClassification> AvalaraItemClassifications { get; set; }
+    public virtual DbSet<BackInStockSubscription> BackInStockSubscriptions { get; set; }
+    public virtual DbSet<BlogComment> BlogComments { get; set; }
+    public virtual DbSet<BlogPost> BlogPosts { get; set; }
+    public virtual DbSet<Campaign> Campaigns { get; set; }
+    public virtual DbSet<Category> Categories { get; set; }
+    public virtual DbSet<CategoryTemplate> CategoryTemplates { get; set; }
+    public virtual DbSet<CheckoutAttribute> CheckoutAttributes { get; set; }
+    public virtual DbSet<CheckoutAttributeValue> CheckoutAttributeValues { get; set; }
+    public virtual DbSet<CrossSellProduct> CrossSellProducts { get; set; }
+    public virtual DbSet<CustomerAttribute> CustomerAttributes { get; set; }
+    public virtual DbSet<CustomerAttributeValue> CustomerAttributeValues { get; set; }
+    public virtual DbSet<DeliveryDate> DeliveryDates { get; set; }
+    public virtual DbSet<Discount> Discounts { get; set; }
+    public virtual DbSet<DiscountRequirement> DiscountRequirements { get; set; }
+    public virtual DbSet<DiscountUsageHistory> DiscountUsageHistories { get; set; }
+    public virtual DbSet<Download> Downloads { get; set; }
+    public virtual DbSet<EmailAccount> EmailAccounts { get; set; }
+    public virtual DbSet<ExternalAuthenticationRecord> ExternalAuthenticationRecords { get; set; }
+    public virtual DbSet<FacebookPixelConfiguration> FacebookPixelConfigurations { get; set; }
+    public virtual DbSet<ForumsForum> ForumsForums { get; set; }
+    public virtual DbSet<ForumsGroup> ForumsGroups { get; set; }
+    public virtual DbSet<ForumsPost> ForumsPosts { get; set; }
+    public virtual DbSet<ForumsPostVote> ForumsPostVotes { get; set; }
+    public virtual DbSet<ForumsPrivateMessage> ForumsPrivateMessages { get; set; }
+    public virtual DbSet<ForumsSubscription> ForumsSubscriptions { get; set; }
+    public virtual DbSet<ForumsTopic> ForumsTopics { get; set; }
+    public virtual DbSet<GdprConsent> GdprConsents { get; set; }
+    public virtual DbSet<GdprLog> GdprLogs { get; set; }
+    public virtual DbSet<GenericAttribute> GenericAttributes { get; set; }
+    public virtual DbSet<GiftCard> GiftCards { get; set; }
+    public virtual DbSet<GiftCardUsageHistory> GiftCardUsageHistories { get; set; }
+    public virtual DbSet<GoogleAuthenticatorRecord> GoogleAuthenticatorRecords { get; set; }
+    public virtual DbSet<LocaleStringResource> LocaleStringResources { get; set; }
+    public virtual DbSet<LocalizedProperty> LocalizedProperties { get; set; }
+    public virtual DbSet<Log> Logs { get; set; }
+    public virtual DbSet<Manufacturer> Manufacturers { get; set; }
+    public virtual DbSet<ManufacturerTemplate> ManufacturerTemplates { get; set; }
+    public virtual DbSet<MeasureDimension> MeasureDimensions { get; set; }
+    public virtual DbSet<MeasureWeight> MeasureWeights { get; set; }
+    public virtual DbSet<MessageTemplate> MessageTemplates { get; set; }
+    public virtual DbSet<MigrationVersionInfo> MigrationVersionInfos { get; set; }
+    public virtual DbSet<News> News { get; set; }
+    public virtual DbSet<NewsComment> NewsComments { get; set; }
+    public virtual DbSet<NewsLetterSubscription> NewsLetterSubscriptions { get; set; }
+    public virtual DbSet<Order> Orders { get; set; }
+    public virtual DbSet<OrderItem> OrderItems { get; set; }
+    public virtual DbSet<OrderNote> OrderNotes { get; set; }
+    public virtual DbSet<PermissionRecord> PermissionRecords { get; set; }
+    public virtual DbSet<Picture> Pictures { get; set; }
+    public virtual DbSet<PictureBinary> PictureBinaries { get; set; }
+    public virtual DbSet<Poll> Polls { get; set; }
+    public virtual DbSet<PollAnswer> PollAnswers { get; set; }
+    public virtual DbSet<PollVotingRecord> PollVotingRecords { get; set; }
+    public virtual DbSet<PredefinedProductAttributeValue> PredefinedProductAttributeValues { get; set; }
+    public virtual DbSet<Product> Products { get; set; }
+    public virtual DbSet<ProductAttribute> ProductAttributes { get; set; }
+    public virtual DbSet<ProductAttributeCombination> ProductAttributeCombinations { get; set; }
+    public virtual DbSet<ProductAttributeCombinationPicture> ProductAttributeCombinationPictures { get; set; }
+    public virtual DbSet<ProductAttributeValue> ProductAttributeValues { get; set; }
+    public virtual DbSet<ProductAttributeValuePicture> ProductAttributeValuePictures { get; set; }
+    public virtual DbSet<ProductAvailabilityRange> ProductAvailabilityRanges { get; set; }
+    public virtual DbSet<ProductCategoryMapping> ProductCategoryMappings { get; set; }
+    public virtual DbSet<ProductManufacturerMapping> ProductManufacturerMappings { get; set; }
+    public virtual DbSet<ProductPictureMapping> ProductPictureMappings { get; set; }
+    public virtual DbSet<ProductProductAttributeMapping> ProductProductAttributeMappings { get; set; }
+    public virtual DbSet<ProductReview> ProductReviews { get; set; }
+    public virtual DbSet<ProductReviewHelpfulness> ProductReviewHelpfulnesses { get; set; }
+    public virtual DbSet<ProductReviewReviewTypeMapping> ProductReviewReviewTypeMappings { get; set; }
+    public virtual DbSet<ProductSpecificationAttributeMapping> ProductSpecificationAttributeMappings { get; set; }
+    public virtual DbSet<ProductTag> ProductTags { get; set; }
+    public virtual DbSet<ProductTemplate> ProductTemplates { get; set; }
+    public virtual DbSet<ProductVideo> ProductVideos { get; set; }
+    public virtual DbSet<ProductWarehouseInventory> ProductWarehouseInventories { get; set; }
+    public virtual DbSet<QueuedEmail> QueuedEmails { get; set; }
+    public virtual DbSet<RecurringPayment> RecurringPayments { get; set; }
+    public virtual DbSet<RecurringPaymentHistory> RecurringPaymentHistories { get; set; }
+    public virtual DbSet<RelatedProduct> RelatedProducts { get; set; }
+    public virtual DbSet<ReturnRequest> ReturnRequests { get; set; }
+    public virtual DbSet<ReturnRequestAction> ReturnRequestActions { get; set; }
+    public virtual DbSet<ReturnRequestReason> ReturnRequestReasons { get; set; }
+    public virtual DbSet<ReviewType> ReviewTypes { get; set; }
+    public virtual DbSet<RewardPointsHistory> RewardPointsHistories { get; set; }
+    public virtual DbSet<ScheduleTask> ScheduleTasks { get; set; }
+    public virtual DbSet<SearchTerm> SearchTerms { get; set; }
+    public virtual DbSet<Setting> Settings { get; set; }
+    public virtual DbSet<Shipment> Shipments { get; set; }
+    public virtual DbSet<ShipmentItem> ShipmentItems { get; set; }
+    public virtual DbSet<ShippingByWeightByTotalRecord> ShippingByWeightByTotalRecords { get; set; }
+    public virtual DbSet<ShippingMethod> ShippingMethods { get; set; }
+    public virtual DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
+    public virtual DbSet<SpecificationAttribute> SpecificationAttributes { get; set; }
+    public virtual DbSet<SpecificationAttributeGroup> SpecificationAttributeGroups { get; set; }
+    public virtual DbSet<SpecificationAttributeOption> SpecificationAttributeOptions { get; set; }
+    public virtual DbSet<StockQuantityHistory> StockQuantityHistories { get; set; }
+    public virtual DbSet<Store> Stores { get; set; }
+    public virtual DbSet<StoreMapping> StoreMappings { get; set; }
+    public virtual DbSet<StorePickupPoint> StorePickupPoints { get; set; }
+    public virtual DbSet<TaxRate> TaxRates { get; set; }
+    public virtual DbSet<TaxTransactionLog> TaxTransactionLogs { get; set; }
     public virtual DbSet<Topic> Topics { get; set; }
-
     public virtual DbSet<TopicTemplate> TopicTemplates { get; set; }
-
     public virtual DbSet<UrlRecord> UrlRecords { get; set; }
-
     public virtual DbSet<Vendor> Vendors { get; set; }
-
     public virtual DbSet<VendorAttribute> VendorAttributes { get; set; }
-
     public virtual DbSet<VendorAttributeValue> VendorAttributeValues { get; set; }
-
     public virtual DbSet<VendorNote> VendorNotes { get; set; }
-
     public virtual DbSet<Video> Videos { get; set; }
-
     public virtual DbSet<Warehouse> Warehouses { get; set; }
-
     public virtual DbSet<ZettleRecord> ZettleRecords { get; set; }
+    #endregion
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -271,7 +153,7 @@ public partial class NopCommerceContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // usable
+        #region Usable configuration
         new AddressConfiguration().Configure(modelBuilder.Entity<Address>());
         new CountryConfiguration().Configure(modelBuilder.Entity<Country>());
         new CurrencyConfiguration().Configure(modelBuilder.Entity<Currency>());
@@ -281,9 +163,11 @@ public partial class NopCommerceContext : DbContext
         new TaxCategoryConfiguration().Configure(modelBuilder.Entity<TaxCategory>());
         new TierPriceConfiguration().Configure(modelBuilder.Entity<TierPrice>());
         new AddressAttributeConfiguration().Configure(modelBuilder.Entity<AddressAttribute>());
+        new CustomerPasswordConfiguration().Configure(modelBuilder.Entity<CustomerPassword>());
+        new LanguageConfiguration().Configure(modelBuilder.Entity<Language>());
+        #endregion
 
-
-        // not usable
+        #region Not usable configuration
         modelBuilder.Entity<AclRecord>(entity =>
         {
             entity.ToTable("AclRecord");
@@ -518,18 +402,7 @@ public partial class NopCommerceContext : DbContext
                 .HasConstraintName("FK_CustomerAttributeValue_CustomerAttributeId_CustomerAttribute_Id");
         });
 
-        modelBuilder.Entity<CustomerPassword>(entity =>
-        {
-            entity.ToTable("CustomerPassword");
-
-            entity.HasIndex(e => e.CustomerId, "IX_CustomerPassword_CustomerId");
-
-            entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
-
-            entity.HasOne(d => d.Customer).WithMany(p => p.CustomerPasswords)
-                .HasForeignKey(d => d.CustomerId)
-                .HasConstraintName("FK_CustomerPassword_CustomerId_Customer_Id");
-        });
+            
 
         modelBuilder.Entity<DeliveryDate>(entity =>
         {
@@ -871,18 +744,6 @@ public partial class NopCommerceContext : DbContext
         modelBuilder.Entity<GoogleAuthenticatorRecord>(entity =>
         {
             entity.ToTable("GoogleAuthenticatorRecord");
-        });
-
-        modelBuilder.Entity<Language>(entity =>
-        {
-            entity.ToTable("Language");
-
-            entity.HasIndex(e => e.DisplayOrder, "IX_Language_DisplayOrder");
-
-            entity.Property(e => e.FlagImageFileName).HasMaxLength(50);
-            entity.Property(e => e.LanguageCulture).HasMaxLength(20);
-            entity.Property(e => e.Name).HasMaxLength(100);
-            entity.Property(e => e.UniqueSeoCode).HasMaxLength(2);
         });
 
         modelBuilder.Entity<LocaleStringResource>(entity =>
@@ -2026,6 +1887,7 @@ public partial class NopCommerceContext : DbContext
 
             entity.Property(e => e.UpdatedOnUtc).HasPrecision(6);
         });
+        #endregion
 
         OnModelCreatingPartial(modelBuilder);
     }

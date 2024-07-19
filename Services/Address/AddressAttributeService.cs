@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using nopCommerceApi.Entities;
+using nopCommerceApi.Entities.Usable;
 using nopCommerceApi.Models.Address;
 
 namespace nopCommerceApi.Services

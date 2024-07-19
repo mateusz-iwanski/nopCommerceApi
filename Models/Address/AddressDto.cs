@@ -1,12 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using nopCommerceApi.Entities;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Xml;
-using nopCommerceApi.Entities;
 using Microsoft.Extensions.Primitives;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
+using nopCommerceApi.Entities.Usable;
 
 namespace nopCommerceApi.Models.Address
 {
@@ -69,7 +68,7 @@ namespace nopCommerceApi.Models.Address
             }
         }
 
-        public static bool IsEnterpriseAddress(nopCommerceApi.Entities.Address address, DbSet<AddressAttribute> addressAtributeDbSet)
+        public static bool IsEnterpriseAddress(Entities.Usable.Address address, DbSet<AddressAttribute> addressAtributeDbSet)
         {
             string xmlString = address.CustomAttributes;
 

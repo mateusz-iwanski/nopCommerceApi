@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using nopCommerceApi.Entities;
+using nopCommerceApi.Entities.Usable;
 using nopCommerceApi.Models;
 using nopCommerceApi.Services.Customer;
 

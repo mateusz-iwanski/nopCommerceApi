@@ -1,4 +1,5 @@
 ﻿using nopCommerceApi.Entities;
+using nopCommerceApi.Entities.Usable;
 using nopCommerceApi.Models;
 
 namespace nopCommerceApi.Seeder

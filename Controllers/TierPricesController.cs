@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using nopCommerceApi.Entities;
 using nopCommerceApi.Models;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using nopCommerceApi.Services;
 using Microsoft.AspNetCore.Authorization;
+using nopCommerceApi.Entities.Usable;
 
 namespace nopCommerceApi.Controllers
 {

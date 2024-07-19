@@ -3,6 +3,7 @@ using Azure.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
+using nopCommerceApi.Entities.Usable;
 using nopCommerceApi.Models.Address;
 using nopCommerceApi.Validations;
 using System.Text.Json;

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
+using nopCommerceApi.Entities.Usable;
 
 namespace nopCommerceApi.Seeder
 {
