@@ -93,7 +93,7 @@ namespace nopCommerceApi.Services.Customer
             }
             else
             {
-                throw new BadRequestException("This address or customer does not exists.");
+                throw new NotFoundExceptions("This address or customer does not exists.");
             }
 
             return true;
