@@ -12,6 +12,7 @@ namespace nopCommerceApi.Models.Customer
         private bool _isSystemAccount = false; // we create customer so is not system account
 
         public string Username { get; set; }
+        public string Password { get; set; }
 
         [EmailAddress]
         public string Email { get; set; }
