@@ -38,5 +38,22 @@ namespace nopCommerceApi.Config
         /// </summary>
         [Option(Alias = "AuthenticationUsersAccountList.FilePath")]
         string UsersFilePath { get; }
+
+        [Option(Alias = "CustomerPassword.Format")]
+        string CustomerPasswordFormat { get; }
+
+        [Option(Alias = "CustomerPassword.EncryptionKeyLength")]
+        int PasswordEncryptionKeyLength { get; }
+
+        [Option(Alias = "CustomerPassword.HoneypotInputName")]
+        string HoneypotInputName { get; }
+
+        [Option(Alias = "CustomerPassword.PasswordFormat")]
+        int PasswordFormat { get; }
+
+        [Option(Alias = "CustomerPassword.PasswordSaltKeySize")]
+        int PasswordSaltKeySize { get; }
+
+
     }
 }
