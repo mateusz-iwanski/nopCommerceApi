@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
@@ -90,6 +91,8 @@ namespace nopCommerceApi.Services
 
             // If the additional attribute does not exist, create it
             // NopCommerce default doesn't have NIP field in address
+
+            // TODO: Add AddressAttribute to the seeder
             if (addressAttribute == null)
             {
                 addressAttribute = new AddressAttribute
