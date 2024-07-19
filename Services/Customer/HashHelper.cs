@@ -2,7 +2,7 @@
 
 namespace nopCommerceApi.Services.Customer
 {
-    public class HasHelper
+    public class HashHelper
     {
         /// <summary>
         /// Create a data hash
