@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using nopCommerceApi.Entities.Usable;
 
-namespace nopCommerceApi.Entities;
+namespace nopCommerceApi.Entities.Usable;
 
 public partial class Product
 {
