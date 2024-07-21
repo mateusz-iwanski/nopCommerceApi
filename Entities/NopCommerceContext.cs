@@ -15,6 +15,7 @@ public partial class NopCommerceContext : DbContext
         : base(options) {}
 
     #region Usable entities
+
     public virtual DbSet<Address> Addresses { get; set; }
     public virtual DbSet<Country> Countries { get; set; }
     public virtual DbSet<Currency> Currencies { get; set; }
@@ -26,6 +27,9 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<AddressAttribute> AddressAttributes { get; set; }
     public virtual DbSet<CustomerPassword> CustomerPasswords { get; set; }
     public virtual DbSet<Language> Languages { get; set; }
+    public virtual DbSet<Product> Products { get; set; }
+    public virtual DbSet<ProductTag> ProductTags { get; set; }
+
     #endregion
 
 
@@ -89,8 +93,7 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<Poll> Polls { get; set; }
     public virtual DbSet<PollAnswer> PollAnswers { get; set; }
     public virtual DbSet<PollVotingRecord> PollVotingRecords { get; set; }
-    public virtual DbSet<PredefinedProductAttributeValue> PredefinedProductAttributeValues { get; set; }
-    public virtual DbSet<Product> Products { get; set; }
+    public virtual DbSet<PredefinedProductAttributeValue> PredefinedProductAttributeValues { get; set; }    
     public virtual DbSet<ProductAttribute> ProductAttributes { get; set; }
     public virtual DbSet<ProductAttributeCombination> ProductAttributeCombinations { get; set; }
     public virtual DbSet<ProductAttributeCombinationPicture> ProductAttributeCombinationPictures { get; set; }
@@ -105,7 +108,6 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<ProductReviewHelpfulness> ProductReviewHelpfulnesses { get; set; }
     public virtual DbSet<ProductReviewReviewTypeMapping> ProductReviewReviewTypeMappings { get; set; }
     public virtual DbSet<ProductSpecificationAttributeMapping> ProductSpecificationAttributeMappings { get; set; }
-    public virtual DbSet<ProductTag> ProductTags { get; set; }
     public virtual DbSet<ProductTemplate> ProductTemplates { get; set; }
     public virtual DbSet<ProductVideo> ProductVideos { get; set; }
     public virtual DbSet<ProductWarehouseInventory> ProductWarehouseInventories { get; set; }
@@ -165,6 +167,9 @@ public partial class NopCommerceContext : DbContext
         new AddressAttributeConfiguration().Configure(modelBuilder.Entity<AddressAttribute>());
         new CustomerPasswordConfiguration().Configure(modelBuilder.Entity<CustomerPassword>());
         new LanguageConfiguration().Configure(modelBuilder.Entity<Language>());
+        new ProductConfiguration().Configure(modelBuilder.Entity<Product>());
+        new ProductTagConfiguration().Configure(modelBuilder.Entity<ProductTag>());
+
         #endregion
 
         #region Not usable configuration
@@ -1112,82 +1117,7 @@ public partial class NopCommerceContext : DbContext
                 .HasConstraintName("FK_PredefinedProductAttributeValue_ProductAttributeId_ProductAttribute_Id");
         });
 
-        modelBuilder.Entity<Product>(entity =>
-        {
-            entity.ToTable("Product");
-
-            entity.HasIndex(e => new { e.Deleted, e.VendorId, e.ProductTypeId, e.ManageInventoryMethodId, e.MinStockQuantity, e.UseMultipleWarehouses }, "IX_GetLowStockProducts");
-
-            entity.HasIndex(e => new { e.Deleted, e.Id }, "IX_Product_Delete_Id");
-
-            entity.HasIndex(e => new { e.Published, e.Deleted }, "IX_Product_Deleted_and_Published");
-
-            entity.HasIndex(e => e.LimitedToStores, "IX_Product_LimitedToStores");
-
-            entity.HasIndex(e => e.Name, "IX_Product_Name");
-
-            entity.HasIndex(e => e.ParentGroupedProductId, "IX_Product_ParentGroupedProductId");
-
-            entity.HasIndex(e => new { e.Price, e.AvailableStartDateTimeUtc, e.AvailableEndDateTimeUtc, e.Published, e.Deleted }, "IX_Product_PriceDatesEtc");
-
-            entity.HasIndex(e => e.Published, "IX_Product_Published");
-
-            entity.HasIndex(e => e.ShowOnHomepage, "IX_Product_ShowOnHomepage");
-
-            entity.HasIndex(e => e.SubjectToAcl, "IX_Product_SubjectToAcl");
-
-            entity.HasIndex(e => e.VisibleIndividually, "IX_Product_VisibleIndividually");
-
-            entity.HasIndex(e => new { e.VisibleIndividually, e.Published, e.Deleted }, "IX_Product_VisibleIndividually_Published_Deleted_Extended");
-
-            entity.Property(e => e.AdditionalShippingCharge).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.AllowedQuantities).HasMaxLength(1000);
-            entity.Property(e => e.AvailableEndDateTimeUtc).HasPrecision(6);
-            entity.Property(e => e.AvailableStartDateTimeUtc).HasPrecision(6);
-            entity.Property(e => e.BasepriceAmount).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.BasepriceBaseAmount).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
-            entity.Property(e => e.Gtin).HasMaxLength(400);
-            entity.Property(e => e.Height).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.Length).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.ManufacturerPartNumber).HasMaxLength(400);
-            entity.Property(e => e.MarkAsNewEndDateTimeUtc).HasPrecision(6);
-            entity.Property(e => e.MarkAsNewStartDateTimeUtc).HasPrecision(6);
-            entity.Property(e => e.MaximumCustomerEnteredPrice).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.MetaKeywords).HasMaxLength(400);
-            entity.Property(e => e.MetaTitle).HasMaxLength(400);
-            entity.Property(e => e.MinimumCustomerEnteredPrice).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.Name).HasMaxLength(400);
-            entity.Property(e => e.OldPrice).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.OverriddenGiftCardAmount).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.PreOrderAvailabilityStartDateTimeUtc).HasPrecision(6);
-            entity.Property(e => e.Price).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.ProductCost).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.RequiredProductIds).HasMaxLength(1000);
-            entity.Property(e => e.Sku).HasMaxLength(400);
-            entity.Property(e => e.UpdatedOnUtc).HasPrecision(6);
-            entity.Property(e => e.Weight).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.Width).HasColumnType("decimal(18, 4)");
-
-            entity.HasMany(d => d.ProductTags).WithMany(p => p.Products)
-                .UsingEntity<Dictionary<string, object>>(
-                    "ProductProductTagMapping",
-                    r => r.HasOne<ProductTag>().WithMany()
-                        .HasForeignKey("ProductTagId")
-                        .HasConstraintName("FK_Product_ProductTag_Mapping_ProductTag_Id_ProductTag_Id"),
-                    l => l.HasOne<Product>().WithMany()
-                        .HasForeignKey("ProductId")
-                        .HasConstraintName("FK_Product_ProductTag_Mapping_Product_Id_Product_Id"),
-                    j =>
-                    {
-                        j.HasKey("ProductId", "ProductTagId");
-                        j.ToTable("Product_ProductTag_Mapping");
-                        j.HasIndex(new[] { "ProductTagId" }, "IX_Product_ProductTag_Mapping_ProductTag_Id");
-                        j.HasIndex(new[] { "ProductId" }, "IX_Product_ProductTag_Mapping_Product_Id");
-                        j.IndexerProperty<int>("ProductId").HasColumnName("Product_Id");
-                        j.IndexerProperty<int>("ProductTagId").HasColumnName("ProductTag_Id");
-                    });
-        });
+        
 
         modelBuilder.Entity<ProductAttribute>(entity =>
         {
@@ -1414,15 +1344,6 @@ public partial class NopCommerceContext : DbContext
             entity.HasOne(d => d.SpecificationAttributeOption).WithMany(p => p.ProductSpecificationAttributeMappings)
                 .HasForeignKey(d => d.SpecificationAttributeOptionId)
                 .HasConstraintName("FK_Product_SpecificationAttribute_Mapping_SpecificationAttributeOptionId_SpecificationAttributeOption_Id");
-        });
-
-        modelBuilder.Entity<ProductTag>(entity =>
-        {
-            entity.ToTable("ProductTag");
-
-            entity.HasIndex(e => e.Name, "IX_ProductTag_Name");
-
-            entity.Property(e => e.Name).HasMaxLength(400);
         });
 
         modelBuilder.Entity<ProductTemplate>(entity =>
