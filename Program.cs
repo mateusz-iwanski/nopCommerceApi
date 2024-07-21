@@ -20,6 +20,7 @@ using System.Text;
 using Microsoft.OpenApi.Models;
 using nopCommerceApi.Services.Customer;
 using nopCommerceApi.Seeder;
+using nopCommerceApi.Services.Product;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -63,6 +64,8 @@ builder.Services.AddScoped<ITierPriceService, TierPriceService>();
 builder.Services.AddScoped<IAddressAttributeService, AddressAttributeService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<ICustomerRoleService, CustomerRoleService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+
 
 // Configure services for api user controllers
 builder.Services.AddScoped<IApiUserAccountService, ApiUserAccountService>();
