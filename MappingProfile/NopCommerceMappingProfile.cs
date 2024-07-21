@@ -3,6 +3,7 @@ using nopCommerceApi.Entities.Usable;
 using nopCommerceApi.Models;
 using nopCommerceApi.Models.Address;
 using nopCommerceApi.Models.Customer;
+using nopCommerceApi.Models.Product;
 
 namespace nopCommerceApi.MappingProfile
 {
@@ -21,6 +22,11 @@ namespace nopCommerceApi.MappingProfile
             CreateMap<CustomerRole, CustomerRoleDto>();
             CreateMap<AddressAttribute, AddressAttributeDto>();
             CreateMap<TaxCategory, TaxCategoryDto>();
+
+            #region Product
+            CreateMap<Product, ProductDto>();
+            CreateMap<ProductTag, ProductTagDto>();
+            #endregion
 
             CreateMap<Address, DetailsAddressDto>()
                 .ForMember(x => x.NIP, opt => opt.MapFrom(y => AddressDto.GetValueFromCustomAttribute(y.CustomAttributes)));
