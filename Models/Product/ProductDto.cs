@@ -207,7 +207,5 @@
 
         public virtual DateTime UpdatedOnUtc { get; set; }
 
-        public virtual List<ProductPictureDto> ProductPictures { get; set; }
-
     }
 }
