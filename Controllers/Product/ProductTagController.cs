@@ -1,61 +1,88 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using nopCommerceApi.Entities.Usable;
+using nopCommerceApi.Exceptions;
 using nopCommerceApi.Models.Product;
 using nopCommerceApi.Services.Product;
 
 namespace nopCommerceApi.Controllers.Product
 {
+    [Route("api/product/tag")]
+    [ApiController]
     public class ProductTagController : ControllerBase
     {
-        private readonly IProductTagService _productService;
+        private readonly IProductTagService _productTagService;
 
         public ProductTagController(IProductTagService productService)
         {
-            _productService = productService;
+            _productTagService = productService;
         }
 
-        // GET: api/product
+        // GET: api/product/tag
         [HttpGet]
         public IEnumerable<ProductTagDto> GetAll()
         {
-            var productsDto = _productService.GetAll();
-            return productsDto;
+            var productsTagto = _productTagService.GetAll();
+            return productsTagto;
         }
-        
-        [HttpGet]
-        public IEnumerable<ProductTagDto> GetByTag(int tagId)
+
+        // GET: api/product/tag/details
+        [HttpGet("details")]
+        public IEnumerable<ProductTagDto> GetAllDetails()
         {
-            var productsDto = _productService.GetByTag(tagId);
+            var productsTagto = _productTagService.GetAllDteils();
+            return productsTagto;
+        }
+
+
+        // GET: api/product/tag/by-name/tag_name
+        [HttpGet("by-name/{name}")]
+        public IEnumerable<ProductTagDto> GetByTag(string name)
+        {
+            var productsDto = _productTagService.GetByTag(name);
             return productsDto;
         }
 
-        // GET: api/product/5
+        // GET: api/product/tag/5
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            var productDto = _productService.GetById(id);
+            var productDto = _productTagService.GetById(id);
 
             return Ok(productDto);
         }
 
-        // POST: api/product
+        // POST: api/product/tag
         [HttpPost]
-        public IActionResult Post([FromBody] string value)
+        public IActionResult Create([FromBody] CreateProductTagDto productTagDto)
         {
-            return Ok("Create a product");
+            var productTag = _productTagService.Create(productTagDto);
+            return Created($"api/product/{productTag.Id}", productTagDto);
         }
 
-        // PUT: api/product/5
+        // PUT: api/product/tag/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] string value)
+        public IActionResult Update(int id, [FromBody] UpdateProductTagDto productTagDto)
         {
+            var productTag = _productTagService.Update(id, productTagDto);
+
+            if (productTag == null)
+            {
+                throw new NotFoundExceptions($"ProductTag with id {id} not found");
+            }
+
             return Ok($"Update product by id: {id}");
         }
 
-        // DELETE: api/product/5
+        // DELETE: api/product/tag/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
+            var productTag = _productTagService.Delete(id);
+
+            if (productTag == null)
+            {
+                throw new NotFoundExceptions($"ProductTag with id {id} not found");
+            }
             return Ok($"Delete product by id: {id}");
         }
 
