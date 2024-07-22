@@ -16,16 +16,11 @@ namespace nopCommerceApi.Services
 
     public class AddressAttributeService : BaseService, IAddressAttributeService
     {
-        private readonly NopCommerceContext _context;
-        private readonly IMapper _mapper;
 
         public AddressAttributeService(
             NopCommerceContext context, IMapper mapper, ILogger<AddressAttributeService> logger
-            ) : base(logger)
-        {
-            _context = context;
-            _mapper = mapper;
-        }
+            ) : base(context, mapper, logger)
+        {}
 
         public IEnumerable<AddressAttributeDto> GetAll()
         {

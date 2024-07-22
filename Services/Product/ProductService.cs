@@ -13,7 +13,7 @@ namespace nopCommerceApi.Services.Product
 
     public class ProductService : BaseService, IProductService
     {
-        public ProductService(NopCommerceContext context, IMapper mapper, ILogger logger) : base (context, mapper, logger) { }
+        public ProductService(NopCommerceContext context, IMapper mapper, ILogger<ProductService> logger) : base (context, mapper, logger) { }
 
         public IEnumerable<ProductDto> GetAll()
         {
