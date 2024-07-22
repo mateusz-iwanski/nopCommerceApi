@@ -1,7 +1,6 @@
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Http.Json;
 using NLog.Web;
-using nopCommerceApi.Entities;
 using nopCommerceApi.Models;
 using nopCommerceApi.Models.Address;
 using nopCommerceApi.Services;
@@ -21,6 +20,7 @@ using Microsoft.OpenApi.Models;
 using nopCommerceApi.Services.Customer;
 using nopCommerceApi.Seeder;
 using nopCommerceApi.Services.Product;
+using nopCommerceApi.Entities;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -65,6 +65,7 @@ builder.Services.AddScoped<IAddressAttributeService, AddressAttributeService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<ICustomerRoleService, CustomerRoleService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IProductTagService, ProductTagService>();
 
 
 // Configure services for api user controllers
@@ -112,6 +113,12 @@ builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyCont
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UpdatePolishEnterpriseAddressDtoValidator>());
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UpdateAddressDtoValidator>());
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateBaseCustomerPLDtoValidator>());
+
+#region Product
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UpdateProductTagValidator>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateProductTagValidator>());
+#endregion
+
 
 
 //Configure bearer to Authorize client
