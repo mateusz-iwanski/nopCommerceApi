@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using nopCommerceApi.Entities.NotUsable;
 
-namespace nopCommerceApi.Entities.Usable;
+namespace nopCommerceApi.Entities.NotUsable;
 
-public partial class AddressAttribute
+public partial class VendorAttribute
 {
     public int Id { get; set; }
 
@@ -16,5 +15,5 @@ public partial class AddressAttribute
 
     public int DisplayOrder { get; set; }
 
-    public virtual ICollection<AddressAttributeValue> AddressAttributeValues { get; set; } = new List<AddressAttributeValue>();
+    public virtual ICollection<VendorAttributeValue> VendorAttributeValues { get; set; } = new List<VendorAttributeValue>();
 }
