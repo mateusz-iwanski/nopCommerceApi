@@ -1,7 +1,7 @@
 ﻿using nopCommerceApi.Entities;
 using System.Text.Json.Serialization;
 
-namespace nopCommerceApi.Models
+namespace nopCommerceApi.Models.Product
 {
     public class TierPriceDto
     {
