@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Entities.Usable;
 using nopCommerceApi.Exceptions;
@@ -8,17 +9,18 @@ namespace nopCommerceApi.Services.Product
 {
     public interface IProductTagService
     {
-        ProductTagDto Create(ProductTagDto productTagDto);
-        void Delete(int id);
+        ProductTag Create(CreateProductTagDto productTagDto);
+        bool? Delete(int id);
         IEnumerable<ProductTagDto> GetAll();
+        IEnumerable<ProductTagDetailsDto> GetAllDteils();
         ProductTagDto GetById(int id);
-        IEnumerable<ProductTagDto> GetByTag(int tagId);
-        ProductTagDto Update(int id, ProductTagDto productTagDto);
+        IEnumerable<ProductTagDto> GetByTag(string tagName);
+        bool? Update(int id, [FromBody] UpdateProductTagDto productTagDto);
     }
 
     public class ProductTagService : BaseService, IProductTagService
     {
-        public ProductTagService(NopCommerceContext context, IMapper mapper, ILogger logger)
+        public ProductTagService(NopCommerceContext context, IMapper mapper, ILogger<ProductTagService> logger)
             : base(context, mapper, logger) { }
 
         public IEnumerable<ProductTagDto> GetAll()
@@ -29,9 +31,17 @@ namespace nopCommerceApi.Services.Product
             return productTagDtos;
         }
 
-        public IEnumerable<ProductTagDto> GetByTag(int tagId)
+        public IEnumerable<ProductTagDetailsDto> GetAllDteils()
         {
-            var productTags = _context.ProductTags.Where(p => p.Id == tagId).ToList();
+            var productTags = _context.ProductTags.ToList();
+            var productTagDtos = _mapper.Map<List<ProductTagDetailsDto>>(productTags);
+
+            return productTagDtos;
+        }
+
+        public IEnumerable<ProductTagDto> GetByTag(string tagName)
+        {
+            var productTags = _context.ProductTags.Where(p => p.Name.Contains(tagName)).ToList();
             var productTagDtos = _mapper.Map<List<ProductTagDto>>(productTags);
 
             return productTagDtos;
@@ -46,42 +56,39 @@ namespace nopCommerceApi.Services.Product
             return productTagDto;
         }
 
-        public ProductTagDto Create(ProductTagDto productTagDto)
+        public ProductTag Create(CreateProductTagDto productTagDto)
         {
             var productTag = _mapper.Map<ProductTag>(productTagDto);
 
             _context.ProductTags.Add(productTag);
             _context.SaveChanges();
 
-            return productTagDto;
+            return productTag;
         }
 
-        public ProductTagDto Update(int id, ProductTagDto productTagDto)
+        public bool? Update(int id, [FromBody] UpdateProductTagDto productTagDto)
         {
             var productTag = _context.ProductTags.FirstOrDefault(p => p.Id == id);
 
-            if (productTag == null)
-            {
-                throw new NotFoundExceptions($"ProductTag with id {id} not found");
-            }
+            if (productTag == null) return null;
 
-            _mapper.Map(productTagDto, productTag);
+            productTag.Name = productTagDto.Name;
+
             _context.SaveChanges();
 
-            return productTagDto;
+            return true;
         }
 
-        public void Delete(int id)
+        public bool? Delete(int id)
         {
             var productTag = _context.ProductTags.FirstOrDefault(p => p.Id == id);
 
-            if (productTag == null)
-            {
-                throw new NotFoundExceptions($"ProductTag with id {id} not found");
-            }
+            if (productTag == null) return null;
 
             _context.ProductTags.Remove(productTag);
             _context.SaveChanges();
+
+            return true;
         }
     }
 }
