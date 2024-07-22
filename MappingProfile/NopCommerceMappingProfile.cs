@@ -24,8 +24,13 @@ namespace nopCommerceApi.MappingProfile
             CreateMap<TaxCategory, TaxCategoryDto>();
 
             #region Product
+
             CreateMap<Product, ProductDto>();
             CreateMap<ProductTag, ProductTagDto>();
+            CreateMap<ProductTag, ProductTagDetailsDto>();
+            // create
+            CreateMap<CreateProductTagDto, ProductTag>();
+
             #endregion
 
             CreateMap<Address, DetailsAddressDto>()
