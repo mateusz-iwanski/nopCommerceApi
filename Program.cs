@@ -21,6 +21,7 @@ using nopCommerceApi.Services.Customer;
 using nopCommerceApi.Seeder;
 using nopCommerceApi.Services.Product;
 using nopCommerceApi.Entities;
+using System.Reflection;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -126,18 +127,24 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo { Title = "nopApiCommerce", Version = "v1" });
 
-// Define the Bearer security scheme
-options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-{
-    Description = "JWT Authorization header using the Bearer scheme. Get token from /api/account/login and write like this: \"Bearer copied_token\"",
-    Name = "Authorization",
-    In = ParameterLocation.Header,
-    Type = SecuritySchemeType.ApiKey,
-    Scheme = "Bearer",
-});
+    // Set the comments path for the Swagger JSON and UI.
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(xmlPath);
 
-// Use the Bearer scheme globally
-options.AddSecurityRequirement(new OpenApiSecurityRequirement
+
+    // Define the Bearer security scheme
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme. Get token from /api/account/login and write like this: \"Bearer copied_token\"",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+    });
+
+    // Use the Bearer scheme globally
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
             new OpenApiSecurityScheme
