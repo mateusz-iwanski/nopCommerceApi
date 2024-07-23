@@ -1,6 +1,6 @@
 ﻿namespace nopCommerceApi.Models.Product
 {
-    public class CreateProductTagDto : BaseDto
+    public class ProductTagCreateDto : BaseDto
     {
         public virtual string Name { get; set; }
     }

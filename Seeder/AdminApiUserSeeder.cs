@@ -33,7 +33,7 @@ namespace nopCommerceApi.Seeder
         private void registerAdminUser()
         {
             _apiUserAccountService.RegisterUser(
-                new RegisterApiUserDto
+                new ApiUserRegisterDto
                 {
                     Name = _adminName,
                     Email = _adminEmail,

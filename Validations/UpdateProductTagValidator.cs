@@ -4,7 +4,7 @@ using nopCommerceApi.Models.Product;
 
 namespace nopCommerceApi.Validations
 {
-    public class UpdateProductTagValidator : BaseValidator<UpdateProductTagDto>
+    public class UpdateProductTagValidator : BaseValidator<ProductTagUpdateDto>
     {
         public UpdateProductTagValidator(NopCommerceContext context)
         {

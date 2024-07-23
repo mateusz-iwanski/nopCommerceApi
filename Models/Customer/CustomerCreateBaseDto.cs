@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace nopCommerceApi.Models.Customer
 {
-    public class CreateBaseCustomerDto : BaseDto //:CustomerDto
+    public class CustomerCreateBaseDto : BaseDto //:CustomerDto
     {
         private bool _isTaxExempt = false; // every PL customer is not tax exempt
         private int _vendorId = 0; // disable multi-vendor option

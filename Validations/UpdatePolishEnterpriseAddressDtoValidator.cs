@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace nopCommerceApi.Validations
 {
-    public class UpdatePolishEnterpriseAddressDtoValidator : BaseValidator<UpdatePolishEnterpriseAddressDto>
+    public class UpdatePolishEnterpriseAddressDtoValidator : BaseValidator<AddressUpdatePolishEnterpriseDto>
     {
         private readonly NopCommerceContext _context;
 

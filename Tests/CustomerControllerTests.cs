@@ -61,10 +61,10 @@ namespace Tests
 
         #region CreateWithNipPl
         [Theory]
-        [JsonFileData("Data/CustomerBasePL_Valid_Create_ControllerTest.json", typeof(CreateBaseCustomerDto))]
-        public void CreateBasePL_ValidData_ReturnsHttpStatusCodeOk(CreateBaseCustomerDto addressDto)
+        [JsonFileData("Data/CustomerBasePL_Valid_Create_ControllerTest.json", typeof(CustomerCreateBaseDto))]
+        public void CreateBasePL_ValidData_ReturnsHttpStatusCodeOk(CustomerCreateBaseDto addressDto)
         {
-            _customerServiceMock.Setup(x => x.CreateBasePL(It.IsAny<CreateBaseCustomerDto>()))
+            _customerServiceMock.Setup(x => x.CreateBasePL(It.IsAny<CustomerCreateBaseDto>()))
                                .Returns(JsonSerializer.Serialize(new Customer { Id = 1 }));
 
             // Act
@@ -76,8 +76,8 @@ namespace Tests
         }
 
         [Theory]
-        [JsonFileData("Data/CustomerBasePL_Invalid_Create_ControllerTest.json", typeof(CreateBaseCustomerDto))]
-        public async void CreateBasePL_InvalidData_ReturnsBadRequestResult(CreateBaseCustomerDto addressDto)
+        [JsonFileData("Data/CustomerBasePL_Invalid_Create_ControllerTest.json", typeof(CustomerCreateBaseDto))]
+        public async void CreateBasePL_InvalidData_ReturnsBadRequestResult(CustomerCreateBaseDto addressDto)
         {
             var httpContent = JsonSerializer.Serialize(addressDto);
             var stringContent = new StringContent(httpContent, Encoding.UTF8, "application/json");

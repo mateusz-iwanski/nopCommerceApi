@@ -29,7 +29,7 @@ namespace nopCommerceApi.Controllers.Customer
         // POST: api/customer/add-base-pl
         // Has tests
         [HttpPost("add-base-pl")]
-        public IActionResult CreateBasePL([FromBody] CreateBaseCustomerDto createCustomerDto)
+        public IActionResult CreateBasePL([FromBody] CustomerCreateBaseDto createCustomerDto)
         {
             var customer = _customerService.CreateBasePL(createCustomerDto);
             return Ok(customer);

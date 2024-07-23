@@ -1,5 +1,6 @@
 ﻿using nopCommerceApi.Entities;
 using nopCommerceApi.Entities.NotUsable;
+using nopCommerceApi.Entities.Usable;
 using nopCommerceApi.Exceptions;
 using nopCommerceApi.Services;
 

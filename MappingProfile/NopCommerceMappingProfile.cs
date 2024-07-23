@@ -29,7 +29,7 @@ namespace nopCommerceApi.MappingProfile
             CreateMap<ProductTag, ProductTagDetailsDto>();
             
             // create product
-            CreateMap<CreateProductTagDto, ProductTag>();
+            CreateMap<ProductTagCreateDto, ProductTag>();
             
             // tier price
             CreateMap<TierPrice, TierPriceDto>();
@@ -37,10 +37,10 @@ namespace nopCommerceApi.MappingProfile
 
             #endregion
 
-            CreateMap<Address, DetailsAddressDto>()
+            CreateMap<Address, AddressDetailsDto>()
                 .ForMember(x => x.NIP, opt => opt.MapFrom(y => AddressDto.GetValueFromCustomAttribute(y.CustomAttributes)));
 
-            CreateMap<CreateBaseCustomerDto, Customer>()
+            CreateMap<CustomerCreateBaseDto, Customer>()
                 .ForMember(x => x.Email, opt => opt.MapFrom(y => y.Email.Trim()))
                 .ForMember(x => x.Username, opt => opt.MapFrom(y => y.Username.Trim()))
                 .ForMember(x => x.FirstName, opt => opt.MapFrom(y => y.FirstName.Trim()))
@@ -53,7 +53,7 @@ namespace nopCommerceApi.MappingProfile
                 .ForMember(x => x.County, opt => opt.MapFrom(y => y.County.Trim()))
                 .ForMember(x => x.Phone, opt => opt.MapFrom(y => y.Phone.Trim()));
 
-            CreateMap<CreatePolishEnterpriseAddressDto, Address>()
+            CreateMap<AddressCreatePolishEnterpriseDto, Address>()
                 .ForMember(x => x.FirstName, opt => opt.MapFrom(y => y.FirstName.Trim()))
                 .ForMember(x => x.LastName, opt => opt.MapFrom(y => y.LastName.Trim()))
                 .ForMember(x => x.Email, opt => opt.MapFrom(y => y.Email.Trim()))
@@ -65,7 +65,7 @@ namespace nopCommerceApi.MappingProfile
                 .ForMember(x => x.ZipPostalCode, opt => opt.MapFrom(y => y.ZipPostalCode.Trim()))
                 .ForMember(x => x.PhoneNumber, opt => opt.MapFrom(y => y.PhoneNumber.Trim()));
 
-            CreateMap<UpdatePolishEnterpriseAddressDto, Address>()
+            CreateMap<AddressUpdatePolishEnterpriseDto, Address>()
                 .ForMember(x => x.FirstName, opt => opt.MapFrom(y => y.FirstName.Trim()))
                 .ForMember(x => x.LastName, opt => opt.MapFrom(y => y.LastName.Trim()))
                 .ForMember(x => x.Email, opt => opt.MapFrom(y => y.Email.Trim()))
@@ -77,7 +77,7 @@ namespace nopCommerceApi.MappingProfile
                 .ForMember(x => x.ZipPostalCode, opt => opt.MapFrom(y => y.ZipPostalCode.Trim()))
                 .ForMember(x => x.PhoneNumber, opt => opt.MapFrom(y => y.PhoneNumber.Trim()));
 
-            CreateMap<CreatePolishUserAddressDto, Address>()
+            CreateMap<AddressCreatePolishUserDto, Address>()
                 .ForMember(x => x.FirstName, opt => opt.MapFrom(y => y.FirstName.Trim()))
                 .ForMember(x => x.LastName, opt => opt.MapFrom(y => y.LastName.Trim()))
                 .ForMember(x => x.Email, opt => opt.MapFrom(y => y.Email.Trim()))
@@ -89,7 +89,7 @@ namespace nopCommerceApi.MappingProfile
                 .ForMember(x => x.ZipPostalCode, opt => opt.MapFrom(y => y.ZipPostalCode.Trim()))
                 .ForMember(x => x.PhoneNumber, opt => opt.MapFrom(y => y.PhoneNumber.Trim()));
 
-            CreateMap<UpdateAddressDto, Address>()
+            CreateMap<AddressUpdateDto, Address>()
                 .ForMember(x => x.FirstName, opt => opt.MapFrom(y => y.FirstName.Trim()))
                 .ForMember(x => x.LastName, opt => opt.MapFrom(y => y.LastName.Trim()))
                 .ForMember(x => x.Email, opt => opt.MapFrom(y => y.Email.Trim()))
@@ -101,7 +101,7 @@ namespace nopCommerceApi.MappingProfile
                 .ForMember(x => x.ZipPostalCode, opt => opt.MapFrom(y => y.ZipPostalCode.Trim()))
                 .ForMember(x => x.PhoneNumber, opt => opt.MapFrom(y => y.PhoneNumber.Trim()));
 
-            CreateMap<CreateAddressDto, Address>()
+            CreateMap<AddressCreateDto, Address>()
                 .ForMember(x => x.FirstName, opt => opt.MapFrom(y => y.FirstName.Trim()))
                 .ForMember(x => x.LastName, opt => opt.MapFrom(y => y.LastName.Trim()))
                 .ForMember(x => x.Email, opt => opt.MapFrom(y => y.Email.Trim()))

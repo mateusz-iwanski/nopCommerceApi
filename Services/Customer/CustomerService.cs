@@ -17,7 +17,7 @@ namespace nopCommerceApi.Services.Customer
     public interface ICustomerService
     {
         IEnumerable<CustomerDto> GetAll();
-        string CreateBasePL(CreateBaseCustomerDto createCustomerDto);
+        string CreateBasePL(CustomerCreateBaseDto createCustomerDto);
         bool ConnectToAddress(Guid customerGuid, int addressId);
     }
 
@@ -56,7 +56,7 @@ namespace nopCommerceApi.Services.Customer
         /// </summary>
         /// <param name="createCustomerDto"></param>
         /// <returns></returns>
-        public string CreateBasePL(CreateBaseCustomerDto createCustomerDto)
+        public string CreateBasePL(CustomerCreateBaseDto createCustomerDto)
         {
             var customer = _mapper.Map<Entities.Usable.Customer>(createCustomerDto);
 

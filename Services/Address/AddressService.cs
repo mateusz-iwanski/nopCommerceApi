@@ -35,13 +35,13 @@ namespace nopCommerceApi.Services
 
     public interface IAddressService
     {
-        IEnumerable<DetailsAddressDto> GetAll();
-        Address CreateWithNip(CreatePolishEnterpriseAddressDto newAdressDto);
-        bool? UpdateWithNip(int id, UpdatePolishEnterpriseAddressDto updateAddressDto);
-        Address Create(CreateAddressDto addressDto);
+        IEnumerable<AddressDetailsDto> GetAll();
+        Address CreateWithNip(AddressCreatePolishEnterpriseDto newAdressDto);
+        bool? UpdateWithNip(int id, AddressUpdatePolishEnterpriseDto updateAddressDto);
+        Address Create(AddressCreateDto addressDto);
         bool? Delete(int id);
-        bool? Update(int id, UpdateAddressDto updateAddressDto);
-        DetailsAddressDto GetById(int id);
+        bool? Update(int id, AddressUpdateDto updateAddressDto);
+        AddressDetailsDto GetById(int id);
     }
 
     public class AddressService : IAddressService
@@ -55,24 +55,24 @@ namespace nopCommerceApi.Services
             _mapper = mapper;
         }
 
-        public IEnumerable<DetailsAddressDto> GetAll()
+        public IEnumerable<AddressDetailsDto> GetAll()
         {
             var detailsAddresses = _context.Addresses
                .Include(a => a.Country)
                .Include(a => a.StateProvince).ThenInclude(c => c.Country)
                .ToList();
-            var addressDtos = _mapper.Map<List<DetailsAddressDto>>(detailsAddresses);
+            var addressDtos = _mapper.Map<List<AddressDetailsDto>>(detailsAddresses);
 
             return addressDtos;
         }
 
-        public DetailsAddressDto GetById(int id) {             
+        public AddressDetailsDto GetById(int id) {             
             var address = _context.Addresses
                 .Include(a => a.Country)
                 .Include(a => a.StateProvince).ThenInclude(c => c.Country)
                 .FirstOrDefault(a => a.Id == id);
             
-            var addressDto = _mapper.Map<DetailsAddressDto>(address);
+            var addressDto = _mapper.Map<AddressDetailsDto>(address);
             return addressDto;
         }
 
@@ -83,7 +83,7 @@ namespace nopCommerceApi.Services
         /// Polish enterprises have an additional field NIP, nop commerce doesn't have this property default in the addrres.
         /// Nip has to be added as a custom attribute to address.
         /// </summary>
-        public Address CreateWithNip(CreatePolishEnterpriseAddressDto newAdressDto)
+        public Address CreateWithNip(AddressCreatePolishEnterpriseDto newAdressDto)
         {
             var address = _mapper.Map<Address>(newAdressDto);
             
@@ -133,7 +133,7 @@ namespace nopCommerceApi.Services
         /// If property not set in the request body, it will not be updated.
         /// Cant set empty string on: Company, City, Email, Address1, PhoneNumber. If you don't want to update, just remove from body.
         /// </summary>
-        public bool? UpdateWithNip(int id, UpdatePolishEnterpriseAddressDto updateAddressDto)
+        public bool? UpdateWithNip(int id, AddressUpdatePolishEnterpriseDto updateAddressDto)
         {
             var address = _context.Addresses
                 .Include(a => a.Country)
@@ -200,7 +200,7 @@ namespace nopCommerceApi.Services
             return true;
         }
 
-        public Address Create(CreateAddressDto addressDto)
+        public Address Create(AddressCreateDto addressDto)
         {
             var address = _mapper.Map<Address>(addressDto);
 
@@ -222,7 +222,7 @@ namespace nopCommerceApi.Services
             return true;
         }
 
-        public bool? Update(int id, UpdateAddressDto updateAddressDto)
+        public bool? Update(int id, AddressUpdateDto updateAddressDto)
         {
             var address = _context.Addresses.FirstOrDefault(a => a.Id == id);
 

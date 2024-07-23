@@ -1,6 +1,6 @@
 ﻿namespace nopCommerceApi.Models.Address
 {
-    public class UpdatePolishEnterpriseAddressDto : AddressDto
+    public class AddressUpdatePolishEnterpriseDto : AddressDto
     {
         public int Id { get; set; }
         public string Nip { get; set; }

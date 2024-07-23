@@ -101,10 +101,10 @@ namespace Tests
 
         #region CreateWithNipPl
         [Theory]
-        [JsonFileData("Data/AddressWithNipPL_Valid_Create_ControllerTests.json", typeof(CreatePolishEnterpriseAddressDto))]
-        public void CreateWithNipPl_ValidData_ReturnsCreatedResult(CreatePolishEnterpriseAddressDto addressDto)
+        [JsonFileData("Data/AddressWithNipPL_Valid_Create_ControllerTests.json", typeof(AddressCreatePolishEnterpriseDto))]
+        public void CreateWithNipPl_ValidData_ReturnsCreatedResult(AddressCreatePolishEnterpriseDto addressDto)
         {
-            _addressServiceMock.Setup(x => x.CreateWithNip(It.IsAny<CreatePolishEnterpriseAddressDto>()))
+            _addressServiceMock.Setup(x => x.CreateWithNip(It.IsAny<AddressCreatePolishEnterpriseDto>()))
                                .Returns(new Address { Id = 1 });
 
             // Act
@@ -116,8 +116,8 @@ namespace Tests
         }
 
         [Theory]
-        [JsonFileData("Data/AddressWithNipPL_InValid_Create_ControllerTests.json", typeof(CreatePolishEnterpriseAddressDto))]
-        public async Task CreateWithNipPl_InValidData_ReturnsCreatedResult(CreatePolishEnterpriseAddressDto addressDto)
+        [JsonFileData("Data/AddressWithNipPL_InValid_Create_ControllerTests.json", typeof(AddressCreatePolishEnterpriseDto))]
+        public async Task CreateWithNipPl_InValidData_ReturnsCreatedResult(AddressCreatePolishEnterpriseDto addressDto)
         {
             // Arrange
             var httpContent = addressDto.ToJsonHttpContent();
@@ -132,8 +132,8 @@ namespace Tests
 
         #region UpdateWithNip
         [Theory]
-        [JsonFileData("Data/AddressWithNipPL_Invalid_Update_ControllerTests.json", typeof(UpdatePolishEnterpriseAddressDto))]
-        public async Task UpdateWithNipPl_InvalidData_ReturnsBadRequest(UpdatePolishEnterpriseAddressDto updateAddressDto)
+        [JsonFileData("Data/AddressWithNipPL_Invalid_Update_ControllerTests.json", typeof(AddressUpdatePolishEnterpriseDto))]
+        public async Task UpdateWithNipPl_InvalidData_ReturnsBadRequest(AddressUpdatePolishEnterpriseDto updateAddressDto)
         {
             // Arrange
             var httpContent = JsonSerializer.Serialize(updateAddressDto);
@@ -147,8 +147,8 @@ namespace Tests
         }
 
         [Theory]
-        [JsonFileData("Data/AddressWithNipPL_Valid_Update_ControllerTests.json", typeof(UpdatePolishEnterpriseAddressDto))]
-        public async Task UpdateWithNipPl_ValidData_ReturnsOkRequest(UpdatePolishEnterpriseAddressDto updateAddressDto)
+        [JsonFileData("Data/AddressWithNipPL_Valid_Update_ControllerTests.json", typeof(AddressUpdatePolishEnterpriseDto))]
+        public async Task UpdateWithNipPl_ValidData_ReturnsOkRequest(AddressUpdatePolishEnterpriseDto updateAddressDto)
         {
             // Arrange
             var httpContent = JsonSerializer.Serialize(updateAddressDto);
@@ -164,12 +164,12 @@ namespace Tests
 
         #region Create
         [Theory]
-        [JsonFileData("Data/Address_Valid_Create_ControllerTests.json", typeof(CreateAddressDto))]
-        public async Task Create_ValidData_ReturnsCreatedResult(CreateAddressDto createAddressDto)
+        [JsonFileData("Data/Address_Valid_Create_ControllerTests.json", typeof(AddressCreateDto))]
+        public async Task Create_ValidData_ReturnsCreatedResult(AddressCreateDto createAddressDto)
         {
             // Arrange
             var expectedAddressId = 1; // Assuming the service will set the ID of the new address to 1
-            _addressServiceMock.Setup(x => x.Create(It.IsAny<CreateAddressDto>()))
+            _addressServiceMock.Setup(x => x.Create(It.IsAny<AddressCreateDto>()))
                                .Returns(new Address { Id = expectedAddressId });
 
             // Act
@@ -181,8 +181,8 @@ namespace Tests
         }
 
         [Theory]
-        [JsonFileData("Data/Address_Invalid_Create_ControllerTests.json", typeof(CreateAddressDto))]
-        public async Task Create_InvalidData_BadRequestObjectResult(CreateAddressDto createAddressDto)
+        [JsonFileData("Data/Address_Invalid_Create_ControllerTests.json", typeof(AddressCreateDto))]
+        public async Task Create_InvalidData_BadRequestObjectResult(AddressCreateDto createAddressDto)
         {
             // Arrange
             _controller.ModelState.AddModelError("Error", "Model validation error"); // Simulate model validation failure

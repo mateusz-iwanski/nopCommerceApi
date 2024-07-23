@@ -1,6 +1,6 @@
 ﻿namespace nopCommerceApi.Models.Address
 {
-    public class CreatePolishEnterpriseAddressDto : AddressDto
+    public class AddressCreatePolishEnterpriseDto : AddressDto
     {
         public override string Company { get; set; }
         public string Nip { get; set; }

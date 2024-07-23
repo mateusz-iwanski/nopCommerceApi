@@ -53,7 +53,7 @@ namespace nopCommerceApi.Controllers.Product
 
         // POST: api/product/tag
         [HttpPost]
-        public IActionResult Create([FromBody] CreateProductTagDto productTagDto)
+        public IActionResult Create([FromBody] ProductTagCreateDto productTagDto)
         {
             var productTag = _productTagService.Create(productTagDto);
             return Created($"api/product/{productTag.Id}", productTagDto);
@@ -61,7 +61,7 @@ namespace nopCommerceApi.Controllers.Product
 
         // PUT: api/product/tag/5
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] UpdateProductTagDto productTagDto)
+        public IActionResult Update(int id, [FromBody] ProductTagUpdateDto productTagDto)
         {
             var productTag = _productTagService.Update(id, productTagDto);
 

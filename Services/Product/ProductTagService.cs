@@ -9,13 +9,13 @@ namespace nopCommerceApi.Services.Product
 {
     public interface IProductTagService
     {
-        ProductTag Create(CreateProductTagDto productTagDto);
+        ProductTag Create(ProductTagCreateDto productTagDto);
         bool? Delete(int id);
         IEnumerable<ProductTagDto> GetAll();
         IEnumerable<ProductTagDetailsDto> GetAllDteils();
         ProductTagDto GetById(int id);
         IEnumerable<ProductTagDto> GetByTag(string tagName);
-        bool? Update(int id, [FromBody] UpdateProductTagDto productTagDto);
+        bool? Update(int id, [FromBody] ProductTagUpdateDto productTagDto);
     }
 
     public class ProductTagService : BaseService, IProductTagService
@@ -56,7 +56,7 @@ namespace nopCommerceApi.Services.Product
             return productTagDto;
         }
 
-        public ProductTag Create(CreateProductTagDto productTagDto)
+        public ProductTag Create(ProductTagCreateDto productTagDto)
         {
             var productTag = _mapper.Map<ProductTag>(productTagDto);
 
@@ -66,7 +66,7 @@ namespace nopCommerceApi.Services.Product
             return productTag;
         }
 
-        public bool? Update(int id, [FromBody] UpdateProductTagDto productTagDto)
+        public bool? Update(int id, [FromBody] ProductTagUpdateDto productTagDto)
         {
             var productTag = _context.ProductTags.FirstOrDefault(p => p.Id == id);
 

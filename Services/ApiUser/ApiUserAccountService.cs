@@ -17,8 +17,8 @@ namespace nopCommerceApi.Services.User
 {
     public interface IApiUserAccountService
     {
-        void RegisterUser(RegisterApiUserDto registerUserDto);
-        string GenerateJwt(LoginApiUserDto loginDto);
+        void RegisterUser(ApiUserRegisterDto registerUserDto);
+        string GenerateJwt(ApiUserLoginDto loginDto);
     }
 
     /// <summary>
@@ -42,7 +42,7 @@ namespace nopCommerceApi.Services.User
         /// <summary>
         /// Saving the user from DTO to the json file
         /// </summary>
-        public void RegisterUser(RegisterApiUserDto registerUserDto)
+        public void RegisterUser(ApiUserRegisterDto registerUserDto)
         {
             // Create a new user
             var user = new ApiUserDto(name: registerUserDto.Name, email: registerUserDto.Email, passwordHash: registerUserDto.PasswordHash, roleName: registerUserDto.Role);
@@ -79,7 +79,7 @@ namespace nopCommerceApi.Services.User
         /// <summary>
         /// JWT generation for the user authentication
         /// </summary>
-        public string GenerateJwt(LoginApiUserDto loginDto)
+        public string GenerateJwt(ApiUserLoginDto loginDto)
         {
             var users = ApiUserService.GetUsersFromJson(_settings.UsersFilePath);
 

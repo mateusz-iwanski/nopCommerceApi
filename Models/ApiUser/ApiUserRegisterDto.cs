@@ -7,7 +7,7 @@ namespace nopCommerceApi.Models.User
     /// <summary>
     /// Dto class for registering a new user
     /// </summary>
-    public class RegisterApiUserDto : BaseDto
+    public class ApiUserRegisterDto : BaseDto
     {
         public string Name { get; set; }
         [EmailAddress]

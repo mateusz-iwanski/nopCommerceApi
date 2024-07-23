@@ -24,7 +24,7 @@ namespace nopCommerceApi.Controllers.Address
         // Has tests
         [HttpGet]
         [Authorize(Roles = "Admin,User,Viewer")]
-        public ActionResult<DetailsAddressDto> GetAll()
+        public ActionResult<AddressDetailsDto> GetAll()
         {
             var adressesDtos = _addressService.GetAll();
 
@@ -34,7 +34,7 @@ namespace nopCommerceApi.Controllers.Address
         // Has tests
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin,User,Viewer")]
-        public ActionResult<DetailsAddressDto> GetById([FromRoute] int id)
+        public ActionResult<AddressDetailsDto> GetById([FromRoute] int id)
         {
             var address = _addressService.GetById(id) ?? throw new NotFoundExceptions($"Adress with ID {id} not found.");
             return Ok(address);
@@ -60,7 +60,7 @@ namespace nopCommerceApi.Controllers.Address
         /// </summary>
         [HttpPost("add-with-nip")]
         [Authorize(Roles = "Admin,User")]
-        public ActionResult CreateWithNipPl([FromBody] CreatePolishEnterpriseAddressDto createAddressDto)
+        public ActionResult CreateWithNipPl([FromBody] AddressCreatePolishEnterpriseDto createAddressDto)
         {
             if (!ModelState.IsValid)
             {
@@ -80,7 +80,7 @@ namespace nopCommerceApi.Controllers.Address
         /// </summary>
         [Authorize(Roles = "Admin,User")]
         [HttpPut("update-with-nip/{id}")]
-        public ActionResult UpdateWithNip(int id, [FromBody] UpdatePolishEnterpriseAddressDto updateAddressDto)
+        public ActionResult UpdateWithNip(int id, [FromBody] AddressUpdatePolishEnterpriseDto updateAddressDto)
         {
             updateAddressDto.Id = id;
 
@@ -109,7 +109,7 @@ namespace nopCommerceApi.Controllers.Address
         /// <returns></returns>
         [HttpPost("add")]
         [Authorize(Roles = "Admin,User")]
-        public ActionResult Create([FromBody] CreateAddressDto createAddressDto)
+        public ActionResult Create([FromBody] AddressCreateDto createAddressDto)
         {
             if (!ModelState.IsValid)
             {
@@ -139,7 +139,7 @@ namespace nopCommerceApi.Controllers.Address
 
         [HttpPut("update/{id}")]
         [Authorize(Roles = "Admin,User")]
-        public ActionResult Update(int id, [FromBody] UpdateAddressDto updateAddressDto)
+        public ActionResult Update(int id, [FromBody] AddressUpdateDto updateAddressDto)
         {
             if (!ModelState.IsValid)
             {
