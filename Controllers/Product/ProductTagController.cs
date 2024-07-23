@@ -65,10 +65,7 @@ namespace nopCommerceApi.Controllers.Product
         {
             var productTag = _productTagService.Update(id, productTagDto);
 
-            if (productTag == null)
-            {
-                throw new NotFoundExceptions($"ProductTag with id {id} not found");
-            }
+            if (productTag == null) return NotFound();
 
             return Ok($"Update product by id: {id}");
         }
@@ -79,11 +76,9 @@ namespace nopCommerceApi.Controllers.Product
         {
             var productTag = _productTagService.Delete(id);
 
-            if (productTag == null)
-            {
-                throw new NotFoundExceptions($"ProductTag with id {id} not found");
-            }
-            return Ok($"Delete product by id: {id}");
+            if (productTag == null) return NotFound();
+            
+            return Ok(productTag);
         }
 
     }
