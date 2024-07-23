@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using nopCommerceApi.Entities.Usable;
 
 namespace nopCommerceApi.Entities.NotUsable;
 

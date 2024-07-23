@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities.Configurations;
-using nopCommerceApi.Entities.NotUsable;
 using nopCommerceApi.Entities.Usable;
 
 namespace nopCommerceApi.Entities;
@@ -17,29 +16,36 @@ public partial class NopCommerceContext : DbContext
 
     #region Usable entities
 
+    public virtual DbSet<AclRecord> AclRecords { get; set; }
     public virtual DbSet<Address> Addresses { get; set; }
+    public virtual DbSet<AddressAttribute> AddressAttributes { get; set; }
+    public virtual DbSet<Affiliate> Affiliates { get; set; }
     public virtual DbSet<Country> Countries { get; set; }
     public virtual DbSet<Currency> Currencies { get; set; }
     public virtual DbSet<Customer> Customers { get; set; }
-    public virtual DbSet<CustomerRole> CustomerRoles { get; set; }
-    public virtual DbSet<StateProvince> StateProvinces { get; set; }
-    public virtual DbSet<TaxCategory> TaxCategories { get; set; }
-    public virtual DbSet<TierPrice> TierPrices { get; set; }
-    public virtual DbSet<AddressAttribute> AddressAttributes { get; set; }
     public virtual DbSet<CustomerPassword> CustomerPasswords { get; set; }
+    public virtual DbSet<CustomerRole> CustomerRoles { get; set; }
+    public virtual DbSet<ForumsPrivateMessage> ForumsPrivateMessages { get; set; }
     public virtual DbSet<Language> Languages { get; set; }
+    public virtual DbSet<MigrationVersionInfo> MigrationVersionInfos { get; set; }
+    public virtual DbSet<Order> Orders { get; set; }
     public virtual DbSet<Product> Products { get; set; }
     public virtual DbSet<ProductTag> ProductTags { get; set; }
-
+    public virtual DbSet<ShippingMethod> ShippingMethods { get; set; }
+    public virtual DbSet<StateProvince> StateProvinces { get; set; }
+    public virtual DbSet<TaxCategory> TaxCategories { get; set; }
+    public virtual DbSet<TaxRate> TaxRates { get; set; }
+    public virtual DbSet<TierPrice> TierPrices { get; set; }
+    
     #endregion
 
 
     #region Not usable entites
-    public virtual DbSet<AclRecord> AclRecords { get; set; }
+
+    /*
     public virtual DbSet<ActivityLog> ActivityLogs { get; set; }
     public virtual DbSet<ActivityLogType> ActivityLogTypes { get; set; }
-    public virtual DbSet<AddressAttributeValue> AddressAttributeValues { get; set; }
-    public virtual DbSet<Affiliate> Affiliates { get; set; }
+    public virtual DbSet<AddressAttributeValue> AddressAttributeValues { get; set; }    
     public virtual DbSet<AvalaraItemClassification> AvalaraItemClassifications { get; set; }
     public virtual DbSet<BackInStockSubscription> BackInStockSubscriptions { get; set; }
     public virtual DbSet<BlogComment> BlogComments { get; set; }
@@ -64,7 +70,6 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<ForumsGroup> ForumsGroups { get; set; }
     public virtual DbSet<ForumsPost> ForumsPosts { get; set; }
     public virtual DbSet<ForumsPostVote> ForumsPostVotes { get; set; }
-    public virtual DbSet<ForumsPrivateMessage> ForumsPrivateMessages { get; set; }
     public virtual DbSet<ForumsSubscription> ForumsSubscriptions { get; set; }
     public virtual DbSet<ForumsTopic> ForumsTopics { get; set; }
     public virtual DbSet<GdprConsent> GdprConsents { get; set; }
@@ -81,11 +86,9 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<MeasureDimension> MeasureDimensions { get; set; }
     public virtual DbSet<MeasureWeight> MeasureWeights { get; set; }
     public virtual DbSet<MessageTemplate> MessageTemplates { get; set; }
-    public virtual DbSet<MigrationVersionInfo> MigrationVersionInfos { get; set; }
     public virtual DbSet<News> News { get; set; }
     public virtual DbSet<NewsComment> NewsComments { get; set; }
-    public virtual DbSet<NewsLetterSubscription> NewsLetterSubscriptions { get; set; }
-    public virtual DbSet<Order> Orders { get; set; }
+    public virtual DbSet<NewsLetterSubscription> NewsLetterSubscriptions { get; set; }   
     public virtual DbSet<OrderItem> OrderItems { get; set; }
     public virtual DbSet<OrderNote> OrderNotes { get; set; }
     public virtual DbSet<PermissionRecord> PermissionRecords { get; set; }
@@ -126,8 +129,7 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<Setting> Settings { get; set; }
     public virtual DbSet<Shipment> Shipments { get; set; }
     public virtual DbSet<ShipmentItem> ShipmentItems { get; set; }
-    public virtual DbSet<ShippingByWeightByTotalRecord> ShippingByWeightByTotalRecords { get; set; }
-    public virtual DbSet<ShippingMethod> ShippingMethods { get; set; }
+    public virtual DbSet<ShippingByWeightByTotalRecord> ShippingByWeightByTotalRecords { get; set; }    
     public virtual DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
     public virtual DbSet<SpecificationAttribute> SpecificationAttributes { get; set; }
     public virtual DbSet<SpecificationAttributeGroup> SpecificationAttributeGroups { get; set; }
@@ -135,8 +137,7 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<StockQuantityHistory> StockQuantityHistories { get; set; }
     public virtual DbSet<Store> Stores { get; set; }
     public virtual DbSet<StoreMapping> StoreMappings { get; set; }
-    public virtual DbSet<StorePickupPoint> StorePickupPoints { get; set; }
-    public virtual DbSet<TaxRate> TaxRates { get; set; }
+    public virtual DbSet<StorePickupPoint> StorePickupPoints { get; set; }    
     public virtual DbSet<TaxTransactionLog> TaxTransactionLogs { get; set; }
     public virtual DbSet<Topic> Topics { get; set; }
     public virtual DbSet<TopicTemplate> TopicTemplates { get; set; }
@@ -148,6 +149,8 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<Video> Videos { get; set; }
     public virtual DbSet<Warehouse> Warehouses { get; set; }
     public virtual DbSet<ZettleRecord> ZettleRecords { get; set; }
+    */
+
     #endregion
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -157,38 +160,53 @@ public partial class NopCommerceContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         #region Usable configuration
+
+        new AclRecordConfiguration().Configure(modelBuilder.Entity<AclRecord>());
+        new AddressAttributeConfiguration().Configure(modelBuilder.Entity<AddressAttribute>());
         new AddressConfiguration().Configure(modelBuilder.Entity<Address>());
+        new AffiliateConfiguration().Configure(modelBuilder.Entity<Affiliate>());
         new CountryConfiguration().Configure(modelBuilder.Entity<Country>());
         new CurrencyConfiguration().Configure(modelBuilder.Entity<Currency>());
         new CustomerConfiguration().Configure(modelBuilder.Entity<Customer>());
-        new CustomerRoleConfiguration().Configure(modelBuilder.Entity<CustomerRole>());
-        new StateProvinceConfiguration().Configure(modelBuilder.Entity<StateProvince>());
-        new TaxCategoryConfiguration().Configure(modelBuilder.Entity<TaxCategory>());
-        new TierPriceConfiguration().Configure(modelBuilder.Entity<TierPrice>());
-        new AddressAttributeConfiguration().Configure(modelBuilder.Entity<AddressAttribute>());
         new CustomerPasswordConfiguration().Configure(modelBuilder.Entity<CustomerPassword>());
+        new CustomerRoleConfiguration().Configure(modelBuilder.Entity<CustomerRole>());
+        new ForumsPrivateMessageConfiguration().Configure(modelBuilder.Entity<ForumsPrivateMessage>());
         new LanguageConfiguration().Configure(modelBuilder.Entity<Language>());
+        new MigrationVersionInfoConfiguration().Configure(modelBuilder.Entity<MigrationVersionInfo>());
+        new OrderConfiguration().Configure(modelBuilder.Entity<Order>());
         new ProductConfiguration().Configure(modelBuilder.Entity<Product>());
         new ProductTagConfiguration().Configure(modelBuilder.Entity<ProductTag>());
+        new ShippingMethodConfiguration().Configure(modelBuilder.Entity<ShippingMethod>());
+        new StateProvinceConfiguration().Configure(modelBuilder.Entity<StateProvince>());
+        new TaxRateConfiguration().Configure(modelBuilder.Entity<TaxRate>());
+        new TaxCategoryConfiguration().Configure(modelBuilder.Entity<TaxCategory>());
+        new TierPriceConfiguration().Configure(modelBuilder.Entity<TierPrice>());
 
         #endregion
 
+
         #region Not usable configuration
-        modelBuilder.Entity<AclRecord>(entity =>
+
+        /*
+        modelBuilder.Entity<Manufacturer>(entity =>
         {
-            entity.ToTable("AclRecord");
+            entity.ToTable("Manufacturer");
 
-            entity.HasIndex(e => e.CustomerRoleId, "IX_AclRecord_CustomerRoleId");
+            entity.HasIndex(e => e.DisplayOrder, "IX_Manufacturer_DisplayOrder");
 
-            entity.HasIndex(e => new { e.EntityId, e.EntityName }, "IX_AclRecord_EntityId_EntityName");
+            entity.HasIndex(e => e.LimitedToStores, "IX_Manufacturer_LimitedToStores");
 
-            entity.Property(e => e.EntityName).HasMaxLength(400);
+            entity.HasIndex(e => e.SubjectToAcl, "IX_Manufacturer_SubjectToAcl");
 
-            entity.HasOne(d => d.CustomerRole).WithMany(p => p.AclRecords)
-                .HasForeignKey(d => d.CustomerRoleId)
-                .HasConstraintName("FK_AclRecord_CustomerRoleId_CustomerRole_Id");
+            entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
+            entity.Property(e => e.MetaKeywords).HasMaxLength(400);
+            entity.Property(e => e.MetaTitle).HasMaxLength(400);
+            entity.Property(e => e.Name).HasMaxLength(400);
+            entity.Property(e => e.PageSizeOptions).HasMaxLength(200);
+            entity.Property(e => e.PriceFrom).HasColumnType("decimal(18, 4)");
+            entity.Property(e => e.PriceTo).HasColumnType("decimal(18, 4)");
+            entity.Property(e => e.UpdatedOnUtc).HasPrecision(6);
         });
-
         modelBuilder.Entity<ActivityLog>(entity =>
         {
             entity.ToTable("ActivityLog");
@@ -220,7 +238,7 @@ public partial class NopCommerceContext : DbContext
             entity.Property(e => e.SystemKeyword).HasMaxLength(100);
         });
 
-
+        
 
         modelBuilder.Entity<AddressAttributeValue>(entity =>
         {
@@ -235,17 +253,7 @@ public partial class NopCommerceContext : DbContext
                 .HasConstraintName("FK_AddressAttributeValue_AddressAttributeId_AddressAttribute_Id");
         });
 
-        modelBuilder.Entity<Affiliate>(entity =>
-        {
-            entity.ToTable("Affiliate");
-
-            entity.HasIndex(e => e.AddressId, "IX_Affiliate_AddressId");
-
-            entity.HasOne(d => d.Address).WithMany(p => p.Affiliates)
-                .HasForeignKey(d => d.AddressId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Affiliate_AddressId_Address_Id");
-        });
+        
 
         modelBuilder.Entity<AvalaraItemClassification>(entity =>
         {
@@ -624,27 +632,7 @@ public partial class NopCommerceContext : DbContext
                 .HasConstraintName("FK_Forums_PostVote_ForumPostId_Forums_Post_Id");
         });
 
-        modelBuilder.Entity<ForumsPrivateMessage>(entity =>
-        {
-            entity.ToTable("Forums_PrivateMessage");
-
-            entity.HasIndex(e => e.FromCustomerId, "IX_Forums_PrivateMessage_FromCustomerId");
-
-            entity.HasIndex(e => e.ToCustomerId, "IX_Forums_PrivateMessage_ToCustomerId");
-
-            entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
-            entity.Property(e => e.Subject).HasMaxLength(450);
-
-            entity.HasOne(d => d.FromCustomer).WithMany(p => p.ForumsPrivateMessageFromCustomers)
-                .HasForeignKey(d => d.FromCustomerId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Forums_PrivateMessage_FromCustomerId_Customer_Id");
-
-            entity.HasOne(d => d.ToCustomer).WithMany(p => p.ForumsPrivateMessageToCustomers)
-                .HasForeignKey(d => d.ToCustomerId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Forums_PrivateMessage_ToCustomerId_Customer_Id");
-        });
+        
 
         modelBuilder.Entity<ForumsSubscription>(entity =>
         {
@@ -726,7 +714,7 @@ public partial class NopCommerceContext : DbContext
                 .HasForeignKey(d => d.PurchasedWithOrderItemId)
                 .HasConstraintName("FK_GiftCard_PurchasedWithOrderItemId_OrderItem_Id");
         });
-
+        
         modelBuilder.Entity<GiftCardUsageHistory>(entity =>
         {
             entity.ToTable("GiftCardUsageHistory");
@@ -797,27 +785,7 @@ public partial class NopCommerceContext : DbContext
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Log_CustomerId_Customer_Id");
         });
-
-        modelBuilder.Entity<Manufacturer>(entity =>
-        {
-            entity.ToTable("Manufacturer");
-
-            entity.HasIndex(e => e.DisplayOrder, "IX_Manufacturer_DisplayOrder");
-
-            entity.HasIndex(e => e.LimitedToStores, "IX_Manufacturer_LimitedToStores");
-
-            entity.HasIndex(e => e.SubjectToAcl, "IX_Manufacturer_SubjectToAcl");
-
-            entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
-            entity.Property(e => e.MetaKeywords).HasMaxLength(400);
-            entity.Property(e => e.MetaTitle).HasMaxLength(400);
-            entity.Property(e => e.Name).HasMaxLength(400);
-            entity.Property(e => e.PageSizeOptions).HasMaxLength(200);
-            entity.Property(e => e.PriceFrom).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.PriceTo).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.UpdatedOnUtc).HasPrecision(6);
-        });
-
+        
         modelBuilder.Entity<ManufacturerTemplate>(entity =>
         {
             entity.ToTable("ManufacturerTemplate");
@@ -852,863 +820,763 @@ public partial class NopCommerceContext : DbContext
             entity.Property(e => e.Name).HasMaxLength(200);
             entity.Property(e => e.Subject).HasMaxLength(1000);
         });
+           modelBuilder.Entity<News>(entity =>
+           {
+               entity.HasIndex(e => e.LanguageId, "IX_News_LanguageId");
 
-        modelBuilder.Entity<MigrationVersionInfo>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToTable("MigrationVersionInfo");
+               entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
+               entity.Property(e => e.EndDateUtc).HasPrecision(6);
+               entity.Property(e => e.MetaKeywords).HasMaxLength(400);
+               entity.Property(e => e.MetaTitle).HasMaxLength(400);
+               entity.Property(e => e.StartDateUtc).HasPrecision(6);
 
-            entity.HasIndex(e => e.Version, "UC_Version")
-                .IsUnique()
-                .IsClustered();
+               entity.HasOne(d => d.Language).WithMany(p => p.News)
+                   .HasForeignKey(d => d.LanguageId)
+                   .HasConstraintName("FK_News_LanguageId_Language_Id");
+           });
+
+           modelBuilder.Entity<NewsComment>(entity =>
+           {
+               entity.ToTable("NewsComment");
+
+               entity.HasIndex(e => e.CustomerId, "IX_NewsComment_CustomerId");
+
+               entity.HasIndex(e => e.NewsItemId, "IX_NewsComment_NewsItemId");
+
+               entity.HasIndex(e => e.StoreId, "IX_NewsComment_StoreId");
+
+               entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
+
+               entity.HasOne(d => d.Customer).WithMany(p => p.NewsComments)
+                   .HasForeignKey(d => d.CustomerId)
+                   .HasConstraintName("FK_NewsComment_CustomerId_Customer_Id");
+
+               entity.HasOne(d => d.NewsItem).WithMany(p => p.NewsComments)
+                   .HasForeignKey(d => d.NewsItemId)
+                   .HasConstraintName("FK_NewsComment_NewsItemId_News_Id");
+
+               entity.HasOne(d => d.Store).WithMany(p => p.NewsComments)
+                   .HasForeignKey(d => d.StoreId)
+                   .HasConstraintName("FK_NewsComment_StoreId_Store_Id");
+           });
+
+           modelBuilder.Entity<NewsLetterSubscription>(entity =>
+           {
+               entity.ToTable("NewsLetterSubscription");
+
+               entity.HasIndex(e => new { e.Email, e.StoreId }, "IX_NewsletterSubscription_Email_StoreId");
+
+               entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
+               entity.Property(e => e.Email).HasMaxLength(255);
+           });
+
+
+
+           modelBuilder.Entity<OrderItem>(entity =>
+           {
+               entity.ToTable("OrderItem");
+
+               entity.HasIndex(e => e.OrderId, "IX_OrderItem_OrderId");
+
+               entity.HasIndex(e => e.ProductId, "IX_OrderItem_ProductId");
 
-            entity.Property(e => e.AppliedOn).HasColumnType("datetime");
-            entity.Property(e => e.Description).HasMaxLength(1024);
-        });
+               entity.Property(e => e.DiscountAmountExclTax).HasColumnType("decimal(18, 4)");
+               entity.Property(e => e.DiscountAmountInclTax).HasColumnType("decimal(18, 4)");
+               entity.Property(e => e.ItemWeight).HasColumnType("decimal(18, 4)");
+               entity.Property(e => e.OriginalProductCost).HasColumnType("decimal(18, 4)");
+               entity.Property(e => e.PriceExclTax).HasColumnType("decimal(18, 4)");
+               entity.Property(e => e.PriceInclTax).HasColumnType("decimal(18, 4)");
+               entity.Property(e => e.RentalEndDateUtc).HasPrecision(6);
+               entity.Property(e => e.RentalStartDateUtc).HasPrecision(6);
+               entity.Property(e => e.UnitPriceExclTax).HasColumnType("decimal(18, 4)");
+               entity.Property(e => e.UnitPriceInclTax).HasColumnType("decimal(18, 4)");
 
-        modelBuilder.Entity<News>(entity =>
-        {
-            entity.HasIndex(e => e.LanguageId, "IX_News_LanguageId");
-
-            entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
-            entity.Property(e => e.EndDateUtc).HasPrecision(6);
-            entity.Property(e => e.MetaKeywords).HasMaxLength(400);
-            entity.Property(e => e.MetaTitle).HasMaxLength(400);
-            entity.Property(e => e.StartDateUtc).HasPrecision(6);
+               entity.HasOne(d => d.Order).WithMany(p => p.OrderItems)
+                   .HasForeignKey(d => d.OrderId)
+                   .HasConstraintName("FK_OrderItem_OrderId_Order_Id");
 
-            entity.HasOne(d => d.Language).WithMany(p => p.News)
-                .HasForeignKey(d => d.LanguageId)
-                .HasConstraintName("FK_News_LanguageId_Language_Id");
-        });
+               entity.HasOne(d => d.Product).WithMany(p => p.OrderItems)
+                   .HasForeignKey(d => d.ProductId)
+                   .HasConstraintName("FK_OrderItem_ProductId_Product_Id");
+           });
 
-        modelBuilder.Entity<NewsComment>(entity =>
-        {
-            entity.ToTable("NewsComment");
-
-            entity.HasIndex(e => e.CustomerId, "IX_NewsComment_CustomerId");
-
-            entity.HasIndex(e => e.NewsItemId, "IX_NewsComment_NewsItemId");
-
-            entity.HasIndex(e => e.StoreId, "IX_NewsComment_StoreId");
-
-            entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
-
-            entity.HasOne(d => d.Customer).WithMany(p => p.NewsComments)
-                .HasForeignKey(d => d.CustomerId)
-                .HasConstraintName("FK_NewsComment_CustomerId_Customer_Id");
-
-            entity.HasOne(d => d.NewsItem).WithMany(p => p.NewsComments)
-                .HasForeignKey(d => d.NewsItemId)
-                .HasConstraintName("FK_NewsComment_NewsItemId_News_Id");
-
-            entity.HasOne(d => d.Store).WithMany(p => p.NewsComments)
-                .HasForeignKey(d => d.StoreId)
-                .HasConstraintName("FK_NewsComment_StoreId_Store_Id");
-        });
-
-        modelBuilder.Entity<NewsLetterSubscription>(entity =>
-        {
-            entity.ToTable("NewsLetterSubscription");
-
-            entity.HasIndex(e => new { e.Email, e.StoreId }, "IX_NewsletterSubscription_Email_StoreId");
+           modelBuilder.Entity<OrderNote>(entity =>
+           {
+               entity.ToTable("OrderNote");
 
-            entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
-            entity.Property(e => e.Email).HasMaxLength(255);
-        });
+               entity.HasIndex(e => e.OrderId, "IX_OrderNote_OrderId");
 
-        modelBuilder.Entity<Order>(entity =>
-        {
-            entity.ToTable("Order");
+               entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
 
-            entity.HasIndex(e => e.BillingAddressId, "IX_Order_BillingAddressId");
-
-            entity.HasIndex(e => e.CreatedOnUtc, "IX_Order_CreatedOnUtc").IsDescending();
-
-            entity.HasIndex(e => e.CustomerId, "IX_Order_CustomerId");
-
-            entity.HasIndex(e => e.PickupAddressId, "IX_Order_PickupAddressId");
-
-            entity.HasIndex(e => e.ShippingAddressId, "IX_Order_ShippingAddressId");
-
-            entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
-            entity.Property(e => e.CurrencyRate).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.CustomerIp).HasMaxLength(100);
-            entity.Property(e => e.OrderDiscount).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.OrderShippingExclTax).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.OrderShippingInclTax).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.OrderSubTotalDiscountExclTax).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.OrderSubTotalDiscountInclTax).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.OrderSubtotalExclTax).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.OrderSubtotalInclTax).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.OrderTax).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.OrderTotal).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.PaidDateUtc).HasPrecision(6);
-            entity.Property(e => e.PaymentMethodAdditionalFeeExclTax).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.PaymentMethodAdditionalFeeInclTax).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.RefundedAmount).HasColumnType("decimal(18, 4)");
-
-            entity.HasOne(d => d.BillingAddress).WithMany(p => p.OrderBillingAddresses)
-                .HasForeignKey(d => d.BillingAddressId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Order_BillingAddressId_Address_Id");
-
-            entity.HasOne(d => d.Customer).WithMany(p => p.Orders)
-                .HasForeignKey(d => d.CustomerId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Order_CustomerId_Customer_Id");
-
-            entity.HasOne(d => d.PickupAddress).WithMany(p => p.OrderPickupAddresses)
-                .HasForeignKey(d => d.PickupAddressId)
-                .HasConstraintName("FK_Order_PickupAddressId_Address_Id");
-
-            entity.HasOne(d => d.RewardPointsHistoryEntry).WithMany(p => p.Orders)
-                .HasForeignKey(d => d.RewardPointsHistoryEntryId)
-                .HasConstraintName("FK_Order_RewardPointsHistoryEntryId_RewardPointsHistory_Id");
-
-            entity.HasOne(d => d.ShippingAddress).WithMany(p => p.OrderShippingAddresses)
-                .HasForeignKey(d => d.ShippingAddressId)
-                .HasConstraintName("FK_Order_ShippingAddressId_Address_Id");
-        });
-
-        modelBuilder.Entity<OrderItem>(entity =>
-        {
-            entity.ToTable("OrderItem");
-
-            entity.HasIndex(e => e.OrderId, "IX_OrderItem_OrderId");
-
-            entity.HasIndex(e => e.ProductId, "IX_OrderItem_ProductId");
-
-            entity.Property(e => e.DiscountAmountExclTax).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.DiscountAmountInclTax).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.ItemWeight).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.OriginalProductCost).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.PriceExclTax).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.PriceInclTax).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.RentalEndDateUtc).HasPrecision(6);
-            entity.Property(e => e.RentalStartDateUtc).HasPrecision(6);
-            entity.Property(e => e.UnitPriceExclTax).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.UnitPriceInclTax).HasColumnType("decimal(18, 4)");
-
-            entity.HasOne(d => d.Order).WithMany(p => p.OrderItems)
-                .HasForeignKey(d => d.OrderId)
-                .HasConstraintName("FK_OrderItem_OrderId_Order_Id");
-
-            entity.HasOne(d => d.Product).WithMany(p => p.OrderItems)
-                .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("FK_OrderItem_ProductId_Product_Id");
-        });
-
-        modelBuilder.Entity<OrderNote>(entity =>
-        {
-            entity.ToTable("OrderNote");
-
-            entity.HasIndex(e => e.OrderId, "IX_OrderNote_OrderId");
-
-            entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
-
-            entity.HasOne(d => d.Order).WithMany(p => p.OrderNotes)
-                .HasForeignKey(d => d.OrderId)
-                .HasConstraintName("FK_OrderNote_OrderId_Order_Id");
-        });
-
-        modelBuilder.Entity<PermissionRecord>(entity =>
-        {
-            entity.ToTable("PermissionRecord");
-
-            entity.Property(e => e.Category).HasMaxLength(255);
-            entity.Property(e => e.SystemName).HasMaxLength(255);
-
-            entity.HasMany(d => d.CustomerRoles).WithMany(p => p.PermissionRecords)
-                .UsingEntity<Dictionary<string, object>>(
-                    "PermissionRecordRoleMapping",
-                    r => r.HasOne<CustomerRole>().WithMany()
-                        .HasForeignKey("CustomerRoleId")
-                        .HasConstraintName("FK_PermissionRecord_Role_Mapping_CustomerRole_Id_CustomerRole_Id"),
-                    l => l.HasOne<PermissionRecord>().WithMany()
-                        .HasForeignKey("PermissionRecordId")
-                        .HasConstraintName("FK_PermissionRecord_Role_Mapping_PermissionRecord_Id_PermissionRecord_Id"),
-                    j =>
-                    {
-                        j.HasKey("PermissionRecordId", "CustomerRoleId");
-                        j.ToTable("PermissionRecord_Role_Mapping");
-                        j.HasIndex(new[] { "CustomerRoleId" }, "IX_PermissionRecord_Role_Mapping_CustomerRole_Id");
-                        j.HasIndex(new[] { "PermissionRecordId" }, "IX_PermissionRecord_Role_Mapping_PermissionRecord_Id");
-                        j.IndexerProperty<int>("PermissionRecordId").HasColumnName("PermissionRecord_Id");
-                        j.IndexerProperty<int>("CustomerRoleId").HasColumnName("CustomerRole_Id");
-                    });
-        });
-
-        modelBuilder.Entity<Picture>(entity =>
-        {
-            entity.ToTable("Picture");
-
-            entity.Property(e => e.MimeType).HasMaxLength(40);
-            entity.Property(e => e.SeoFilename).HasMaxLength(300);
-        });
-
-        modelBuilder.Entity<PictureBinary>(entity =>
-        {
-            entity.ToTable("PictureBinary");
-
-            entity.HasIndex(e => e.PictureId, "IX_PictureBinary_PictureId");
+               entity.HasOne(d => d.Order).WithMany(p => p.OrderNotes)
+                   .HasForeignKey(d => d.OrderId)
+                   .HasConstraintName("FK_OrderNote_OrderId_Order_Id");
+           });
 
-            entity.HasOne(d => d.Picture).WithMany(p => p.PictureBinaries)
-                .HasForeignKey(d => d.PictureId)
-                .HasConstraintName("FK_PictureBinary_PictureId_Picture_Id");
-        });
-
-        modelBuilder.Entity<Poll>(entity =>
-        {
-            entity.ToTable("Poll");
+           modelBuilder.Entity<PermissionRecord>(entity =>
+           {
+               entity.ToTable("PermissionRecord");
 
-            entity.HasIndex(e => e.LanguageId, "IX_Poll_LanguageId");
+               entity.Property(e => e.Category).HasMaxLength(255);
+               entity.Property(e => e.SystemName).HasMaxLength(255);
 
-            entity.Property(e => e.EndDateUtc).HasPrecision(6);
-            entity.Property(e => e.StartDateUtc).HasPrecision(6);
+               entity.HasMany(d => d.CustomerRoles).WithMany(p => p.PermissionRecords)
+                   .UsingEntity<Dictionary<string, object>>(
+                       "PermissionRecordRoleMapping",
+                       r => r.HasOne<CustomerRole>().WithMany()
+                           .HasForeignKey("CustomerRoleId")
+                           .HasConstraintName("FK_PermissionRecord_Role_Mapping_CustomerRole_Id_CustomerRole_Id"),
+                       l => l.HasOne<PermissionRecord>().WithMany()
+                           .HasForeignKey("PermissionRecordId")
+                           .HasConstraintName("FK_PermissionRecord_Role_Mapping_PermissionRecord_Id_PermissionRecord_Id"),
+                       j =>
+                       {
+                           j.HasKey("PermissionRecordId", "CustomerRoleId");
+                           j.ToTable("PermissionRecord_Role_Mapping");
+                           j.HasIndex(new[] { "CustomerRoleId" }, "IX_PermissionRecord_Role_Mapping_CustomerRole_Id");
+                           j.HasIndex(new[] { "PermissionRecordId" }, "IX_PermissionRecord_Role_Mapping_PermissionRecord_Id");
+                           j.IndexerProperty<int>("PermissionRecordId").HasColumnName("PermissionRecord_Id");
+                           j.IndexerProperty<int>("CustomerRoleId").HasColumnName("CustomerRole_Id");
+                       });
+           });
+
+           modelBuilder.Entity<Picture>(entity =>
+           {
+               entity.ToTable("Picture");
+
+               entity.Property(e => e.MimeType).HasMaxLength(40);
+               entity.Property(e => e.SeoFilename).HasMaxLength(300);
+           });
+
+           modelBuilder.Entity<PictureBinary>(entity =>
+           {
+               entity.ToTable("PictureBinary");
+
+               entity.HasIndex(e => e.PictureId, "IX_PictureBinary_PictureId");
+
+               entity.HasOne(d => d.Picture).WithMany(p => p.PictureBinaries)
+                   .HasForeignKey(d => d.PictureId)
+                   .HasConstraintName("FK_PictureBinary_PictureId_Picture_Id");
+           });
+
+           modelBuilder.Entity<Poll>(entity =>
+           {
+               entity.ToTable("Poll");
 
-            entity.HasOne(d => d.Language).WithMany(p => p.Polls)
-                .HasForeignKey(d => d.LanguageId)
-                .HasConstraintName("FK_Poll_LanguageId_Language_Id");
-        });
+               entity.HasIndex(e => e.LanguageId, "IX_Poll_LanguageId");
 
-        modelBuilder.Entity<PollAnswer>(entity =>
-        {
-            entity.ToTable("PollAnswer");
+               entity.Property(e => e.EndDateUtc).HasPrecision(6);
+               entity.Property(e => e.StartDateUtc).HasPrecision(6);
 
-            entity.HasIndex(e => e.PollId, "IX_PollAnswer_PollId");
+               entity.HasOne(d => d.Language).WithMany(p => p.Polls)
+                   .HasForeignKey(d => d.LanguageId)
+                   .HasConstraintName("FK_Poll_LanguageId_Language_Id");
+           });
 
-            entity.HasOne(d => d.Poll).WithMany(p => p.PollAnswers)
-                .HasForeignKey(d => d.PollId)
-                .HasConstraintName("FK_PollAnswer_PollId_Poll_Id");
-        });
+           modelBuilder.Entity<PollAnswer>(entity =>
+           {
+               entity.ToTable("PollAnswer");
 
-        modelBuilder.Entity<PollVotingRecord>(entity =>
-        {
-            entity.ToTable("PollVotingRecord");
+               entity.HasIndex(e => e.PollId, "IX_PollAnswer_PollId");
 
-            entity.HasIndex(e => e.CustomerId, "IX_PollVotingRecord_CustomerId");
+               entity.HasOne(d => d.Poll).WithMany(p => p.PollAnswers)
+                   .HasForeignKey(d => d.PollId)
+                   .HasConstraintName("FK_PollAnswer_PollId_Poll_Id");
+           });
 
-            entity.HasIndex(e => e.PollAnswerId, "IX_PollVotingRecord_PollAnswerId");
+           modelBuilder.Entity<PollVotingRecord>(entity =>
+           {
+               entity.ToTable("PollVotingRecord");
 
-            entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
+               entity.HasIndex(e => e.CustomerId, "IX_PollVotingRecord_CustomerId");
+
+               entity.HasIndex(e => e.PollAnswerId, "IX_PollVotingRecord_PollAnswerId");
 
-            entity.HasOne(d => d.Customer).WithMany(p => p.PollVotingRecords)
-                .HasForeignKey(d => d.CustomerId)
-                .HasConstraintName("FK_PollVotingRecord_CustomerId_Customer_Id");
+               entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
+
+               entity.HasOne(d => d.Customer).WithMany(p => p.PollVotingRecords)
+                   .HasForeignKey(d => d.CustomerId)
+                   .HasConstraintName("FK_PollVotingRecord_CustomerId_Customer_Id");
 
-            entity.HasOne(d => d.PollAnswer).WithMany(p => p.PollVotingRecords)
-                .HasForeignKey(d => d.PollAnswerId)
-                .HasConstraintName("FK_PollVotingRecord_PollAnswerId_PollAnswer_Id");
-        });
+               entity.HasOne(d => d.PollAnswer).WithMany(p => p.PollVotingRecords)
+                   .HasForeignKey(d => d.PollAnswerId)
+                   .HasConstraintName("FK_PollVotingRecord_PollAnswerId_PollAnswer_Id");
+           });
 
-        modelBuilder.Entity<PredefinedProductAttributeValue>(entity =>
-        {
-            entity.ToTable("PredefinedProductAttributeValue");
+           modelBuilder.Entity<PredefinedProductAttributeValue>(entity =>
+           {
+               entity.ToTable("PredefinedProductAttributeValue");
 
-            entity.HasIndex(e => e.ProductAttributeId, "IX_PredefinedProductAttributeValue_ProductAttributeId");
+               entity.HasIndex(e => e.ProductAttributeId, "IX_PredefinedProductAttributeValue_ProductAttributeId");
 
-            entity.Property(e => e.Cost).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.Name).HasMaxLength(400);
-            entity.Property(e => e.PriceAdjustment).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.WeightAdjustment).HasColumnType("decimal(18, 4)");
+               entity.Property(e => e.Cost).HasColumnType("decimal(18, 4)");
+               entity.Property(e => e.Name).HasMaxLength(400);
+               entity.Property(e => e.PriceAdjustment).HasColumnType("decimal(18, 4)");
+               entity.Property(e => e.WeightAdjustment).HasColumnType("decimal(18, 4)");
 
-            entity.HasOne(d => d.ProductAttribute).WithMany(p => p.PredefinedProductAttributeValues)
-                .HasForeignKey(d => d.ProductAttributeId)
-                .HasConstraintName("FK_PredefinedProductAttributeValue_ProductAttributeId_ProductAttribute_Id");
-        });
+               entity.HasOne(d => d.ProductAttribute).WithMany(p => p.PredefinedProductAttributeValues)
+                   .HasForeignKey(d => d.ProductAttributeId)
+                   .HasConstraintName("FK_PredefinedProductAttributeValue_ProductAttributeId_ProductAttribute_Id");
+           });
 
 
 
-        modelBuilder.Entity<ProductAttribute>(entity =>
-        {
-            entity.ToTable("ProductAttribute");
-        });
+           modelBuilder.Entity<ProductAttribute>(entity =>
+           {
+               entity.ToTable("ProductAttribute");
+           });
 
-        modelBuilder.Entity<ProductAttributeCombination>(entity =>
-        {
-            entity.ToTable("ProductAttributeCombination");
+           modelBuilder.Entity<ProductAttributeCombination>(entity =>
+           {
+               entity.ToTable("ProductAttributeCombination");
 
-            entity.HasIndex(e => e.ProductId, "IX_ProductAttributeCombination_ProductId");
+               entity.HasIndex(e => e.ProductId, "IX_ProductAttributeCombination_ProductId");
 
-            entity.Property(e => e.Gtin).HasMaxLength(400);
-            entity.Property(e => e.ManufacturerPartNumber).HasMaxLength(400);
-            entity.Property(e => e.OverriddenPrice).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.Sku).HasMaxLength(400);
+               entity.Property(e => e.Gtin).HasMaxLength(400);
+               entity.Property(e => e.ManufacturerPartNumber).HasMaxLength(400);
+               entity.Property(e => e.OverriddenPrice).HasColumnType("decimal(18, 4)");
+               entity.Property(e => e.Sku).HasMaxLength(400);
 
-            entity.HasOne(d => d.Product).WithMany(p => p.ProductAttributeCombinations)
-                .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("FK_ProductAttributeCombination_ProductId_Product_Id");
-        });
+               entity.HasOne(d => d.Product).WithMany(p => p.ProductAttributeCombinations)
+                   .HasForeignKey(d => d.ProductId)
+                   .HasConstraintName("FK_ProductAttributeCombination_ProductId_Product_Id");
+           });
 
-        modelBuilder.Entity<ProductAttributeCombinationPicture>(entity =>
-        {
-            entity.ToTable("ProductAttributeCombinationPicture");
+           modelBuilder.Entity<ProductAttributeCombinationPicture>(entity =>
+           {
+               entity.ToTable("ProductAttributeCombinationPicture");
 
-            entity.HasIndex(e => e.ProductAttributeCombinationId, "IX_ProductAttributeCombinationPicture_ProductAttributeCombinationId");
+               entity.HasIndex(e => e.ProductAttributeCombinationId, "IX_ProductAttributeCombinationPicture_ProductAttributeCombinationId");
 
-            entity.HasOne(d => d.ProductAttributeCombination).WithMany(p => p.ProductAttributeCombinationPictures)
-                .HasForeignKey(d => d.ProductAttributeCombinationId)
-                .HasConstraintName("FK_ProductAttributeCombinationPicture_ProductAttributeCombinationId_ProductAttributeCombination_Id");
-        });
+               entity.HasOne(d => d.ProductAttributeCombination).WithMany(p => p.ProductAttributeCombinationPictures)
+                   .HasForeignKey(d => d.ProductAttributeCombinationId)
+                   .HasConstraintName("FK_ProductAttributeCombinationPicture_ProductAttributeCombinationId_ProductAttributeCombination_Id");
+           });
 
-        modelBuilder.Entity<ProductAttributeValue>(entity =>
-        {
-            entity.ToTable("ProductAttributeValue");
+           modelBuilder.Entity<ProductAttributeValue>(entity =>
+           {
+               entity.ToTable("ProductAttributeValue");
 
-            entity.HasIndex(e => e.ProductAttributeMappingId, "IX_ProductAttributeValue_ProductAttributeMappingId");
+               entity.HasIndex(e => e.ProductAttributeMappingId, "IX_ProductAttributeValue_ProductAttributeMappingId");
 
-            entity.HasIndex(e => new { e.ProductAttributeMappingId, e.DisplayOrder }, "IX_ProductAttributeValue_ProductAttributeMappingId_DisplayOrder");
+               entity.HasIndex(e => new { e.ProductAttributeMappingId, e.DisplayOrder }, "IX_ProductAttributeValue_ProductAttributeMappingId_DisplayOrder");
 
-            entity.Property(e => e.ColorSquaresRgb).HasMaxLength(100);
-            entity.Property(e => e.Cost).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.Name).HasMaxLength(400);
-            entity.Property(e => e.PriceAdjustment).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.WeightAdjustment).HasColumnType("decimal(18, 4)");
+               entity.Property(e => e.ColorSquaresRgb).HasMaxLength(100);
+               entity.Property(e => e.Cost).HasColumnType("decimal(18, 4)");
+               entity.Property(e => e.Name).HasMaxLength(400);
+               entity.Property(e => e.PriceAdjustment).HasColumnType("decimal(18, 4)");
+               entity.Property(e => e.WeightAdjustment).HasColumnType("decimal(18, 4)");
 
-            entity.HasOne(d => d.ProductAttributeMapping).WithMany(p => p.ProductAttributeValues)
-                .HasForeignKey(d => d.ProductAttributeMappingId)
-                .HasConstraintName("FK_ProductAttributeValue_ProductAttributeMappingId_Product_ProductAttribute_Mapping_Id");
-        });
+               entity.HasOne(d => d.ProductAttributeMapping).WithMany(p => p.ProductAttributeValues)
+                   .HasForeignKey(d => d.ProductAttributeMappingId)
+                   .HasConstraintName("FK_ProductAttributeValue_ProductAttributeMappingId_Product_ProductAttribute_Mapping_Id");
+           });
 
-        modelBuilder.Entity<ProductAttributeValuePicture>(entity =>
-        {
-            entity.ToTable("ProductAttributeValuePicture");
+           modelBuilder.Entity<ProductAttributeValuePicture>(entity =>
+           {
+               entity.ToTable("ProductAttributeValuePicture");
 
-            entity.HasIndex(e => e.ProductAttributeValueId, "IX_ProductAttributeValuePicture_ProductAttributeValueId");
+               entity.HasIndex(e => e.ProductAttributeValueId, "IX_ProductAttributeValuePicture_ProductAttributeValueId");
 
-            entity.HasOne(d => d.ProductAttributeValue).WithMany(p => p.ProductAttributeValuePictures)
-                .HasForeignKey(d => d.ProductAttributeValueId)
-                .HasConstraintName("FK_ProductAttributeValuePicture_ProductAttributeValueId_ProductAttributeValue_Id");
-        });
+               entity.HasOne(d => d.ProductAttributeValue).WithMany(p => p.ProductAttributeValuePictures)
+                   .HasForeignKey(d => d.ProductAttributeValueId)
+                   .HasConstraintName("FK_ProductAttributeValuePicture_ProductAttributeValueId_ProductAttributeValue_Id");
+           });
 
-        modelBuilder.Entity<ProductAvailabilityRange>(entity =>
-        {
-            entity.ToTable("ProductAvailabilityRange");
+           modelBuilder.Entity<ProductAvailabilityRange>(entity =>
+           {
+               entity.ToTable("ProductAvailabilityRange");
 
-            entity.Property(e => e.Name).HasMaxLength(400);
-        });
+               entity.Property(e => e.Name).HasMaxLength(400);
+           });
 
-        modelBuilder.Entity<ProductCategoryMapping>(entity =>
-        {
-            entity.ToTable("Product_Category_Mapping");
+           modelBuilder.Entity<ProductCategoryMapping>(entity =>
+           {
+               entity.ToTable("Product_Category_Mapping");
 
-            entity.HasIndex(e => new { e.ProductId, e.IsFeaturedProduct }, "IX_PCM_ProductId_Extended");
+               entity.HasIndex(e => new { e.ProductId, e.IsFeaturedProduct }, "IX_PCM_ProductId_Extended");
 
-            entity.HasIndex(e => new { e.CategoryId, e.ProductId }, "IX_PCM_Product_and_Category");
+               entity.HasIndex(e => new { e.CategoryId, e.ProductId }, "IX_PCM_Product_and_Category");
 
-            entity.HasIndex(e => e.CategoryId, "IX_Product_Category_Mapping_CategoryId");
+               entity.HasIndex(e => e.CategoryId, "IX_Product_Category_Mapping_CategoryId");
 
-            entity.HasIndex(e => e.IsFeaturedProduct, "IX_Product_Category_Mapping_IsFeaturedProduct");
+               entity.HasIndex(e => e.IsFeaturedProduct, "IX_Product_Category_Mapping_IsFeaturedProduct");
 
-            entity.HasIndex(e => e.ProductId, "IX_Product_Category_Mapping_ProductId");
+               entity.HasIndex(e => e.ProductId, "IX_Product_Category_Mapping_ProductId");
 
-            entity.HasOne(d => d.Category).WithMany(p => p.ProductCategoryMappings)
-                .HasForeignKey(d => d.CategoryId)
-                .HasConstraintName("FK_Product_Category_Mapping_CategoryId_Category_Id");
+               entity.HasOne(d => d.Category).WithMany(p => p.ProductCategoryMappings)
+                   .HasForeignKey(d => d.CategoryId)
+                   .HasConstraintName("FK_Product_Category_Mapping_CategoryId_Category_Id");
 
-            entity.HasOne(d => d.Product).WithMany(p => p.ProductCategoryMappings)
-                .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("FK_Product_Category_Mapping_ProductId_Product_Id");
-        });
+               entity.HasOne(d => d.Product).WithMany(p => p.ProductCategoryMappings)
+                   .HasForeignKey(d => d.ProductId)
+                   .HasConstraintName("FK_Product_Category_Mapping_ProductId_Product_Id");
+           });
 
-        modelBuilder.Entity<ProductManufacturerMapping>(entity =>
-        {
-            entity.ToTable("Product_Manufacturer_Mapping");
+           modelBuilder.Entity<ProductManufacturerMapping>(entity =>
+           {
+               entity.ToTable("Product_Manufacturer_Mapping");
 
-            entity.HasIndex(e => new { e.ProductId, e.IsFeaturedProduct }, "IX_PMM_ProductId_Extended");
+               entity.HasIndex(e => new { e.ProductId, e.IsFeaturedProduct }, "IX_PMM_ProductId_Extended");
 
-            entity.HasIndex(e => new { e.ManufacturerId, e.ProductId }, "IX_PMM_Product_and_Manufacturer");
+               entity.HasIndex(e => new { e.ManufacturerId, e.ProductId }, "IX_PMM_Product_and_Manufacturer");
 
-            entity.HasIndex(e => e.IsFeaturedProduct, "IX_Product_Manufacturer_Mapping_IsFeaturedProduct");
+               entity.HasIndex(e => e.IsFeaturedProduct, "IX_Product_Manufacturer_Mapping_IsFeaturedProduct");
 
-            entity.HasIndex(e => e.ManufacturerId, "IX_Product_Manufacturer_Mapping_ManufacturerId");
+               entity.HasIndex(e => e.ManufacturerId, "IX_Product_Manufacturer_Mapping_ManufacturerId");
 
-            entity.HasIndex(e => e.ProductId, "IX_Product_Manufacturer_Mapping_ProductId");
+               entity.HasIndex(e => e.ProductId, "IX_Product_Manufacturer_Mapping_ProductId");
 
-            entity.HasOne(d => d.Manufacturer).WithMany(p => p.ProductManufacturerMappings)
-                .HasForeignKey(d => d.ManufacturerId)
-                .HasConstraintName("FK_Product_Manufacturer_Mapping_ManufacturerId_Manufacturer_Id");
+               entity.HasOne(d => d.Manufacturer).WithMany(p => p.ProductManufacturerMappings)
+                   .HasForeignKey(d => d.ManufacturerId)
+                   .HasConstraintName("FK_Product_Manufacturer_Mapping_ManufacturerId_Manufacturer_Id");
 
-            entity.HasOne(d => d.Product).WithMany(p => p.ProductManufacturerMappings)
-                .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("FK_Product_Manufacturer_Mapping_ProductId_Product_Id");
-        });
+               entity.HasOne(d => d.Product).WithMany(p => p.ProductManufacturerMappings)
+                   .HasForeignKey(d => d.ProductId)
+                   .HasConstraintName("FK_Product_Manufacturer_Mapping_ProductId_Product_Id");
+           });
 
-        modelBuilder.Entity<ProductPictureMapping>(entity =>
-        {
-            entity.ToTable("Product_Picture_Mapping");
+           modelBuilder.Entity<ProductPictureMapping>(entity =>
+           {
+               entity.ToTable("Product_Picture_Mapping");
 
-            entity.HasIndex(e => e.PictureId, "IX_Product_Picture_Mapping_PictureId");
+               entity.HasIndex(e => e.PictureId, "IX_Product_Picture_Mapping_PictureId");
 
-            entity.HasIndex(e => e.ProductId, "IX_Product_Picture_Mapping_ProductId");
+               entity.HasIndex(e => e.ProductId, "IX_Product_Picture_Mapping_ProductId");
 
-            entity.HasOne(d => d.Picture).WithMany(p => p.ProductPictureMappings)
-                .HasForeignKey(d => d.PictureId)
-                .HasConstraintName("FK_Product_Picture_Mapping_PictureId_Picture_Id");
+               entity.HasOne(d => d.Picture).WithMany(p => p.ProductPictureMappings)
+                   .HasForeignKey(d => d.PictureId)
+                   .HasConstraintName("FK_Product_Picture_Mapping_PictureId_Picture_Id");
 
-            entity.HasOne(d => d.Product).WithMany(p => p.ProductPictureMappings)
-                .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("FK_Product_Picture_Mapping_ProductId_Product_Id");
-        });
+               entity.HasOne(d => d.Product).WithMany(p => p.ProductPictureMappings)
+                   .HasForeignKey(d => d.ProductId)
+                   .HasConstraintName("FK_Product_Picture_Mapping_ProductId_Product_Id");
+           });
 
-        modelBuilder.Entity<ProductProductAttributeMapping>(entity =>
-        {
-            entity.ToTable("Product_ProductAttribute_Mapping");
+           modelBuilder.Entity<ProductProductAttributeMapping>(entity =>
+           {
+               entity.ToTable("Product_ProductAttribute_Mapping");
 
-            entity.HasIndex(e => e.ProductAttributeId, "IX_Product_ProductAttribute_Mapping_ProductAttributeId");
+               entity.HasIndex(e => e.ProductAttributeId, "IX_Product_ProductAttribute_Mapping_ProductAttributeId");
 
-            entity.HasIndex(e => e.ProductId, "IX_Product_ProductAttribute_Mapping_ProductId");
+               entity.HasIndex(e => e.ProductId, "IX_Product_ProductAttribute_Mapping_ProductId");
 
-            entity.HasIndex(e => new { e.ProductId, e.DisplayOrder }, "IX_Product_ProductAttribute_Mapping_ProductId_DisplayOrder");
+               entity.HasIndex(e => new { e.ProductId, e.DisplayOrder }, "IX_Product_ProductAttribute_Mapping_ProductId_DisplayOrder");
 
-            entity.HasOne(d => d.ProductAttribute).WithMany(p => p.ProductProductAttributeMappings)
-                .HasForeignKey(d => d.ProductAttributeId)
-                .HasConstraintName("FK_Product_ProductAttribute_Mapping_ProductAttributeId_ProductAttribute_Id");
+               entity.HasOne(d => d.ProductAttribute).WithMany(p => p.ProductProductAttributeMappings)
+                   .HasForeignKey(d => d.ProductAttributeId)
+                   .HasConstraintName("FK_Product_ProductAttribute_Mapping_ProductAttributeId_ProductAttribute_Id");
 
-            entity.HasOne(d => d.Product).WithMany(p => p.ProductProductAttributeMappings)
-                .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("FK_Product_ProductAttribute_Mapping_ProductId_Product_Id");
-        });
+               entity.HasOne(d => d.Product).WithMany(p => p.ProductProductAttributeMappings)
+                   .HasForeignKey(d => d.ProductId)
+                   .HasConstraintName("FK_Product_ProductAttribute_Mapping_ProductId_Product_Id");
+           });
 
-        modelBuilder.Entity<ProductReview>(entity =>
-        {
-            entity.ToTable("ProductReview");
+           modelBuilder.Entity<ProductReview>(entity =>
+           {
+               entity.ToTable("ProductReview");
 
-            entity.HasIndex(e => e.CustomerId, "IX_ProductReview_CustomerId");
+               entity.HasIndex(e => e.CustomerId, "IX_ProductReview_CustomerId");
 
-            entity.HasIndex(e => e.ProductId, "IX_ProductReview_ProductId");
+               entity.HasIndex(e => e.ProductId, "IX_ProductReview_ProductId");
 
-            entity.HasIndex(e => e.StoreId, "IX_ProductReview_StoreId");
+               entity.HasIndex(e => e.StoreId, "IX_ProductReview_StoreId");
 
-            entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
+               entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
 
-            entity.HasOne(d => d.Customer).WithMany(p => p.ProductReviews)
-                .HasForeignKey(d => d.CustomerId)
-                .HasConstraintName("FK_ProductReview_CustomerId_Customer_Id");
+               entity.HasOne(d => d.Customer).WithMany(p => p.ProductReviews)
+                   .HasForeignKey(d => d.CustomerId)
+                   .HasConstraintName("FK_ProductReview_CustomerId_Customer_Id");
 
-            entity.HasOne(d => d.Product).WithMany(p => p.ProductReviews)
-                .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("FK_ProductReview_ProductId_Product_Id");
+               entity.HasOne(d => d.Product).WithMany(p => p.ProductReviews)
+                   .HasForeignKey(d => d.ProductId)
+                   .HasConstraintName("FK_ProductReview_ProductId_Product_Id");
 
-            entity.HasOne(d => d.Store).WithMany(p => p.ProductReviews)
-                .HasForeignKey(d => d.StoreId)
-                .HasConstraintName("FK_ProductReview_StoreId_Store_Id");
-        });
+               entity.HasOne(d => d.Store).WithMany(p => p.ProductReviews)
+                   .HasForeignKey(d => d.StoreId)
+                   .HasConstraintName("FK_ProductReview_StoreId_Store_Id");
+           });
 
-        modelBuilder.Entity<ProductReviewHelpfulness>(entity =>
-        {
-            entity.ToTable("ProductReviewHelpfulness");
+           modelBuilder.Entity<ProductReviewHelpfulness>(entity =>
+           {
+               entity.ToTable("ProductReviewHelpfulness");
 
-            entity.HasIndex(e => e.ProductReviewId, "IX_ProductReviewHelpfulness_ProductReviewId");
+               entity.HasIndex(e => e.ProductReviewId, "IX_ProductReviewHelpfulness_ProductReviewId");
 
-            entity.HasOne(d => d.ProductReview).WithMany(p => p.ProductReviewHelpfulnesses)
-                .HasForeignKey(d => d.ProductReviewId)
-                .HasConstraintName("FK_ProductReviewHelpfulness_ProductReviewId_ProductReview_Id");
-        });
+               entity.HasOne(d => d.ProductReview).WithMany(p => p.ProductReviewHelpfulnesses)
+                   .HasForeignKey(d => d.ProductReviewId)
+                   .HasConstraintName("FK_ProductReviewHelpfulness_ProductReviewId_ProductReview_Id");
+           });
 
-        modelBuilder.Entity<ProductReviewReviewTypeMapping>(entity =>
-        {
-            entity.ToTable("ProductReview_ReviewType_Mapping");
+           modelBuilder.Entity<ProductReviewReviewTypeMapping>(entity =>
+           {
+               entity.ToTable("ProductReview_ReviewType_Mapping");
 
-            entity.HasIndex(e => e.ProductReviewId, "IX_ProductReview_ReviewType_Mapping_ProductReviewId");
+               entity.HasIndex(e => e.ProductReviewId, "IX_ProductReview_ReviewType_Mapping_ProductReviewId");
 
-            entity.HasIndex(e => e.ReviewTypeId, "IX_ProductReview_ReviewType_Mapping_ReviewTypeId");
+               entity.HasIndex(e => e.ReviewTypeId, "IX_ProductReview_ReviewType_Mapping_ReviewTypeId");
 
-            entity.HasOne(d => d.ProductReview).WithMany(p => p.ProductReviewReviewTypeMappings)
-                .HasForeignKey(d => d.ProductReviewId)
-                .HasConstraintName("FK_ProductReview_ReviewType_Mapping_ProductReviewId_ProductReview_Id");
+               entity.HasOne(d => d.ProductReview).WithMany(p => p.ProductReviewReviewTypeMappings)
+                   .HasForeignKey(d => d.ProductReviewId)
+                   .HasConstraintName("FK_ProductReview_ReviewType_Mapping_ProductReviewId_ProductReview_Id");
 
-            entity.HasOne(d => d.ReviewType).WithMany(p => p.ProductReviewReviewTypeMappings)
-                .HasForeignKey(d => d.ReviewTypeId)
-                .HasConstraintName("FK_ProductReview_ReviewType_Mapping_ReviewTypeId_ReviewType_Id");
-        });
+               entity.HasOne(d => d.ReviewType).WithMany(p => p.ProductReviewReviewTypeMappings)
+                   .HasForeignKey(d => d.ReviewTypeId)
+                   .HasConstraintName("FK_ProductReview_ReviewType_Mapping_ReviewTypeId_ReviewType_Id");
+           });
 
-        modelBuilder.Entity<ProductSpecificationAttributeMapping>(entity =>
-        {
-            entity.ToTable("Product_SpecificationAttribute_Mapping");
+           modelBuilder.Entity<ProductSpecificationAttributeMapping>(entity =>
+           {
+               entity.ToTable("Product_SpecificationAttribute_Mapping");
 
-            entity.HasIndex(e => e.AllowFiltering, "IX_PSAM_AllowFiltering");
+               entity.HasIndex(e => e.AllowFiltering, "IX_PSAM_AllowFiltering");
 
-            entity.HasIndex(e => new { e.SpecificationAttributeOptionId, e.AllowFiltering }, "IX_PSAM_SpecificationAttributeOptionId_AllowFiltering");
+               entity.HasIndex(e => new { e.SpecificationAttributeOptionId, e.AllowFiltering }, "IX_PSAM_SpecificationAttributeOptionId_AllowFiltering");
 
-            entity.HasIndex(e => e.ProductId, "IX_Product_SpecificationAttribute_Mapping_ProductId");
+               entity.HasIndex(e => e.ProductId, "IX_Product_SpecificationAttribute_Mapping_ProductId");
 
-            entity.HasIndex(e => e.SpecificationAttributeOptionId, "IX_Product_SpecificationAttribute_Mapping_SpecificationAttributeOptionId");
+               entity.HasIndex(e => e.SpecificationAttributeOptionId, "IX_Product_SpecificationAttribute_Mapping_SpecificationAttributeOptionId");
 
-            entity.Property(e => e.CustomValue).HasMaxLength(4000);
+               entity.Property(e => e.CustomValue).HasMaxLength(4000);
 
-            entity.HasOne(d => d.Product).WithMany(p => p.ProductSpecificationAttributeMappings)
-                .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("FK_Product_SpecificationAttribute_Mapping_ProductId_Product_Id");
+               entity.HasOne(d => d.Product).WithMany(p => p.ProductSpecificationAttributeMappings)
+                   .HasForeignKey(d => d.ProductId)
+                   .HasConstraintName("FK_Product_SpecificationAttribute_Mapping_ProductId_Product_Id");
 
-            entity.HasOne(d => d.SpecificationAttributeOption).WithMany(p => p.ProductSpecificationAttributeMappings)
-                .HasForeignKey(d => d.SpecificationAttributeOptionId)
-                .HasConstraintName("FK_Product_SpecificationAttribute_Mapping_SpecificationAttributeOptionId_SpecificationAttributeOption_Id");
-        });
+               entity.HasOne(d => d.SpecificationAttributeOption).WithMany(p => p.ProductSpecificationAttributeMappings)
+                   .HasForeignKey(d => d.SpecificationAttributeOptionId)
+                   .HasConstraintName("FK_Product_SpecificationAttribute_Mapping_SpecificationAttributeOptionId_SpecificationAttributeOption_Id");
+           });
 
-        modelBuilder.Entity<ProductTemplate>(entity =>
-        {
-            entity.ToTable("ProductTemplate");
+           modelBuilder.Entity<ProductTemplate>(entity =>
+           {
+               entity.ToTable("ProductTemplate");
 
-            entity.Property(e => e.Name).HasMaxLength(400);
-            entity.Property(e => e.ViewPath).HasMaxLength(400);
-        });
+               entity.Property(e => e.Name).HasMaxLength(400);
+               entity.Property(e => e.ViewPath).HasMaxLength(400);
+           });
 
-        modelBuilder.Entity<ProductVideo>(entity =>
-        {
-            entity.ToTable("ProductVideo");
+           modelBuilder.Entity<ProductVideo>(entity =>
+           {
+               entity.ToTable("ProductVideo");
 
-            entity.HasIndex(e => e.ProductId, "IX_ProductVideo_ProductId");
+               entity.HasIndex(e => e.ProductId, "IX_ProductVideo_ProductId");
 
-            entity.HasIndex(e => e.VideoId, "IX_ProductVideo_VideoId");
+               entity.HasIndex(e => e.VideoId, "IX_ProductVideo_VideoId");
 
-            entity.HasOne(d => d.Product).WithMany(p => p.ProductVideos)
-                .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("FK_ProductVideo_ProductId_Product_Id");
+               entity.HasOne(d => d.Product).WithMany(p => p.ProductVideos)
+                   .HasForeignKey(d => d.ProductId)
+                   .HasConstraintName("FK_ProductVideo_ProductId_Product_Id");
 
-            entity.HasOne(d => d.Video).WithMany(p => p.ProductVideos)
-                .HasForeignKey(d => d.VideoId)
-                .HasConstraintName("FK_ProductVideo_VideoId_Video_Id");
-        });
+               entity.HasOne(d => d.Video).WithMany(p => p.ProductVideos)
+                   .HasForeignKey(d => d.VideoId)
+                   .HasConstraintName("FK_ProductVideo_VideoId_Video_Id");
+           });
 
-        modelBuilder.Entity<ProductWarehouseInventory>(entity =>
-        {
-            entity.ToTable("ProductWarehouseInventory");
+           modelBuilder.Entity<ProductWarehouseInventory>(entity =>
+           {
+               entity.ToTable("ProductWarehouseInventory");
 
-            entity.HasIndex(e => e.ProductId, "IX_ProductWarehouseInventory_ProductId");
+               entity.HasIndex(e => e.ProductId, "IX_ProductWarehouseInventory_ProductId");
 
-            entity.HasIndex(e => e.WarehouseId, "IX_ProductWarehouseInventory_WarehouseId");
+               entity.HasIndex(e => e.WarehouseId, "IX_ProductWarehouseInventory_WarehouseId");
 
-            entity.HasOne(d => d.Product).WithMany(p => p.ProductWarehouseInventories)
-                .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("FK_ProductWarehouseInventory_ProductId_Product_Id");
+               entity.HasOne(d => d.Product).WithMany(p => p.ProductWarehouseInventories)
+                   .HasForeignKey(d => d.ProductId)
+                   .HasConstraintName("FK_ProductWarehouseInventory_ProductId_Product_Id");
 
-            entity.HasOne(d => d.Warehouse).WithMany(p => p.ProductWarehouseInventories)
-                .HasForeignKey(d => d.WarehouseId)
-                .HasConstraintName("FK_ProductWarehouseInventory_WarehouseId_Warehouse_Id");
-        });
+               entity.HasOne(d => d.Warehouse).WithMany(p => p.ProductWarehouseInventories)
+                   .HasForeignKey(d => d.WarehouseId)
+                   .HasConstraintName("FK_ProductWarehouseInventory_WarehouseId_Warehouse_Id");
+           });
 
-        modelBuilder.Entity<QueuedEmail>(entity =>
-        {
-            entity.ToTable("QueuedEmail");
+           modelBuilder.Entity<QueuedEmail>(entity =>
+           {
+               entity.ToTable("QueuedEmail");
 
-            entity.HasIndex(e => e.CreatedOnUtc, "IX_QueuedEmail_CreatedOnUtc").IsDescending();
+               entity.HasIndex(e => e.CreatedOnUtc, "IX_QueuedEmail_CreatedOnUtc").IsDescending();
 
-            entity.HasIndex(e => e.EmailAccountId, "IX_QueuedEmail_EmailAccountId");
+               entity.HasIndex(e => e.EmailAccountId, "IX_QueuedEmail_EmailAccountId");
 
-            entity.HasIndex(e => new { e.SentOnUtc, e.DontSendBeforeDateUtc }, "IX_QueuedEmail_SentOnUtc_DontSendBeforeDateUtc_Extended");
+               entity.HasIndex(e => new { e.SentOnUtc, e.DontSendBeforeDateUtc }, "IX_QueuedEmail_SentOnUtc_DontSendBeforeDateUtc_Extended");
 
-            entity.Property(e => e.Bcc).HasMaxLength(500);
-            entity.Property(e => e.Cc)
-                .HasMaxLength(500)
-                .HasColumnName("CC");
-            entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
-            entity.Property(e => e.DontSendBeforeDateUtc).HasPrecision(6);
-            entity.Property(e => e.From).HasMaxLength(500);
-            entity.Property(e => e.FromName).HasMaxLength(500);
-            entity.Property(e => e.ReplyTo).HasMaxLength(500);
-            entity.Property(e => e.ReplyToName).HasMaxLength(500);
-            entity.Property(e => e.SentOnUtc).HasPrecision(6);
-            entity.Property(e => e.Subject).HasMaxLength(1000);
-            entity.Property(e => e.To).HasMaxLength(500);
-            entity.Property(e => e.ToName).HasMaxLength(500);
+               entity.Property(e => e.Bcc).HasMaxLength(500);
+               entity.Property(e => e.Cc)
+                   .HasMaxLength(500)
+                   .HasColumnName("CC");
+               entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
+               entity.Property(e => e.DontSendBeforeDateUtc).HasPrecision(6);
+               entity.Property(e => e.From).HasMaxLength(500);
+               entity.Property(e => e.FromName).HasMaxLength(500);
+               entity.Property(e => e.ReplyTo).HasMaxLength(500);
+               entity.Property(e => e.ReplyToName).HasMaxLength(500);
+               entity.Property(e => e.SentOnUtc).HasPrecision(6);
+               entity.Property(e => e.Subject).HasMaxLength(1000);
+               entity.Property(e => e.To).HasMaxLength(500);
+               entity.Property(e => e.ToName).HasMaxLength(500);
 
-            entity.HasOne(d => d.EmailAccount).WithMany(p => p.QueuedEmails)
-                .HasForeignKey(d => d.EmailAccountId)
-                .HasConstraintName("FK_QueuedEmail_EmailAccountId_EmailAccount_Id");
-        });
+               entity.HasOne(d => d.EmailAccount).WithMany(p => p.QueuedEmails)
+                   .HasForeignKey(d => d.EmailAccountId)
+                   .HasConstraintName("FK_QueuedEmail_EmailAccountId_EmailAccount_Id");
+           });
 
-        modelBuilder.Entity<RecurringPayment>(entity =>
-        {
-            entity.ToTable("RecurringPayment");
+           modelBuilder.Entity<RecurringPayment>(entity =>
+           {
+               entity.ToTable("RecurringPayment");
 
-            entity.HasIndex(e => e.InitialOrderId, "IX_RecurringPayment_InitialOrderId");
+               entity.HasIndex(e => e.InitialOrderId, "IX_RecurringPayment_InitialOrderId");
 
-            entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
-            entity.Property(e => e.StartDateUtc).HasPrecision(6);
+               entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
+               entity.Property(e => e.StartDateUtc).HasPrecision(6);
 
-            entity.HasOne(d => d.InitialOrder).WithMany(p => p.RecurringPayments)
-                .HasForeignKey(d => d.InitialOrderId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_RecurringPayment_InitialOrderId_Order_Id");
-        });
+               entity.HasOne(d => d.InitialOrder).WithMany(p => p.RecurringPayments)
+                   .HasForeignKey(d => d.InitialOrderId)
+                   .OnDelete(DeleteBehavior.ClientSetNull)
+                   .HasConstraintName("FK_RecurringPayment_InitialOrderId_Order_Id");
+           });
 
-        modelBuilder.Entity<RecurringPaymentHistory>(entity =>
-        {
-            entity.ToTable("RecurringPaymentHistory");
+           modelBuilder.Entity<RecurringPaymentHistory>(entity =>
+           {
+               entity.ToTable("RecurringPaymentHistory");
 
-            entity.HasIndex(e => e.RecurringPaymentId, "IX_RecurringPaymentHistory_RecurringPaymentId");
+               entity.HasIndex(e => e.RecurringPaymentId, "IX_RecurringPaymentHistory_RecurringPaymentId");
 
-            entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
+               entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
 
-            entity.HasOne(d => d.RecurringPayment).WithMany(p => p.RecurringPaymentHistories)
-                .HasForeignKey(d => d.RecurringPaymentId)
-                .HasConstraintName("FK_RecurringPaymentHistory_RecurringPaymentId_RecurringPayment_Id");
-        });
+               entity.HasOne(d => d.RecurringPayment).WithMany(p => p.RecurringPaymentHistories)
+                   .HasForeignKey(d => d.RecurringPaymentId)
+                   .HasConstraintName("FK_RecurringPaymentHistory_RecurringPaymentId_RecurringPayment_Id");
+           });
 
-        modelBuilder.Entity<RelatedProduct>(entity =>
-        {
-            entity.ToTable("RelatedProduct");
+           modelBuilder.Entity<RelatedProduct>(entity =>
+           {
+               entity.ToTable("RelatedProduct");
 
-            entity.HasIndex(e => e.ProductId1, "IX_RelatedProduct_ProductId1");
-        });
+               entity.HasIndex(e => e.ProductId1, "IX_RelatedProduct_ProductId1");
+           });
 
-        modelBuilder.Entity<ReturnRequest>(entity =>
-        {
-            entity.ToTable("ReturnRequest");
+           modelBuilder.Entity<ReturnRequest>(entity =>
+           {
+               entity.ToTable("ReturnRequest");
 
-            entity.HasIndex(e => e.CustomerId, "IX_ReturnRequest_CustomerId");
+               entity.HasIndex(e => e.CustomerId, "IX_ReturnRequest_CustomerId");
 
-            entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
-            entity.Property(e => e.UpdatedOnUtc).HasPrecision(6);
+               entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
+               entity.Property(e => e.UpdatedOnUtc).HasPrecision(6);
 
-            entity.HasOne(d => d.Customer).WithMany(p => p.ReturnRequests)
-                .HasForeignKey(d => d.CustomerId)
-                .HasConstraintName("FK_ReturnRequest_CustomerId_Customer_Id");
-        });
+               entity.HasOne(d => d.Customer).WithMany(p => p.ReturnRequests)
+                   .HasForeignKey(d => d.CustomerId)
+                   .HasConstraintName("FK_ReturnRequest_CustomerId_Customer_Id");
+           });
 
-        modelBuilder.Entity<ReturnRequestAction>(entity =>
-        {
-            entity.ToTable("ReturnRequestAction");
+           modelBuilder.Entity<ReturnRequestAction>(entity =>
+           {
+               entity.ToTable("ReturnRequestAction");
 
-            entity.Property(e => e.Name).HasMaxLength(400);
-        });
+               entity.Property(e => e.Name).HasMaxLength(400);
+           });
 
-        modelBuilder.Entity<ReturnRequestReason>(entity =>
-        {
-            entity.ToTable("ReturnRequestReason");
+           modelBuilder.Entity<ReturnRequestReason>(entity =>
+           {
+               entity.ToTable("ReturnRequestReason");
 
-            entity.Property(e => e.Name).HasMaxLength(400);
-        });
+               entity.Property(e => e.Name).HasMaxLength(400);
+           });
 
-        modelBuilder.Entity<ReviewType>(entity =>
-        {
-            entity.ToTable("ReviewType");
+           modelBuilder.Entity<ReviewType>(entity =>
+           {
+               entity.ToTable("ReviewType");
 
-            entity.Property(e => e.Description).HasMaxLength(400);
-            entity.Property(e => e.Name).HasMaxLength(400);
-        });
+               entity.Property(e => e.Description).HasMaxLength(400);
+               entity.Property(e => e.Name).HasMaxLength(400);
+           });
 
-        modelBuilder.Entity<RewardPointsHistory>(entity =>
-        {
-            entity.ToTable("RewardPointsHistory");
+           modelBuilder.Entity<RewardPointsHistory>(entity =>
+           {
+               entity.ToTable("RewardPointsHistory");
 
-            entity.HasIndex(e => e.CustomerId, "IX_RewardPointsHistory_CustomerId");
+               entity.HasIndex(e => e.CustomerId, "IX_RewardPointsHistory_CustomerId");
 
-            entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
-            entity.Property(e => e.EndDateUtc).HasPrecision(6);
-            entity.Property(e => e.UsedAmount).HasColumnType("decimal(18, 4)");
+               entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
+               entity.Property(e => e.EndDateUtc).HasPrecision(6);
+               entity.Property(e => e.UsedAmount).HasColumnType("decimal(18, 4)");
 
-            entity.HasOne(d => d.Customer).WithMany(p => p.RewardPointsHistories)
-                .HasForeignKey(d => d.CustomerId)
-                .HasConstraintName("FK_RewardPointsHistory_CustomerId_Customer_Id");
-        });
+               entity.HasOne(d => d.Customer).WithMany(p => p.RewardPointsHistories)
+                   .HasForeignKey(d => d.CustomerId)
+                   .HasConstraintName("FK_RewardPointsHistory_CustomerId_Customer_Id");
+           });
 
-        modelBuilder.Entity<ScheduleTask>(entity =>
-        {
-            entity.ToTable("ScheduleTask");
+           modelBuilder.Entity<ScheduleTask>(entity =>
+           {
+               entity.ToTable("ScheduleTask");
 
-            entity.Property(e => e.LastEnabledUtc).HasPrecision(6);
-            entity.Property(e => e.LastEndUtc).HasPrecision(6);
-            entity.Property(e => e.LastStartUtc).HasPrecision(6);
-            entity.Property(e => e.LastSuccessUtc).HasPrecision(6);
-        });
+               entity.Property(e => e.LastEnabledUtc).HasPrecision(6);
+               entity.Property(e => e.LastEndUtc).HasPrecision(6);
+               entity.Property(e => e.LastStartUtc).HasPrecision(6);
+               entity.Property(e => e.LastSuccessUtc).HasPrecision(6);
+           });
 
-        modelBuilder.Entity<SearchTerm>(entity =>
-        {
-            entity.ToTable("SearchTerm");
-        });
+           modelBuilder.Entity<SearchTerm>(entity =>
+           {
+               entity.ToTable("SearchTerm");
+           });
 
-        modelBuilder.Entity<Setting>(entity =>
-        {
-            entity.ToTable("Setting");
+           modelBuilder.Entity<Setting>(entity =>
+           {
+               entity.ToTable("Setting");
 
-            entity.Property(e => e.Name).HasMaxLength(200);
-        });
+               entity.Property(e => e.Name).HasMaxLength(200);
+           });
 
-        modelBuilder.Entity<Shipment>(entity =>
-        {
-            entity.ToTable("Shipment");
+           modelBuilder.Entity<Shipment>(entity =>
+           {
+               entity.ToTable("Shipment");
 
-            entity.HasIndex(e => e.OrderId, "IX_Shipment_OrderId");
+               entity.HasIndex(e => e.OrderId, "IX_Shipment_OrderId");
 
-            entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
-            entity.Property(e => e.DeliveryDateUtc).HasPrecision(6);
-            entity.Property(e => e.ReadyForPickupDateUtc).HasPrecision(6);
-            entity.Property(e => e.ShippedDateUtc).HasPrecision(6);
-            entity.Property(e => e.TotalWeight).HasColumnType("decimal(18, 4)");
+               entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
+               entity.Property(e => e.DeliveryDateUtc).HasPrecision(6);
+               entity.Property(e => e.ReadyForPickupDateUtc).HasPrecision(6);
+               entity.Property(e => e.ShippedDateUtc).HasPrecision(6);
+               entity.Property(e => e.TotalWeight).HasColumnType("decimal(18, 4)");
 
-            entity.HasOne(d => d.Order).WithMany(p => p.Shipments)
-                .HasForeignKey(d => d.OrderId)
-                .HasConstraintName("FK_Shipment_OrderId_Order_Id");
-        });
+               entity.HasOne(d => d.Order).WithMany(p => p.Shipments)
+                   .HasForeignKey(d => d.OrderId)
+                   .HasConstraintName("FK_Shipment_OrderId_Order_Id");
+           });
 
-        modelBuilder.Entity<ShipmentItem>(entity =>
-        {
-            entity.ToTable("ShipmentItem");
+           modelBuilder.Entity<ShipmentItem>(entity =>
+           {
+               entity.ToTable("ShipmentItem");
 
-            entity.HasIndex(e => e.ShipmentId, "IX_ShipmentItem_ShipmentId");
+               entity.HasIndex(e => e.ShipmentId, "IX_ShipmentItem_ShipmentId");
 
-            entity.HasOne(d => d.Shipment).WithMany(p => p.ShipmentItems)
-                .HasForeignKey(d => d.ShipmentId)
-                .HasConstraintName("FK_ShipmentItem_ShipmentId_Shipment_Id");
-        });
+               entity.HasOne(d => d.Shipment).WithMany(p => p.ShipmentItems)
+                   .HasForeignKey(d => d.ShipmentId)
+                   .HasConstraintName("FK_ShipmentItem_ShipmentId_Shipment_Id");
+           });
 
-        modelBuilder.Entity<ShippingByWeightByTotalRecord>(entity =>
-        {
-            entity.ToTable("ShippingByWeightByTotalRecord");
+           modelBuilder.Entity<ShippingByWeightByTotalRecord>(entity =>
+           {
+               entity.ToTable("ShippingByWeightByTotalRecord");
 
-            entity.Property(e => e.AdditionalFixedCost).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.LowerWeightLimit).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.OrderSubtotalFrom).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.OrderSubtotalTo).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.PercentageRateOfSubtotal).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.RatePerWeightUnit).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.WeightFrom).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.WeightTo).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.Zip).HasMaxLength(400);
-        });
+               entity.Property(e => e.AdditionalFixedCost).HasColumnType("decimal(18, 4)");
+               entity.Property(e => e.LowerWeightLimit).HasColumnType("decimal(18, 4)");
+               entity.Property(e => e.OrderSubtotalFrom).HasColumnType("decimal(18, 4)");
+               entity.Property(e => e.OrderSubtotalTo).HasColumnType("decimal(18, 4)");
+               entity.Property(e => e.PercentageRateOfSubtotal).HasColumnType("decimal(18, 4)");
+               entity.Property(e => e.RatePerWeightUnit).HasColumnType("decimal(18, 4)");
+               entity.Property(e => e.WeightFrom).HasColumnType("decimal(18, 4)");
+               entity.Property(e => e.WeightTo).HasColumnType("decimal(18, 4)");
+               entity.Property(e => e.Zip).HasMaxLength(400);
+           });
 
-        modelBuilder.Entity<ShippingMethod>(entity =>
-        {
-            entity.ToTable("ShippingMethod");
+           modelBuilder.Entity<ShoppingCartItem>(entity =>
+           {
+               entity.ToTable("ShoppingCartItem");
 
-            entity.Property(e => e.Name).HasMaxLength(400);
+               entity.HasIndex(e => e.CustomerId, "IX_ShoppingCartItem_CustomerId");
 
-            entity.HasMany(d => d.Countries).WithMany(p => p.ShippingMethods)
-                .UsingEntity<Dictionary<string, object>>(
-                    "ShippingMethodRestriction",
-                    r => r.HasOne<Country>().WithMany()
-                        .HasForeignKey("CountryId")
-                        .HasConstraintName("FK_ShippingMethodRestrictions_Country_Id_Country_Id"),
-                    l => l.HasOne<ShippingMethod>().WithMany()
-                        .HasForeignKey("ShippingMethodId")
-                        .HasConstraintName("FK_ShippingMethodRestrictions_ShippingMethod_Id_ShippingMethod_Id"),
-                    j =>
-                    {
-                        j.HasKey("ShippingMethodId", "CountryId");
-                        j.ToTable("ShippingMethodRestrictions");
-                        j.HasIndex(new[] { "CountryId" }, "IX_ShippingMethodRestrictions_Country_Id");
-                        j.HasIndex(new[] { "ShippingMethodId" }, "IX_ShippingMethodRestrictions_ShippingMethod_Id");
-                        j.IndexerProperty<int>("ShippingMethodId").HasColumnName("ShippingMethod_Id");
-                        j.IndexerProperty<int>("CountryId").HasColumnName("Country_Id");
-                    });
-        });
+               entity.HasIndex(e => e.ProductId, "IX_ShoppingCartItem_ProductId");
 
-        modelBuilder.Entity<ShoppingCartItem>(entity =>
-        {
-            entity.ToTable("ShoppingCartItem");
+               entity.HasIndex(e => new { e.ShoppingCartTypeId, e.CustomerId }, "IX_ShoppingCartItem_ShoppingCartTypeId_CustomerId");
 
-            entity.HasIndex(e => e.CustomerId, "IX_ShoppingCartItem_CustomerId");
+               entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
+               entity.Property(e => e.CustomerEnteredPrice).HasColumnType("decimal(18, 4)");
+               entity.Property(e => e.RentalEndDateUtc).HasPrecision(6);
+               entity.Property(e => e.RentalStartDateUtc).HasPrecision(6);
+               entity.Property(e => e.UpdatedOnUtc).HasPrecision(6);
 
-            entity.HasIndex(e => e.ProductId, "IX_ShoppingCartItem_ProductId");
+               entity.HasOne(d => d.Customer).WithMany(p => p.ShoppingCartItems)
+                   .HasForeignKey(d => d.CustomerId)
+                   .HasConstraintName("FK_ShoppingCartItem_CustomerId_Customer_Id");
 
-            entity.HasIndex(e => new { e.ShoppingCartTypeId, e.CustomerId }, "IX_ShoppingCartItem_ShoppingCartTypeId_CustomerId");
+               entity.HasOne(d => d.Product).WithMany(p => p.ShoppingCartItems)
+                   .HasForeignKey(d => d.ProductId)
+                   .HasConstraintName("FK_ShoppingCartItem_ProductId_Product_Id");
+           });
 
-            entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
-            entity.Property(e => e.CustomerEnteredPrice).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.RentalEndDateUtc).HasPrecision(6);
-            entity.Property(e => e.RentalStartDateUtc).HasPrecision(6);
-            entity.Property(e => e.UpdatedOnUtc).HasPrecision(6);
+           modelBuilder.Entity<SpecificationAttribute>(entity =>
+           {
+               entity.ToTable("SpecificationAttribute");
 
-            entity.HasOne(d => d.Customer).WithMany(p => p.ShoppingCartItems)
-                .HasForeignKey(d => d.CustomerId)
-                .HasConstraintName("FK_ShoppingCartItem_CustomerId_Customer_Id");
+               entity.HasIndex(e => e.SpecificationAttributeGroupId, "IX_SpecificationAttribute_SpecificationAttributeGroupId");
 
-            entity.HasOne(d => d.Product).WithMany(p => p.ShoppingCartItems)
-                .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("FK_ShoppingCartItem_ProductId_Product_Id");
-        });
+               entity.HasOne(d => d.SpecificationAttributeGroup).WithMany(p => p.SpecificationAttributes)
+                   .HasForeignKey(d => d.SpecificationAttributeGroupId)
+                   .OnDelete(DeleteBehavior.Cascade)
+                   .HasConstraintName("FK_SpecificationAttribute_SpecificationAttributeGroupId_SpecificationAttributeGroup_Id");
+           });
 
-        modelBuilder.Entity<SpecificationAttribute>(entity =>
-        {
-            entity.ToTable("SpecificationAttribute");
+           modelBuilder.Entity<SpecificationAttributeGroup>(entity =>
+           {
+               entity.ToTable("SpecificationAttributeGroup");
+           });
 
-            entity.HasIndex(e => e.SpecificationAttributeGroupId, "IX_SpecificationAttribute_SpecificationAttributeGroupId");
+           modelBuilder.Entity<SpecificationAttributeOption>(entity =>
+           {
+               entity.ToTable("SpecificationAttributeOption");
 
-            entity.HasOne(d => d.SpecificationAttributeGroup).WithMany(p => p.SpecificationAttributes)
-                .HasForeignKey(d => d.SpecificationAttributeGroupId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK_SpecificationAttribute_SpecificationAttributeGroupId_SpecificationAttributeGroup_Id");
-        });
+               entity.HasIndex(e => e.SpecificationAttributeId, "IX_SpecificationAttributeOption_SpecificationAttributeId");
 
-        modelBuilder.Entity<SpecificationAttributeGroup>(entity =>
-        {
-            entity.ToTable("SpecificationAttributeGroup");
-        });
+               entity.Property(e => e.ColorSquaresRgb).HasMaxLength(100);
 
-        modelBuilder.Entity<SpecificationAttributeOption>(entity =>
-        {
-            entity.ToTable("SpecificationAttributeOption");
+               entity.HasOne(d => d.SpecificationAttribute).WithMany(p => p.SpecificationAttributeOptions)
+                   .HasForeignKey(d => d.SpecificationAttributeId)
+                   .HasConstraintName("FK_SpecificationAttributeOption_SpecificationAttributeId_SpecificationAttribute_Id");
+           });
 
-            entity.HasIndex(e => e.SpecificationAttributeId, "IX_SpecificationAttributeOption_SpecificationAttributeId");
 
-            entity.Property(e => e.ColorSquaresRgb).HasMaxLength(100);
+           modelBuilder.Entity<StockQuantityHistory>(entity =>
+           {
+               entity.ToTable("StockQuantityHistory");
 
-            entity.HasOne(d => d.SpecificationAttribute).WithMany(p => p.SpecificationAttributeOptions)
-                .HasForeignKey(d => d.SpecificationAttributeId)
-                .HasConstraintName("FK_SpecificationAttributeOption_SpecificationAttributeId_SpecificationAttribute_Id");
-        });
+               entity.HasIndex(e => e.ProductId, "IX_StockQuantityHistory_ProductId");
 
+               entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
 
-        modelBuilder.Entity<StockQuantityHistory>(entity =>
-        {
-            entity.ToTable("StockQuantityHistory");
+               entity.HasOne(d => d.Product).WithMany(p => p.StockQuantityHistories)
+                   .HasForeignKey(d => d.ProductId)
+                   .HasConstraintName("FK_StockQuantityHistory_ProductId_Product_Id");
+           });
 
-            entity.HasIndex(e => e.ProductId, "IX_StockQuantityHistory_ProductId");
+           modelBuilder.Entity<Store>(entity =>
+           {
+               entity.ToTable("Store");
 
-            entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
+               entity.Property(e => e.CompanyAddress).HasMaxLength(1000);
+               entity.Property(e => e.CompanyName).HasMaxLength(1000);
+               entity.Property(e => e.CompanyPhoneNumber).HasMaxLength(1000);
+               entity.Property(e => e.CompanyVat).HasMaxLength(1000);
+               entity.Property(e => e.Hosts).HasMaxLength(1000);
+               entity.Property(e => e.Name).HasMaxLength(400);
+               entity.Property(e => e.Url).HasMaxLength(400);
+           });
 
-            entity.HasOne(d => d.Product).WithMany(p => p.StockQuantityHistories)
-                .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("FK_StockQuantityHistory_ProductId_Product_Id");
-        });
+           modelBuilder.Entity<StoreMapping>(entity =>
+           {
+               entity.ToTable("StoreMapping");
 
-        modelBuilder.Entity<Store>(entity =>
-        {
-            entity.ToTable("Store");
+               entity.HasIndex(e => new { e.EntityId, e.EntityName }, "IX_StoreMapping_EntityId_EntityName");
 
-            entity.Property(e => e.CompanyAddress).HasMaxLength(1000);
-            entity.Property(e => e.CompanyName).HasMaxLength(1000);
-            entity.Property(e => e.CompanyPhoneNumber).HasMaxLength(1000);
-            entity.Property(e => e.CompanyVat).HasMaxLength(1000);
-            entity.Property(e => e.Hosts).HasMaxLength(1000);
-            entity.Property(e => e.Name).HasMaxLength(400);
-            entity.Property(e => e.Url).HasMaxLength(400);
-        });
+               entity.HasIndex(e => e.StoreId, "IX_StoreMapping_StoreId");
 
-        modelBuilder.Entity<StoreMapping>(entity =>
-        {
-            entity.ToTable("StoreMapping");
+               entity.Property(e => e.EntityName).HasMaxLength(400);
 
-            entity.HasIndex(e => new { e.EntityId, e.EntityName }, "IX_StoreMapping_EntityId_EntityName");
+               entity.HasOne(d => d.Store).WithMany(p => p.StoreMappings)
+                   .HasForeignKey(d => d.StoreId)
+                   .HasConstraintName("FK_StoreMapping_StoreId_Store_Id");
+           });
 
-            entity.HasIndex(e => e.StoreId, "IX_StoreMapping_StoreId");
+           modelBuilder.Entity<StorePickupPoint>(entity =>
+           {
+               entity.ToTable("StorePickupPoint");
 
-            entity.Property(e => e.EntityName).HasMaxLength(400);
+               entity.Property(e => e.Latitude).HasColumnType("decimal(18, 8)");
+               entity.Property(e => e.Longitude).HasColumnType("decimal(18, 8)");
+               entity.Property(e => e.PickupFee).HasColumnType("decimal(18, 4)");
+           });
 
-            entity.HasOne(d => d.Store).WithMany(p => p.StoreMappings)
-                .HasForeignKey(d => d.StoreId)
-                .HasConstraintName("FK_StoreMapping_StoreId_Store_Id");
-        });
-
-        modelBuilder.Entity<StorePickupPoint>(entity =>
-        {
-            entity.ToTable("StorePickupPoint");
-
-            entity.Property(e => e.Latitude).HasColumnType("decimal(18, 8)");
-            entity.Property(e => e.Longitude).HasColumnType("decimal(18, 8)");
-            entity.Property(e => e.PickupFee).HasColumnType("decimal(18, 4)");
-        });
-
-
-        modelBuilder.Entity<TaxRate>(entity =>
-        {
-            entity.ToTable("TaxRate");
-
-            entity.Property(e => e.Percentage).HasColumnType("decimal(18, 4)");
-        });
 
         modelBuilder.Entity<TaxTransactionLog>(entity =>
         {
@@ -1809,7 +1677,10 @@ public partial class NopCommerceContext : DbContext
 
             entity.Property(e => e.UpdatedOnUtc).HasPrecision(6);
         });
+        */
+
         #endregion
+
 
         OnModelCreatingPartial(modelBuilder);
     }

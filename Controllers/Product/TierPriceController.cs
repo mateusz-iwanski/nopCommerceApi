@@ -16,6 +16,7 @@ namespace nopCommerceApi.Controllers.Product
     /// Tier pricing is a promotional tool that allows a store owner to price items differently for higher quantities.
     /// You can also use it as B2B/B2C prices, every customer can be assigned to a customer role and have a different price.
     /// </summary>
+    /// 
     [Route("api/tierprice")]
     [ApiController]
     public class TierPriceController : ControllerBase
@@ -28,6 +29,9 @@ namespace nopCommerceApi.Controllers.Product
         }
 
         [HttpGet]
+        /// <summary>
+        /// Retrieves all tier prices available in the system.
+        /// </summary>
         //[Authorize(Roles = "Admin,User,Viewer")]
         public IActionResult GetAll()
         {
