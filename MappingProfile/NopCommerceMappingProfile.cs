@@ -11,8 +11,7 @@ namespace nopCommerceApi.MappingProfile
     {
         public NopCommerceMappingProfile()
         {
-            CreateMap<CustomerRole, CustomerRoleDto>();
-            CreateMap<TierPrice, TierPriceDto>();
+            CreateMap<CustomerRole, CustomerRoleDto>();            
             CreateMap<Currency, CurrencyDto>();
             CreateMap<StateProvince, StateProvinceDto>();
             CreateMap<Language, LanguageDto>();
@@ -28,8 +27,13 @@ namespace nopCommerceApi.MappingProfile
             CreateMap<Product, ProductDto>();
             CreateMap<ProductTag, ProductTagDto>();
             CreateMap<ProductTag, ProductTagDetailsDto>();
-            // create
+            
+            // create product
             CreateMap<CreateProductTagDto, ProductTag>();
+            
+            // tier price
+            CreateMap<TierPrice, TierPriceDto>();
+            CreateMap<TierPrice, TierPriceDetailsDto>();            
 
             #endregion
 
