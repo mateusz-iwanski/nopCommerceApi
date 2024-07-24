@@ -10,6 +10,8 @@
     /// </summary>
     public class ProductTemplateDto : BaseDto
     {
+        public int Id { get; set; }
+
         /// <summary>
         /// Sets the template name
         /// </summary>
