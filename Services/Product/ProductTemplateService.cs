@@ -4,7 +4,12 @@ using nopCommerceApi.Models.Product;
 
 namespace nopCommerceApi.Services.Product
 {
-    public class ProductTemplateService : BaseService
+    public interface IProductTemplateService
+    {
+        IEnumerable<ProductTemplateDto> GetAll();
+    }
+
+    public class ProductTemplateService : BaseService, IProductTemplateService
     {
         public ProductTemplateService(NopCommerceContext context, IMapper mapper, ILogger<ProductService> logger) : base(context, mapper, logger) { }
 
