@@ -36,7 +36,8 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<TaxCategory> TaxCategories { get; set; }
     public virtual DbSet<TaxRate> TaxRates { get; set; }
     public virtual DbSet<TierPrice> TierPrices { get; set; }
-    
+    public virtual DbSet<ProductTemplate> ProductTemplates { get; set; }
+
     #endregion
 
 
@@ -112,7 +113,6 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<ProductReviewHelpfulness> ProductReviewHelpfulnesses { get; set; }
     public virtual DbSet<ProductReviewReviewTypeMapping> ProductReviewReviewTypeMappings { get; set; }
     public virtual DbSet<ProductSpecificationAttributeMapping> ProductSpecificationAttributeMappings { get; set; }
-    public virtual DbSet<ProductTemplate> ProductTemplates { get; set; }
     public virtual DbSet<ProductVideo> ProductVideos { get; set; }
     public virtual DbSet<ProductWarehouseInventory> ProductWarehouseInventories { get; set; }
     public virtual DbSet<QueuedEmail> QueuedEmails { get; set; }
@@ -181,6 +181,7 @@ public partial class NopCommerceContext : DbContext
         new TaxRateConfiguration().Configure(modelBuilder.Entity<TaxRate>());
         new TaxCategoryConfiguration().Configure(modelBuilder.Entity<TaxCategory>());
         new TierPriceConfiguration().Configure(modelBuilder.Entity<TierPrice>());
+        new ProductTemplateConfiguration().Configure(modelBuilder.Entity<ProductTemplate>());
 
         #endregion
 
@@ -1246,14 +1247,6 @@ public partial class NopCommerceContext : DbContext
                entity.HasOne(d => d.SpecificationAttributeOption).WithMany(p => p.ProductSpecificationAttributeMappings)
                    .HasForeignKey(d => d.SpecificationAttributeOptionId)
                    .HasConstraintName("FK_Product_SpecificationAttribute_Mapping_SpecificationAttributeOptionId_SpecificationAttributeOption_Id");
-           });
-
-           modelBuilder.Entity<ProductTemplate>(entity =>
-           {
-               entity.ToTable("ProductTemplate");
-
-               entity.Property(e => e.Name).HasMaxLength(400);
-               entity.Property(e => e.ViewPath).HasMaxLength(400);
            });
 
            modelBuilder.Entity<ProductVideo>(entity =>
