@@ -12,17 +12,10 @@ namespace nopCommerceApi.Models.Address
 
     public class AddressDto : BaseDto
     {
-        // If we not set/get Email over private _email, we will get an error 'Access violation' from IIS
-        private string _email;  
-
         public virtual string? FirstName { get; set; }
         public virtual string? LastName { get; set; }
         [EmailAddress]
-        public virtual string Email
-        {
-            get => _email;
-            set => _email = value?.Trim();
-        }
+        public virtual string Email { get; set; }
 
         public virtual string? Company { get; set; }        
         public virtual string? County { get; set; }
