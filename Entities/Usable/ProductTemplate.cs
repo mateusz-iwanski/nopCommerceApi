@@ -3,15 +3,35 @@ using System.Collections.Generic;
 
 namespace nopCommerceApi.Entities.Usable;
 
+/// <summary>
+/// Represents a product template.
+/// <remarks>
+/// In nopCommerce, you can specify an alternate layout template for a category, manufacturer, 
+/// product, and topic. You can see a list of the existing templates on the System → Templates page.
+/// Doc: https://docs.nopcommerce.com/en/running-your-store/system-administration/templates.html
+/// </remarks>
+/// </summary>
 public partial class ProductTemplate
 {
     public int Id { get; set; }
 
-    public string Name { get; set; } = null!;
+    /// <summary>
+    /// Gets or sets the template name
+    /// </summary>
+    public string Name { get; set; }
 
-    public string ViewPath { get; set; } = null!;
+    /// <summary>
+    /// Gets or sets the view path
+    /// </summary>
+    public string ViewPath { get; set; }
 
+    /// <summary>
+    /// Gets or sets the display order
+    /// </summary>
     public int DisplayOrder { get; set; }
 
-    public string? IgnoredProductTypes { get; set; }
+    /// <summary>
+    /// Gets or sets a comma-separated list of product type identifiers NOT supported by this template
+    /// </summary>
+    public string IgnoredProductTypes { get; set; }
 }
