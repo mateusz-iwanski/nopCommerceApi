@@ -155,6 +155,12 @@ namespace nopCommerceApi.MappingProfile
 
             #endregion
 
+            #region ProductTemplate
+            // get
+            CreateMap<ProductTemplate, ProductTemplateDto>();
+
+            #endregion
+
             #region TrierPrice
 
             CreateMap<TierPrice, TierPriceDto>();
