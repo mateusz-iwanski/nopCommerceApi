@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using nopCommerceApi.Entities;
+using nopCommerceApi.Entities.Usable;
 using nopCommerceApi.Exceptions;
 using nopCommerceApi.Models.Product;
 
@@ -9,6 +10,7 @@ namespace nopCommerceApi.Services.Product
     {
         IEnumerable<ProductDto> GetAll();
         ProductDto GetById(int id);
+        Entities.Usable.Product Create(ProductCreateDto productDto);
     }
 
     public class ProductService : BaseService, IProductService
@@ -30,6 +32,16 @@ namespace nopCommerceApi.Services.Product
             var productDto = products != null ? _mapper.Map<ProductDto>(products) : throw new NotFoundExceptions($"Product with id {id} not found");
 
             return productDto;
+        }
+
+        public Entities.Usable.Product Create(ProductCreateDto productDto)
+        {
+            var product = _mapper.Map<Entities.Usable.Product>(productDto);
+
+            _context.Products.Add(product);
+            _context.SaveChanges();
+
+            return product;
         }
     }
 }
