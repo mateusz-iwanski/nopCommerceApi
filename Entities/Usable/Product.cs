@@ -13,8 +13,15 @@ public partial class Product
     /// </summary>
     public string Name { get; set; } = null!;
 
+    /// <summary>
+    /// Gets or sets the meta keywords
+    /// </summary>
+
     public string? MetaKeywords { get; set; }
 
+    /// <summary>
+    /// Gets or sets the meta description
+    /// </summary>
     public string? MetaTitle { get; set; }
 
     /// <summary>
@@ -33,22 +40,26 @@ public partial class Product
     public string? Gtin { get; set; }
 
     /// <summary>
-    /// Gets or sets a required product identifiers (comma separated)
-    /// </summary>
-    public string? RequiredProductIds { get; set; }
-
-    /// <summary>
-    /// Gets or sets the comma separated list of allowed quantities. null or empty if any quantity is allowed
+    /// Get or set the comma separated list of allowed quantities. null or empty if any quantity is allowed.
+    /// Instead of a quantity textbox that allows them to enter any quantity, they will receive a dropdown list of the values you enter here.
     /// </summary>
     public string? AllowedQuantities { get; set; }
 
     /// <summary>
-    /// Gets or sets the product type identifier
+    /// Get or Set the product type identifier
+    /// Product type can be simple or grouped. In most cases your product will have the Simple product type. 
+    /// You need to use Grouped product type when a new product consists of one or more existing products that will be displayed on one single product details page.
+    /// enum ProductType Ids (compatible with 4.70.3). 
+    /// SimpleProduct (5): A simple product. 
+    /// GroupedProduct (10): A grouped product (product with variants).
     /// </summary>
     public int ProductTypeId { get; set; }
 
     /// <summary>
     /// Gets or sets the parent product identifier. It's used to identify associated products (only with "grouped" products)
+    /// Products in nopCommerce have two different types, simple products and grouped products. 
+    /// Grouped products let you stablish a hierarchical relation between them. As an easy example, 
+    /// you can imagine a perfume (parent product) that has associated two simple products (small size and big size).
     /// </summary>
     public int ParentGroupedProductId { get; set; }
 
@@ -60,82 +71,105 @@ public partial class Product
     public bool VisibleIndividually { get; set; }
 
     /// <summary>
-    /// Gets or sets the short description
+    /// Short description is the text that is displayed in product list i.e. category / manufacturer pages.
     /// </summary>
     public string? ShortDescription { get; set; }
 
     /// <summary>
-    /// Gets or sets the full description
+    /// Full description is the text that is displayed in product page.
     /// </summary>
     public string? FullDescription { get; set; }
 
     /// <summary>
-    /// Gets or sets the admin comment
+    /// This comment is for internal use only, not visible for customers.
     /// </summary>
     public string? AdminComment { get; set; }
 
+
+    // TODO make ProductTemplate models controllers services etc.
     /// <summary>
-    /// Gets or sets a value of used product template identifier
+    /// Choose a product template. This template defines how this product will be displayed in public store.
+    /// Look on ProductTemplate entity for more details.
     /// </summary>
     public int ProductTemplateId { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether to show the product on home page
+    /// Choose a vendor associated with this product. This can be useful when running a multi-vendor store to keep track of goods associated with vendor.
+    /// If is not multi-vendor store, then this field should be set to 0.   
     /// </summary>
     public int VendorId { get; set; }
 
     /// <summary>
-    /// Gets or sets the meta keywords
+    /// Gets or sets to true to display this product on your store's home page. Recommended for your most popular products.
     /// </summary>
     public bool ShowOnHomepage { get; set; }
 
     /// <summary>
-    /// Gets or sets the meta description
+    /// Meta description to be added to product page header.
     /// </summary>
     public string? MetaDescription { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the product allows customer reviews
+    /// By default, the reviews must be approved by the store owner before they appear in the public store. 
+    /// However, in case a store owner decides that reviews do not have to be approved, this default behavior can be changed. 
+    /// To opt out of the obligatory product reviews' approval, go to Configuration → Settings → Catalog settings and clear the Product reviews must be approved option.
     /// </summary>
     public bool AllowCustomerReviews { get; set; }
 
     /// <summary>
     /// Gets or sets the rating sum (approved reviews)
+    /// Look on Configuration → Settings → Catalog settings for more details.
+    /// When required is set in new review type, customers have to choose an appropriate rating value before they can continue.
     /// </summary>
     public int ApprovedRatingSum { get; set; }
 
     /// <summary>
     /// Gets or sets the rating sum (not approved reviews)
+    /// Look on Configuration → Settings → Catalog settings for more details.
     /// </summary>
     public int NotApprovedRatingSum { get; set; }
 
     /// <summary>
     /// Gets or sets the total rating votes (approved reviews)
+    /// Look on Configuration → Settings → Catalog settings for more details.
     /// </summary>
     public int ApprovedTotalReviews { get; set; }
 
     /// <summary>
     /// Gets or sets the total rating votes (not approved reviews)
+    /// Look on Configuration → Settings → Catalog settings for more details.
     /// </summary>
     public int NotApprovedTotalReviews { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the entity is subject to ACL
+    /// ACL - Access Control List (ACL) restricts or grants users access to certain areas of the site. This list is managed by administrators.
+    /// Get or sets a value indicating whether the entity is subject to ACL.
     /// </summary>
     public bool SubjectToAcl { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the entity is limited/restricted to certain stores
+    /// Get or sets a value indicating whether the entity is limited/restricted to certain stores
+    /// Option to limit this product to a certain store. If you have multiple stores, choose one or several from the list. 
+    /// If you don't use this option just leave this field empty. In order to use this functionality, you have to disable the 
+    /// following setting: Catalog settings > Ignore ACL rules.
     /// </summary>
     public bool LimitedToStores { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the product is gift card
+    /// Check if it is a gift card. After adding gift card products to the shopping cart and completing the purchases, 
+    /// you can then search and view the list of all the purchased gift cards by selecting Gift Cards from the Sales menu.
     /// </summary>
     public bool IsGiftCard { get; set; }
 
     /// <summary>
     /// Gets or sets the gift card type identifier
+    /// Defines the type of gift card.
+    /// Virtual (0): A virtual gift card.
+    /// Physical (1): A physical gift card.
+    /// Default is 0.
     /// </summary>
     public int GiftCardTypeId { get; set; }
 
@@ -145,14 +179,25 @@ public partial class Product
     public decimal? OverriddenGiftCardAmount { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the product requires that other products are added to the cart (Product X requires Product Y)
+    /// Set a value indicating whether the product requires that other products are added to the cart (Product X requires Product Y).
+    /// If you set to true you have use RequiredProductIds
     /// </summary>
     public bool RequireOtherProducts { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether required products are automatically added to the cart
+    /// Set a required product identifiers (comma separated)
+    /// Specify comma separated list of required product IDs. NOTE: Ensure that there are no circular references (for example, A requires B, and B requires A).
+    /// It's only work when RequireOtherProducts = true;
+    /// </summary>
+    public virtual string? RequiredProductIds { get; set; }
+
+
+    /// <summary>
+    /// Gets or sets a value indicating whether required products (RequiredProductIds) are automatically added to the cart
     /// </summary>
     public bool AutomaticallyAddRequiredProducts { get; set; }
+
+    #region Product to download
 
     /// <summary>
     /// Gets or sets a value indicating whether the product is download
@@ -160,7 +205,7 @@ public partial class Product
     public bool IsDownload { get; set; }
 
     /// <summary>
-    /// Gets or sets the download identifier
+    /// Gets or sets the download identifier from Entity Download
     /// </summary>
     public int DownloadId { get; set; }
 
@@ -170,7 +215,8 @@ public partial class Product
     public bool UnlimitedDownloads { get; set; }
 
     /// <summary>
-    /// Gets or sets the maximum number of downloads
+    /// Gets or sets the maximum number of downloads.
+    /// UnlimitedDownloads has to be false if you want to use this function.
     /// </summary>
     public int MaxNumberOfDownloads { get; set; }
 
@@ -181,11 +227,16 @@ public partial class Product
 
     /// <summary>
     /// Gets or sets the download activation type
+    /// Defines the download activation type (compatible with 4.70.3).
+    /// WhenOrderIsPaid (0): Activation occurs when the order is paid.
+    /// Manually (10): Activation occurs manually.
     /// </summary>
     public int DownloadActivationTypeId { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the product has a sample download file
+    /// Gets or sets a value indicating whether the product has a sample download file.
+    /// You can download file using URL or uploading from the computer. 
+    /// If you want to download file using URL check the box Use download URL.
     /// </summary>
     public bool HasSampleDownload { get; set; }
 
@@ -204,30 +255,51 @@ public partial class Product
     /// </summary>
     public string? UserAgreementText { get; set; }
 
+    #endregion
+
+    #region Recuring
     /// <summary>
     /// Gets or sets a value indicating whether the product is recurring
+    /// Check if it is a recurring product. For any product, you can define a recurring cycle to enable the system 
+    /// to automatically create orders that repeat when a customer purchases such products.
+    /// Default is false;
     /// </summary>
     public bool IsRecurring { get; set; }
 
     /// <summary>
     /// Gets or sets the cycle length
+    /// Specify the cycle length. It is a time period recurring order can be repeated.
     /// </summary>
     public int RecurringCycleLength { get; set; }
 
     /// <summary>
     /// Gets or sets the cycle period
+    /// Specify the cycle period. It defines units time period can be measured in.
+    /// Defines the cycle period for a recurring product.
+    /// Days (0): The cycle is in days.
+    /// Weeks (10): The cycle is in weeks.
+    /// Months (20): The cycle is in months.
+    /// Years (30): The cycle is in years.
     /// </summary>
     public int RecurringCyclePeriodId { get; set; }
 
     /// <summary>
     /// Gets or sets the total cycles
+    /// Total cycles are number of times customer will receive the recurring product.
     /// </summary>
     public int RecurringTotalCycles { get; set; }
 
+    #endregion
+
+    #region Rental
+
     /// <summary>
     /// Gets or sets a value indicating whether the product is rental
+    /// Check if this is a rental product (price is set for some period). Please note that inventory management is not fully 
+    /// supported for rental products yet. It's recommended to set 'Manage inventory method' to 'Don't track inventory' now.
     /// </summary>
     public bool IsRental { get; set; }
+
 
     /// <summary>
     /// Gets or sets the rental length for some period (price for this period)
@@ -236,21 +308,35 @@ public partial class Product
 
     /// <summary>
     /// Gets or sets the rental period (price for this period)
+    /// Defines the cycle period for a rental period.
+    /// Days (0): The cycle is in days.
+    /// Weeks (10): The cycle is in weeks.
+    /// Months (20): The cycle is in months.
+    /// Years (30): The cycle is in years.
     /// </summary>
     public int RentalPricePeriodId { get; set; }
 
+    #endregion
+
+    #region Shipping
+
     /// <summary>
     /// Gets or sets a value indicating whether the entity is ship enabled
+    /// You can manage shipping settings by selecting Configuration > Shipping.
     /// </summary>
     public bool IsShipEnabled { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the entity is free shipping
+    /// Check if this product comes with FREE shipping.
     /// </summary>
     public bool IsFreeShipping { get; set; }
 
     /// <summary>
     /// Gets or sets a value this product should be shipped separately (each item)
+    /// Check if the product should be shipped separately from other products (in single box). 
+    /// But notice that if the order includes several items of this product, 
+    /// all of them will be shipped in single box.
     /// </summary>
     public bool ShipSeparately { get; set; }
 
@@ -264,6 +350,8 @@ public partial class Product
     /// </summary>
     public int DeliveryDateId { get; set; }
 
+    #endregion
+
     /// <summary>
     /// Gets or sets a value indicating whether the product is marked as tax exempt
     /// </summary>
@@ -276,6 +364,10 @@ public partial class Product
 
     /// <summary>
     /// Gets or sets a value indicating how to manage inventory
+    /// ManageInventoryMethod: Enumerates methods of inventory management.
+    /// - DontManageStock (0): Do not track inventory for the product.
+    /// - ManageStock (1): Track inventory for the product.
+    /// - ManageStockByAttributes (2): Track inventory for the product by product attributes.
     /// </summary>
     public int ManageInventoryMethodId { get; set; }
 
