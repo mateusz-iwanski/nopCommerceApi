@@ -37,6 +37,7 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<TaxRate> TaxRates { get; set; }
     public virtual DbSet<TierPrice> TierPrices { get; set; }
     public virtual DbSet<ProductTemplate> ProductTemplates { get; set; }
+    public virtual DbSet<ProductAvailabilityRange> ProductAvailabilityRanges { get; set; }
 
     #endregion
 
@@ -104,7 +105,6 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<ProductAttributeCombinationPicture> ProductAttributeCombinationPictures { get; set; }
     public virtual DbSet<ProductAttributeValue> ProductAttributeValues { get; set; }
     public virtual DbSet<ProductAttributeValuePicture> ProductAttributeValuePictures { get; set; }
-    public virtual DbSet<ProductAvailabilityRange> ProductAvailabilityRanges { get; set; }
     public virtual DbSet<ProductCategoryMapping> ProductCategoryMappings { get; set; }
     public virtual DbSet<ProductManufacturerMapping> ProductManufacturerMappings { get; set; }
     public virtual DbSet<ProductPictureMapping> ProductPictureMappings { get; set; }
@@ -182,6 +182,7 @@ public partial class NopCommerceContext : DbContext
         new TaxCategoryConfiguration().Configure(modelBuilder.Entity<TaxCategory>());
         new TierPriceConfiguration().Configure(modelBuilder.Entity<TierPrice>());
         new ProductTemplateConfiguration().Configure(modelBuilder.Entity<ProductTemplate>());
+        new ProductAvailabilityRangeConfiguration().Configure(modelBuilder.Entity<ProductAvailabilityRange>());
 
         #endregion
 
@@ -1083,13 +1084,7 @@ public partial class NopCommerceContext : DbContext
                    .HasForeignKey(d => d.ProductAttributeValueId)
                    .HasConstraintName("FK_ProductAttributeValuePicture_ProductAttributeValueId_ProductAttributeValue_Id");
            });
-
-           modelBuilder.Entity<ProductAvailabilityRange>(entity =>
-           {
-               entity.ToTable("ProductAvailabilityRange");
-
-               entity.Property(e => e.Name).HasMaxLength(400);
-           });
+           
 
            modelBuilder.Entity<ProductCategoryMapping>(entity =>
            {
