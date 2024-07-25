@@ -68,6 +68,7 @@ builder.Services.AddScoped<ICustomerRoleService, CustomerRoleService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductTagService, ProductTagService>();
 builder.Services.AddScoped<IProductTemplateService, ProductTemplateService>();
+builder.Services.AddScoped<IProductAvailabilityRangeService, ProductAvailabilityRangeService>();
 
 
 // Configure services for api user controllers
