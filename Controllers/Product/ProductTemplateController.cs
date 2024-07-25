@@ -14,6 +14,14 @@ namespace nopCommerceApi.Controllers.Product
             this.productTemplateService = productTemplateService;
         }
 
+        /// <summary>
+        /// Represents a product template.
+        /// </summary>
+        /// <remarks>
+        /// In nopCommerce, you can specify an alternate layout template for a category, manufacturer, 
+        /// product, and topic. You can see a list of the existing templates on the System → Templates page.
+        /// Doc: https://docs.nopcommerce.com/en/running-your-store/system-administration/templates.html
+        /// </remarks>
         [HttpGet]
         public IActionResult GetAll()
         {
