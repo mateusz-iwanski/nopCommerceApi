@@ -161,6 +161,14 @@ namespace nopCommerceApi.MappingProfile
 
             #endregion
 
+            #region ProductAvailabilityRange
+            // get
+            CreateMap<ProductAvailabilityRange, ProductAvailabilityRangeDto>();
+
+            // add
+            CreateMap<ProductAvailabilityRangeCreateDto, ProductAvailabilityRange>();
+            #endregion
+
             #region TrierPrice
 
             CreateMap<TierPrice, TierPriceDto>();
@@ -168,8 +176,9 @@ namespace nopCommerceApi.MappingProfile
 
             #endregion
 
-
             
+
+
 
         }
     }
