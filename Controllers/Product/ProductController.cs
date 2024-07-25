@@ -34,9 +34,10 @@ namespace nopCommerceApi.Controllers.Product
 
         // POST: api/product
         [HttpPost]
-        public IActionResult Post([FromBody] string value)
+        public IActionResult Post([FromBody] ProductCreateDto productDto)
         {
-            return Ok("Create a product");
+            var product = _productService.Create(productDto);
+            return Ok(product);
         }
 
         // PUT: api/product/5
