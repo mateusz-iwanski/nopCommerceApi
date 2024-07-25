@@ -7,7 +7,7 @@
         public virtual string? MetaKeywords { get; set; }
         public virtual string? MetaTitle { get; set; }
 
-        public virtual string? Sku { get; set; }
+        public virtual string Sku { get; set; }
 
         public virtual string? ManufacturerPartNumber { get; set; }
 
