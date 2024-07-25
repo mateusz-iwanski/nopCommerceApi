@@ -74,9 +74,7 @@ namespace nopCommerceApi.Controllers.Address
 
         // Has tests
         /// <summary>
-        /// Update address for Polish enterprises
-        /// 
-        /// Update data without NIP, if you want to update NIP, you have to create a new address with nip for enterprises
+        /// Update address for Polish enterprises with NIP
         /// </summary>
         [Authorize(Roles = "Admin,User")]
         [HttpPut("update-with-nip/{id}")]
