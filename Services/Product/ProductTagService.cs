@@ -10,12 +10,12 @@ namespace nopCommerceApi.Services.Product
     public interface IProductTagService
     {
         ProductTag Create(ProductTagCreateDto productTagDto);
-        bool? Delete(int id);
+        bool Delete(int id);
         IEnumerable<ProductTagDto> GetAll();
         IEnumerable<ProductTagDetailsDto> GetAllDteils();
         ProductTagDto GetById(int id);
         IEnumerable<ProductTagDto> GetByTag(string tagName);
-        bool? Update(int id, [FromBody] ProductTagUpdateDto productTagDto);
+        bool Update(int id, [FromBody] ProductTagUpdateDto productTagDto);
     }
 
     public class ProductTagService : BaseService, IProductTagService
@@ -66,11 +66,11 @@ namespace nopCommerceApi.Services.Product
             return productTag;
         }
 
-        public bool? Update(int id, [FromBody] ProductTagUpdateDto productTagDto)
+        public bool Update(int id, [FromBody] ProductTagUpdateDto productTagDto)
         {
             var productTag = _context.ProductTags.FirstOrDefault(p => p.Id == id);
 
-            if (productTag == null) return null;
+            if (productTag == null) throw new NotFoundExceptions($"Product Tag with {id} not found.");
 
             productTag.Name = productTagDto.Name;
 
@@ -79,11 +79,11 @@ namespace nopCommerceApi.Services.Product
             return true;
         }
 
-        public bool? Delete(int id)
+        public bool Delete(int id)
         {
             var productTag = _context.ProductTags.FirstOrDefault(p => p.Id == id);
 
-            if (productTag == null) return null;
+            if (productTag == null) throw new NotFoundExceptions($"Product Tag with {id} not found.");
 
             _context.ProductTags.Remove(productTag);
             _context.SaveChanges();
