@@ -10,17 +10,19 @@ namespace nopCommerceApi.Services
         IEnumerable<StateProvinceDto> GetAll();
     }
 
-    public class StateProvinceService : IStateProvinceService
+    public class StateProvinceService : BaseService, IStateProvinceService
     {
         private readonly NopCommerceContext _context;
         private readonly IMapper _mapper;
 
-        public StateProvinceService(NopCommerceContext context, IMapper mapper)
+        public StateProvinceService(NopCommerceContext context, IMapper mapper, ILogger<AddressAttributeService> logger
+            ) : base(context, mapper, logger)
         {
-            _context = context;
-            _mapper = mapper;
         }
 
+        /// <summary>
+        /// Get all state provinces with details
+        /// </summary>
         public IEnumerable<StateProvinceDto> GetAll()
         {
             var stateProvince = _context

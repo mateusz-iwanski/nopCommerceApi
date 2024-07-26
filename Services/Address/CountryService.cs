@@ -9,15 +9,15 @@ namespace nopCommerceApi.Services
         IEnumerable<CountryDto> GetAll();
     }
 
-    public class CountryService : ICountryService
+    public class CountryService : BaseService, ICountryService
     {
         private readonly NopCommerceContext _context;
         private readonly IMapper _mapper;
 
-        public CountryService(NopCommerceContext context, IMapper mapper)
+        public CountryService(
+            NopCommerceContext context, IMapper mapper, ILogger<AddressAttributeService> logger
+            ) : base(context, mapper, logger)
         {
-            _context = context;
-            _mapper = mapper;
         }
 
         public IEnumerable<CountryDto> GetAll()
