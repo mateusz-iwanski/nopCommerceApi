@@ -67,7 +67,7 @@ public partial class Customer
     public string? City { get; set; }
 
     /// <summary>
-    /// Gets or sets the city
+    /// Gets or sets the county
     /// </summary>
     public string? County { get; set; }
 

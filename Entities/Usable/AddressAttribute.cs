@@ -6,7 +6,6 @@ namespace nopCommerceApi.Entities.Usable;
 
 /// <summary>
 /// If the default form fields are not enough for your needs, then you can manage additional address attributes.
-/// When you add 
 /// </summary>
 public partial class AddressAttribute
 {
