@@ -19,6 +19,10 @@ namespace nopCommerceApi.Controllers.Customer
             _customerRoleService = customerRoleService;
         }
 
+        /// <summary>
+        /// Get all nopCommerce customer roles
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         //[Authorize(ApiUserRoles = "Admin,User,Viewer")]
         public ActionResult<CustomerRole> GetAll()

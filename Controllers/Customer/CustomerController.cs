@@ -18,6 +18,9 @@ namespace nopCommerceApi.Controllers.Customer
         }
 
         // GET: api/customer
+        /// <summary>
+        /// Get all nopCommerce customers
+        /// </summary>
         [HttpGet]
         //[Authorize(ApiUserRoles = "Admin,User,Viewer")]
         public IEnumerable<CustomerDto> GetAll()
@@ -25,9 +28,15 @@ namespace nopCommerceApi.Controllers.Customer
             var customers = _customerService.GetAll();
             return customers;
         }
-        
+
         // POST: api/customer/add-base-pl
         // Has tests
+        /// <summary>
+        /// Create nopCommerce customer for Poland.
+        /// </summary>
+        /// <remarks>
+        /// Default nopCommerce customer role is Registered.
+        /// </remarks>
         [HttpPost("add-base-pl")]
         public IActionResult CreateBasePL([FromBody] CustomerCreateBaseDto createCustomerDto)
         {
@@ -37,6 +46,9 @@ namespace nopCommerceApi.Controllers.Customer
 
         // POST: api/customer/connect-with/address/{customerGuid}/{shippingAddressId}
         // Has tests
+        /// <summary>
+        /// Link the address to the nopCommerce customer
+        /// </summary>
         [HttpPost("connect-with/address/{customerGuid}/{shippingAddressId}")]
         public IActionResult ConnectToAddress(Guid customerGuid, int shippingAddressId)
         {
