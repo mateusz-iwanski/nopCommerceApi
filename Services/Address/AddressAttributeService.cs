@@ -1,17 +1,14 @@
 ﻿using AutoMapper;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Entities.Usable;
+using nopCommerceApi.Exceptions;
 using nopCommerceApi.Models.Address;
 
 namespace nopCommerceApi.Services
 {
     public interface IAddressAttributeService
     {
-        void Create(AddressAttributeDto addressAttributeDto);
-        void Delete(int id);
         IEnumerable<AddressAttributeDto> GetAll();
-        AddressAttributeDto GetById(int id);
-        void Update(int id, AddressAttributeDto addressAttributeDto);
     }
 
     public class AddressAttributeService : BaseService, IAddressAttributeService
@@ -20,7 +17,8 @@ namespace nopCommerceApi.Services
         public AddressAttributeService(
             NopCommerceContext context, IMapper mapper, ILogger<AddressAttributeService> logger
             ) : base(context, mapper, logger)
-        {}
+        {
+        }
 
         public IEnumerable<AddressAttributeDto> GetAll()
         {
@@ -29,35 +27,6 @@ namespace nopCommerceApi.Services
             var addressAttributeDtos = _mapper.Map<List<AddressAttributeDto>>(addressAttributes);
 
             return addressAttributeDtos;
-        }
-
-        public AddressAttributeDto GetById(int id)
-        {
-            var addressAttribute = _context.AddressAttributes.Find(id);
-            var addressAttributeDto = _mapper.Map<AddressAttributeDto>(addressAttribute);
-
-            return addressAttributeDto;
-        }
-
-        public void Create(AddressAttributeDto addressAttributeDto)
-        {
-            var addressAttribute = _mapper.Map<AddressAttribute>(addressAttributeDto);
-            _context.AddressAttributes.Add(addressAttribute);
-            _context.SaveChanges();
-        }
-
-        public void Update(int id, AddressAttributeDto addressAttributeDto)
-        {
-            var addressAttribute = _context.AddressAttributes.Find(id);
-            _mapper.Map(addressAttributeDto, addressAttribute);
-            _context.SaveChanges();
-        }
-
-        public void Delete(int id)
-        {
-            var addressAttribute = _context.AddressAttributes.Find(id);
-            _context.AddressAttributes.Remove(addressAttribute);
-            _context.SaveChanges();
         }
     }
 }
