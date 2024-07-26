@@ -8,6 +8,9 @@ using nopCommerceApi.Services;
 
 namespace nopCommerceApi.Controllers.Address
 {
+    /// <summary>
+    /// State Province Controller
+    /// </summary>
     [Route("api/state-province")]
     [ApiController]
     public class StateProvinceController : ControllerBase
@@ -19,6 +22,9 @@ namespace nopCommerceApi.Controllers.Address
             _stateProvinceService = stateProvince;
         }
 
+        /// <summary>
+        /// Get all state province
+        /// </summary>
         [HttpGet]
         [Authorize(Roles = "Admin,User,Viewer")]
         public ActionResult<StateProvince> GetAll()

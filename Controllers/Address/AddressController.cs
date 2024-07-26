@@ -10,6 +10,9 @@ using nopCommerceApi.Validations;
 
 namespace nopCommerceApi.Controllers.Address
 {
+    /// <summary>
+    /// Cotrnoller for address operations
+    /// </summary>
     [Route("api/address")]
     [ApiController]
     public class AddressController : ControllerBase
@@ -22,6 +25,9 @@ namespace nopCommerceApi.Controllers.Address
         }
 
         // Has tests
+        /// <summary>
+        /// Get all addresses with details
+        /// </summary>
         [HttpGet]
         [Authorize(Roles = "Admin,User,Viewer")]
         public ActionResult<AddressDetailsDto> GetAll()
@@ -32,18 +38,23 @@ namespace nopCommerceApi.Controllers.Address
         }
 
         // Has tests
+        /// <summary>
+        /// Get address with details by ID  
+        /// </summary>
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin,User,Viewer")]
         public ActionResult<AddressDetailsDto> GetById([FromRoute] int id)
         {
-            var address = _addressService.GetById(id) ?? throw new NotFoundExceptions($"Adress with ID {id} not found.");
+            var address = _addressService.GetById(id);
+
             return Ok(address);
         }
 
         // Has tests
         /// <summary>
         /// Add address with the NIP value as a custom attribute for Poland.
-        /// 
+        /// </summary>
+        /// <remarks>
         /// Default nopCommerce not have this feature.
         /// CustomAttribute will look like this:
         /// 
@@ -56,17 +67,11 @@ namespace nopCommerceApi.Controllers.Address
         /// </Attributes>      
         /// 
         /// AddressAttribute ID="1" 
-        /// 
-        /// </summary>
+        /// </remarks> 
         [HttpPost("add-with-nip")]
         [Authorize(Roles = "Admin,User")]
         public ActionResult CreateWithNipPl([FromBody] AddressCreatePolishEnterpriseDto createAddressDto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             var address = _addressService.CreateWithNip(createAddressDto);
 
             return Created($"/api/address/{address.Id}", null);
@@ -82,77 +87,46 @@ namespace nopCommerceApi.Controllers.Address
         {
             updateAddressDto.Id = id;
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            try
-            {
-                var addressUpdated = _addressService.UpdateWithNip(id, updateAddressDto) ?? throw new NotFoundExceptions($"Address with ID {id} not found.");
-            }
-            catch (AddressException updateException)
-            {
-                return BadRequest(updateException.Message);
-            }
-
+            _addressService.UpdateWithNip(id, updateAddressDto);
+            
             return Ok(updateAddressDto);
         }
 
         // Has test
         /// <summary>
-        /// Add address for typical user
+        /// Creating address for individual person
         /// </summary>
-        /// <param name="createAddressDto"></param>
-        /// <returns></returns>
         [HttpPost("add")]
-        [Authorize(Roles = "Admin,User")]
+        //[Authorize(Roles = "Admin,User")]
         public ActionResult Create([FromBody] AddressCreateDto createAddressDto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            var address = _addressService.Create(createAddressDto);
 
-            try
-            {
-                var address = _addressService.Create(createAddressDto);
-                return Created($"/api/address/{address.Id}", null);
-            }
-            catch (AddressException createException)
-            {
-                throw new BadRequestException(createException.Message);
-            }
+            return Created($"/api/address/{address.Id}", null);
         }
 
         // Has test
+        /// <summary>
+        /// Delete address by ID
+        /// </summary>
         [HttpDelete("delete/{id}")]
         [Authorize(Roles = "Admin,User")]
         public ActionResult Delete(int id)
         {
-            var address = _addressService.Delete(id) ?? throw new NotFoundExceptions($"Address with ID {id} not found.");
-
-            return Ok(address);
+            _addressService.Delete(id);
+            return Ok();
         }
 
+        /// <summary>
+        /// Update address by ID (without NIP)
+        /// </summary>
         [HttpPut("update/{id}")]
         [Authorize(Roles = "Admin,User")]
         public ActionResult Update(int id, [FromBody] AddressUpdateDto updateAddressDto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            _addressService.Update(id, updateAddressDto);
 
-            try
-            {
-                var address = _addressService.Update(id, updateAddressDto) ?? throw new NotFoundExceptions($"Address with ID {id} not found.");
-                return Ok(updateAddressDto);
-            }
-            catch (AddressException updateException)
-            {
-                return BadRequest(updateException.Message);
-            }
+            return Ok(updateAddressDto);
         }
     }
 }

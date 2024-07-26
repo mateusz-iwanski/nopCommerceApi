@@ -8,6 +8,9 @@ using nopCommerceApi.Services;
 
 namespace nopCommerceApi.Controllers.Address
 {
+    /// <summary>
+    /// Controller for country operations
+    /// </summary>
     [Route("api/country")]
     [ApiController]
     public class CountryController : ControllerBase
@@ -19,6 +22,9 @@ namespace nopCommerceApi.Controllers.Address
             _countryService = countryService;
         }
 
+        /// <summary>
+        /// Get all countries 
+        /// </summary>
         [HttpGet]
         [Authorize(Roles = "Admin,User,Viewer")]
         public ActionResult<CountryDto> GetAll()
