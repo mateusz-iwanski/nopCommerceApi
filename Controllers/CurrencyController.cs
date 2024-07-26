@@ -7,6 +7,9 @@ using nopCommerceApi.Services;
 
 namespace nopCommerceApi.Controllers
 {
+    /// <summary>
+    /// Controller for currency operations
+    /// </summary>
     [Route("api/currency")]
     [ApiController]
     public class CurrencyController : ControllerBase
@@ -18,6 +21,9 @@ namespace nopCommerceApi.Controllers
             _currencyService = currencyService;
         }
 
+        /// <summary>
+        /// Get all currencies in the system
+        /// </summary>
         [HttpGet]
         [Authorize(Roles = "Admin,User,Viewer")]
         public ActionResult<CurrencyDto> GetAll()

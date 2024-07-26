@@ -15,6 +15,9 @@ namespace nopCommerceApi.Controllers
             _languageService = languageService;
         }
 
+        /// <summary>
+        /// Get all languages 
+        /// </summary>
         [HttpGet]
         [Authorize(Roles = "Admin,User,Viewer")]
         public ActionResult<LanguageDto> GetAll()

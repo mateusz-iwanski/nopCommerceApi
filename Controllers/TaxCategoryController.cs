@@ -9,6 +9,9 @@ using nopCommerceApi.Services;
 
 namespace nopCommerceApi.Controllers
 {
+    /// <summary>
+    /// Controller for tax category operations
+    /// </summary>
     [Route("api/taxcategory")]
     [ApiController]
     public class TaxCategoryController : ControllerBase
@@ -19,6 +22,10 @@ namespace nopCommerceApi.Controllers
             _taxCategoryService = taxCategoryService;
         }
 
+        /// <summary>
+        /// Get all tax categories
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Authorize(Roles = "Admin,User,Viewer")]
         public ActionResult<IEnumerable<Models.TaxCategoryDto>> GetAll()
