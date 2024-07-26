@@ -5,11 +5,11 @@ using nopCommerceApi.Models.Address;
 
 namespace nopCommerceApi.Validations
 {
-    public class CreateAddressDtoValidator : BaseValidator<AddressCreateDto>
+    public class AddressCreateDtoValidator : BaseValidator<AddressCreateDto>
     {
         private readonly NopCommerceContext _context;
 
-        public CreateAddressDtoValidator(NopCommerceContext context)
+        public AddressCreateDtoValidator(NopCommerceContext context)
         {
             _context = context;
 

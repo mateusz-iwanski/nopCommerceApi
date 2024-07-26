@@ -8,14 +8,14 @@ using System.Xml;
 
 namespace nopCommerceApi.Validations
 {
-    public class CreatePolishEnterpriseAddressDtoValidator : BaseValidator<AddressCreatePolishEnterpriseDto>
+    public class AddressCreatePolishEnterpriseDtoValidator : BaseValidator<AddressCreatePolishEnterpriseDto>
     {
         private readonly NopCommerceContext _context;
 
         /// <summary>
         /// Validates the address DTO.
         /// </summary>
-        public CreatePolishEnterpriseAddressDtoValidator(NopCommerceContext context)
+        public AddressCreatePolishEnterpriseDtoValidator(NopCommerceContext context)
         {
             _context = context;
 

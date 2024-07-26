@@ -6,11 +6,11 @@ using System.Text.Json.Serialization;
 
 namespace nopCommerceApi.Validations
 {
-    public class UpdateAddressDtoValidator : BaseValidator<AddressUpdateDto> 
+    public class AddressUpdateDtoValidator : BaseValidator<AddressUpdateDto> 
     {
         private readonly NopCommerceContext _context;
 
-        public UpdateAddressDtoValidator(NopCommerceContext context)
+        public AddressUpdateDtoValidator(NopCommerceContext context)
         {
             _context = context;
 
