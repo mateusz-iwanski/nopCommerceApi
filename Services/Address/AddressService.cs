@@ -4,55 +4,32 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Entities.Usable;
+using nopCommerceApi.Exceptions;
 using nopCommerceApi.Models.Address;
 using nopCommerceApi.Validations;
 using System.Text.Json;
 
 namespace nopCommerceApi.Services
 {
-    public class AddressException : Exception
-    {
-        public AddressException(string message, string dtoProperty)
-        : base(FormatErrorMessage(message, dtoProperty))
-        {
-        }
-
-        /// <summary>
-        /// Format the error message to be returned in JSON format
-        /// </summary>
-        /// <param name="message">Message to show</param>
-        /// <param name="dtoProperty">The property for which the message is to be display</param>
-        /// <returns></returns>
-        private static string FormatErrorMessage(string message, string dtoProperty)
-        {
-            var errorMessage = new Dictionary<string, List<string>>
-            {
-                { dtoProperty, new List<string> { message } }
-            };
-            return JsonSerializer.Serialize(errorMessage, new JsonSerializerOptions { WriteIndented = true });
-        }
-    }
-
     public interface IAddressService
     {
         IEnumerable<AddressDetailsDto> GetAll();
         Address CreateWithNip(AddressCreatePolishEnterpriseDto newAdressDto);
-        bool? UpdateWithNip(int id, AddressUpdatePolishEnterpriseDto updateAddressDto);
+        bool UpdateWithNip(int id, AddressUpdatePolishEnterpriseDto updateAddressDto);
         Address Create(AddressCreateDto addressDto);
-        bool? Delete(int id);
-        bool? Update(int id, AddressUpdateDto updateAddressDto);
+        bool Delete(int id);
+        bool Update(int id, AddressUpdateDto updateAddressDto);
         AddressDetailsDto GetById(int id);
     }
 
-    public class AddressService : IAddressService
+    public class AddressService : BaseService, IAddressService
     {
         private readonly NopCommerceContext _context;
         private readonly IMapper _mapper;
 
-        public AddressService(NopCommerceContext context, IMapper mapper)
+        public AddressService(NopCommerceContext context, IMapper mapper, ILogger<AddressAttributeService> logger
+            ) : base(context, mapper, logger)
         {
-            _context = context;
-            _mapper = mapper;
         }
 
         public IEnumerable<AddressDetailsDto> GetAll()
@@ -72,6 +49,8 @@ namespace nopCommerceApi.Services
                 .Include(a => a.StateProvince).ThenInclude(c => c.Country)
                 .FirstOrDefault(a => a.Id == id);
             
+            if (address == null) throw new NotFoundExceptions($"Address with {id} not found.");
+
             var addressDto = _mapper.Map<AddressDetailsDto>(address);
             return addressDto;
         }
@@ -127,13 +106,14 @@ namespace nopCommerceApi.Services
 
         /// <summary>
         /// Update address for Polish enterprises
-        /// 
+        /// </summary>
+        /// <remarks>
         /// Nip has to be always set in the request body.
         /// In function check if the nip already exists in the database excluding the updated object from the check.
         /// If property not set in the request body, it will not be updated.
         /// Cant set empty string on: Company, City, Email, Address1, PhoneNumber. If you don't want to update, just remove from body.
-        /// </summary>
-        public bool? UpdateWithNip(int id, AddressUpdatePolishEnterpriseDto updateAddressDto)
+        /// </remarks>
+        public bool UpdateWithNip(int id, AddressUpdatePolishEnterpriseDto updateAddressDto)
         {
             var address = _context.Addresses
                 .Include(a => a.Country)
@@ -143,39 +123,20 @@ namespace nopCommerceApi.Services
             var addressAttribute = _context.AddressAttributes
                 .FirstOrDefault(c => c.Name == "NIP" && c.AttributeControlTypeId == 4);
 
-            if (address == null) return null;
+            if (address == null) throw new NotFoundExceptions($"Address with {id} not found.");
 
             // Only update this fields which are not null
 
-            if (updateAddressDto.FirstName != null)
-                address.FirstName = updateAddressDto.FirstName;
-
-            if (updateAddressDto.LastName != null)
-                address.LastName = updateAddressDto.LastName;
-
-            if (updateAddressDto.Email != null)
-                address.Email = updateAddressDto.Email;
-
-            if (updateAddressDto.Company != null)
-                address.Company = updateAddressDto.Company;
-
-            if (updateAddressDto.County != null)
-                address.County = updateAddressDto.County;
-
-            if (updateAddressDto.City != null)
-                address.City = updateAddressDto.City;
-
-            if (updateAddressDto.Address1 != null)
-                address.Address1 = updateAddressDto.Address1;
-
-            if (updateAddressDto.Address2 != null)
-                address.Address2 = updateAddressDto.Address2;
-
-            if (updateAddressDto.ZipPostalCode != null)
-                address.ZipPostalCode = updateAddressDto.ZipPostalCode;
-
-            if (updateAddressDto.PhoneNumber != null)
-                address.PhoneNumber = updateAddressDto.PhoneNumber;
+            address.FirstName = updateAddressDto.FirstName;
+            address.LastName = updateAddressDto.LastName;
+            address.Email = updateAddressDto.Email;
+            address.Company = updateAddressDto.Company;
+            address.County = updateAddressDto.County;
+            address.City = updateAddressDto.City;
+            address.Address1 = updateAddressDto.Address1;
+            address.Address2 = updateAddressDto.Address2;
+            address.ZipPostalCode = updateAddressDto.ZipPostalCode;
+            address.PhoneNumber = updateAddressDto.PhoneNumber;
 
             // Set to Poland every time, this function is only for Polish enterprises
             address.Country = _context.Countries.FirstOrDefault(c => c.Name == "Poland");
@@ -192,7 +153,7 @@ namespace nopCommerceApi.Services
 
                 address.CustomAttributes = filteredAddresses.Count == 0 ?
                     $"<Attributes><AddressAttribute ID=\"{addressAttribute.Id}\"><AddressAttributeValue><Value>{updateAddressDto.Nip}</Value></AddressAttributeValue></AddressAttribute></Attributes>"
-                    : throw new AddressException("NIP already exists in the database", "Nip");
+                    : throw new BadRequestException("NIP already exists in the database, it should be unique.");
             }
 
             _context.SaveChanges();
@@ -210,11 +171,11 @@ namespace nopCommerceApi.Services
             return address;
         }
 
-        public bool? Delete(int id)
+        public bool Delete(int id)
         {
             var address = _context.Addresses.FirstOrDefault(a => a.Id == id);
 
-            if (address == null) return null;
+            if (address == null) throw new NotFoundExceptions($"Address with {id} not found.");
 
             _context.Addresses.Remove(address);
             _context.SaveChanges();
@@ -222,51 +183,28 @@ namespace nopCommerceApi.Services
             return true;
         }
 
-        public bool? Update(int id, AddressUpdateDto updateAddressDto)
+        public bool Update(int id, AddressUpdateDto updateAddressDto)
         {
             var address = _context.Addresses.FirstOrDefault(a => a.Id == id);
 
-            if (address == null) return null;
+            if (address == null) throw new NotFoundExceptions($"Address with {id} not found.");
 
             // If is enterprise address, can't update
             if (AddressDto.IsEnterpriseAddress(address, _context.AddressAttributes))
-                throw new AddressException("Address is enterprise, can\'t update. Use update-with-nip enterprise addresses.", "Enterprise");
+                throw new BadRequestException("Address is enterprise, can\'t update. Use update-with-nip enterprise addresses.");
 
 
-            // Only update this fields which are not null
-
-            if (updateAddressDto.FirstName != null)
-                address.FirstName = updateAddressDto.FirstName;
-
-            if (updateAddressDto.LastName != null)
-                address.LastName = updateAddressDto.LastName;
-
-            if (updateAddressDto.Email != null)
-                address.Email = updateAddressDto.Email;
-
-            if (updateAddressDto.Company != null)
-                address.Company = updateAddressDto.Company;
-
-            if (updateAddressDto.County != null)
-                address.County = updateAddressDto.County;
-
-            if (updateAddressDto.City != null)
-                address.City = updateAddressDto.City;
-
-            if (updateAddressDto.Address1 != null)
-                address.Address1 = updateAddressDto.Address1;
-
-            if (updateAddressDto.Address2 != null)
-                address.Address2 = updateAddressDto.Address2;
-
-            if (updateAddressDto.ZipPostalCode != null)
-                address.ZipPostalCode = updateAddressDto.ZipPostalCode;
-
-            if (updateAddressDto.PhoneNumber != null)
-                address.PhoneNumber = updateAddressDto.PhoneNumber;
-
-            if (updateAddressDto.CountryId != null)
-                address.CountryId = updateAddressDto.CountryId;
+            address.FirstName = updateAddressDto.FirstName;
+            address.LastName = updateAddressDto.LastName;
+            address.Email = updateAddressDto.Email;
+            address.Company = updateAddressDto.Company;
+            address.County = updateAddressDto.County;
+            address.City = updateAddressDto.City;
+            address.Address1 = updateAddressDto.Address1;
+            address.Address2 = updateAddressDto.Address2;
+            address.ZipPostalCode = updateAddressDto.ZipPostalCode;
+            address.PhoneNumber = updateAddressDto.PhoneNumber;
+            address.CountryId = updateAddressDto.CountryId;
 
             _context.SaveChanges();
 
