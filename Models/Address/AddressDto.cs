@@ -9,21 +9,68 @@ using nopCommerceApi.Entities.Usable;
 
 namespace nopCommerceApi.Models.Address
 {
-
+    /// <summary>
+    /// Address Data Transfer Object
+    /// </summary>
+    /// <remarks>
+    /// This object should be used only for the get method in controller
+    /// </remarks>
     public class AddressDto : BaseDto
     {
+        /// <summary>
+        /// Gets the first name
+        /// </summary>
         public virtual string? FirstName { get; set; }
+
+        /// <summary>
+        /// Gets the last name
+        /// </summary>
         public virtual string? LastName { get; set; }
+
+        /// <summary>
+        /// Gets the email
+        /// </summary>
         [EmailAddress]
         public virtual string Email { get; set; }
 
-        public virtual string? Company { get; set; }        
+        /// <summary>
+        /// Gets the company
+        /// </summary>
+        public virtual string? Company { get; set; }
+
+        /// <summary>
+        /// Gets the county
+        /// </summary>
         public virtual string? County { get; set; }
+
+        /// <summary>
+        /// Gets the city
+        /// </summary>
         public virtual string? City { get; set; }
+
+        /// <summary>
+        /// Gets the address 1
+        /// </summary>
         public virtual string? Address1 { get; set; }
+
+        /// <summary>
+        /// Gets the address 2
+        /// </summary>
         public virtual string? Address2 { get; set; }
+
+        /// <summary>
+        /// Gets the zip/postal code
+        /// </summary>
         public virtual string? ZipPostalCode { get; set; }
+
+        /// <summary>
+        /// Gets the phone number
+        /// </summary>
         public virtual string? PhoneNumber { get; set; }
+
+        /// <summary>
+        /// Gets the fax number
+        /// </summary>
         public virtual string? FaxNumber { get; set; }
 
         
