@@ -9,15 +9,14 @@ namespace nopCommerceApi.Services
         IEnumerable<CurrencyDto> GetAll();
     }
 
-    public class CurrencyService : ICurrencyService
+    public class CurrencyService : BaseService, ICurrencyService
     {
         private readonly NopCommerceContext _context;
         private readonly IMapper _mapper;
 
-        public CurrencyService(NopCommerceContext context, IMapper mapper)
+        public CurrencyService(NopCommerceContext context, IMapper mapper, ILogger<AddressAttributeService> logger
+            ) : base(context, mapper, logger)
         {
-            _context = context;
-            _mapper = mapper;
         }
 
         public IEnumerable<CurrencyDto> GetAll()

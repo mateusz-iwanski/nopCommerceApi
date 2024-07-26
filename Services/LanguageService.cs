@@ -9,15 +9,14 @@ namespace nopCommerceApi.Services
         IEnumerable<LanguageDto> GetAll();
     }
 
-    public class LanguageService : ILanguageService
+    public class LanguageService : BaseService, ILanguageService
     {
         private readonly NopCommerceContext _context;
         private readonly IMapper _mapper;
 
-        public LanguageService(NopCommerceContext context, IMapper mapper)
+        public LanguageService(NopCommerceContext context, IMapper mapper, ILogger<AddressAttributeService> logger
+            ) : base(context, mapper, logger)
         {
-            _context = context;
-            _mapper = mapper;
         }
 
         public IEnumerable<LanguageDto> GetAll()
