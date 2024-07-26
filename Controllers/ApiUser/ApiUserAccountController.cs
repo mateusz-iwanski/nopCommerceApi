@@ -24,6 +24,12 @@ namespace nopCommerceApi.Controllers.User
             _accountService = accountService;
         }
 
+        /// <summary>
+        /// Register API user        
+        /// </summary>
+        /// <remarks>
+        /// API user registration is only allowed for the admin role.
+        /// </remarks>
         [HttpPost("register")]
         [Authorize(Roles = "Admin")]
         public ActionResult RegisterUser([FromBody] ApiUserRegisterDto registerUserDto)
@@ -32,6 +38,9 @@ namespace nopCommerceApi.Controllers.User
             return Ok();
         }
 
+        /// <summary>
+        /// Login API user
+        /// </summary>
         [HttpPost("login")]
         [Authorize(Roles = "Admin,User,Viewer")]
         public ActionResult Login([FromBody] ApiUserLoginDto loginDto)
