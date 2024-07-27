@@ -58,11 +58,11 @@ namespace nopCommerceApi.Controllers.Product
         /// <param name="productAvailabilityRange">The product availability range to create.</param>
         /// <returns>The created product availability range.</returns>
         [HttpPost]
-        public IActionResult Post([FromBody] ProductAvailabilityRangeCreateDto productAvailabilityRange)
+        public IActionResult Create([FromBody] ProductAvailabilityRangeCreateDto productAvailabilityRange)
         {
-            _productAvailabilityRangeService.Create(productAvailabilityRange);
+            var productTag = _productAvailabilityRangeService.Create(productAvailabilityRange);
 
-            return Ok(productAvailabilityRange);
+            return Created($"api/product/availabilityrange/{productTag.Id}", productTag);
         }
 
         // PUT: api/product/availabilityrange/delete/5
