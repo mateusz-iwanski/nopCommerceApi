@@ -75,13 +75,9 @@ namespace nopCommerceApi.Services.Customer
             _context.Customers.Add(customer);
             _context.SaveChanges();
 
-            // password is not necessary
-            if (!string.IsNullOrEmpty(createCustomerDto.Password))
-            {
-                // add password
-                _context.CustomerPasswords.Add(CustomerPasswordManager.CreatePassword(customer, createCustomerDto.Password, _settings));
-                _context.SaveChanges();
-            }
+            // add password
+            _context.CustomerPasswords.Add(CustomerPasswordManager.CreatePassword(customer, createCustomerDto.Password, _settings));
+            _context.SaveChanges();
 
             string jsonString = createCustomerDto.JsonSerializeReferenceLoopHandlingIgnore();
 
