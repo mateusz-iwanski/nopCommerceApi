@@ -16,7 +16,10 @@ namespace nopCommerceApi.Services.Product
 
     public class ProductAvailabilityRangeService : BaseService, IProductAvailabilityRangeService
     {
-        public ProductAvailabilityRangeService(NopCommerceContext context, IMapper mapper, ILogger<ProductAvailabilityRangeService> logger) : base(context, mapper, logger) { }
+        public ProductAvailabilityRangeService(NopCommerceContext context, IMapper mapper, ILogger<ProductAvailabilityRangeService> logger) 
+            : base(context, mapper, logger) 
+        { 
+        }
 
         public IEnumerable<ProductAvailabilityRangeDto> GetAll()
         {
