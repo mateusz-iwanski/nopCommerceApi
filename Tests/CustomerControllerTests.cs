@@ -19,6 +19,7 @@ using nopCommerceApi.Controllers.Address;
 using nopCommerceApi.Services.Customer;
 using nopCommerceApi.Controllers.Customer;
 using nopCommerceApi.Models.Customer;
+using nopCommerceApi.Entities.Usable;
 
 
 namespace Tests

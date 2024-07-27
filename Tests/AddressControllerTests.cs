@@ -16,6 +16,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authorization.Policy;
 using Tests.Helpers;
 using nopCommerceApi.Controllers.Address;
+using nopCommerceApi.Entities.Usable;
 
 namespace Tests
 {
