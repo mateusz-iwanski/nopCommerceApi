@@ -16,16 +16,13 @@ namespace nopCommerceApi.Services.Product
         bool? Update(int id, TierPriceUpdateDto tierPriceDto);
     }
 
-    public class TierPriceService : ITierPriceService
+    public class TierPriceService : BaseService, ITierPriceService
     {
-        private readonly NopCommerceContext _context;
-        private readonly IMapper _mapper;
-
-        public TierPriceService(NopCommerceContext context, IMapper mapper)
-        {
-            _context = context;
-            _mapper = mapper;
+        public TierPriceService(NopCommerceContext context, IMapper mapper, ILogger<ProductService> logger) 
+            : base(context, mapper, logger) 
+        { 
         }
+
 
         public IEnumerable<TierPriceDto> GetAll()
         {
