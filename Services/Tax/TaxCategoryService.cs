@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Models;
+using nopCommerceApi.Services.Product;
 
 namespace nopCommerceApi.Services
 {
@@ -10,15 +11,14 @@ namespace nopCommerceApi.Services
         int GetLastDisplayOrder();
     }
 
-    public class TaxCategoryService : ITaxCategoryService
+    public class TaxCategoryService : BaseService, ITaxCategoryService
     {
         private readonly NopCommerceContext _context;
         private readonly IMapper _mapper;
 
-        public TaxCategoryService(NopCommerceContext context, IMapper mapper)
+        public TaxCategoryService(NopCommerceContext context, IMapper mapper, ILogger<ProductService> logger)
+            : base(context, mapper, logger)
         {
-            _context = context;
-            _mapper = mapper;
         }
 
         public IEnumerable<TaxCategoryDto> GetAll()
