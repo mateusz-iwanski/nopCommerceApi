@@ -11,6 +11,7 @@ namespace nopCommerceApi.Services.Product
         IEnumerable<ProductDto> GetAll();
         ProductDto GetById(int id);
         Entities.Usable.Product Create(ProductCreateDto productDto);
+        Entities.Usable.Product CreateMinimal(ProductCreateMinimalDto productDto);
     }
 
     public class ProductService : BaseService, IProductService
@@ -35,6 +36,16 @@ namespace nopCommerceApi.Services.Product
         }
 
         public Entities.Usable.Product Create(ProductCreateDto productDto)
+        {
+            var product = _mapper.Map<Entities.Usable.Product>(productDto);
+
+            _context.Products.Add(product);
+            _context.SaveChanges();
+
+            return product;
+        }
+
+        public Entities.Usable.Product CreateMinimal(ProductCreateMinimalDto productDto)
         {
             var product = _mapper.Map<Entities.Usable.Product>(productDto);
 
