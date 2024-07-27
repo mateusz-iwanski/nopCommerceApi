@@ -24,9 +24,6 @@ namespace nopCommerceApi.Services
 
     public class AddressService : BaseService, IAddressService
     {
-        private readonly NopCommerceContext _context;
-        private readonly IMapper _mapper;
-
         public AddressService(NopCommerceContext context, IMapper mapper, ILogger<AddressAttributeService> logger
             ) : base(context, mapper, logger)
         {
