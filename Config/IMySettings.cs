@@ -54,6 +54,24 @@ namespace nopCommerceApi.Config
         [Option(Alias = "CustomerPassword.PasswordSaltKeySize")]
         int PasswordSaltKeySize { get; }
 
+        // nopCommerce enum type available id 
+        [Option(Alias = "NopCommerceEnum.ProductType_AvailableId")]
+        string ProductTypeAvailableId { get; }
+
+        [Option(Alias = "NopCommerceEnum.GiftCardType_AvailableId")]
+        string GiftCardTypeAvailableId { get; }
+
+        [Option(Alias = "NopCommerceEnum.DownloadActivationType_AvailableId")]
+        string DownloadActivationTypeAvailableId { get; }
+
+        [Option(Alias = "NopCommerceEnum.RecurringProductCyclePeriod_AvailableId")]
+        int RecurringProductCyclePeriodAvailableId { get; }
+
+        [Option(Alias = "NopCommerceEnum.RentalPricePeriod_AvailableId")]
+        int RentalPricePeriodAvailableId { get; }
+        
+
+
 
     }
 }
