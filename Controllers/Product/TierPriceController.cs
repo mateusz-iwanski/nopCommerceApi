@@ -66,7 +66,7 @@ namespace nopCommerceApi.Controllers.Product
         public IActionResult Create(TierPriceCreateDto tierPriceDto)
         {
             var tierPrice = _tierPriceService.Create(tierPriceDto);
-            return Ok(tierPrice);
+            return Created($"api/tierprice/{tierPrice.Id}", tierPrice);
         }
 
         [HttpPut("{id}")]
