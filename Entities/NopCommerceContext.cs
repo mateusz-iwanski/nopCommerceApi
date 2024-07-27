@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities.Configurations;
+using nopCommerceApi.Entities.NotUsable;
 using nopCommerceApi.Entities.Usable;
 
 namespace nopCommerceApi.Entities;
@@ -38,6 +39,9 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<TierPrice> TierPrices { get; set; }
     public virtual DbSet<ProductTemplate> ProductTemplates { get; set; }
     public virtual DbSet<ProductAvailabilityRange> ProductAvailabilityRanges { get; set; }
+    public virtual DbSet<Vendor> Vendors { get; set; }
+    public virtual DbSet<Download> Downloads { get; set; }
+    public virtual DbSet<DeliveryDate> DeliveryDates { get; set; }
 
     #endregion
 
@@ -59,12 +63,10 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<CheckoutAttributeValue> CheckoutAttributeValues { get; set; }
     public virtual DbSet<CrossSellProduct> CrossSellProducts { get; set; }
     public virtual DbSet<CustomerAttribute> CustomerAttributes { get; set; }
-    public virtual DbSet<CustomerAttributeValue> CustomerAttributeValues { get; set; }
-    public virtual DbSet<DeliveryDate> DeliveryDates { get; set; }
+    public virtual DbSet<CustomerAttributeValue> CustomerAttributeValues { get; set; }    
     public virtual DbSet<Discount> Discounts { get; set; }
     public virtual DbSet<DiscountRequirement> DiscountRequirements { get; set; }
-    public virtual DbSet<DiscountUsageHistory> DiscountUsageHistories { get; set; }
-    public virtual DbSet<Download> Downloads { get; set; }
+    public virtual DbSet<DiscountUsageHistory> DiscountUsageHistories { get; set; }    
     public virtual DbSet<EmailAccount> EmailAccounts { get; set; }
     public virtual DbSet<ExternalAuthenticationRecord> ExternalAuthenticationRecords { get; set; }
     public virtual DbSet<FacebookPixelConfiguration> FacebookPixelConfigurations { get; set; }
@@ -141,8 +143,7 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<TaxTransactionLog> TaxTransactionLogs { get; set; }
     public virtual DbSet<Topic> Topics { get; set; }
     public virtual DbSet<TopicTemplate> TopicTemplates { get; set; }
-    public virtual DbSet<UrlRecord> UrlRecords { get; set; }
-    public virtual DbSet<Vendor> Vendors { get; set; }
+    public virtual DbSet<UrlRecord> UrlRecords { get; set; }    
     public virtual DbSet<VendorAttribute> VendorAttributes { get; set; }
     public virtual DbSet<VendorAttributeValue> VendorAttributeValues { get; set; }
     public virtual DbSet<VendorNote> VendorNotes { get; set; }
@@ -183,7 +184,8 @@ public partial class NopCommerceContext : DbContext
         new TierPriceConfiguration().Configure(modelBuilder.Entity<TierPrice>());
         new ProductTemplateConfiguration().Configure(modelBuilder.Entity<ProductTemplate>());
         new ProductAvailabilityRangeConfiguration().Configure(modelBuilder.Entity<ProductAvailabilityRange>());
-
+        new VendorConfiguration().Configure(modelBuilder.Entity<Vendor>()); 
+        new DownloadConfiguration().Configure(modelBuilder.Entity<Download>());
         #endregion
 
 
@@ -416,16 +418,7 @@ public partial class NopCommerceContext : DbContext
             entity.HasOne(d => d.CustomerAttribute).WithMany(p => p.CustomerAttributeValues)
                 .HasForeignKey(d => d.CustomerAttributeId)
                 .HasConstraintName("FK_CustomerAttributeValue_CustomerAttributeId_CustomerAttribute_Id");
-        });
-
-
-
-        modelBuilder.Entity<DeliveryDate>(entity =>
-        {
-            entity.ToTable("DeliveryDate");
-
-            entity.Property(e => e.Name).HasMaxLength(400);
-        });
+        });        
 
         modelBuilder.Entity<Discount>(entity =>
         {
@@ -531,12 +524,7 @@ public partial class NopCommerceContext : DbContext
             entity.HasOne(d => d.Order).WithMany(p => p.DiscountUsageHistories)
                 .HasForeignKey(d => d.OrderId)
                 .HasConstraintName("FK_DiscountUsageHistory_OrderId_Order_Id");
-        });
-
-        modelBuilder.Entity<Download>(entity =>
-        {
-            entity.ToTable("Download");
-        });
+        });        
 
         modelBuilder.Entity<EmailAccount>(entity =>
         {
@@ -1598,19 +1586,7 @@ public partial class NopCommerceContext : DbContext
             entity.Property(e => e.EntityName).HasMaxLength(400);
             entity.Property(e => e.Slug).HasMaxLength(400);
         });
-
-        modelBuilder.Entity<Vendor>(entity =>
-        {
-            entity.ToTable("Vendor");
-
-            entity.Property(e => e.Email).HasMaxLength(400);
-            entity.Property(e => e.MetaKeywords).HasMaxLength(400);
-            entity.Property(e => e.MetaTitle).HasMaxLength(400);
-            entity.Property(e => e.Name).HasMaxLength(400);
-            entity.Property(e => e.PageSizeOptions).HasMaxLength(200);
-            entity.Property(e => e.PriceFrom).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.PriceTo).HasColumnType("decimal(18, 4)");
-        });
+        
 
         modelBuilder.Entity<VendorAttribute>(entity =>
         {
