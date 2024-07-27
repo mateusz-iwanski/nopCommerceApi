@@ -63,10 +63,7 @@ namespace nopCommerceApi.Controllers.Product
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody] ProductTagUpdateDto productTagDto)
         {
-            var productTag = _productTagService.Update(id, productTagDto);
-
-            if (productTag == null) return NotFound();
-
+            _productTagService.Update(id, productTagDto);
             return Ok($"Update product by id: {id}");
         }
 
@@ -75,9 +72,6 @@ namespace nopCommerceApi.Controllers.Product
         public IActionResult Delete(int id)
         {
             var productTag = _productTagService.Delete(id);
-
-            if (productTag == null) return NotFound();
-            
             return Ok(productTag);
         }
 
