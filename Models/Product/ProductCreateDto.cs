@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 namespace nopCommerceApi.Models.Product
 {
     /// <summary>
-    /// ProductCreateBaseDto uses for creating a new product 
+    /// ProductCreateDto uses for creating a new product 
     /// </summary>
     public class ProductCreateDto
     {
