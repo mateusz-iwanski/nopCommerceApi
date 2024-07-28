@@ -131,17 +131,40 @@ namespace nopCommerceApi.MappingProfile
 
             #region Product
 
+            // get
             CreateMap<Product, ProductDto>();
-            
-            // create product
-            CreateMap<ProductTagCreateDto, ProductTag>();
+
+            // create
+            CreateMap<ProductCreateDto, Product>()
+                .ForMember(x => x.Name, opt => opt.MapFrom(y => y.Name.Trim()))
+                .ForMember(x => x.Sku, opt => opt.MapFrom(y => y.Sku.Trim()))
+                .ForMember(x => x.ShortDescription, opt => opt.MapFrom(y => y.ShortDescription.Trim()))
+                .ForMember(x => x.FullDescription, opt => opt.MapFrom(y => y.FullDescription.Trim()))
+                .ForMember(x => x.ManufacturerPartNumber, opt => opt.MapFrom(y => y.ManufacturerPartNumber.Trim()))
+                .ForMember(x => x.Gtin, opt => opt.MapFrom(y => y.Gtin.Trim()))
+                .ForMember(x => x.RequiredProductIds, opt => opt.MapFrom(y => y.RequiredProductIds.Trim()))
+                .ForMember(x => x.AdminComment, opt => opt.MapFrom(y => y.AdminComment.Trim()))
+                .ForMember(x => x.MetaKeywords, opt => opt.MapFrom(y => y.MetaKeywords.Trim()))
+                .ForMember(x => x.MetaTitle, opt => opt.MapFrom(y => y.MetaTitle.Trim()))
+                .ForMember(x => x.MetaDescription, opt => opt.MapFrom(y => y.MetaDescription.Trim()))
+                .ForMember(x => x.UserAgreementText, opt => opt.MapFrom(y => y.UserAgreementText.Trim()))
+                .ForMember(x => x.AllowedQuantities, opt => opt.MapFrom(y => y.AllowedQuantities.Trim()));
+
+            CreateMap<ProductCreateMinimalDto, Product>()
+                .ForMember(x => x.Name, opt => opt.MapFrom(y => y.Name.Trim()))
+                .ForMember(x => x.Sku, opt => opt.MapFrom(y => y.Sku.Trim()));
+
 
             #endregion
 
             #region ProductTag
 
+            // get
             CreateMap<ProductTag, ProductTagDto>();
             CreateMap<ProductTag, ProductTagDetailsDto>();
+
+            // create
+            CreateMap<ProductTagCreateDto, ProductTag>();
 
             #endregion
 
