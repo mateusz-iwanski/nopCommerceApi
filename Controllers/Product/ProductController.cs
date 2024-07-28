@@ -16,6 +16,9 @@ namespace nopCommerceApi.Controllers.Product
         }
 
         // GET: api/product
+        /// <summary>
+        /// Get all products
+        /// </summary>
         [HttpGet]
         public IEnumerable<ProductDto> GetAll()
         {
@@ -24,6 +27,9 @@ namespace nopCommerceApi.Controllers.Product
         }
 
         // GET: api/product/5
+        /// <summary>
+        /// Get product by id
+        /// </summary>
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -33,21 +39,44 @@ namespace nopCommerceApi.Controllers.Product
         }
 
         // POST: api/product
+        /// <summary>
+        /// Create a new product
+        /// </summary>
         [HttpPost]
-        public IActionResult Post([FromBody] ProductCreateDto productDto)
+        public IActionResult Create([FromBody] ProductCreateDto productDto)
         {
             var product = _productService.Create(productDto);
-            return Ok(product);
+            return Created($"api/product/{ product.Id}", product);
+        }
+
+        /// <summary>
+        /// Create a new product with minimal information
+        /// </summary>
+        /// <remarks>
+        /// Only the required properties are included in this DTO, 
+        /// rest fields set up with default values.
+        /// </remarks>
+        [HttpPost("minimal")]
+        public IActionResult CreateMinimal([FromBody] ProductCreateMinimalDto productDto)
+        {
+            var product = _productService.CreateMinimal(productDto);
+            return Created($"api/product/{ product.Id}", product);
         }
 
         // PUT: api/product/5
+        /// <summary>
+        /// Update product by id
+        /// </summary>
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] string value)
+        public IActionResult Update(int id, [FromBody] string value)
         {
             return Ok($"Update product by id: {id}");
         }
 
         // DELETE: api/product/5
+        /// <summary>
+        /// Delete product by id
+        /// </summary>
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
