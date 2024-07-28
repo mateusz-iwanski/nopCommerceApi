@@ -29,7 +29,7 @@ namespace nopCommerceApi.Controllers.Address
         /// Get all addresses with details
         /// </summary>
         [HttpGet]
-        [Authorize(Roles = "Admin,User,Viewer")]
+        //[Authorize(Roles = "Admin,User,Viewer")]
         public ActionResult<AddressDetailsDto> GetAll()
         {
             var adressesDtos = _addressService.GetAll();
@@ -74,7 +74,7 @@ namespace nopCommerceApi.Controllers.Address
         {
             var address = _addressService.CreateWithNip(createAddressDto);
 
-            return Created($"/api/address/{address.Id}", null);
+            return Created($"/api/address/{address.Id}", address);
         }
 
         // Has tests
@@ -102,7 +102,7 @@ namespace nopCommerceApi.Controllers.Address
         {
             var address = _addressService.Create(createAddressDto);
 
-            return Created($"/api/address/{address.Id}", null);
+            return Created($"/api/address/{address.Id}", address);
         }
 
         // Has test
