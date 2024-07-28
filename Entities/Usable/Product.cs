@@ -85,11 +85,9 @@ public partial class Product
     /// </summary>
     public string? AdminComment { get; set; }
 
-
-    // TODO make ProductTemplate models controllers services etc.
     /// <summary>
     /// Choose a product template. This template defines how this product will be displayed in public store.
-    /// Look on ProductTemplate entity for more details.
+    /// Look on ProductTemplate for more details.
     /// </summary>
     public int ProductTemplateId { get; set; }
 

@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities.Usable;
-using nopCommerceApi.Entities.NotUsable;
 using System.Reflection.Emit;
 
 namespace nopCommerceApi.Entities.Configurations
