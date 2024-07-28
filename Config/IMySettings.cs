@@ -72,6 +72,10 @@ namespace nopCommerceApi.Config
 
         [Option(Alias = "NopCommerceEnum.ManageInventoryMethod_AvailableId")]
         string ManageInventoryMethodAvailableId { get; }
+
+        [Option(Alias = "NopCommerceEnum.LowStockActivity_AvailableId")]
+        string LowStockActivityAvailableId { get; }
+        
         
 
 
