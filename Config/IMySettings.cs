@@ -69,7 +69,11 @@ namespace nopCommerceApi.Config
 
         [Option(Alias = "NopCommerceEnum.RentalPricePeriod_AvailableId")]
         int RentalPricePeriodAvailableId { get; }
+
+        [Option(Alias = "NopCommerceEnum.ManageInventoryMethod_AvailableId")]
+        string ManageInventoryMethodAvailableId { get; }
         
+
 
 
 
