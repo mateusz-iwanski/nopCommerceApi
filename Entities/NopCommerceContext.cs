@@ -42,6 +42,7 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<Vendor> Vendors { get; set; }
     public virtual DbSet<Download> Downloads { get; set; }
     public virtual DbSet<DeliveryDate> DeliveryDates { get; set; }
+    public virtual DbSet<Warehouse> Warehouses { get; set; }
 
     #endregion
 
@@ -147,8 +148,7 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<VendorAttribute> VendorAttributes { get; set; }
     public virtual DbSet<VendorAttributeValue> VendorAttributeValues { get; set; }
     public virtual DbSet<VendorNote> VendorNotes { get; set; }
-    public virtual DbSet<Video> Videos { get; set; }
-    public virtual DbSet<Warehouse> Warehouses { get; set; }
+    public virtual DbSet<Video> Videos { get; set; }    
     public virtual DbSet<ZettleRecord> ZettleRecords { get; set; }
     */
 
@@ -186,6 +186,8 @@ public partial class NopCommerceContext : DbContext
         new ProductAvailabilityRangeConfiguration().Configure(modelBuilder.Entity<ProductAvailabilityRange>());
         new VendorConfiguration().Configure(modelBuilder.Entity<Vendor>()); 
         new DownloadConfiguration().Configure(modelBuilder.Entity<Download>());
+        new WarehouseConfiguration().Configure(modelBuilder.Entity<Warehouse>());
+
         #endregion
 
 
@@ -1626,13 +1628,6 @@ public partial class NopCommerceContext : DbContext
             entity.ToTable("Video");
 
             entity.Property(e => e.VideoUrl).HasMaxLength(1000);
-        });
-
-        modelBuilder.Entity<Warehouse>(entity =>
-        {
-            entity.ToTable("Warehouse");
-
-            entity.Property(e => e.Name).HasMaxLength(400);
         });
 
         modelBuilder.Entity<ZettleRecord>(entity =>
