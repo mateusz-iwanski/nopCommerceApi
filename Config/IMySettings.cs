@@ -75,10 +75,9 @@ namespace nopCommerceApi.Config
 
         [Option(Alias = "NopCommerceEnum.LowStockActivity_AvailableId")]
         string LowStockActivityAvailableId { get; }
-        
-        
 
-
+        [Option(Alias = "NopCommerceEnum.BackorderMode_AvailableId")]
+        string BackorderModeAvailableId { get; }
 
 
     }
