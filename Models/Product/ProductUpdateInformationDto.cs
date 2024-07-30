@@ -4,7 +4,6 @@ using System.Text.Json.Serialization;
 
 namespace nopCommerceApi.Models.Product
 {
-    [ModelBinder(BinderType = typeof(CustomModelBinder))]
     public class ProductUpdateInformationDto : BaseDto
     {
         [JsonIgnore]
