@@ -17,6 +17,7 @@ namespace nopCommerceApi.Models.Address
     /// </remarks>
     public class AddressDto : BaseDto
     {
+        public virtual int? Id { get; set; }
         /// <summary>
         /// Gets the first name
         /// </summary>
