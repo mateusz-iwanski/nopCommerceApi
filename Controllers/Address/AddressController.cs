@@ -81,6 +81,10 @@ namespace nopCommerceApi.Controllers.Address
         /// <summary>
         /// Update address for Polish enterprises with NIP
         /// </summary>
+        /// <remarks>
+        /// If you don't want to update certain fields, don't add them to your requests.
+        /// If you do not add some of a fields to the request, this fields will not be updated.
+        /// </remarks>
         [Authorize(Roles = "Admin,User")]
         [HttpPut("update-with-nip/{id}")]
         public ActionResult UpdateWithNip(int id, [FromBody] AddressUpdatePolishEnterpriseDto updateAddressDto)
@@ -120,6 +124,10 @@ namespace nopCommerceApi.Controllers.Address
         /// <summary>
         /// Update address by ID (without NIP)
         /// </summary>
+        /// <remarks>
+        /// If you don't want to update certain fields, don't add them to your requests.
+        /// If you do not add some of a fields to the request, this fields will not be updated.
+        /// </remarks>
         [HttpPut("update/{id}")]
         [Authorize(Roles = "Admin,User")]
         public ActionResult Update(int id, [FromBody] AddressUpdateDto updateAddressDto)
