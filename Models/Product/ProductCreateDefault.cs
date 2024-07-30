@@ -215,7 +215,6 @@ namespace nopCommerceApi.Models.Product
         /// ### Set the date and time of product creation.
         /// *Default = DateTime.Now*
         /// </summary>
-        [JsonIgnore]
         [JsonIgnore] public virtual DateTime CreatedOnUtc { get; set; } = DateTime.Now;
 
         /// <summary>
@@ -223,7 +222,6 @@ namespace nopCommerceApi.Models.Product
         /// ### Set the date and time of product update.
         /// *Default = DateTime.Now*
         /// </summary>
-        [JsonIgnore]
         [JsonIgnore] public virtual DateTime UpdatedOnUtc { get; set; } = DateTime.Now;
 
         #endregion
