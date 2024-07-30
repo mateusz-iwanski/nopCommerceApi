@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Entities.Usable;
 using nopCommerceApi.Exceptions;
@@ -12,6 +14,8 @@ namespace nopCommerceApi.Services.Product
         ProductDto GetById(int id);
         Entities.Usable.Product Create(ProductCreateDto productDto);
         Entities.Usable.Product CreateMinimal(ProductCreateMinimalDto productDto);
+        bool UpdateInformation(int id, ProductUpdateInformationDto productDto);
+        bool Update(int id, ProductUpdateDto productDto);
     }
 
     public class ProductService : BaseService, IProductService
@@ -29,8 +33,10 @@ namespace nopCommerceApi.Services.Product
         public ProductDto GetById(int id)
         {
             var products = _context.Products.FirstOrDefault(p => p.Id == id);
-            
-            var productDto = products != null ? _mapper.Map<ProductDto>(products) : throw new NotFoundExceptions($"Product with id {id} not found");
+
+            if (products == null) throw new NotFoundExceptions($"Product with id {id} not found");
+
+            var productDto = _mapper.Map<ProductDto>(products);
 
             return productDto;
         }
@@ -53,6 +59,49 @@ namespace nopCommerceApi.Services.Product
             _context.SaveChanges();
 
             return product;
+        }
+
+        public bool UpdateInformation(int id, ProductUpdateInformationDto productDto)
+        {
+            productDto.Id = id;
+
+            var product = _context.Products.FirstOrDefault(p => p.Id == id);
+
+            if (product == null) throw new NotFoundExceptions($"Product with id {id} not found");
+
+            _mapper.Map(productDto, product);
+
+            _context.SaveChanges();
+
+            return true;
+        }
+
+        public bool UpdateSeo(int id, ProductUpdateSeoDto productDto)
+        {
+            var product = _context.Products.FirstOrDefault(p => p.Id == id);
+
+            if (product == null) throw new NotFoundExceptions($"Product with id {id} not found");
+
+            _mapper.Map(productDto, product);
+
+            _context.SaveChanges();
+
+            return true;
+        }
+
+        public bool Update(int id, ProductUpdateDto productDto)
+        {
+            productDto.Id = id;
+
+            var product = _context.Products.FirstOrDefault(p => p.Id == id);
+
+            if (product == null) throw new NotFoundExceptions($"Product with id {id} not found");
+            
+            _mapper.Map(productDto, product);
+
+            _context.SaveChanges();
+
+            return true;
         }
     }
 }
