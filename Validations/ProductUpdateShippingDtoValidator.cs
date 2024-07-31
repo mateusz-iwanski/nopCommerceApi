@@ -18,6 +18,18 @@ namespace nopCommerceApi.Validations
                 || deliveryDateId == 0
                 )
                 .WithMessage("The delivery date does not exist.");
+
+            RuleFor(x => x.Weight)
+                .GreaterThanOrEqualTo(0).WithMessage("Weight must be greater or equal 0.");
+
+            RuleFor(x => x.Length)
+                .GreaterThanOrEqualTo(0).WithMessage("Length must be greater or equal 0.");
+
+            RuleFor(x => x.Width)
+                .GreaterThanOrEqualTo(0).WithMessage("Width must be greater or equal 0.");
+
+            RuleFor(x => x.Height)
+                .GreaterThanOrEqualTo(0).WithMessage("Height must be greater or equal 0.");
         }
     }
 }

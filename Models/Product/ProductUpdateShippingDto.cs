@@ -1,4 +1,6 @@
-﻿namespace nopCommerceApi.Models.Product
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace nopCommerceApi.Models.Product
 {
     public class ProductUpdateShippingDto : BaseDto
     {
@@ -43,5 +45,37 @@
         /// *Default = 0*
         /// </summary>
         public virtual int DeliveryDateId { get; set; }
+
+        /// <summary>
+        /// ## Weight
+        /// ### Set the weight
+        /// #### To set mesasures go to Configuration → Shipping → Measures 
+        /// </summary>
+        [Required]
+        public decimal Weight { get; set; }
+
+        /// <summary>
+        /// ## Length
+        /// ### Set the length
+        /// #### To set mesasures go to Configuration → Shipping → Measures 
+        /// </summary>
+        [Required]
+        public decimal Length { get; set; }
+
+        /// <summary>
+        /// ## Width
+        /// ### Set the width
+        /// #### To set mesasures go to Configuration → Shipping → Measures 
+        /// </summary>
+        [Required]
+        public decimal Width { get; set; }
+
+        /// <summary>
+        /// ## Height
+        /// ### Set the height
+        /// #### To set mesasures go to Configuration → Shipping → Measures 
+        /// </summary>
+        [Required]
+        public decimal Height { get; set; }
     }
 }
