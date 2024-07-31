@@ -9,7 +9,7 @@ namespace nopCommerceApi.Models.Product
     /// <remarks>
     /// This class is used for inheritance for dto to create a product.
     /// </remarks>
-    public class ProductCreateDefault
+    public class ProductCreateDefault : BaseDto
     {
         #region Product information
 
