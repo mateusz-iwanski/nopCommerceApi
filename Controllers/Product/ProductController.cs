@@ -119,7 +119,7 @@ namespace nopCommerceApi.Controllers.Product
         }
 
         /// <summary>
-        /// Update gift card
+        /// Update gift card for product
         /// </summary>
         /// <remarks>
         /// Note: If you do not include some fields in the request, they will be updated to default values.
@@ -129,6 +129,32 @@ namespace nopCommerceApi.Controllers.Product
         public IActionResult UpdateGiftCard(int id, [FromBody] ProductUpdateGiftCardDto productDto)
         {
             _productService.UpdateGiftCard(id, productDto);
+            return Ok($"Update product by id: {id}");
+        }
+
+        /// <summary>
+        /// Update download for product 
+        /// </summary>
+        /// <remarks>
+        /// Note: If you do not include some fields in the request, they will be updated to default values.
+        /// </remarks>
+        [HttpPost("update/download/{id}")]
+        public IActionResult UpdateDownload(int id, [FromBody] ProductUpdateDownloadDto productDto)
+        {
+            _productService.UpdateDownload(id, productDto);
+            return Ok($"Update product by id: {id}");
+        }
+
+        /// <summary>
+        /// Update recurring for product
+        /// </summary>
+        /// <remarks>
+        /// Note: If you do not include some fields in the request, they will be updated to default values.
+        /// </remarks>
+        [HttpPost("update/recurring/{id}")]
+        public IActionResult UpdateRecurring(int id, [FromBody] ProductUpdateRecurringDto productDto)
+        {
+            _productService.UpdateRecurring(id, productDto);
             return Ok($"Update product by id: {id}");
         }
 

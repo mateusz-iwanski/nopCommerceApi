@@ -126,6 +126,8 @@ builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyCont
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<PruductUpdateSeoValidator>());
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductUpdateRatingDtoValidator>());
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductUpdateGiftCardDtoValidator>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductUpdateDownloadDtoValidator>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductUpdateRecurringDtoValidator>());
 
 #region Product
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UpdateProductTagValidator>());
