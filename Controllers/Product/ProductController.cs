@@ -184,6 +184,46 @@ namespace nopCommerceApi.Controllers.Product
             return Ok($"Update product by id: {id}");
         }
 
+        /// <summary>
+        /// Update inventory for product
+        /// </summary>
+        /// <remarks>
+        /// Note: If you do not include some fields in the request, they will be updated to default values.
+        /// </remarks>
+        [HttpPut("update/inventory/{id}")]
+        public IActionResult UpdateInventory(int id, [FromBody] ProductUpdateInventoryDto productDto)
+        {
+            _productService.UpdateInventory(id, productDto);
+            return Ok($"Update product by id: {id}");
+        }
+
+        /// <summary>
+        /// Update attribute for product
+        /// </summary>
+        /// <remarks>
+        /// Note: If you do not include some fields in the request, they will be updated to default values.
+        /// </remarks>
+        [HttpPut("update/attribute/{id}")]
+        public IActionResult UpdateAttribute(int id, [FromBody] ProductUpdateAttributeDto productDto)
+        {
+            _productService.UpdateAttribute(id, productDto);
+            return Ok($"Update product by id: {id}");
+        }
+
+
+        /// <summary>
+        /// Update price for product
+        /// </summary>
+        /// <remarks>
+        /// Note: If you do not include some fields in the request, they will be updated to default values.
+        /// </remarks>
+        [HttpPut("update/price/{id}")]
+        public IActionResult UpdatePrice(int id, [FromBody] ProductUpdatePriceDto productDto)
+        {
+            _productService.UpdatePrice(id, productDto);
+            return Ok($"Update product by id: {id}");
+        }
+
         // PUT: api/product/5
         /// <summary>
         /// Update product by id
