@@ -15,6 +15,8 @@ namespace nopCommerceApi.Services.Product
         Entities.Usable.Product Create(ProductCreateDto productDto);
         Entities.Usable.Product CreateMinimal(ProductCreateMinimalDto productDto);
         bool UpdateInformation(int id, ProductUpdateInformationDto productDto);
+        bool UpdateSeo(int id, ProductUpdateSeoDto productDto);
+        bool UpdateRating(int id, ProductUpdateRatingDto productDto);
         bool Update(int id, ProductUpdateDto productDto);
     }
 
@@ -77,6 +79,19 @@ namespace nopCommerceApi.Services.Product
         }
 
         public bool UpdateSeo(int id, ProductUpdateSeoDto productDto)
+        {
+            var product = _context.Products.FirstOrDefault(p => p.Id == id);
+
+            if (product == null) throw new NotFoundExceptions($"Product with id {id} not found");
+
+            _mapper.Map(productDto, product);
+
+            _context.SaveChanges();
+
+            return true;
+        }
+
+        public bool UpdateRating(int id, ProductUpdateRatingDto productDto)
         {
             var product = _context.Products.FirstOrDefault(p => p.Id == id);
 
