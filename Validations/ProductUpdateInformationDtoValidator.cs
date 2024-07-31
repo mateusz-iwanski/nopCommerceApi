@@ -13,14 +13,11 @@ namespace nopCommerceApi.Validations
     {
         private readonly NopCommerceContext _context;
         private readonly IMySettings _settings;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ProductUpdateInformationDtoValidator(NopCommerceContext context, IMySettings settings, IHttpContextAccessor httpContextAccessor) : base()
+        public ProductUpdateInformationDtoValidator(NopCommerceContext context, IMySettings settings) : base()
         {
             _context = context;
             _settings = settings;
-            _httpContextAccessor = httpContextAccessor;
-
 
             // Product type(enum) is required
             RuleFor(x => x.ProductTypeId)
@@ -40,16 +37,10 @@ namespace nopCommerceApi.Validations
                 .WithMessage("The product template does not exist.");
 
             // Vendor has to exist
+            // VendorId can be 0
             RuleFor(x => x.VendorId)
                 .Must(vendorId => _context.Vendors.Any(c => c.Id == vendorId) || vendorId == 0)
                 .WithMessage("The vendor does not exist.");
-
-            #region RequireOtherProducts
-
-            // If RequiredProductIds is not null than RequireOtherProducts has to be true
-            RuleFor(x => x)
-                .Must(product => product.RequireOtherProducts || string.IsNullOrWhiteSpace(product.RequiredProductIds))
-                .WithMessage("The RequireOtherProducts is set on false but RequiredProductIds is not empty. In this case you have to RequireOtherProducts set to true.");
 
             // RequiredProductIds (comma seperate string) has to exist
             RuleFor(x => x.RequiredProductIds)
@@ -67,8 +58,6 @@ namespace nopCommerceApi.Validations
                     else
                         return false;
                 }).WithMessage("The required product IDs aren't in proper format or not exists.");
-
-            #endregion
 
             // ParentGroupedProductId has to exist
             RuleFor(x => x.ParentGroupedProductId)
