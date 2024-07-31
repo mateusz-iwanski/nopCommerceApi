@@ -42,7 +42,7 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<Download> Downloads { get; set; }
     public virtual DbSet<DeliveryDate> DeliveryDates { get; set; }
     public virtual DbSet<Warehouse> Warehouses { get; set; }
-
+    public virtual DbSet<Category> Categories { get; set; }
     #endregion
 
 
@@ -56,8 +56,7 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<BackInStockSubscription> BackInStockSubscriptions { get; set; }
     public virtual DbSet<BlogComment> BlogComments { get; set; }
     public virtual DbSet<BlogPost> BlogPosts { get; set; }
-    public virtual DbSet<Campaign> Campaigns { get; set; }
-    public virtual DbSet<Category> Categories { get; set; }
+    public virtual DbSet<Campaign> Campaigns { get; set; }    
     public virtual DbSet<CategoryTemplate> CategoryTemplates { get; set; }
     public virtual DbSet<CheckoutAttribute> CheckoutAttributes { get; set; }
     public virtual DbSet<CheckoutAttributeValue> CheckoutAttributeValues { get; set; }
@@ -187,6 +186,7 @@ public partial class NopCommerceContext : DbContext
         new DownloadConfiguration().Configure(modelBuilder.Entity<Download>());
         new DeliveryDateConfiguration().Configure(modelBuilder.Entity<DeliveryDate>());
         new WarehouseConfiguration().Configure(modelBuilder.Entity<Warehouse>());
+        new CategoryConfiguration().Configure(modelBuilder.Entity<Category>());
 
         #endregion
 
@@ -337,31 +337,7 @@ public partial class NopCommerceContext : DbContext
 
             entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
             entity.Property(e => e.DontSendBeforeDateUtc).HasPrecision(6);
-        });
-
-        modelBuilder.Entity<Category>(entity =>
-        {
-            entity.ToTable("Category");
-
-            entity.HasIndex(e => e.Deleted, "IX_Category_Deleted_Extended");
-
-            entity.HasIndex(e => e.DisplayOrder, "IX_Category_DisplayOrder");
-
-            entity.HasIndex(e => e.LimitedToStores, "IX_Category_LimitedToStores");
-
-            entity.HasIndex(e => e.ParentCategoryId, "IX_Category_ParentCategoryId");
-
-            entity.HasIndex(e => e.SubjectToAcl, "IX_Category_SubjectToAcl");
-
-            entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
-            entity.Property(e => e.MetaKeywords).HasMaxLength(400);
-            entity.Property(e => e.MetaTitle).HasMaxLength(400);
-            entity.Property(e => e.Name).HasMaxLength(400);
-            entity.Property(e => e.PageSizeOptions).HasMaxLength(200);
-            entity.Property(e => e.PriceFrom).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.PriceTo).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.UpdatedOnUtc).HasPrecision(6);
-        });
+        });        
 
         modelBuilder.Entity<CategoryTemplate>(entity =>
         {
