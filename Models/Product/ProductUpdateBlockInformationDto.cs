@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace nopCommerceApi.Models.Product
 {
-    public class ProductUpdateInformationDto : BaseDto
+    public class ProductUpdateBlockInformationDto : BaseDto
     {
         [JsonIgnore]
         public int Id { get; set; }

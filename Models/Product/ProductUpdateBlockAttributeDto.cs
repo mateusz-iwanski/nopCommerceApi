@@ -1,6 +1,6 @@
 ﻿namespace nopCommerceApi.Models.Product
 {
-    public class ProductUpdateAttributeDto : BaseDto
+    public class ProductUpdateBlockAttributeDto : BaseDto
     {
         /// <summary>
         /// ## AllowAddingOnlyExistingAttributeCombinations

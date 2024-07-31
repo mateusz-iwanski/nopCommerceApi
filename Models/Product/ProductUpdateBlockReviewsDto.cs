@@ -1,6 +1,6 @@
 ﻿namespace nopCommerceApi.Models.Product
 {
-    public class ProductUpdateReviewsDto : BaseDto
+    public class ProductUpdateBlockReviewsDto : BaseDto
     {
         /// <summary>
         /// ## AllowCustomerReviews

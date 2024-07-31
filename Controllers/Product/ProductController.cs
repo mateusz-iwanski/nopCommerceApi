@@ -54,162 +54,162 @@ namespace nopCommerceApi.Controllers.Product
         }
 
         /// <summary>
-        /// Update product information by id
+        /// Update block information for product
         /// </summary>
         /// <remarks>
         /// Note: Look out on boolean and datetime fields, if you not include them in the request, 
         /// boolean will set on false and datetime on default value (null).
         /// </remarks>
-        [HttpPut("update/information/{id}")]
-        public IActionResult UpdateInformation(int id, [FromBody] ProductUpdateInformationDto productDto)
+        [HttpPut("update/block/information/{id}")]
+        public IActionResult UpdateBlockInformation(int id, [FromBody] ProductUpdateBlockInformationDto productDto)
         {
-            _productService.UpdateInformation(id, productDto);
+            _productService.UpdateBlockInformation(id, productDto);
             return Ok($"Update product by id: {id}");
         }
 
         /// <summary>
-        /// Update SEO for product
+        /// Update block SEO for product
         /// </summary>
         /// <remarks>
         /// Note: If you do not include some fields in the request, they will be updated to default values.
         /// </remarks>
-        [HttpPut("update/seo/{id}")]
-        public IActionResult UpdateSeo(int id, [FromBody] ProductUpdateSeoDto productDto)
+        [HttpPut("update/block/seo/{id}")]
+        public IActionResult UpdateBlockSeo(int id, [FromBody] ProductUpdateBlockSeoDto productDto)
         {
-            _productService.UpdateSeo(id, productDto);
+            _productService.UpdateBlockSeo(id, productDto);
             return Ok($"Update product by id: {id}");
         }
 
         /// <summary>
-        /// Update rating for product
+        /// Update block rating for product
         /// </summary>
         /// <remarks>
         /// Note: If you do not include some fields in the request, they will be updated to default values.
         /// Look on Configuration → Settings → Catalog settings or for more details.        
         /// </remarks>
-        [HttpPut("update/rating/{id}")]
-        public IActionResult UpdateRating(int id, [FromBody] ProductUpdateRatingDto productDto)
+        [HttpPut("update/block/rating/{id}")]
+        public IActionResult UpdateBlockRating(int id, [FromBody] ProductUpdateBlockRatingDto productDto)
         {
-            _productService.UpdateRating(id, productDto);
+            _productService.UpdateBlockRating(id, productDto);
             return Ok($"Update product by id: {id}");
         }
 
         /// <summary>
-        /// Update reviews for product
+        /// Update block reviews for product
         /// </summary>
         /// <remarks>
         /// Note: If you do not include some fields in the request, they will be updated to default values.
         /// </remarks>
-        [HttpPut("update/reviews/{id}")]
-        public IActionResult UpdateReviews(int id, [FromBody] ProductUpdateReviewsDto productDto)
+        [HttpPut("update/block/reviews/{id}")]
+        public IActionResult UpdateBlockReviews(int id, [FromBody] ProductUpdateBlockReviewsDto productDto)
         {
-            _productService.UpdateReviews(id, productDto);
+            _productService.UpdateBlockReviews(id, productDto);
             return Ok($"Update product by id: {id}");
         }
 
         /// <summary>
-        /// Update gift card for product
+        /// Update block gift card for product
         /// </summary>
         /// <remarks>
         /// Note: If you do not include some fields in the request, they will be updated to default values.
         /// </remarks>
 
-        [HttpPut("update/giftcard/{id}")]
-        public IActionResult UpdateGiftCard(int id, [FromBody] ProductUpdateGiftCardDto productDto)
+        [HttpPut("update/block/giftcard/{id}")]
+        public IActionResult UpdateBlockGiftCard(int id, [FromBody] ProductUpdateBlockGiftCardDto productDto)
         {
-            _productService.UpdateGiftCard(id, productDto);
+            _productService.UpdateBlockGiftCard(id, productDto);
             return Ok($"Update product by id: {id}");
         }
 
         /// <summary>
-        /// Update download for product 
+        /// Update block download for product 
         /// </summary>
         /// <remarks>
         /// Note: If you do not include some fields in the request, they will be updated to default values.
         /// </remarks>
-        [HttpPut("update/download/{id}")]
-        public IActionResult UpdateDownload(int id, [FromBody] ProductUpdateDownloadDto productDto)
+        [HttpPut("update/block/download/{id}")]
+        public IActionResult UpdateBlockDownload(int id, [FromBody] ProductUpdateBlockDownloadDto productDto)
         {
-            _productService.UpdateDownload(id, productDto);
+            _productService.UpdateBlockDownload(id, productDto);
             return Ok($"Update product by id: {id}");
         }
 
         /// <summary>
-        /// Update recurring for product
+        /// Update block recurring for product
         /// </summary>
         /// <remarks>
         /// Note: If you do not include some fields in the request, they will be updated to default values.
         /// </remarks>
-        [HttpPut("update/recurring/{id}")]
-        public IActionResult UpdateRecurring(int id, [FromBody] ProductUpdateRecurringDto productDto)
+        [HttpPut("update/block/recurring/{id}")]
+        public IActionResult UpdateBlockRecurring(int id, [FromBody] ProductUpdateBlockRecurringDto productDto)
         {
-            _productService.UpdateRecurring(id, productDto);
+            _productService.UpdateBlockRecurring(id, productDto);
             return Ok($"Update product by id: {id}");
         }
 
         /// <summary>
-        /// Update rental price for product
+        /// Update block rental price for product
         /// </summary>
         /// <remarks>
         /// Note: If you do not include some fields in the request, they will be updated to default values.
         /// </remarks>
-        [HttpPut("update/rental/{id}")]
-        public IActionResult UpdateRentalPrice(int id, [FromBody] ProductUpdateRentalPriceDto productDto)
+        [HttpPut("update/block/rental/{id}")]
+        public IActionResult UpdateBlockRentalPrice(int id, [FromBody] ProductUpdateBlockRentalPriceDto productDto)
         {
-            _productService.UpdateRentalPrice(id, productDto);
+            _productService.UpdateBlockRentalPrice(id, productDto);
             return Ok($"Update product by id: {id}");
         }
 
         /// <summary>
-        /// Update shipping for product
+        /// Update block shipping for product
         /// </summary>
         /// <remarks>
         /// Note: If you do not include some fields in the request, they will be updated to default values.
         /// </remarks>
-        [HttpPut("update/shipping/{id}")]
-        public IActionResult UpdateShipping(int id, [FromBody] ProductUpdateShippingDto productDto)
+        [HttpPut("update/block/shipping/{id}")]
+        public IActionResult UpdateBlockShipping(int id, [FromBody] ProductUpdateBlockShippingDto productDto)
         {
-            _productService.UpdateShipping(id, productDto);
+            _productService.UpdateBlockShipping(id, productDto);
             return Ok($"Update product by id: {id}");
         }
 
         /// <summary>
-        /// Update inventory for product
+        /// Update block inventory for product
         /// </summary>
         /// <remarks>
         /// Note: If you do not include some fields in the request, they will be updated to default values.
         /// </remarks>
-        [HttpPut("update/inventory/{id}")]
-        public IActionResult UpdateInventory(int id, [FromBody] ProductUpdateInventoryDto productDto)
+        [HttpPut("update/block/inventory/{id}")]
+        public IActionResult UpdateBlockInventory(int id, [FromBody] ProductUpdateBlockInventoryDto productDto)
         {
-            _productService.UpdateInventory(id, productDto);
+            _productService.UpdateBlockInventory(id, productDto);
             return Ok($"Update product by id: {id}");
         }
 
         /// <summary>
-        /// Update attribute for product
+        /// Update block attribute for product
         /// </summary>
         /// <remarks>
         /// Note: If you do not include some fields in the request, they will be updated to default values.
         /// </remarks>
-        [HttpPut("update/attribute/{id}")]
-        public IActionResult UpdateAttribute(int id, [FromBody] ProductUpdateAttributeDto productDto)
+        [HttpPut("update/block/attribute/{id}")]
+        public IActionResult UpdateBlockAttribute(int id, [FromBody] ProductUpdateBlockAttributeDto productDto)
         {
-            _productService.UpdateAttribute(id, productDto);
+            _productService.UpdateBlockAttribute(id, productDto);
             return Ok($"Update product by id: {id}");
         }
 
 
         /// <summary>
-        /// Update price for product
+        /// Update block price for product
         /// </summary>
         /// <remarks>
         /// Note: If you do not include some fields in the request, they will be updated to default values.
         /// </remarks>
-        [HttpPut("update/price/{id}")]
-        public IActionResult UpdatePrice(int id, [FromBody] ProductUpdatePriceDto productDto)
+        [HttpPut("update/block/price/{id}")]
+        public IActionResult UpdateBlockPrice(int id, [FromBody] ProductUpdateBlockPriceDto productDto)
         {
-            _productService.UpdatePrice(id, productDto);
+            _productService.UpdateBlockPrice(id, productDto);
             return Ok($"Update product by id: {id}");
         }
 

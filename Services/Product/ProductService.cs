@@ -13,18 +13,18 @@ namespace nopCommerceApi.Services.Product
         IEnumerable<ProductDto> GetAll();
         ProductDto GetById(int id);
         Entities.Usable.Product CreateMinimal(ProductCreateMinimalDto productDto);
-        bool UpdateInformation(int id, ProductUpdateInformationDto productDto);
-        bool UpdateSeo(int id, ProductUpdateSeoDto productDto);
-        bool UpdateRating(int id, ProductUpdateRatingDto productDto);
-        bool UpdateReviews(int id, ProductUpdateReviewsDto productDto);
-        bool UpdateGiftCard(int id, ProductUpdateGiftCardDto productDto);
-        bool UpdateDownload(int id, ProductUpdateDownloadDto productDto);
-        bool UpdateRecurring(int id, ProductUpdateRecurringDto productDto);
-        bool UpdateRentalPrice(int id, ProductUpdateRentalPriceDto productDto);
-        bool UpdateShipping(int id, ProductUpdateShippingDto productDto);
-        bool UpdateInventory(int id, ProductUpdateInventoryDto productDto);
-        bool UpdateAttribute(int id, ProductUpdateAttributeDto productDto);
-        bool UpdatePrice(int id, ProductUpdatePriceDto productDto);
+        bool UpdateBlockInformation(int id, ProductUpdateBlockInformationDto productDto);
+        bool UpdateBlockSeo(int id, ProductUpdateBlockSeoDto productDto);
+        bool UpdateBlockRating(int id, ProductUpdateBlockRatingDto productDto);
+        bool UpdateBlockReviews(int id, ProductUpdateBlockReviewsDto productDto);
+        bool UpdateBlockGiftCard(int id, ProductUpdateBlockGiftCardDto productDto);
+        bool UpdateBlockDownload(int id, ProductUpdateBlockDownloadDto productDto);
+        bool UpdateBlockRecurring(int id, ProductUpdateBlockRecurringDto productDto);
+        bool UpdateBlockRentalPrice(int id, ProductUpdateBlockRentalPriceDto productDto);
+        bool UpdateBlockShipping(int id, ProductUpdateBlockShippingDto productDto);
+        bool UpdateBlockInventory(int id, ProductUpdateBlockInventoryDto productDto);
+        bool UpdateBlockAttribute(int id, ProductUpdateBlockAttributeDto productDto);
+        bool UpdateBlockPrice(int id, ProductUpdateBlockPriceDto productDto);
     }
 
     public class ProductService : BaseService, IProductService
@@ -60,7 +60,7 @@ namespace nopCommerceApi.Services.Product
             return product;
         }
 
-        public bool UpdateInformation(int id, ProductUpdateInformationDto productDto)
+        public bool UpdateBlockInformation(int id, ProductUpdateBlockInformationDto productDto)
         {
             productDto.Id = id;
 
@@ -75,7 +75,7 @@ namespace nopCommerceApi.Services.Product
             return true;
         }
 
-        public bool UpdateSeo(int id, ProductUpdateSeoDto productDto)
+        public bool UpdateBlockSeo(int id, ProductUpdateBlockSeoDto productDto)
         {
             var product = _context.Products.FirstOrDefault(p => p.Id == id);
 
@@ -88,7 +88,7 @@ namespace nopCommerceApi.Services.Product
             return true;
         }
 
-        public bool UpdateRating(int id, ProductUpdateRatingDto productDto)
+        public bool UpdateBlockRating(int id, ProductUpdateBlockRatingDto productDto)
         {
             var product = _context.Products.FirstOrDefault(p => p.Id == id);
 
@@ -101,7 +101,7 @@ namespace nopCommerceApi.Services.Product
             return true;
         }
 
-        public bool UpdateReviews(int id, ProductUpdateReviewsDto productDto)
+        public bool UpdateBlockReviews(int id, ProductUpdateBlockReviewsDto productDto)
         {
             var product = _context.Products.FirstOrDefault(p => p.Id == id);
 
@@ -114,7 +114,7 @@ namespace nopCommerceApi.Services.Product
             return true;
         }
 
-        public bool UpdateGiftCard(int id, ProductUpdateGiftCardDto productDto)
+        public bool UpdateBlockGiftCard(int id, ProductUpdateBlockGiftCardDto productDto)
         {
             var product = _context.Products.FirstOrDefault(p => p.Id == id);
 
@@ -127,7 +127,7 @@ namespace nopCommerceApi.Services.Product
             return true;
         }
 
-        public bool UpdateDownload(int id, ProductUpdateDownloadDto productDto)
+        public bool UpdateBlockDownload(int id, ProductUpdateBlockDownloadDto productDto)
         {
             var product = _context.Products.FirstOrDefault(p => p.Id == id);
 
@@ -140,7 +140,7 @@ namespace nopCommerceApi.Services.Product
             return true;
         }
 
-        public bool UpdateRecurring(int id, ProductUpdateRecurringDto productDto)
+        public bool UpdateBlockRecurring(int id, ProductUpdateBlockRecurringDto productDto)
         {
             var product = _context.Products.FirstOrDefault(p => p.Id == id);
 
@@ -153,7 +153,7 @@ namespace nopCommerceApi.Services.Product
             return true;
         }
 
-        public bool UpdateRentalPrice(int id, ProductUpdateRentalPriceDto productDto)
+        public bool UpdateBlockRentalPrice(int id, ProductUpdateBlockRentalPriceDto productDto)
         {
             var product = _context.Products.FirstOrDefault(p => p.Id == id);
 
@@ -166,7 +166,7 @@ namespace nopCommerceApi.Services.Product
             return true;
         }
 
-        public bool UpdateShipping(int id, ProductUpdateShippingDto productDto)
+        public bool UpdateBlockShipping(int id, ProductUpdateBlockShippingDto productDto)
         {
             var product = _context.Products.FirstOrDefault(p => p.Id == id);
 
@@ -179,7 +179,7 @@ namespace nopCommerceApi.Services.Product
             return true;
         }
 
-        public bool UpdateInventory(int id, ProductUpdateInventoryDto productDto)
+        public bool UpdateBlockInventory(int id, ProductUpdateBlockInventoryDto productDto)
         {
             var product = _context.Products.FirstOrDefault(p => p.Id == id);
 
@@ -192,7 +192,7 @@ namespace nopCommerceApi.Services.Product
             return true;
         }
 
-        public bool UpdateAttribute(int id, ProductUpdateAttributeDto productDto)
+        public bool UpdateBlockAttribute(int id, ProductUpdateBlockAttributeDto productDto)
         {
             var product = _context.Products.FirstOrDefault(p => p.Id == id);
 
@@ -205,7 +205,7 @@ namespace nopCommerceApi.Services.Product
             return true;
         }
 
-        public bool UpdatePrice(int id, ProductUpdatePriceDto productDto)
+        public bool UpdateBlockPrice(int id, ProductUpdateBlockPriceDto productDto)
         {
             var product = _context.Products.FirstOrDefault(p => p.Id == id);
 

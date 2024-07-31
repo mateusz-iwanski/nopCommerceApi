@@ -4,11 +4,11 @@ using nopCommerceApi.Models.Product;
 
 namespace nopCommerceApi.Validations
 {
-    public class ProductUpdatePriceDtoValidator : BaseValidator<ProductUpdatePriceDto>
+    public class ProductUpdateBlockPriceDtoValidator : BaseValidator<ProductUpdateBlockPriceDto>
     {
         private readonly NopCommerceContext _context;
 
-        public ProductUpdatePriceDtoValidator(NopCommerceContext context) : base()
+        public ProductUpdateBlockPriceDtoValidator(NopCommerceContext context) : base()
         {
             _context = context;
 

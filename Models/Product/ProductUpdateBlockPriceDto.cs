@@ -2,7 +2,7 @@
 
 namespace nopCommerceApi.Models.Product
 {
-    public class ProductUpdatePriceDto : BaseDto
+    public class ProductUpdateBlockPriceDto : BaseDto
     {
         /// <summary>
         /// ## DisableBuyButton

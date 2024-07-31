@@ -1,6 +1,6 @@
 ﻿namespace nopCommerceApi.Models.Product
 {
-    public class ProductUpdateRentalPriceDto : BaseDto
+    public class ProductUpdateBlockRentalPriceDto : BaseDto
     {
         /// <summary>
         /// ## IsRental

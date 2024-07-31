@@ -1,6 +1,6 @@
 ﻿namespace nopCommerceApi.Models.Product
 {
-    public class ProductUpdateInventoryDto : BaseDto
+    public class ProductUpdateBlockInventoryDto : BaseDto
     {
         /// <summary>
         /// ## ManageInventoryMethodId

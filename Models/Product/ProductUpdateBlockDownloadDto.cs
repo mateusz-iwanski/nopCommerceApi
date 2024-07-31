@@ -1,6 +1,6 @@
 ﻿namespace nopCommerceApi.Models.Product
 {
-    public class ProductUpdateDownloadDto : BaseDto
+    public class ProductUpdateBlockDownloadDto : BaseDto
     {
         /// <summary>
         /// ## IsDownload

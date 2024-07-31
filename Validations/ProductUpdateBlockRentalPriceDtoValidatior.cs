@@ -4,11 +4,11 @@ using nopCommerceApi.Models.Product;
 
 namespace nopCommerceApi.Validations
 {
-    public class ProductUpdateRentalPriceDtoValidatior : BaseValidator<ProductUpdateRentalPriceDto>
+    public class ProductUpdateBlockRentalPriceDtoValidatior : BaseValidator<ProductUpdateBlockRentalPriceDto>
     {
         private readonly IMySettings _settings;
 
-        public ProductUpdateRentalPriceDtoValidatior(IMySettings settings) : base()
+        public ProductUpdateBlockRentalPriceDtoValidatior(IMySettings settings) : base()
         {
             _settings = settings;
 

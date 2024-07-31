@@ -1,6 +1,6 @@
 ﻿namespace nopCommerceApi.Models.Product
 {
-    public class ProductUpdateGiftCardDto : BaseDto
+    public class ProductUpdateBlockGiftCardDto : BaseDto
     {
         /// <summary>
         /// ## IsGiftCard

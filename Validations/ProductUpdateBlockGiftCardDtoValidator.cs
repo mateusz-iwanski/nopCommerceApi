@@ -4,11 +4,11 @@ using nopCommerceApi.Models.Product;
 
 namespace nopCommerceApi.Validations
 {
-    public class ProductUpdateGiftCardDtoValidator : BaseValidator<ProductUpdateGiftCardDto>
+    public class ProductUpdateBlockGiftCardDtoValidator : BaseValidator<ProductUpdateBlockGiftCardDto>
     {
         private readonly IMySettings _settings;
 
-        public ProductUpdateGiftCardDtoValidator(IMySettings settings) : base()
+        public ProductUpdateBlockGiftCardDtoValidator(IMySettings settings) : base()
         {
             _settings = settings;
 

@@ -9,12 +9,12 @@ using nopCommerceApi.Models.Product;
 
 namespace nopCommerceApi.Validations
 {
-    public class ProductUpdateInformationDtoValidator : BaseValidator<ProductUpdateInformationDto>
+    public class ProductUpdateBlockInformationDtoValidator : BaseValidator<ProductUpdateBlockInformationDto>
     {
         private readonly NopCommerceContext _context;
         private readonly IMySettings _settings;
 
-        public ProductUpdateInformationDtoValidator(NopCommerceContext context, IMySettings settings) : base()
+        public ProductUpdateBlockInformationDtoValidator(NopCommerceContext context, IMySettings settings) : base()
         {
             _context = context;
             _settings = settings;

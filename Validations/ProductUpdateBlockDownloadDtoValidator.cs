@@ -5,12 +5,12 @@ using nopCommerceApi.Models.Product;
 
 namespace nopCommerceApi.Validations
 {
-    public class ProductUpdateDownloadDtoValidator : BaseValidator<ProductUpdateDownloadDto>
+    public class ProductUpdateBlockDownloadDtoValidator : BaseValidator<ProductUpdateBlockDownloadDto>
     {
         private readonly NopCommerceContext _context;
         private readonly IMySettings _settings;
 
-        public ProductUpdateDownloadDtoValidator(NopCommerceContext context, IMySettings settings) : base()
+        public ProductUpdateBlockDownloadDtoValidator(NopCommerceContext context, IMySettings settings) : base()
         {
             _context = context;
             _settings = settings;

@@ -1,6 +1,6 @@
 ﻿namespace nopCommerceApi.Models.Product
 {
-    public class ProductUpdateRecurringDto : BaseDto
+    public class ProductUpdateBlockRecurringDto : BaseDto
     {
         /// <summary>
         /// ## IsRecurring

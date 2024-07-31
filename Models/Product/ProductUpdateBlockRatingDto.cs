@@ -1,6 +1,6 @@
 ﻿namespace nopCommerceApi.Models.Product
 {
-    public class ProductUpdateRatingDto : BaseDto
+    public class ProductUpdateBlockRatingDto : BaseDto
     {
         /// <summary>
         /// ## ApprovedRatingSum

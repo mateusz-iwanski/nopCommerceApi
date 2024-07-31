@@ -5,11 +5,11 @@ using nopCommerceApi.Models.Product;
 
 namespace nopCommerceApi.Validations
 {
-    public class ProductUpdateRecurringDtoValidator : BaseValidator<ProductUpdateRecurringDto>
+    public class ProductUpdateBlockRecurringDtoValidator : BaseValidator<ProductUpdateBlockRecurringDto>
     {
         private readonly IMySettings _settings;
 
-        public ProductUpdateRecurringDtoValidator(IMySettings settings) : base()
+        public ProductUpdateBlockRecurringDtoValidator(IMySettings settings) : base()
         {
             _settings = settings;
 

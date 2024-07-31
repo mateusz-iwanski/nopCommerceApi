@@ -142,18 +142,18 @@ namespace nopCommerceApi.MappingProfile
                 .ForMember(x => x.Sku, opt => opt.MapFrom(y => y.Sku.Trim()));
 
             // update
-            CreateMap<ProductUpdateInformationDto, Product>();
-            CreateMap<ProductUpdateSeoDto, Product>();
-            CreateMap<ProductUpdateRatingDto, Product>();
-            CreateMap<ProductUpdateReviewsDto, Product>();
-            CreateMap<ProductUpdateGiftCardDto, Product>();
-            CreateMap<ProductUpdateDownloadDto, Product>();
-            CreateMap<ProductUpdateRecurringDto, Product>();
-            CreateMap<ProductUpdateRentalPriceDto, Product>();
-            CreateMap<ProductUpdateShippingDto, Product>();
-            CreateMap<ProductUpdateInventoryDto, Product>();
-            CreateMap<ProductUpdateAttributeDto, Product>();
-            CreateMap<ProductUpdatePriceDto, Product>();
+            CreateMap<ProductUpdateBlockInformationDto, Product>();
+            CreateMap<ProductUpdateBlockSeoDto, Product>();
+            CreateMap<ProductUpdateBlockRatingDto, Product>();
+            CreateMap<ProductUpdateBlockReviewsDto, Product>();
+            CreateMap<ProductUpdateBlockGiftCardDto, Product>();
+            CreateMap<ProductUpdateBlockDownloadDto, Product>();
+            CreateMap<ProductUpdateBlockRecurringDto, Product>();
+            CreateMap<ProductUpdateBlockRentalPriceDto, Product>();
+            CreateMap<ProductUpdateBlockShippingDto, Product>();
+            CreateMap<ProductUpdateBlockInventoryDto, Product>();
+            CreateMap<ProductUpdateBlockAttributeDto, Product>();
+            CreateMap<ProductUpdateBlockPriceDto, Product>();
 
             #endregion
 

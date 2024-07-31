@@ -2,7 +2,7 @@
 
 namespace nopCommerceApi.Models.Product
 {
-    public class ProductUpdateShippingDto : BaseDto
+    public class ProductUpdateBlockShippingDto : BaseDto
     {
         /// <summary>
         /// ## IsShipEnabled

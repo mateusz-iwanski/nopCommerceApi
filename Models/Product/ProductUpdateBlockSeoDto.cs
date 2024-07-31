@@ -1,6 +1,6 @@
 ﻿namespace nopCommerceApi.Models.Product
 {
-    public class ProductUpdateSeoDto : BaseDto
+    public class ProductUpdateBlockSeoDto : BaseDto
     {
         /// <summary>
         /// ## MetaKeywords 
