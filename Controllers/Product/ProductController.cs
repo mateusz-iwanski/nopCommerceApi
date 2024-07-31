@@ -82,7 +82,7 @@ namespace nopCommerceApi.Controllers.Product
         /// Update SEO for product
         /// </summary>
         /// <remarks>
-        /// Note: If you do not include some fields in the request, they will be updated to null.
+        /// Note: If you do not include some fields in the request, they will be updated to default values.
         /// </remarks>
         [HttpPost("update/seo/{id}")]
         public IActionResult UpdateSeo(int id, [FromBody] ProductUpdateSeoDto productDto)
@@ -92,16 +92,29 @@ namespace nopCommerceApi.Controllers.Product
         }
 
         /// <summary>
-        /// Update Rating for product
+        /// Update rating for product
         /// </summary>
         /// <remarks>
-        /// Note: If you do not include some fields in the request, they will be updated to 0 (not approved).
+        /// Note: If you do not include some fields in the request, they will be updated to default values.
         /// Look on Configuration → Settings → Catalog settings or for more details.        
         /// </remarks>
         [HttpPost("update/rating/{id}")]
         public IActionResult UpdateRating(int id, [FromBody] ProductUpdateRatingDto productDto)
         {
             _productService.UpdateRating(id, productDto);
+            return Ok($"Update product by id: {id}");
+        }
+
+        /// <summary>
+        /// Update reviews for product
+        /// </summary>
+        /// <remarks>
+        /// Note: If you do not include some fields in the request, they will be updated to default values.
+        /// </remarks>
+        [HttpPost("update/reviews/{id}")]
+        public IActionResult UpdateReviews(int id, [FromBody] ProductUpdateReviewsDto productDto)
+        {
+            _productService.UpdateReviews(id, productDto);
             return Ok($"Update product by id: {id}");
         }
 
