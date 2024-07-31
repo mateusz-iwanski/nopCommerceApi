@@ -55,7 +55,7 @@ namespace nopCommerceApi.Controllers.Product
         /// <remarks>
         /// Only the required properties are included in this DTO, 
         /// rest fields are set up with default values.
-        /// Next you have to use the update method to add more information.
+        /// Then you need to use update methods to change the default values.
         /// </remarks>
         [HttpPost("add/minimal")]
         public IActionResult CreateMinimal([FromBody] ProductCreateMinimalDto productDto)
@@ -78,11 +78,30 @@ namespace nopCommerceApi.Controllers.Product
             return Ok($"Update product by id: {id}");
         }
 
-
+        /// <summary>
+        /// Update SEO for product
+        /// </summary>
+        /// <remarks>
+        /// Note: If you do not include some fields in the request, they will be updated to null.
+        /// </remarks>
         [HttpPost("update/seo/{id}")]
         public IActionResult UpdateSeo(int id, [FromBody] ProductUpdateSeoDto productDto)
         {
             _productService.UpdateSeo(id, productDto);
+            return Ok($"Update product by id: {id}");
+        }
+
+        /// <summary>
+        /// Update Rating for product
+        /// </summary>
+        /// <remarks>
+        /// Note: If you do not include some fields in the request, they will be updated to 0 (not approved).
+        /// Look on Configuration → Settings → Catalog settings or for more details.        
+        /// </remarks>
+        [HttpPost("update/rating/{id}")]
+        public IActionResult UpdateRating(int id, [FromBody] ProductUpdateRatingDto productDto)
+        {
+            _productService.UpdateRating(id, productDto);
             return Ok($"Update product by id: {id}");
         }
 
