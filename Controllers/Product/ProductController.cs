@@ -159,15 +159,15 @@ namespace nopCommerceApi.Controllers.Product
         }
 
         /// <summary>
-        /// Update rental for product
+        /// Update rental price for product
         /// </summary>
         /// <remarks>
         /// Note: If you do not include some fields in the request, they will be updated to default values.
         /// </remarks>
         [HttpPut("update/rental/{id}")]
-        public IActionResult UpdateRental(int id, [FromBody] ProductUpdateRentalDto productDto)
+        public IActionResult UpdateRentalPrice(int id, [FromBody] ProductUpdateRentalPriceDto productDto)
         {
-            _productService.UpdateRental(id, productDto);
+            _productService.UpdateRentalPrice(id, productDto);
             return Ok($"Update product by id: {id}");
         }
 

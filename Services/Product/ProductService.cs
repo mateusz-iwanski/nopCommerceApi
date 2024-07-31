@@ -21,7 +21,7 @@ namespace nopCommerceApi.Services.Product
         bool UpdateGiftCard(int id, ProductUpdateGiftCardDto productDto);
         bool UpdateDownload(int id, ProductUpdateDownloadDto productDto);
         bool UpdateRecurring(int id, ProductUpdateRecurringDto productDto);
-        bool UpdateRental(int id, ProductUpdateRentalDto productDto);
+        bool UpdateRentalPrice(int id, ProductUpdateRentalPriceDto productDto);
         bool UpdateShipping(int id, ProductUpdateShippingDto productDto);
         bool Update(int id, ProductUpdateDto productDto);        
     }
@@ -162,7 +162,7 @@ namespace nopCommerceApi.Services.Product
             return true;
         }
 
-        public bool UpdateRental(int id, ProductUpdateRentalDto productDto)
+        public bool UpdateRentalPrice(int id, ProductUpdateRentalPriceDto productDto)
         {
             var product = _context.Products.FirstOrDefault(p => p.Id == id);
 

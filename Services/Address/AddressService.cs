@@ -123,17 +123,27 @@ namespace nopCommerceApi.Services
             if (address == null) throw new NotFoundExceptions($"Address with {id} not found.");
 
             // Only update this fields which are not null
-
-            address.FirstName = updateAddressDto.FirstName;
-            address.LastName = updateAddressDto.LastName;
-            address.Email = updateAddressDto.Email;
-            address.Company = updateAddressDto.Company;
-            address.County = updateAddressDto.County;
-            address.City = updateAddressDto.City;
-            address.Address1 = updateAddressDto.Address1;
-            address.Address2 = updateAddressDto.Address2;
-            address.ZipPostalCode = updateAddressDto.ZipPostalCode;
-            address.PhoneNumber = updateAddressDto.PhoneNumber;
+            // when send json without fields, this fields will not updated to default value
+            if (updateAddressDto.FirstName != null)
+                address.FirstName = updateAddressDto.FirstName;
+            if (updateAddressDto.LastName != null)
+                address.LastName = updateAddressDto.LastName;
+            if (updateAddressDto.Email != null)
+                address.Email = updateAddressDto.Email;
+            if (updateAddressDto.Company != null)
+                address.Company = updateAddressDto.Company;
+            if (updateAddressDto.County != null)
+                address.County = updateAddressDto.County;
+            if (updateAddressDto.City != null)
+                address.City = updateAddressDto.City;
+            if (updateAddressDto.Address1 != null)
+                address.Address1 = updateAddressDto.Address1;
+            if (updateAddressDto.Address2 != null)
+                address.Address2 = updateAddressDto.Address2;
+            if (updateAddressDto.ZipPostalCode != null)
+                address.ZipPostalCode = updateAddressDto.ZipPostalCode;
+            if (updateAddressDto.PhoneNumber != null)
+                address.PhoneNumber = updateAddressDto.PhoneNumber;
 
             // Set to Poland every time, this function is only for Polish enterprises
             address.Country = _context.Countries.FirstOrDefault(c => c.Name == "Poland");
@@ -190,18 +200,28 @@ namespace nopCommerceApi.Services
             if (AddressDto.IsEnterpriseAddress(address, _context.AddressAttributes))
                 throw new BadRequestException("Address is enterprise, can\'t update. Use update-with-nip enterprise addresses.");
 
-
-            address.FirstName = updateAddressDto.FirstName;
-            address.LastName = updateAddressDto.LastName;
-            address.Email = updateAddressDto.Email;
-            address.Company = updateAddressDto.Company;
-            address.County = updateAddressDto.County;
-            address.City = updateAddressDto.City;
-            address.Address1 = updateAddressDto.Address1;
-            address.Address2 = updateAddressDto.Address2;
-            address.ZipPostalCode = updateAddressDto.ZipPostalCode;
-            address.PhoneNumber = updateAddressDto.PhoneNumber;
-            address.CountryId = updateAddressDto.CountryId;
+            if (updateAddressDto.FirstName != null)
+                address.FirstName = updateAddressDto.FirstName;
+            if (updateAddressDto.LastName != null)
+                address.LastName = updateAddressDto.LastName;
+            if (updateAddressDto.Email != null)
+                address.Email = updateAddressDto.Email;
+            if (updateAddressDto.Company != null)
+                address.Company = updateAddressDto.Company;
+            if (updateAddressDto.County != null)
+                address.County = updateAddressDto.County;
+            if (updateAddressDto.City != null)
+                address.City = updateAddressDto.City;
+            if (updateAddressDto.Address1 != null)
+                address.Address1 = updateAddressDto.Address1;
+            if (updateAddressDto.Address2 != null)
+                address.Address2 = updateAddressDto.Address2;
+            if (updateAddressDto.ZipPostalCode != null)
+                address.ZipPostalCode = updateAddressDto.ZipPostalCode;
+            if (updateAddressDto.PhoneNumber != null)
+                address.PhoneNumber = updateAddressDto.PhoneNumber;
+            if (updateAddressDto.CountryId != null)
+                address.CountryId = updateAddressDto.CountryId;
 
             _context.SaveChanges();
 
