@@ -118,6 +118,20 @@ namespace nopCommerceApi.Controllers.Product
             return Ok($"Update product by id: {id}");
         }
 
+        /// <summary>
+        /// Update gift card
+        /// </summary>
+        /// <remarks>
+        /// Note: If you do not include some fields in the request, they will be updated to default values.
+        /// </remarks>
+
+        [HttpPost("update/giftcard/{id}")]
+        public IActionResult UpdateGiftCard(int id, [FromBody] ProductUpdateGiftCardDto productDto)
+        {
+            _productService.UpdateGiftCard(id, productDto);
+            return Ok($"Update product by id: {id}");
+        }
+
         // PUT: api/product/5
         /// <summary>
         /// Update product by id
