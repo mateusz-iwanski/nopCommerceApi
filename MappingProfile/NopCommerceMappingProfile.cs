@@ -160,6 +160,7 @@ namespace nopCommerceApi.MappingProfile
             CreateMap<ProductUpdateInformationDto, Product>();
             CreateMap<ProductUpdateSeoDto, Product>();
             CreateMap<ProductUpdateRatingDto, Product>();
+            CreateMap<ProductUpdateReviewsDto, Product>();
 
             // update
             CreateMap<ProductUpdateDto, Product>()
