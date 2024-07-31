@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities.Configurations;
-using nopCommerceApi.Entities.NotUsable;
 using nopCommerceApi.Entities.Usable;
 
 namespace nopCommerceApi.Entities;
@@ -186,6 +185,7 @@ public partial class NopCommerceContext : DbContext
         new ProductAvailabilityRangeConfiguration().Configure(modelBuilder.Entity<ProductAvailabilityRange>());
         new VendorConfiguration().Configure(modelBuilder.Entity<Vendor>()); 
         new DownloadConfiguration().Configure(modelBuilder.Entity<Download>());
+        new DeliveryDateConfiguration().Configure(modelBuilder.Entity<DeliveryDate>());
         new WarehouseConfiguration().Configure(modelBuilder.Entity<Warehouse>());
 
         #endregion
