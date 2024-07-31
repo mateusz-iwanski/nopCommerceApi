@@ -21,6 +21,8 @@ namespace nopCommerceApi.Services.Product
         bool UpdateGiftCard(int id, ProductUpdateGiftCardDto productDto);
         bool UpdateDownload(int id, ProductUpdateDownloadDto productDto);
         bool UpdateRecurring(int id, ProductUpdateRecurringDto productDto);
+        bool UpdateRental(int id, ProductUpdateRentalDto productDto);
+        bool UpdateShipping(int id, ProductUpdateShippingDto productDto);
         bool Update(int id, ProductUpdateDto productDto);        
     }
 
@@ -148,6 +150,32 @@ namespace nopCommerceApi.Services.Product
         }
 
         public bool UpdateRecurring(int id, ProductUpdateRecurringDto productDto)
+        {
+            var product = _context.Products.FirstOrDefault(p => p.Id == id);
+
+            if (product == null) throw new NotFoundExceptions($"Product with id {id} not found");
+
+            _mapper.Map(productDto, product);
+
+            _context.SaveChanges();
+
+            return true;
+        }
+
+        public bool UpdateRental(int id, ProductUpdateRentalDto productDto)
+        {
+            var product = _context.Products.FirstOrDefault(p => p.Id == id);
+
+            if (product == null) throw new NotFoundExceptions($"Product with id {id} not found");
+
+            _mapper.Map(productDto, product);
+
+            _context.SaveChanges();
+
+            return true;
+        }
+
+        public bool UpdateShipping(int id, ProductUpdateShippingDto productDto)
         {
             var product = _context.Products.FirstOrDefault(p => p.Id == id);
 

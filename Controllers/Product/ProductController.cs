@@ -71,7 +71,7 @@ namespace nopCommerceApi.Controllers.Product
         /// Note: Look out on boolean and datetime fields, if you not include them in the request, 
         /// boolean will set on false and datetime on default value (null).
         /// </remarks>
-        [HttpPost("update/information/{id}")]
+        [HttpPut("update/information/{id}")]
         public IActionResult UpdateInformation(int id, [FromBody] ProductUpdateInformationDto productDto)
         {
             _productService.UpdateInformation(id, productDto);
@@ -84,7 +84,7 @@ namespace nopCommerceApi.Controllers.Product
         /// <remarks>
         /// Note: If you do not include some fields in the request, they will be updated to default values.
         /// </remarks>
-        [HttpPost("update/seo/{id}")]
+        [HttpPut("update/seo/{id}")]
         public IActionResult UpdateSeo(int id, [FromBody] ProductUpdateSeoDto productDto)
         {
             _productService.UpdateSeo(id, productDto);
@@ -98,7 +98,7 @@ namespace nopCommerceApi.Controllers.Product
         /// Note: If you do not include some fields in the request, they will be updated to default values.
         /// Look on Configuration → Settings → Catalog settings or for more details.        
         /// </remarks>
-        [HttpPost("update/rating/{id}")]
+        [HttpPut("update/rating/{id}")]
         public IActionResult UpdateRating(int id, [FromBody] ProductUpdateRatingDto productDto)
         {
             _productService.UpdateRating(id, productDto);
@@ -111,7 +111,7 @@ namespace nopCommerceApi.Controllers.Product
         /// <remarks>
         /// Note: If you do not include some fields in the request, they will be updated to default values.
         /// </remarks>
-        [HttpPost("update/reviews/{id}")]
+        [HttpPut("update/reviews/{id}")]
         public IActionResult UpdateReviews(int id, [FromBody] ProductUpdateReviewsDto productDto)
         {
             _productService.UpdateReviews(id, productDto);
@@ -125,7 +125,7 @@ namespace nopCommerceApi.Controllers.Product
         /// Note: If you do not include some fields in the request, they will be updated to default values.
         /// </remarks>
 
-        [HttpPost("update/giftcard/{id}")]
+        [HttpPut("update/giftcard/{id}")]
         public IActionResult UpdateGiftCard(int id, [FromBody] ProductUpdateGiftCardDto productDto)
         {
             _productService.UpdateGiftCard(id, productDto);
@@ -138,7 +138,7 @@ namespace nopCommerceApi.Controllers.Product
         /// <remarks>
         /// Note: If you do not include some fields in the request, they will be updated to default values.
         /// </remarks>
-        [HttpPost("update/download/{id}")]
+        [HttpPut("update/download/{id}")]
         public IActionResult UpdateDownload(int id, [FromBody] ProductUpdateDownloadDto productDto)
         {
             _productService.UpdateDownload(id, productDto);
@@ -151,10 +151,36 @@ namespace nopCommerceApi.Controllers.Product
         /// <remarks>
         /// Note: If you do not include some fields in the request, they will be updated to default values.
         /// </remarks>
-        [HttpPost("update/recurring/{id}")]
+        [HttpPut("update/recurring/{id}")]
         public IActionResult UpdateRecurring(int id, [FromBody] ProductUpdateRecurringDto productDto)
         {
             _productService.UpdateRecurring(id, productDto);
+            return Ok($"Update product by id: {id}");
+        }
+
+        /// <summary>
+        /// Update rental for product
+        /// </summary>
+        /// <remarks>
+        /// Note: If you do not include some fields in the request, they will be updated to default values.
+        /// </remarks>
+        [HttpPut("update/rental/{id}")]
+        public IActionResult UpdateRental(int id, [FromBody] ProductUpdateRentalDto productDto)
+        {
+            _productService.UpdateRental(id, productDto);
+            return Ok($"Update product by id: {id}");
+        }
+
+        /// <summary>
+        /// Update shipping for product
+        /// </summary>
+        /// <remarks>
+        /// Note: If you do not include some fields in the request, they will be updated to default values.
+        /// </remarks>
+        [HttpPut("update/shipping/{id}")]
+        public IActionResult UpdateShipping(int id, [FromBody] ProductUpdateShippingDto productDto)
+        {
+            _productService.UpdateShipping(id, productDto);
             return Ok($"Update product by id: {id}");
         }
 
