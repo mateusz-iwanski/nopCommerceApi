@@ -118,7 +118,11 @@ builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyCont
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AddressUpdatePolishEnterpriseDtoValidator>());
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AddressUpdateDtoValidator>());
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateBaseCustomerPLDtoValidator>());
+// Product
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductCreateDtoValidator>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductUpdateReviewsDtoValidation>());
+
+
 
 #region Product
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UpdateProductTagValidator>());
