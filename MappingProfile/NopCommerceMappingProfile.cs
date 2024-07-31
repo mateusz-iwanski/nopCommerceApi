@@ -168,7 +168,8 @@ namespace nopCommerceApi.MappingProfile
             CreateMap<ProductUpdateShippingDto, Product>();
             CreateMap<ProductUpdateInventoryDto, Product>();
             CreateMap<ProductUpdateAttributeDto, Product>();
-
+            CreateMap<ProductUpdatePriceDto, Product>();
+            
             // update
             CreateMap<ProductUpdateDto, Product>()
                 .ForMember(x => x.Name, opt => opt.MapFrom(y => y.Name.Trim()))
