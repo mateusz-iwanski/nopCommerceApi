@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace nopCommerceApi.Validations
 {
-    public class AddressUpdateDtoValidator : BaseValidator<AddressUpdateDto> 
+    public class AddressUpdateDtoValidator : BaseValidator<AddressUpdateDto>
     {
         private readonly NopCommerceContext _context;
 
@@ -18,7 +18,7 @@ namespace nopCommerceApi.Validations
             RuleFor(x => x.CountryId)
                 .Must(countryId => countryId == null || _context.Countries.Any(c => c.Id == countryId))
                 .WithMessage("ID of Country is incorrect, send correct ID.")
-                .When(x => x.CountryId.HasValue); 
+                .When(x => x.CountryId.HasValue);
 
             RuleFor(x => x.FirstName)
                 .Must(firstName => firstName == null || !string.IsNullOrWhiteSpace(firstName))

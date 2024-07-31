@@ -12,7 +12,6 @@ namespace nopCommerceApi.Services.Product
     {
         IEnumerable<ProductDto> GetAll();
         ProductDto GetById(int id);
-        Entities.Usable.Product Create(ProductCreateDto productDto);
         Entities.Usable.Product CreateMinimal(ProductCreateMinimalDto productDto);
         bool UpdateInformation(int id, ProductUpdateInformationDto productDto);
         bool UpdateSeo(int id, ProductUpdateSeoDto productDto);
@@ -26,7 +25,6 @@ namespace nopCommerceApi.Services.Product
         bool UpdateInventory(int id, ProductUpdateInventoryDto productDto);
         bool UpdateAttribute(int id, ProductUpdateAttributeDto productDto);
         bool UpdatePrice(int id, ProductUpdatePriceDto productDto);
-        bool Update(int id, ProductUpdateDto productDto);        
     }
 
     public class ProductService : BaseService, IProductService
@@ -50,16 +48,6 @@ namespace nopCommerceApi.Services.Product
             var productDto = _mapper.Map<ProductDto>(products);
 
             return productDto;
-        }
-
-        public Entities.Usable.Product Create(ProductCreateDto productDto)
-        {
-            var product = _mapper.Map<Entities.Usable.Product>(productDto);
-
-            _context.Products.Add(product);
-            _context.SaveChanges();
-
-            return product;
         }
 
         public Entities.Usable.Product CreateMinimal(ProductCreateMinimalDto productDto)
@@ -230,19 +218,5 @@ namespace nopCommerceApi.Services.Product
             return true;
         }
 
-        public bool Update(int id, ProductUpdateDto productDto)
-        {
-            productDto.Id = id;
-
-            var product = _context.Products.FirstOrDefault(p => p.Id == id);
-
-            if (product == null) throw new NotFoundExceptions($"Product with id {id} not found");
-            
-            _mapper.Map(productDto, product);
-
-            _context.SaveChanges();
-
-            return true;
-        }
     }
 }

@@ -38,17 +38,6 @@ namespace nopCommerceApi.Controllers.Product
             return Ok(productDto);
         }
 
-        // POST: api/product
-        /// <summary>
-        /// Create a new product
-        /// </summary>
-        [HttpPost]
-        public IActionResult Create([FromBody] ProductCreateDto productDto)
-        {
-            var product = _productService.Create(productDto);
-            return Created($"api/product/{ product.Id}", product);
-        }
-
         /// <summary>
         /// Create a new product with minimal information and all rest fields set to default values
         /// </summary>
@@ -221,21 +210,6 @@ namespace nopCommerceApi.Controllers.Product
         public IActionResult UpdatePrice(int id, [FromBody] ProductUpdatePriceDto productDto)
         {
             _productService.UpdatePrice(id, productDto);
-            return Ok($"Update product by id: {id}");
-        }
-
-        // PUT: api/product/5
-        /// <summary>
-        /// Update product by id
-        /// </summary>
-        /// <remarks>
-        /// If you don't want to update certain fields, don't add them to your requests.
-        /// If you do not add some of a fields to the request, this fields will not be updated.
-        /// </remarks>
-        [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] ProductUpdateDto productDto)
-        {
-            _productService.Update(id, productDto);
             return Ok($"Update product by id: {id}");
         }
 
