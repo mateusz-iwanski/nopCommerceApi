@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities.Usable;
-using nopCommerceApi.Entities.NotUsable;
 using System.Reflection.Emit;
 
 namespace nopCommerceApi.Entities.Configurations
@@ -10,7 +9,7 @@ namespace nopCommerceApi.Entities.Configurations
     {
         public void Configure(EntityTypeBuilder<ProductAttribute> entity)
         {
-            entity.ToTable("ProductAttribute");
+            entity.ToTable("ProductAttributeDto");
         }
     }
 }

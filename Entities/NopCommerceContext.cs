@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities.Configurations;
-using nopCommerceApi.Entities.NotUsable;
 using nopCommerceApi.Entities.Usable;
 
 namespace nopCommerceApi.Entities;
@@ -974,7 +973,7 @@ public partial class NopCommerceContext : DbContext
                entity.Property(e => e.PriceAdjustment).HasColumnType("decimal(18, 4)");
                entity.Property(e => e.WeightAdjustment).HasColumnType("decimal(18, 4)");
 
-               entity.HasOne(d => d.ProductAttribute).WithMany(p => p.PredefinedProductAttributeValues)
+               entity.HasOne(d => d.ProductAttributeDto).WithMany(p => p.PredefinedProductAttributeValues)
                    .HasForeignKey(d => d.ProductAttributeId)
                    .HasConstraintName("FK_PredefinedProductAttributeValue_ProductAttributeId_ProductAttribute_Id");
            });
@@ -1053,7 +1052,7 @@ public partial class NopCommerceContext : DbContext
 
                entity.HasIndex(e => new { e.ProductId, e.DisplayOrder }, "IX_Product_ProductAttribute_Mapping_ProductId_DisplayOrder");
 
-               entity.HasOne(d => d.ProductAttribute).WithMany(p => p.ProductProductAttributeMappings)
+               entity.HasOne(d => d.ProductAttributeDto).WithMany(p => p.ProductProductAttributeMappings)
                    .HasForeignKey(d => d.ProductAttributeId)
                    .HasConstraintName("FK_Product_ProductAttribute_Mapping_ProductAttributeId_ProductAttribute_Id");
 

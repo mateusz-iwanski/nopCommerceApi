@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using nopCommerceApi.Entities.NotUsable;
 
-namespace nopCommerceApi.Entities.NotUsable;
+namespace nopCommerceApi.Entities.Usable;
 
 public partial class ProductAttribute
 {
@@ -15,3 +16,4 @@ public partial class ProductAttribute
 
     public virtual ICollection<ProductProductAttributeMapping> ProductProductAttributeMappings { get; set; } = new List<ProductProductAttributeMapping>();
 }
+
