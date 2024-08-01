@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities.Configurations;
+using nopCommerceApi.Entities.NotUsable;
 using nopCommerceApi.Entities.Usable;
 
 namespace nopCommerceApi.Entities;
@@ -47,6 +48,7 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<CategoryTemplate> CategoryTemplates { get; set; }
     public virtual DbSet<ProductCategoryMapping> ProductCategoryMappings { get; set; }
     public virtual DbSet<ProductAttributeCombination> ProductAttributeCombinations { get; set; }
+    public virtual DbSet<ProductAttribute> ProductAttributes { get; set; }
 
     #endregion
 
@@ -103,8 +105,7 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<Poll> Polls { get; set; }
     public virtual DbSet<PollAnswer> PollAnswers { get; set; }
     public virtual DbSet<PollVotingRecord> PollVotingRecords { get; set; }
-    public virtual DbSet<PredefinedProductAttributeValue> PredefinedProductAttributeValues { get; set; }
-    public virtual DbSet<ProductAttribute> ProductAttributes { get; set; }
+    public virtual DbSet<PredefinedProductAttributeValue> PredefinedProductAttributeValues { get; set; }    
     public virtual DbSet<ProductAttributeCombinationPicture> ProductAttributeCombinationPictures { get; set; }
     public virtual DbSet<ProductAttributeValue> ProductAttributeValues { get; set; }
     public virtual DbSet<ProductAttributeValuePicture> ProductAttributeValuePictures { get; set; }
@@ -192,6 +193,7 @@ public partial class NopCommerceContext : DbContext
         new PictureConfiguration().Configure(modelBuilder.Entity<Picture>());
         new ProductCategoryMappingConfiguration().Configure(modelBuilder.Entity<ProductCategoryMapping>());
         new ProductAttributeCombinationConfiguration().Configure(modelBuilder.Entity<ProductAttributeCombination>());
+        new ProductAttributeConfiguration().Configure(modelBuilder.Entity<ProductAttribute>());
 
         #endregion
 
@@ -976,10 +978,6 @@ public partial class NopCommerceContext : DbContext
                    .HasConstraintName("FK_PredefinedProductAttributeValue_ProductAttributeId_ProductAttribute_Id");
            });
 
-           modelBuilder.Entity<ProductAttribute>(entity =>
-           {
-               entity.ToTable("ProductAttribute");
-           });           
 
            modelBuilder.Entity<ProductAttributeCombinationPicture>(entity =>
            {
