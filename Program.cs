@@ -22,6 +22,7 @@ using nopCommerceApi.Seeder;
 using nopCommerceApi.Services.Product;
 using nopCommerceApi.Entities;
 using System.Reflection;
+using nopCommerceApi.Services.Category;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -71,6 +72,7 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductTagService, ProductTagService>();
 builder.Services.AddScoped<IProductTemplateService, ProductTemplateService>();
 builder.Services.AddScoped<IProductAvailabilityRangeService, ProductAvailabilityRangeService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 
 // Configure services for api user controllers
