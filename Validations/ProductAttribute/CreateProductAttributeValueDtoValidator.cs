@@ -4,7 +4,7 @@ using nopCommerceApi.Models.ProductAttributeValue;
 
 namespace nopCommerceApi.Validations.ProductAttribute
 {
-    public class CreateProductAttributeValueDtoValidator : ProductAttributeDtoBaseValidator<ProductAttributeValueCreateDto>
+    public class CreateProductAttributeValueDtoValidator : ProductAttributeValueDtoBaseValidator<ProductAttributeValueDtoCreate>
     {
         public CreateProductAttributeValueDtoValidator(NopCommerceContext context, IMySettings settings) : base(context, settings)
         {
