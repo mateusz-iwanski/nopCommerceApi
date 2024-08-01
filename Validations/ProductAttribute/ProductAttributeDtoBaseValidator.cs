@@ -1,5 +1,4 @@
 ﻿using nopCommerceApi.Models.ProductAttribute;
-using nopCommerceApi.Models.ProductAttributeValue;
 
 namespace nopCommerceApi.Validations.ProductAttribute
 {

@@ -1,6 +1,6 @@
 ﻿using nopCommerceApi.Config;
 using nopCommerceApi.Entities;
-using nopCommerceApi.Models.ProductAttributeValue;
+using nopCommerceApi.Models.ProductAttribute;
 
 namespace nopCommerceApi.Validations.ProductAttribute
 {
