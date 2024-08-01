@@ -188,6 +188,7 @@ public partial class NopCommerceContext : DbContext
         new WarehouseConfiguration().Configure(modelBuilder.Entity<Warehouse>());
         new CategoryConfiguration().Configure(modelBuilder.Entity<Category>());
         new CategoryTemplateConfiguration().Configure(modelBuilder.Entity<CategoryTemplate>());
+        new PictureConfiguration().Configure(modelBuilder.Entity<Picture>());
 
         #endregion
 
