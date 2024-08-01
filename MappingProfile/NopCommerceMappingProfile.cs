@@ -210,7 +210,7 @@ namespace nopCommerceApi.MappingProfile
             CreateMap<ProductAttributeValue, ProductAttributeValueDto>();
 
             // set 
-            CreateMap<ProductAttributeValueCreateDto, ProductAttributeValue> ();
+            CreateMap<ProductAttributeValueDtoCreate, ProductAttributeValue> ();
 
             // update
             CreateMap<ProductAttributeValueUpdateDto, ProductAttributeValue>();
