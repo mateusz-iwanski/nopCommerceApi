@@ -5,7 +5,7 @@ using nopCommerceApi.Models.Address;
 using nopCommerceApi.Models.Category;
 using nopCommerceApi.Models.Customer;
 using nopCommerceApi.Models.Product;
-using nopCommerceApi.Models.ProductAttributeValue;
+using nopCommerceApi.Models.ProductAttribute;
 
 namespace nopCommerceApi.MappingProfile
 {
@@ -40,7 +40,7 @@ namespace nopCommerceApi.MappingProfile
             #region Customer
             // get
             CreateMap<Customer, CustomerDto>();
-            
+
             // create
             CreateMap<CustomerCreateBaseDto, Customer>()
                .ForMember(x => x.Email, opt => opt.MapFrom(y => y.Email.Trim()))
@@ -53,7 +53,7 @@ namespace nopCommerceApi.MappingProfile
                .ForMember(x => x.ZipPostalCode, opt => opt.MapFrom(y => y.ZipPostalCode.Trim()))
                .ForMember(x => x.City, opt => opt.MapFrom(y => y.City.Trim()))
                .ForMember(x => x.County, opt => opt.MapFrom(y => y.County.Trim()))
-               .ForMember(x => x.Phone, opt => opt.MapFrom(y => y.Phone.Trim()));            
+               .ForMember(x => x.Phone, opt => opt.MapFrom(y => y.Phone.Trim()));
 
             #endregion
 
@@ -210,14 +210,38 @@ namespace nopCommerceApi.MappingProfile
             CreateMap<ProductAttributeValue, ProductAttributeValueDto>();
 
             // set 
-            CreateMap<ProductAttributeValueDtoCreate, ProductAttributeValue> ();
+            CreateMap<ProductAttributeValueDtoCreate, ProductAttributeValue>();
 
             // update
             CreateMap<ProductAttributeValueUpdateDto, ProductAttributeValue>();
 
+            #endregion
+
+            #region ProductAttribute
+
+            // get
+            CreateMap<ProductAttribute, ProductAttributeDto>();
+
+            // set 
+            CreateMap<ProductAttributeCreateDto, ProductAttribute>();
+
+            // update
+            CreateMap<ProductAttributeUpdateDto, ProductAttribute>();
 
             #endregion
 
+            #region ProductProductAttributeMapping
+
+            //get
+            CreateMap<ProductProductAttributeMapping, ProductProductAttributeMappingDto>();
+
+            //set
+            CreateMap<ProductProductAttributeMappingCreateDto, ProductProductAttributeMapping>();
+
+            //update
+            CreateMap<ProductProductAttributeMappingUpdateDto, ProductProductAttributeMapping>();
+
+            #endregion
 
         }
     }
