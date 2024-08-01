@@ -23,6 +23,8 @@ using nopCommerceApi.Services.Product;
 using nopCommerceApi.Entities;
 using System.Reflection;
 using nopCommerceApi.Services.Category;
+using nopCommerceApi.Validations.Category;
+using nopCommerceApi.Validations.ProductAttribute;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -73,7 +75,7 @@ builder.Services.AddScoped<IProductTagService, ProductTagService>();
 builder.Services.AddScoped<IProductTemplateService, ProductTemplateService>();
 builder.Services.AddScoped<IProductAvailabilityRangeService, ProductAvailabilityRangeService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
-
+builder.Services.AddScoped<IProductAttributeValueService, ProductAttributeValueService>();
 
 // Configure services for api user controllers
 builder.Services.AddScoped<IApiUserAccountService, ApiUserAccountService>();
@@ -134,6 +136,11 @@ builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyCont
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductUpdateBlockInventoryDtoValidator>());
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductUpdateBlockAttributeDtoValidator>());
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductUpdateBlockPriceDtoValidator>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateCategoryDtoValidator>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UpdateCategoryDtoValidator>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateProductAttributeValueDtoValidator>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UpdateProductAttributeValueDtoValidator>());
+
 
 #region Product
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UpdateProductTagValidator>());

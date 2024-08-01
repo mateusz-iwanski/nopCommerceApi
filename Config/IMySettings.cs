@@ -79,6 +79,9 @@ namespace nopCommerceApi.Config
         [Option(Alias = "NopCommerceEnum.BackorderMode_AvailableId")]
         string BackorderModeAvailableId { get; }
 
+        [Option(Alias = "NopCommerceEnum.AttributeValueType_AvailableId")]
+        string AttributeValueTypeAvailableId { get; }
+
 
     }
 }

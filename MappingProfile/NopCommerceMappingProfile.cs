@@ -5,6 +5,7 @@ using nopCommerceApi.Models.Address;
 using nopCommerceApi.Models.Category;
 using nopCommerceApi.Models.Customer;
 using nopCommerceApi.Models.Product;
+using nopCommerceApi.Models.ProductAttributeValue;
 
 namespace nopCommerceApi.MappingProfile
 {
@@ -203,6 +204,19 @@ namespace nopCommerceApi.MappingProfile
 
             #endregion
 
+            #region ProductAttributeValue
+
+            // get
+            CreateMap<ProductAttributeValue, ProductAttributeValueDto>();
+
+            // set 
+            CreateMap<ProductAttributeValueCreateDto, ProductAttributeValue> ();
+
+            // update
+            CreateMap<ProductAttributeValueUpdateDto, ProductAttributeValue>();
+
+
+            #endregion
 
 
         }
