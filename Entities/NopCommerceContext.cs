@@ -49,6 +49,7 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<ProductCategoryMapping> ProductCategoryMappings { get; set; }
     public virtual DbSet<ProductAttributeCombination> ProductAttributeCombinations { get; set; }
     public virtual DbSet<ProductAttribute> ProductAttributes { get; set; }
+    public virtual DbSet<ProductAttributeValue> ProductAttributeValues { get; set; }
 
     #endregion
 
@@ -107,7 +108,6 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<PollVotingRecord> PollVotingRecords { get; set; }
     public virtual DbSet<PredefinedProductAttributeValue> PredefinedProductAttributeValues { get; set; }    
     public virtual DbSet<ProductAttributeCombinationPicture> ProductAttributeCombinationPictures { get; set; }
-    public virtual DbSet<ProductAttributeValue> ProductAttributeValues { get; set; }
     public virtual DbSet<ProductAttributeValuePicture> ProductAttributeValuePictures { get; set; }
     public virtual DbSet<ProductManufacturerMapping> ProductManufacturerMappings { get; set; }
     public virtual DbSet<ProductPictureMapping> ProductPictureMappings { get; set; }
@@ -194,6 +194,7 @@ public partial class NopCommerceContext : DbContext
         new ProductCategoryMappingConfiguration().Configure(modelBuilder.Entity<ProductCategoryMapping>());
         new ProductAttributeCombinationConfiguration().Configure(modelBuilder.Entity<ProductAttributeCombination>());
         new ProductAttributeConfiguration().Configure(modelBuilder.Entity<ProductAttribute>());
+        new ProductAttributeValueConfiguration().Configure(modelBuilder.Entity<ProductAttributeValue>());
 
         #endregion
 
@@ -989,25 +990,7 @@ public partial class NopCommerceContext : DbContext
                    .HasForeignKey(d => d.ProductAttributeCombinationId)
                    .HasConstraintName("FK_ProductAttributeCombinationPicture_ProductAttributeCombinationId_ProductAttributeCombination_Id");
            });
-
-           modelBuilder.Entity<ProductAttributeValue>(entity =>
-           {
-               entity.ToTable("ProductAttributeValue");
-
-               entity.HasIndex(e => e.ProductAttributeMappingId, "IX_ProductAttributeValue_ProductAttributeMappingId");
-
-               entity.HasIndex(e => new { e.ProductAttributeMappingId, e.DisplayOrder }, "IX_ProductAttributeValue_ProductAttributeMappingId_DisplayOrder");
-
-               entity.Property(e => e.ColorSquaresRgb).HasMaxLength(100);
-               entity.Property(e => e.Cost).HasColumnType("decimal(18, 4)");
-               entity.Property(e => e.Name).HasMaxLength(400);
-               entity.Property(e => e.PriceAdjustment).HasColumnType("decimal(18, 4)");
-               entity.Property(e => e.WeightAdjustment).HasColumnType("decimal(18, 4)");
-
-               entity.HasOne(d => d.ProductAttributeMapping).WithMany(p => p.ProductAttributeValues)
-                   .HasForeignKey(d => d.ProductAttributeMappingId)
-                   .HasConstraintName("FK_ProductAttributeValue_ProductAttributeMappingId_Product_ProductAttribute_Mapping_Id");
-           });
+          
 
            modelBuilder.Entity<ProductAttributeValuePicture>(entity =>
            {
