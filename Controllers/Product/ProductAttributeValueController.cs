@@ -19,10 +19,6 @@ namespace nopCommerceApi.Controllers.Product
         /// <summary>
         /// Get all product attribute values
         /// </summary>
-        /// <remarks>
-        /// ProductAttributeValue - Element of product attribute <br \>
-        /// Doc: https://docs.nopcommerce.com/en/running-your-store/catalog/products/product-attributes.html
-        /// </remarks>
         [HttpGet("value")]
         public IEnumerable<ProductAttributeValueDto> GetAll()
         {
@@ -46,6 +42,9 @@ namespace nopCommerceApi.Controllers.Product
             return Ok(productAttributeValue);
         }
 
+        /// <summary>
+        /// Add product attribute values by id
+        /// </summary>
         [HttpPost("value/add")]
         public IActionResult Create([FromBody] ProductAttributeValueCreateDto productAttributeValueCreateDto)
         {
@@ -54,6 +53,9 @@ namespace nopCommerceApi.Controllers.Product
             return Ok(productAttributeValue);
         }
 
+        /// <summary>
+        /// Update product attribute values by id
+        /// </summary>
         [HttpPut("value/update/{id}")]
         public IActionResult Update(int id, [FromBody] ProductAttributeValueUpdateDto productAttributeValueUpdateDto)
         {
@@ -62,6 +64,9 @@ namespace nopCommerceApi.Controllers.Product
             return Ok($"Update product attribute value by id: {id}");
         }
 
+        /// <summary>
+        /// Delete product attribute values by id
+        /// </summary>
         [HttpDelete("value/delete/{id}")]
         public IActionResult Delete(int id)
         {
