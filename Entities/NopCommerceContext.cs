@@ -43,6 +43,8 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<DeliveryDate> DeliveryDates { get; set; }
     public virtual DbSet<Warehouse> Warehouses { get; set; }
     public virtual DbSet<Category> Categories { get; set; }
+    public virtual DbSet<Picture> Pictures { get; set; }
+    public virtual DbSet<CategoryTemplate> CategoryTemplates { get; set; }
     #endregion
 
 
@@ -57,7 +59,6 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<BlogComment> BlogComments { get; set; }
     public virtual DbSet<BlogPost> BlogPosts { get; set; }
     public virtual DbSet<Campaign> Campaigns { get; set; }    
-    public virtual DbSet<CategoryTemplate> CategoryTemplates { get; set; }
     public virtual DbSet<CheckoutAttribute> CheckoutAttributes { get; set; }
     public virtual DbSet<CheckoutAttributeValue> CheckoutAttributeValues { get; set; }
     public virtual DbSet<CrossSellProduct> CrossSellProducts { get; set; }
@@ -95,7 +96,6 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<OrderItem> OrderItems { get; set; }
     public virtual DbSet<OrderNote> OrderNotes { get; set; }
     public virtual DbSet<PermissionRecord> PermissionRecords { get; set; }
-    public virtual DbSet<Picture> Pictures { get; set; }
     public virtual DbSet<PictureBinary> PictureBinaries { get; set; }
     public virtual DbSet<Poll> Polls { get; set; }
     public virtual DbSet<PollAnswer> PollAnswers { get; set; }
@@ -187,6 +187,7 @@ public partial class NopCommerceContext : DbContext
         new DeliveryDateConfiguration().Configure(modelBuilder.Entity<DeliveryDate>());
         new WarehouseConfiguration().Configure(modelBuilder.Entity<Warehouse>());
         new CategoryConfiguration().Configure(modelBuilder.Entity<Category>());
+        new CategoryTemplateConfiguration().Configure(modelBuilder.Entity<CategoryTemplate>());
 
         #endregion
 
@@ -338,14 +339,6 @@ public partial class NopCommerceContext : DbContext
             entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
             entity.Property(e => e.DontSendBeforeDateUtc).HasPrecision(6);
         });        
-
-        modelBuilder.Entity<CategoryTemplate>(entity =>
-        {
-            entity.ToTable("CategoryTemplate");
-
-            entity.Property(e => e.Name).HasMaxLength(400);
-            entity.Property(e => e.ViewPath).HasMaxLength(400);
-        });
 
         modelBuilder.Entity<CheckoutAttribute>(entity =>
         {
@@ -906,14 +899,6 @@ public partial class NopCommerceContext : DbContext
                            j.IndexerProperty<int>("PermissionRecordId").HasColumnName("PermissionRecord_Id");
                            j.IndexerProperty<int>("CustomerRoleId").HasColumnName("CustomerRole_Id");
                        });
-           });
-
-           modelBuilder.Entity<Picture>(entity =>
-           {
-               entity.ToTable("Picture");
-
-               entity.Property(e => e.MimeType).HasMaxLength(40);
-               entity.Property(e => e.SeoFilename).HasMaxLength(300);
            });
 
            modelBuilder.Entity<PictureBinary>(entity =>
