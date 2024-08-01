@@ -45,6 +45,8 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<Category> Categories { get; set; }
     public virtual DbSet<Picture> Pictures { get; set; }
     public virtual DbSet<CategoryTemplate> CategoryTemplates { get; set; }
+    public virtual DbSet<ProductCategoryMapping> ProductCategoryMappings { get; set; }
+
     #endregion
 
 
@@ -106,7 +108,6 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<ProductAttributeCombinationPicture> ProductAttributeCombinationPictures { get; set; }
     public virtual DbSet<ProductAttributeValue> ProductAttributeValues { get; set; }
     public virtual DbSet<ProductAttributeValuePicture> ProductAttributeValuePictures { get; set; }
-    public virtual DbSet<ProductCategoryMapping> ProductCategoryMappings { get; set; }
     public virtual DbSet<ProductManufacturerMapping> ProductManufacturerMappings { get; set; }
     public virtual DbSet<ProductPictureMapping> ProductPictureMappings { get; set; }
     public virtual DbSet<ProductProductAttributeMapping> ProductProductAttributeMappings { get; set; }
@@ -189,6 +190,7 @@ public partial class NopCommerceContext : DbContext
         new CategoryConfiguration().Configure(modelBuilder.Entity<Category>());
         new CategoryTemplateConfiguration().Configure(modelBuilder.Entity<CategoryTemplate>());
         new PictureConfiguration().Configure(modelBuilder.Entity<Picture>());
+        new ProductCategoryMappingConfiguration().Configure(modelBuilder.Entity<ProductCategoryMapping>());
 
         #endregion
 
@@ -1035,31 +1037,7 @@ public partial class NopCommerceContext : DbContext
                entity.HasOne(d => d.ProductAttributeValue).WithMany(p => p.ProductAttributeValuePictures)
                    .HasForeignKey(d => d.ProductAttributeValueId)
                    .HasConstraintName("FK_ProductAttributeValuePicture_ProductAttributeValueId_ProductAttributeValue_Id");
-           });
-           
-
-           modelBuilder.Entity<ProductCategoryMapping>(entity =>
-           {
-               entity.ToTable("Product_Category_Mapping");
-
-               entity.HasIndex(e => new { e.ProductId, e.IsFeaturedProduct }, "IX_PCM_ProductId_Extended");
-
-               entity.HasIndex(e => new { e.CategoryId, e.ProductId }, "IX_PCM_Product_and_Category");
-
-               entity.HasIndex(e => e.CategoryId, "IX_Product_Category_Mapping_CategoryId");
-
-               entity.HasIndex(e => e.IsFeaturedProduct, "IX_Product_Category_Mapping_IsFeaturedProduct");
-
-               entity.HasIndex(e => e.ProductId, "IX_Product_Category_Mapping_ProductId");
-
-               entity.HasOne(d => d.Category).WithMany(p => p.ProductCategoryMappings)
-                   .HasForeignKey(d => d.CategoryId)
-                   .HasConstraintName("FK_Product_Category_Mapping_CategoryId_Category_Id");
-
-               entity.HasOne(d => d.Product).WithMany(p => p.ProductCategoryMappings)
-                   .HasForeignKey(d => d.ProductId)
-                   .HasConstraintName("FK_Product_Category_Mapping_ProductId_Product_Id");
-           });
+           });                      
 
            modelBuilder.Entity<ProductManufacturerMapping>(entity =>
            {

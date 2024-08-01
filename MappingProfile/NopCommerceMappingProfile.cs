@@ -2,6 +2,7 @@
 using nopCommerceApi.Entities.Usable;
 using nopCommerceApi.Models;
 using nopCommerceApi.Models.Address;
+using nopCommerceApi.Models.Category;
 using nopCommerceApi.Models.Customer;
 using nopCommerceApi.Models.Product;
 
@@ -189,7 +190,18 @@ namespace nopCommerceApi.MappingProfile
 
             #endregion
 
-            
+            #region Category
+
+            // get
+            CreateMap<Category, CategoryDto>();
+
+            // create
+            CreateMap<CreateCategoryDto, Category>();
+
+            //update
+            CreateMap<UpdateCategoryDto, Category>();
+
+            #endregion
 
 
 
