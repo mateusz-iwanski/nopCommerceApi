@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
+using nopCommerceApi.Entities.NotUsable;
 using nopCommerceApi.Entities.Usable;
 using nopCommerceApi.Exceptions;
 using nopCommerceApi.Models.Product;
@@ -13,6 +15,7 @@ namespace nopCommerceApi.Services.Product
         IEnumerable<ProductDto> GetAll();
         ProductDto GetById(int id);
         Entities.Usable.Product CreateMinimal(ProductCreateMinimalDto productDto);
+        bool Delete(int id);
         bool UpdateBlockInformation(int id, ProductUpdateBlockInformationDto productDto);
         bool UpdateBlockSeo(int id, ProductUpdateBlockSeoDto productDto);
         bool UpdateBlockRating(int id, ProductUpdateBlockRatingDto productDto);
@@ -25,6 +28,8 @@ namespace nopCommerceApi.Services.Product
         bool UpdateBlockInventory(int id, ProductUpdateBlockInventoryDto productDto);
         bool UpdateBlockAttribute(int id, ProductUpdateBlockAttributeDto productDto);
         bool UpdateBlockPrice(int id, ProductUpdateBlockPriceDto productDto);
+        bool UnAssociateCategory(int productId, int categoryId);
+        bool AssociateCategory(int productId, int categoryId);
     }
 
     public class ProductService : BaseService, IProductService
@@ -58,6 +63,17 @@ namespace nopCommerceApi.Services.Product
             _context.SaveChanges();
 
             return product;
+        }
+
+        public bool Delete(int id)
+        {
+            var product = _context.Products.FirstOrDefault(p => p.Id == id);
+
+            if (product == null) throw new NotFoundExceptions($"Product with id {id} not found");
+
+            _context.Products.Remove(product);
+
+            return true;
         }
 
         public bool UpdateBlockInformation(int id, ProductUpdateBlockInformationDto productDto)
@@ -217,6 +233,60 @@ namespace nopCommerceApi.Services.Product
 
             return true;
         }
+
+        public bool AssociateCategory(int productId, int categoryId)
+        {
+            var product = _context.Products
+                .Include(p => p.ProductCategoryMappings)
+                .FirstOrDefault(p => p.Id == productId);
+
+            if (product == null) throw new NotFoundExceptions($"Product with id {productId} not found");
+
+            var category = _context.Categories.FirstOrDefault(c => c.Id == categoryId);
+
+            if (category == null) throw new NotFoundExceptions($"Category with id {categoryId} not found");
+
+            // Check if the mapping already exists
+            if (product.ProductCategoryMappings.Any(pcm => pcm.CategoryId == categoryId))
+            {
+                throw new BadRequestException($"Product with id {productId} is already associated with category id {categoryId}");
+            }
+
+            product.ProductCategoryMappings.Add(new ProductCategoryMapping { ProductId = productId, CategoryId = categoryId });
+
+            _context.SaveChanges();
+
+            return true;
+        }
+
+        public bool UnAssociateCategory(int productId, int categoryId)
+        {
+            var product = _context.Products
+                .Include(p => p.ProductCategoryMappings)
+                .FirstOrDefault(p => p.Id == productId);
+
+            if (product == null) throw new NotFoundExceptions($"Product with id {productId} not found");
+
+            var category = _context.Categories.FirstOrDefault(c => c.Id == categoryId);
+
+            if (category == null) throw new NotFoundExceptions($"Category with id {categoryId} not found");
+
+            // Check if the mapping exists
+            if (!product.ProductCategoryMappings.Any(pcm => pcm.CategoryId == categoryId))
+            {
+                throw new BadRequestException($"Product with id {productId} is not associated with category id {categoryId}");
+            }
+
+            var productCategoryMapping = product.ProductCategoryMappings.FirstOrDefault(pcm => pcm.CategoryId == categoryId);
+
+            product.ProductCategoryMappings.Remove(productCategoryMapping);
+
+            _context.SaveChanges();
+
+            return true;
+        }
+
+
 
     }
 }

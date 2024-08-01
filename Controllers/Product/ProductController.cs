@@ -213,14 +213,34 @@ namespace nopCommerceApi.Controllers.Product
             return Ok($"Update product by id: {id}");
         }
 
-        // DELETE: api/product/5
         /// <summary>
         /// Delete product by id
         /// </summary>
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
+            _productService.Delete(id);
             return Ok($"Delete product by id: {id}");
+        }
+
+        /// <summary>
+        /// Associate category to product
+        /// </summary>
+        [HttpPost("{productId}link/category{categoryId}")]
+        public IActionResult AssociateCategory(int productId, int categoryId)
+        {
+            _productService.AssociateCategory(productId, categoryId);
+            return Ok($"Associate category to product by id: {productId}");
+        }
+
+        /// <summary>
+        /// Unassociate category to product
+        /// </summary>
+        [HttpDelete( "{productId}unlink/category{categoryId}")]
+        public IActionResult UnAssociateCategory(int productId, int categoryId)
+        {
+            _productService.UnAssociateCategory(productId, categoryId);
+            return Ok($"Unassociate category {categoryId} from product by id: {productId}");
         }
     }
 }
