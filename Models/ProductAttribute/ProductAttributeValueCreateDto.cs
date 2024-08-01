@@ -2,7 +2,7 @@
 
 namespace nopCommerceApi.Models.ProductAttributeValue
 {
-    public class ProductAttributeValueCreateDto : ProductAttributeValueDto
+    public class ProductAttributeValueDtoCreate : ProductAttributeValueDto
     {
         [JsonIgnore]
         public override int Id { get; set; }
