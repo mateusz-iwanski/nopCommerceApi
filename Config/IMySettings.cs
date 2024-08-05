@@ -82,6 +82,7 @@ namespace nopCommerceApi.Config
         [Option(Alias = "NopCommerceEnum.AttributeValueType_AvailableId")]
         string AttributeValueTypeAvailableId { get; }
 
-
+        [Option(Alias = "NopCommerceEnum.AttributeControlType_AvailableId")]
+        string AttributeControlTypeAvailableId { get; }
     }
 }
