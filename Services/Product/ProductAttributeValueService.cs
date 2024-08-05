@@ -2,13 +2,13 @@
 using nopCommerceApi.Entities;
 using nopCommerceApi.Entities.Usable;
 using nopCommerceApi.Exceptions;
-using nopCommerceApi.Models.ProductAttributeValue;
+using nopCommerceApi.Models.ProductAttribute;
 
 namespace nopCommerceApi.Services.Product
 {
     public interface IProductAttributeValueService
     {
-        ProductAttributeValue Create(ProductAttributeValueCreateDto productAttributeValueCreateDto);
+        ProductAttributeValue Create(int attributeId, ProductAttributeValueDtoCreate productAttributeValueCreateDto);
         bool Delete(int id);
         IEnumerable<ProductAttributeValueDto> GetAll();
         ProductAttributeValueDto GetById(int id);
@@ -38,8 +38,10 @@ namespace nopCommerceApi.Services.Product
             return productAttributeValueDto;
         }
 
-        public ProductAttributeValue Create(ProductAttributeValueCreateDto productAttributeValueCreateDto)
+        public ProductAttributeValue Create(int attributeId, ProductAttributeValueDtoCreate productAttributeValueCreateDto)
         {
+            productAttributeValueCreateDto.ProductAttributeMappingId = attributeId;
+
             var productAttributeValue = _mapper.Map<ProductAttributeValue>(productAttributeValueCreateDto);
 
             _context.ProductAttributeValues.Add(productAttributeValue);
