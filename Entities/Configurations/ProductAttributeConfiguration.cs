@@ -9,7 +9,7 @@ namespace nopCommerceApi.Entities.Configurations
     {
         public void Configure(EntityTypeBuilder<ProductAttribute> entity)
         {
-            entity.ToTable("ProductAttributeDto");
+            entity.ToTable("ProductAttribute");
         }
     }
 }
