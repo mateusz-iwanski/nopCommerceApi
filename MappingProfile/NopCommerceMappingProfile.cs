@@ -6,6 +6,7 @@ using nopCommerceApi.Models.Category;
 using nopCommerceApi.Models.Customer;
 using nopCommerceApi.Models.Product;
 using nopCommerceApi.Models.ProductAttribute;
+using nopCommerceApi.Models.ProductCategory;
 
 namespace nopCommerceApi.MappingProfile
 {
@@ -201,6 +202,19 @@ namespace nopCommerceApi.MappingProfile
 
             //update
             CreateMap<UpdateCategoryDto, Category>();
+
+            #endregion
+
+            #region ProductCategoryMapping
+
+            //get
+            CreateMap<ProductCategoryMapping, ProductCategoryMappingDto>();
+
+            //set
+            CreateMap<ProductCategoryMappingCreateDto, ProductCategoryMapping>();
+
+            //update
+            CreateMap<ProductCategoryMappingUpdateDto, ProductCategoryMapping>();
 
             #endregion
 
