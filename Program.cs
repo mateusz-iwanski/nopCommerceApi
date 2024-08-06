@@ -26,6 +26,9 @@ using nopCommerceApi.Services.Category;
 using nopCommerceApi.Validations.Category;
 using nopCommerceApi.Validations.ProductAttribute;
 using nopCommerceApi.Validations.ProductCategory;
+using nopCommerceApi.Validations.Manufacturer;
+using nopCommerceApi.Services.Manufacturer;
+using nopCommerceApi.Validations.ProductManufacturer;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -79,6 +82,10 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductCategoryMappingService, ProductCategoryMappingService>();
 builder.Services.AddScoped<IProductAttributeValueService, ProductAttributeValueService>();
 builder.Services.AddScoped<IProductAttributeService, ProductAttributeService>();
+builder.Services.AddScoped<IManufacturerService, ManufacturerService>();
+builder.Services.AddScoped<IProductManufaturerMappingService, ProductManufaturerMappingService>();
+
+
 
 
 // Configure services for api user controllers
@@ -143,7 +150,6 @@ builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyCont
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductUpdateBlockPriceDtoValidator>());
 
 // Product-Category-Mapping
-builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductCategoryMappingUpdateValidator>());
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductCategoryMappingCreateValidator>());
 
 // Product-Attribute-Value
@@ -165,6 +171,13 @@ builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyCont
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateCategoryDtoValidator>());
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UpdateCategoryDtoValidator>());
 
+
+// Manufacturer
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ManufacturerCreateValidator>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ManufacturerUpdateValidator>());
+
+// ProductManufacturerMapping
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductManufacturerMappingCreateValidator>());
 
 #region Product
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UpdateProductTagValidator>());
