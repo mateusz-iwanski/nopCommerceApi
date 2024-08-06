@@ -13,7 +13,6 @@ namespace nopCommerceApi.Services.Category
         IEnumerable<ProductCategoryMappingDto> GetAll();
         IEnumerable<ProductCategoryMapping> GetAllAssociateWithProduct(int productId);
         public IEnumerable<ProductCategoryMapping> GetAllAssociateWithCategory(int categoryId);
-        ProductCategoryMapping Update(int id, ProductCategoryMappingUpdateDto productCategoryMappingUpdateDto);
     }
 
     public class ProductCategoryMappingService : BaseService, IProductCategoryMappingService
@@ -69,19 +68,5 @@ namespace nopCommerceApi.Services.Category
             return true;
         }
 
-        public ProductCategoryMapping Update(int id, ProductCategoryMappingUpdateDto productCategoryMappingUpdateDto)
-        {
-            var productCategoryMapping = _context.ProductCategoryMappings.FirstOrDefault(c => c.Id == id);
-
-            if (productCategoryMapping == null) throw new NotFoundExceptions($"ProductCategoryMapping with id {id} not found");
-
-            productCategoryMappingUpdateDto.Id = id;
-
-            _mapper.Map<ProductCategoryMapping>(productCategoryMappingUpdateDto);
-
-            _context.SaveChanges();
-
-            return productCategoryMapping;
-        }
     }
 }
