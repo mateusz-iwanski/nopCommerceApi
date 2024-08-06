@@ -51,6 +51,9 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<ProductAttribute> ProductAttributes { get; set; }
     public virtual DbSet<ProductAttributeValue> ProductAttributeValues { get; set; }
     public virtual DbSet<ProductProductAttributeMapping> ProductProductAttributeMappings { get; set; }
+    public virtual DbSet<ProductManufacturerMapping> ProductManufacturerMappings { get; set; }
+    public virtual DbSet<Manufacturer> Manufacturers { get; set; }
+    public virtual DbSet<ManufacturerTemplate> ManufacturerTemplates { get; set; }
 
     #endregion
 
@@ -92,8 +95,6 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<LocaleStringResource> LocaleStringResources { get; set; }
     public virtual DbSet<LocalizedProperty> LocalizedProperties { get; set; }
     public virtual DbSet<Log> Logs { get; set; }
-    public virtual DbSet<Manufacturer> Manufacturers { get; set; }
-    public virtual DbSet<ManufacturerTemplate> ManufacturerTemplates { get; set; }
     public virtual DbSet<MeasureDimension> MeasureDimensions { get; set; }
     public virtual DbSet<MeasureWeight> MeasureWeights { get; set; }
     public virtual DbSet<MessageTemplate> MessageTemplates { get; set; }
@@ -110,7 +111,6 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<PredefinedProductAttributeValue> PredefinedProductAttributeValues { get; set; }    
     public virtual DbSet<ProductAttributeCombinationPicture> ProductAttributeCombinationPictures { get; set; }
     public virtual DbSet<ProductAttributeValuePicture> ProductAttributeValuePictures { get; set; }
-    public virtual DbSet<ProductManufacturerMapping> ProductManufacturerMappings { get; set; }
     public virtual DbSet<ProductPictureMapping> ProductPictureMappings { get; set; }
     public virtual DbSet<ProductReview> ProductReviews { get; set; }
     public virtual DbSet<ProductReviewHelpfulness> ProductReviewHelpfulnesses { get; set; }
@@ -196,32 +196,16 @@ public partial class NopCommerceContext : DbContext
         new ProductAttributeConfiguration().Configure(modelBuilder.Entity<ProductAttribute>());
         new ProductAttributeValueConfiguration().Configure(modelBuilder.Entity<ProductAttributeValue>());
         new ProductProductAttributeMappingConfiguration().Configure(modelBuilder.Entity<ProductProductAttributeMapping>());
+        new ProductManufacturerMappingConfiguration().Configure(modelBuilder.Entity<ProductManufacturerMapping>());
+        new ManufacturerConfiguration().Configure(modelBuilder.Entity<Manufacturer>());
+        new ManufacturerTemplateConfiguration().Configure(modelBuilder.Entity<ManufacturerTemplate>());
 
         #endregion
 
 
         #region Not usable configuration
 
-        /*
-        modelBuilder.Entity<Manufacturer>(entity =>
-        {
-            entity.ToTable("Manufacturer");
-
-            entity.HasIndex(e => e.DisplayOrder, "IX_Manufacturer_DisplayOrder");
-
-            entity.HasIndex(e => e.LimitedToStores, "IX_Manufacturer_LimitedToStores");
-
-            entity.HasIndex(e => e.SubjectToAcl, "IX_Manufacturer_SubjectToAcl");
-
-            entity.Property(e => e.CreatedOnUtc).HasPrecision(6);
-            entity.Property(e => e.MetaKeywords).HasMaxLength(400);
-            entity.Property(e => e.MetaTitle).HasMaxLength(400);
-            entity.Property(e => e.Name).HasMaxLength(400);
-            entity.Property(e => e.PageSizeOptions).HasMaxLength(200);
-            entity.Property(e => e.PriceFrom).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.PriceTo).HasColumnType("decimal(18, 4)");
-            entity.Property(e => e.UpdatedOnUtc).HasPrecision(6);
-        });
+        /*        
         modelBuilder.Entity<ActivityLog>(entity =>
         {
             entity.ToTable("ActivityLog");
@@ -753,15 +737,7 @@ public partial class NopCommerceContext : DbContext
                 .HasForeignKey(d => d.CustomerId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Log_CustomerId_Customer_Id");
-        });
-        
-        modelBuilder.Entity<ManufacturerTemplate>(entity =>
-        {
-            entity.ToTable("ManufacturerTemplate");
-
-            entity.Property(e => e.Name).HasMaxLength(400);
-            entity.Property(e => e.ViewPath).HasMaxLength(400);
-        });
+        });                
 
         modelBuilder.Entity<MeasureDimension>(entity =>
         {
@@ -1002,30 +978,7 @@ public partial class NopCommerceContext : DbContext
                entity.HasOne(d => d.ProductAttributeValue).WithMany(p => p.ProductAttributeValuePictures)
                    .HasForeignKey(d => d.ProductAttributeValueId)
                    .HasConstraintName("FK_ProductAttributeValuePicture_ProductAttributeValueId_ProductAttributeValue_Id");
-           });                      
-
-           modelBuilder.Entity<ProductManufacturerMapping>(entity =>
-           {
-               entity.ToTable("Product_Manufacturer_Mapping");
-
-               entity.HasIndex(e => new { e.ProductId, e.IsFeaturedProduct }, "IX_PMM_ProductId_Extended");
-
-               entity.HasIndex(e => new { e.ManufacturerId, e.ProductId }, "IX_PMM_Product_and_Manufacturer");
-
-               entity.HasIndex(e => e.IsFeaturedProduct, "IX_Product_Manufacturer_Mapping_IsFeaturedProduct");
-
-               entity.HasIndex(e => e.ManufacturerId, "IX_Product_Manufacturer_Mapping_ManufacturerId");
-
-               entity.HasIndex(e => e.ProductId, "IX_Product_Manufacturer_Mapping_ProductId");
-
-               entity.HasOne(d => d.Manufacturer).WithMany(p => p.ProductManufacturerMappings)
-                   .HasForeignKey(d => d.ManufacturerId)
-                   .HasConstraintName("FK_Product_Manufacturer_Mapping_ManufacturerId_Manufacturer_Id");
-
-               entity.HasOne(d => d.Product).WithMany(p => p.ProductManufacturerMappings)
-                   .HasForeignKey(d => d.ProductId)
-                   .HasConstraintName("FK_Product_Manufacturer_Mapping_ProductId_Product_Id");
-           });
+           });                                 
 
            modelBuilder.Entity<ProductPictureMapping>(entity =>
            {
