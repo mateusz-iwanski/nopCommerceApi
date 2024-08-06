@@ -54,6 +54,7 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<ProductManufacturerMapping> ProductManufacturerMappings { get; set; }
     public virtual DbSet<Manufacturer> Manufacturers { get; set; }
     public virtual DbSet<ManufacturerTemplate> ManufacturerTemplates { get; set; }
+    public virtual DbSet<UrlRecord> UrlRecords { get; set; }
 
     #endregion
 
@@ -143,8 +144,7 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<StorePickupPoint> StorePickupPoints { get; set; }    
     public virtual DbSet<TaxTransactionLog> TaxTransactionLogs { get; set; }
     public virtual DbSet<Topic> Topics { get; set; }
-    public virtual DbSet<TopicTemplate> TopicTemplates { get; set; }
-    public virtual DbSet<UrlRecord> UrlRecords { get; set; }    
+    public virtual DbSet<TopicTemplate> TopicTemplates { get; set; }    
     public virtual DbSet<VendorAttribute> VendorAttributes { get; set; }
     public virtual DbSet<VendorAttributeValue> VendorAttributeValues { get; set; }
     public virtual DbSet<VendorNote> VendorNotes { get; set; }
@@ -199,6 +199,7 @@ public partial class NopCommerceContext : DbContext
         new ProductManufacturerMappingConfiguration().Configure(modelBuilder.Entity<ProductManufacturerMapping>());
         new ManufacturerConfiguration().Configure(modelBuilder.Entity<Manufacturer>());
         new ManufacturerTemplateConfiguration().Configure(modelBuilder.Entity<ManufacturerTemplate>());
+        new UrlRecordConfiguration().Configure(modelBuilder.Entity<UrlRecord>());
 
         #endregion
 
@@ -1414,19 +1415,7 @@ public partial class NopCommerceContext : DbContext
 
             entity.Property(e => e.Name).HasMaxLength(400);
             entity.Property(e => e.ViewPath).HasMaxLength(400);
-        });
-
-        modelBuilder.Entity<UrlRecord>(entity =>
-        {
-            entity.ToTable("UrlRecord");
-
-            entity.HasIndex(e => new { e.EntityId, e.EntityName, e.LanguageId, e.IsActive }, "IX_UrlRecord_Custom_1");
-
-            entity.HasIndex(e => e.Slug, "IX_UrlRecord_Slug");
-
-            entity.Property(e => e.EntityName).HasMaxLength(400);
-            entity.Property(e => e.Slug).HasMaxLength(400);
-        });
+        });        
         
 
         modelBuilder.Entity<VendorAttribute>(entity =>
