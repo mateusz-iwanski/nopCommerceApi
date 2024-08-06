@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace nopCommerceApi.Models.ProductAttributeValue
+namespace nopCommerceApi.Models.ProductAttribute
 {
     public class ProductAttributeValueUpdateDto : ProductAttributeValueDto
     {

@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using nopCommerceApi.Entities.UnUsable;
+using nopCommerceApi.Entities.Usable;
+using System.ComponentModel.DataAnnotations;
 
 namespace nopCommerceApi.Models.ProductAttribute
 {

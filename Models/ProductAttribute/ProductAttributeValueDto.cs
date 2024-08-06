@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace nopCommerceApi.Models.ProductAttributeValue
+namespace nopCommerceApi.Models.ProductAttribute
 {
     /// <summary>
     /// Product attribute value DTO

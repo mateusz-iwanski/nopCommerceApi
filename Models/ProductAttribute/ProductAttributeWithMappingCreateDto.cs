@@ -1,16 +1,36 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace nopCommerceApi.Models.ProductAttribute
 {
-    public class ProductProductAttributeMappingDto : BaseDto
+    public class ProductAttributeWithMappingCreateDto : BaseDto
     {
-        public virtual int Id { get; set; }
+        #region ProductAttributeCreateDto
+
+        /// <summary>
+        /// ## Name
+        /// ### Gets or sets the name
+        /// </summary>
+        [Required]
+        public virtual string Name { get; set; } = null!;
+
+        /// <summary>
+        /// ## Description 
+        /// ### Gets or set description
+        /// *Default = null*
+        /// </summary>
+        public virtual string? Description { get; set; }
+
+        #endregion
+
+        #region ProductProductAttributeMappingCreateDto
 
         /// <summary>
         /// ## ProductAttributeId
         /// ### Gets or set the product attribute identifier
         /// </summary>
         [Required]
+        [JsonIgnore]
         public virtual int ProductAttributeId { get; set; }
 
         /// <summary>
@@ -100,5 +120,7 @@ namespace nopCommerceApi.Models.ProductAttribute
         /// *Deafault = null*
         /// </summary>
         public virtual string? ConditionAttributeXml { get; set; }
+
+        #endregion
     }
 }
