@@ -1,0 +1,95 @@
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using nopCommerceApi.Entities;
+using nopCommerceApi.Exceptions;
+using nopCommerceApi.Models.Manufacturer;
+using nopCommerceApi.Services.Category;
+
+namespace nopCommerceApi.Services.Manufacturer
+{
+    public interface IManufacturerService
+    {
+        Task<ManufacturerDto> CreateAsync(ManufacturerCreateDto manufacturerCreateDto);
+        Task<IEnumerable<ManufacturerDto>> GetAllAsync();
+        Task<ManufacturerDto> UpdateAsync(int id, ManufacturerUpdateDto manufacturerUpdateDto);
+        Task<ManufacturerDto> GetByIdAsync(int id);
+        Task<bool> DeleteAsync(int id);
+    }
+
+    public class ManufacturerService : BaseService, IManufacturerService
+    {
+        public ManufacturerService(NopCommerceContext context, IMapper mapper, ILogger<CategoryService> logger) : base(context, mapper, logger) { }
+
+        // get all manufacturers asynchronously
+        public async Task<IEnumerable<ManufacturerDto>> GetAllAsync()
+        {
+            var manufacturers = await _context.Manufacturers.ToListAsync();
+            var manufacturerDtos = _mapper.Map<List<ManufacturerDto>>(manufacturers);
+
+            return manufacturerDtos;
+        }
+
+        // get by id asynchronously
+        public async Task<ManufacturerDto> GetByIdAsync(int id)
+        {
+            var manufacturer = await _context.Manufacturers.FirstOrDefaultAsync(c => c.Id == id);
+
+            if (manufacturer == null) throw new NotFoundExceptions($"Manufacturer with id {id} not found");
+
+            var manufacturerDto = _mapper.Map<ManufacturerDto>(manufacturer);
+
+            return manufacturerDto;
+        }
+
+        // update manufacturer asynchronously
+        public async Task<ManufacturerDto> UpdateAsync(int id, ManufacturerUpdateDto manufacturerUpdateDto)
+        {
+            var manufacturer = await _context.Manufacturers.FirstOrDefaultAsync(c => c.Id == id);
+
+            manufacturerUpdateDto.Id = id;
+
+            if (manufacturer == null) throw new NotFoundExceptions($"Manufacturer with id {id} not found");
+
+            if (_context.Manufacturers.Any(m => m.Name == manufacturerUpdateDto.Name && manufacturerUpdateDto.Id != m.Id))
+                throw new BadRequestException("Manufacturer name already exists in the database. Must be unique.");
+
+            
+            manufacturerUpdateDto.CreatedOnUtc = manufacturer.CreatedOnUtc;
+
+            _mapper.Map(manufacturerUpdateDto, manufacturer);
+
+            await _context.SaveChangesAsync();
+
+            var manufacturerDto = _mapper.Map<ManufacturerDto>(manufacturer);
+
+            return manufacturerDto;
+        }
+
+        // add manufacturer asynchronously
+        public async Task<ManufacturerDto> CreateAsync(ManufacturerCreateDto manufacturerCreateDto)
+        {
+            var manufacturer = _mapper.Map<Entities.Usable.Manufacturer>(manufacturerCreateDto);
+
+            _context.Manufacturers.Add(manufacturer);
+            await _context.SaveChangesAsync();
+
+            var manufacturerDto = _mapper.Map<ManufacturerDto>(manufacturer);
+
+            return manufacturerDto;
+        }
+
+        // delete manufacturer asynchronously
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var manufacturer = await _context.Manufacturers.FirstOrDefaultAsync(c => c.Id == id);
+
+            if (manufacturer == null) throw new NotFoundExceptions($"Manufacturer with id {id} not found");
+
+            _context.Manufacturers.Remove(manufacturer);
+
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+    }
+}
