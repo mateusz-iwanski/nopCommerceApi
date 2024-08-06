@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Exceptions;
 using nopCommerceApi.Models.Category;
+using nopCommerceApi.Models.Manufacturer;
 
 namespace nopCommerceApi.Services.Category
 {
@@ -54,9 +55,13 @@ namespace nopCommerceApi.Services.Category
         {
             var category = _context.Categories.FirstOrDefault(c => c.Id == id);
 
+            updateCategoryDto.Id = id;
+
             if (category == null) throw new NotFoundExceptions($"Category with id {id} not found");
 
-            updateCategoryDto.Id = id;
+            if (_context.Categories.Any(m => m.Name == updateCategoryDto.Name && updateCategoryDto.Id != m.Id))
+                throw new BadRequestException("Category name already exists in the database. Must be unique.");
+
             updateCategoryDto.CreatedOnUtc = category.CreatedOnUtc;
 
             _mapper.Map(updateCategoryDto, category);
