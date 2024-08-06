@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using nopCommerceApi.Entities.NotUsable;
+using nopCommerceApi.Entities.Usable;
 
-namespace nopCommerceApi.Entities.NotUsable;
+namespace nopCommerceApi.Entities.Usable;
 
 public partial class Manufacturer
 {
