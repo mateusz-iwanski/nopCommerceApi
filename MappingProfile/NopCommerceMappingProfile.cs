@@ -4,9 +4,11 @@ using nopCommerceApi.Models;
 using nopCommerceApi.Models.Address;
 using nopCommerceApi.Models.Category;
 using nopCommerceApi.Models.Customer;
+using nopCommerceApi.Models.Manufacturer;
 using nopCommerceApi.Models.Product;
 using nopCommerceApi.Models.ProductAttribute;
 using nopCommerceApi.Models.ProductCategory;
+using nopCommerceApi.Models.ProductManufacturer;
 
 namespace nopCommerceApi.MappingProfile
 {
@@ -213,9 +215,6 @@ namespace nopCommerceApi.MappingProfile
             //set
             CreateMap<ProductCategoryMappingCreateDto, ProductCategoryMapping>();
 
-            //update
-            CreateMap<ProductCategoryMappingUpdateDto, ProductCategoryMapping>();
-
             #endregion
 
             #region ProductAttributeValue
@@ -254,6 +253,29 @@ namespace nopCommerceApi.MappingProfile
 
             //update
             CreateMap<ProductProductAttributeMappingUpdateDto, ProductProductAttributeMapping>();
+
+            #endregion
+
+            #region Manufacturer
+
+            // get
+            CreateMap<Manufacturer, ManufacturerDto>();
+
+            // set 
+            CreateMap<ManufacturerCreateDto, Manufacturer>();
+
+            // update
+            CreateMap<ManufacturerUpdateDto, Manufacturer>();
+
+            #endregion
+
+            #region ProductManufacturerMapping
+
+            // get
+            CreateMap<ProductManufacturerMapping, ProductManufacturerMappingDto>();
+
+            // set 
+            CreateMap<ProductManufacturerMappingCreateDto, ProductManufacturerMapping>();
 
             #endregion
 
