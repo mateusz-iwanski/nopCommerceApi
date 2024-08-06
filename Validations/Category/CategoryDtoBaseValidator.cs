@@ -7,7 +7,7 @@ namespace nopCommerceApi.Validations.Category
 {
     public class CategoryDtoBaseValidator<T> : BaseValidator<T> where T : CategoryDto
     {
-        private readonly NopCommerceContext _context;
+        protected readonly NopCommerceContext _context;
 
         public CategoryDtoBaseValidator(NopCommerceContext context) : base()
         {
