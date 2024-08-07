@@ -12,7 +12,7 @@ namespace nopCommerceApi.Services.UrlRecord
         bool Delete(int id);
         IEnumerable<UrlRecordDto> GetAll();
         UrlRecordDto GetById(int id);
-        bool Update(int id, UrlRecordUpdateDto urlRecordUpdateDto);
+        bool Update(UrlRecordUpdateDto urlRecordUpdateDto);
         UrlRecordDto GetByEntityId(int entityId);
     }
 
@@ -61,12 +61,12 @@ namespace nopCommerceApi.Services.UrlRecord
         }
 
         // update url record
-        public bool Update(int id, UrlRecordUpdateDto urlRecordUpdateDto)
+        public bool Update(UrlRecordUpdateDto urlRecordUpdateDto)
         {
-            var urlRecord = _context.UrlRecords.Find(id);
+            var urlRecord = _context.UrlRecords.Find(urlRecordUpdateDto.Id);
             if (urlRecord == null)
             {
-                throw new NotFoundExceptions($"The url record with id {id} was not found.");
+                throw new NotFoundExceptions($"The url record with id {urlRecordUpdateDto.Id} was not found.");
             }
 
             _mapper.Map(urlRecordUpdateDto, urlRecord);
