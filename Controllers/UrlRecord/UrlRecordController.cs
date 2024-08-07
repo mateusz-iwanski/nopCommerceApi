@@ -49,10 +49,10 @@ namespace nopCommerceApi.Controllers.UrlRecord
         /// <summary>
         /// Update url record
         /// </summary>
-        [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] UrlRecordUpdateDto urlRecordUpdateDto)
+        [HttpPut]
+        public IActionResult Update([FromBody] UrlRecordUpdateDto urlRecordUpdateDto)
         {
-            _urlRecordService.Update(id, urlRecordUpdateDto);
+            _urlRecordService.Update(urlRecordUpdateDto);
             
             return Ok(urlRecordUpdateDto);
         }
