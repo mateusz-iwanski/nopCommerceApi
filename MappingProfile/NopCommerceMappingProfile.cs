@@ -9,6 +9,7 @@ using nopCommerceApi.Models.Product;
 using nopCommerceApi.Models.ProductAttribute;
 using nopCommerceApi.Models.ProductCategory;
 using nopCommerceApi.Models.ProductManufacturer;
+using nopCommerceApi.Models.UrlRecord;
 
 namespace nopCommerceApi.MappingProfile
 {
@@ -276,6 +277,20 @@ namespace nopCommerceApi.MappingProfile
 
             // set 
             CreateMap<ProductManufacturerMappingCreateDto, ProductManufacturerMapping>();
+
+            #endregion
+
+            #region UrlRecord
+
+            // get
+            CreateMap<UrlRecord, UrlRecordDto>();
+
+            // set 
+            CreateMap<UrlRecordCreateDto, UrlRecord>();
+
+            // update
+            CreateMap<UrlRecordUpdateDto, UrlRecord>();
+
 
             #endregion
 
