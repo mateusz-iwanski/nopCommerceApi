@@ -29,6 +29,7 @@ using nopCommerceApi.Validations.ProductCategory;
 using nopCommerceApi.Validations.Manufacturer;
 using nopCommerceApi.Services.Manufacturer;
 using nopCommerceApi.Validations.ProductManufacturer;
+using nopCommerceApi.Services.UrlRecord;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -84,8 +85,7 @@ builder.Services.AddScoped<IProductAttributeValueService, ProductAttributeValueS
 builder.Services.AddScoped<IProductAttributeService, ProductAttributeService>();
 builder.Services.AddScoped<IManufacturerService, ManufacturerService>();
 builder.Services.AddScoped<IProductManufaturerMappingService, ProductManufaturerMappingService>();
-
-
+builder.Services.AddScoped<IUrlRecordService, UrlRecordService>();
 
 
 // Configure services for api user controllers
