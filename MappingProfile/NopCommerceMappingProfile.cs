@@ -5,6 +5,7 @@ using nopCommerceApi.Models.Address;
 using nopCommerceApi.Models.Category;
 using nopCommerceApi.Models.Customer;
 using nopCommerceApi.Models.Manufacturer;
+using nopCommerceApi.Models.Picture;
 using nopCommerceApi.Models.Product;
 using nopCommerceApi.Models.ProductAttribute;
 using nopCommerceApi.Models.ProductCategory;
@@ -291,6 +292,19 @@ namespace nopCommerceApi.MappingProfile
             // update
             CreateMap<UrlRecordUpdateDto, UrlRecord>();
 
+
+            #endregion
+
+            #region Picture
+
+            // get
+            CreateMap<Picture, PictureDto>();
+
+            // set 
+            CreateMap<PictureCreateDto, Picture>();
+
+            // update
+            CreateMap<PictureUpdateDto, Picture>();
 
             #endregion
 
