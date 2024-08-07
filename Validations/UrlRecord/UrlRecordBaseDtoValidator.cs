@@ -26,9 +26,10 @@ namespace nopCommerceApi.Validations.UrlRecord
                 {
                     var assembly = Assembly.GetExecutingAssembly();
                     var type = assembly.GetType($"nopCommerceApi.Entities.Usable.{entityName}");
+                    
                     return type != null;
                 })
-                .WithMessage("The entity name is not valid.");
+                .WithMessage("The entity name is not valid. Only checking entities which are set as usable.");
 
             // check that entity with EntityName and EntityId exists
             RuleFor(x => new { x.EntityName, x.EntityId })
@@ -36,7 +37,7 @@ namespace nopCommerceApi.Validations.UrlRecord
                 {
                     var assembly = Assembly.GetExecutingAssembly();
                     var type = assembly.GetType($"nopCommerceApi.Entities.Usable.{obj.EntityName}");
-
+                    
                     // check that entity name exists
                     if (type != null)
                     {
@@ -47,13 +48,12 @@ namespace nopCommerceApi.Validations.UrlRecord
                     else 
                         return false;
                 })
-                .WithMessage("The entity id is not exists in entity name.");
-                
-            // checl language id is valid
-            RuleFor(x => x.LanguageId)
-                .Must(languageId => _context.Languages.Any(l => l.Id == languageId))
-                .WithMessage("The language id is not valid.");
+                .WithMessage("The entity id is not exists in entity name. Only checking entities which are set as usable.");
 
+            // check language id is valid, can be 0
+            RuleFor(x => x.LanguageId)
+                .Must(languageId => _context.Languages.Any(l => l.Id == languageId) || languageId == 0)
+                .WithMessage("The language id is not valid.");
         }
     }
 }
