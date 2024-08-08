@@ -36,6 +36,7 @@ using nopCommerceApi.Services.Picture;
 using nopCommerceApi.Validations.ProductPicture;
 using nopCommerceApi.Validations.SpecificationAttribute;
 using nopCommerceApi.Validations.SpecificationAttributeGroup;
+using nopCommerceApi.Services.SpecificationAttribute;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -94,6 +95,7 @@ builder.Services.AddScoped<IProductManufaturerMappingService, ProductManufaturer
 builder.Services.AddScoped<IUrlRecordService, UrlRecordService>();
 builder.Services.AddScoped<IPictureService, PictureService>();
 builder.Services.AddScoped<IProductPictureMappingService, ProductPictureMappingService>();
+builder.Services.AddScoped<ISpecificationAttributeService, SpecificationAttributeService>(); 
 
 
 
