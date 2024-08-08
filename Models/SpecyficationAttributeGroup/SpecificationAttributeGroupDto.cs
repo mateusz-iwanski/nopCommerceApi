@@ -11,7 +11,7 @@ namespace nopCommerceApi.Models.SpecyficationAttributeGroup
         /// ### Gets or sets the name
         /// </summary>
         [Required]
-        public virtual string Name { get; set; } = null!;
+        public string Name { get; set; } = null!;
 
         /// <summary>
         /// ## DisplayOrder
@@ -19,6 +19,6 @@ namespace nopCommerceApi.Models.SpecyficationAttributeGroup
         /// #### 1 represents the top of the list
         /// *Default = 0*
         /// </summary>
-        public virtual int DisplayOrder { get; set; }
+        public int DisplayOrder { get; set; }
     }
 }
