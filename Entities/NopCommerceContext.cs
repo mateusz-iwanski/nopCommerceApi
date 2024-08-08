@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities.Configurations;
-using nopCommerceApi.Entities.NotUsable;
 using nopCommerceApi.Entities.Usable;
 
 namespace nopCommerceApi.Entities;
@@ -55,6 +54,7 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<Manufacturer> Manufacturers { get; set; }
     public virtual DbSet<ManufacturerTemplate> ManufacturerTemplates { get; set; }
     public virtual DbSet<UrlRecord> UrlRecords { get; set; }
+    public virtual DbSet<ProductPictureMapping> ProductPictureMappings { get; set; }
 
     #endregion
 
@@ -112,7 +112,6 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<PredefinedProductAttributeValue> PredefinedProductAttributeValues { get; set; }    
     public virtual DbSet<ProductAttributeCombinationPicture> ProductAttributeCombinationPictures { get; set; }
     public virtual DbSet<ProductAttributeValuePicture> ProductAttributeValuePictures { get; set; }
-    public virtual DbSet<ProductPictureMapping> ProductPictureMappings { get; set; }
     public virtual DbSet<ProductReview> ProductReviews { get; set; }
     public virtual DbSet<ProductReviewHelpfulness> ProductReviewHelpfulnesses { get; set; }
     public virtual DbSet<ProductReviewReviewTypeMapping> ProductReviewReviewTypeMappings { get; set; }
@@ -200,6 +199,7 @@ public partial class NopCommerceContext : DbContext
         new ManufacturerConfiguration().Configure(modelBuilder.Entity<Manufacturer>());
         new ManufacturerTemplateConfiguration().Configure(modelBuilder.Entity<ManufacturerTemplate>());
         new UrlRecordConfiguration().Configure(modelBuilder.Entity<UrlRecord>());
+        new ProductPictureMappingConfiguration().Configure(modelBuilder.Entity<ProductPictureMapping>());
 
         #endregion
 
@@ -892,7 +892,7 @@ public partial class NopCommerceContext : DbContext
 
                entity.HasIndex(e => e.PictureId, "IX_PictureBinary_PictureId");
 
-               entity.HasOne(d => d.Picture).WithMany(p => p.PictureBinaries)
+               entity.HasOne(d => d.PictureService).WithMany(p => p.PictureBinaries)
                    .HasForeignKey(d => d.PictureId)
                    .HasConstraintName("FK_PictureBinary_PictureId_Picture_Id");
            });
@@ -980,23 +980,6 @@ public partial class NopCommerceContext : DbContext
                    .HasForeignKey(d => d.ProductAttributeValueId)
                    .HasConstraintName("FK_ProductAttributeValuePicture_ProductAttributeValueId_ProductAttributeValue_Id");
            });                                 
-
-           modelBuilder.Entity<ProductPictureMapping>(entity =>
-           {
-               entity.ToTable("Product_Picture_Mapping");
-
-               entity.HasIndex(e => e.PictureId, "IX_Product_Picture_Mapping_PictureId");
-
-               entity.HasIndex(e => e.ProductId, "IX_Product_Picture_Mapping_ProductId");
-
-               entity.HasOne(d => d.Picture).WithMany(p => p.ProductPictureMappings)
-                   .HasForeignKey(d => d.PictureId)
-                   .HasConstraintName("FK_Product_Picture_Mapping_PictureId_Picture_Id");
-
-               entity.HasOne(d => d.Product).WithMany(p => p.ProductPictureMappings)
-                   .HasForeignKey(d => d.ProductId)
-                   .HasConstraintName("FK_Product_Picture_Mapping_ProductId_Product_Id");
-           });           
 
            modelBuilder.Entity<ProductReview>(entity =>
            {
