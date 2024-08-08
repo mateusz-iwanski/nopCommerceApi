@@ -12,6 +12,7 @@ using nopCommerceApi.Models.ProductCategory;
 using nopCommerceApi.Models.ProductManufacturer;
 using nopCommerceApi.Models.ProductPicture;
 using nopCommerceApi.Models.SpecyficationAttribute;
+using nopCommerceApi.Models.SpecyficationAttributeGroup;
 using nopCommerceApi.Models.UrlRecord;
 
 namespace nopCommerceApi.MappingProfile
@@ -333,7 +334,19 @@ namespace nopCommerceApi.MappingProfile
             CreateMap<SpecificationAttributeCreateDto, SpecificationAttribute>();
 
             // update
-            CreateMap<SpecificationAttributeUpdateDto, SpecificationAttribute>(); 
+            CreateMap<SpecificationAttributeUpdateDto, SpecificationAttribute>();
+            #endregion
+
+            #region SpecyficationAttributeGroup
+
+            // get
+            CreateMap<SpecificationAttributeGroup, SpecificationAttributeGroupDto>();
+
+            // set 
+            CreateMap<SpecificationAttributeGroupCreateDto, SpecificationAttributeGroup>();
+
+            // update
+            CreateMap<SpecificationAttributeGroupUpdateDto, SpecificationAttributeGroup>();
             #endregion
         }
     }
