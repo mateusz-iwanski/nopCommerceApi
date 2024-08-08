@@ -57,6 +57,7 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<ProductPictureMapping> ProductPictureMappings { get; set; }
     public virtual DbSet<SpecificationAttribute> SpecificationAttributes { get; set; }
     public virtual DbSet<SpecificationAttributeGroup> SpecificationAttributeGroups { get; set; }
+    public virtual DbSet<ProductSpecificationAttributeMapping> ProductSpecificationAttributeMappings { get; set; }
 
 
     #endregion
@@ -118,7 +119,6 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<ProductReview> ProductReviews { get; set; }
     public virtual DbSet<ProductReviewHelpfulness> ProductReviewHelpfulnesses { get; set; }
     public virtual DbSet<ProductReviewReviewTypeMapping> ProductReviewReviewTypeMappings { get; set; }
-    public virtual DbSet<ProductSpecificationAttributeMapping> ProductSpecificationAttributeMappings { get; set; }
     public virtual DbSet<ProductVideo> ProductVideos { get; set; }
     public virtual DbSet<ProductWarehouseInventory> ProductWarehouseInventories { get; set; }
     public virtual DbSet<QueuedEmail> QueuedEmails { get; set; }
@@ -203,6 +203,7 @@ public partial class NopCommerceContext : DbContext
         new ProductPictureMappingConfiguration().Configure(modelBuilder.Entity<ProductPictureMapping>());
         new SpecificationAttributeConfiguration().Configure(modelBuilder.Entity<SpecificationAttribute>());
         new SpecificationAttributeGroupConfiguration().Configure(modelBuilder.Entity<SpecificationAttributeGroup>());
+        new ProductSpecificationAttributeMappingConfiguration().Configure(modelBuilder.Entity<ProductSpecificationAttributeMapping>());
 
         #endregion
 
@@ -1035,29 +1036,6 @@ public partial class NopCommerceContext : DbContext
                entity.HasOne(d => d.ReviewType).WithMany(p => p.ProductReviewReviewTypeMappings)
                    .HasForeignKey(d => d.ReviewTypeId)
                    .HasConstraintName("FK_ProductReview_ReviewType_Mapping_ReviewTypeId_ReviewType_Id");
-           });
-
-           modelBuilder.Entity<ProductSpecificationAttributeMapping>(entity =>
-           {
-               entity.ToTable("Product_SpecificationAttribute_Mapping");
-
-               entity.HasIndex(e => e.AllowFiltering, "IX_PSAM_AllowFiltering");
-
-               entity.HasIndex(e => new { e.SpecificationAttributeOptionId, e.AllowFiltering }, "IX_PSAM_SpecificationAttributeOptionId_AllowFiltering");
-
-               entity.HasIndex(e => e.ProductId, "IX_Product_SpecificationAttribute_Mapping_ProductId");
-
-               entity.HasIndex(e => e.SpecificationAttributeOptionId, "IX_Product_SpecificationAttribute_Mapping_SpecificationAttributeOptionId");
-
-               entity.Property(e => e.CustomValue).HasMaxLength(4000);
-
-               entity.HasOne(d => d.Product).WithMany(p => p.ProductSpecificationAttributeMappings)
-                   .HasForeignKey(d => d.ProductId)
-                   .HasConstraintName("FK_Product_SpecificationAttribute_Mapping_ProductId_Product_Id");
-
-               entity.HasOne(d => d.SpecificationAttributeOption).WithMany(p => p.ProductSpecificationAttributeMappings)
-                   .HasForeignKey(d => d.SpecificationAttributeOptionId)
-                   .HasConstraintName("FK_Product_SpecificationAttribute_Mapping_SpecificationAttributeOptionId_SpecificationAttributeOption_Id");
            });
 
            modelBuilder.Entity<ProductVideo>(entity =>
