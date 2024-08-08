@@ -30,6 +30,10 @@ using nopCommerceApi.Validations.Manufacturer;
 using nopCommerceApi.Services.Manufacturer;
 using nopCommerceApi.Validations.ProductManufacturer;
 using nopCommerceApi.Services.UrlRecord;
+using nopCommerceApi.Validations.UrlRecord;
+using nopCommerceApi.Validations.Picture;
+using nopCommerceApi.Services.Picture;
+using nopCommerceApi.Validations.ProductPicture;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -86,6 +90,9 @@ builder.Services.AddScoped<IProductAttributeService, ProductAttributeService>();
 builder.Services.AddScoped<IManufacturerService, ManufacturerService>();
 builder.Services.AddScoped<IProductManufaturerMappingService, ProductManufaturerMappingService>();
 builder.Services.AddScoped<IUrlRecordService, UrlRecordService>();
+builder.Services.AddScoped<IPictureService, PictureService>();
+builder.Services.AddScoped<IProductPictureMappingService, ProductPictureMappingService>();
+
 
 
 // Configure services for api user controllers
@@ -178,6 +185,19 @@ builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyCont
 
 // ProductManufacturerMapping
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductManufacturerMappingCreateValidator>());
+
+// UrlRecord
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UrlRecordCreateDtoValidator>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UrlRecordUpdateDtoValidator>());
+
+// PictureService
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<PictureCreateValidator>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<PictureUpdateValidator>());
+
+// ProductPictureMapping
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductPictureMappingCreateDtoValidator>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductPictureMappingUpdateDtoValidator>());
+
 
 #region Product
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UpdateProductTagValidator>());
