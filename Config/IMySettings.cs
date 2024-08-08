@@ -54,6 +54,10 @@ namespace nopCommerceApi.Config
         [Option(Alias = "CustomerPassword.PasswordSaltKeySize")]
         int PasswordSaltKeySize { get; }
 
+        // nopCommerce file path
+        [Option(Alias = "NopCommerceFilePath.ThumbsPath")]
+        string ThumbsPath { get; }
+
         // nopCommerce enum type available id 
         [Option(Alias = "NopCommerceEnum.ProductType_AvailableId")]
         string ProductTypeAvailableId { get; }
