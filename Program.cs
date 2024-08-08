@@ -34,6 +34,8 @@ using nopCommerceApi.Validations.UrlRecord;
 using nopCommerceApi.Validations.Picture;
 using nopCommerceApi.Services.Picture;
 using nopCommerceApi.Validations.ProductPicture;
+using nopCommerceApi.Validations.SpecificationAttribute;
+using nopCommerceApi.Validations.SpecificationAttributeGroup;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -197,6 +199,14 @@ builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyCont
 // ProductPictureMapping
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductPictureMappingCreateDtoValidator>());
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductPictureMappingUpdateDtoValidator>());
+
+// SpecificationAttribute
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<SpecificationAttributeCreateValidator>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<SpecificationAttributeUpdateValidator>());
+
+// SpecificationAttributeGroup
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<SpecificationAttributeGroupCreateValidator>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<SpecificationAttributeGroupUpdateValidator>());
 
 
 #region Product
