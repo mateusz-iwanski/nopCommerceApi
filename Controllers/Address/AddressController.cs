@@ -56,17 +56,6 @@ namespace nopCommerceApi.Controllers.Address
         /// </summary>
         /// <remarks>
         /// Default nopCommerce not have this feature.
-        /// CustomAttribute will look like this:
-        /// 
-        /// <Attributes>
-        ///     <AddressAttribute ID="1">
-        ///         <AddressAttributeValue>
-        ///             <Value>NIP NUMBER</Value>
-        ///          </AddressAttributeValue>
-        ///     </AddressAttribute>
-        /// </Attributes>      
-        /// 
-        /// AddressAttribute ID="1" 
         /// </remarks> 
         [HttpPost("add-with-nip")]
         [Authorize(Roles = "Admin,User")]
@@ -82,7 +71,7 @@ namespace nopCommerceApi.Controllers.Address
         /// Update address for Polish enterprises with NIP
         /// </summary>
         /// <remarks>
-        /// If you don't want to update certain fields, don't add them to your requests.
+        /// If you don't want to update certain fields, don't add them to your requests. \
         /// If you do not add some of a fields to the request, this fields will not be updated.
         /// </remarks>
         [Authorize(Roles = "Admin,User")]
