@@ -55,6 +55,9 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<ManufacturerTemplate> ManufacturerTemplates { get; set; }
     public virtual DbSet<UrlRecord> UrlRecords { get; set; }
     public virtual DbSet<ProductPictureMapping> ProductPictureMappings { get; set; }
+    public virtual DbSet<SpecificationAttribute> SpecificationAttributes { get; set; }
+    public virtual DbSet<SpecificationAttributeGroup> SpecificationAttributeGroups { get; set; }
+
 
     #endregion
 
@@ -134,8 +137,6 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<ShipmentItem> ShipmentItems { get; set; }
     public virtual DbSet<ShippingByWeightByTotalRecord> ShippingByWeightByTotalRecords { get; set; }    
     public virtual DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
-    public virtual DbSet<SpecificationAttribute> SpecificationAttributes { get; set; }
-    public virtual DbSet<SpecificationAttributeGroup> SpecificationAttributeGroups { get; set; }
     public virtual DbSet<SpecificationAttributeOption> SpecificationAttributeOptions { get; set; }
     public virtual DbSet<StockQuantityHistory> StockQuantityHistories { get; set; }
     public virtual DbSet<Store> Stores { get; set; }
@@ -200,6 +201,8 @@ public partial class NopCommerceContext : DbContext
         new ManufacturerTemplateConfiguration().Configure(modelBuilder.Entity<ManufacturerTemplate>());
         new UrlRecordConfiguration().Configure(modelBuilder.Entity<UrlRecord>());
         new ProductPictureMappingConfiguration().Configure(modelBuilder.Entity<ProductPictureMapping>());
+        new SpecificationAttributeConfiguration().Configure(modelBuilder.Entity<SpecificationAttribute>());
+        new SpecificationAttributeGroupConfiguration().Configure(modelBuilder.Entity<SpecificationAttributeGroup>());
 
         #endregion
 
@@ -1295,24 +1298,7 @@ public partial class NopCommerceContext : DbContext
                entity.HasOne(d => d.Product).WithMany(p => p.ShoppingCartItems)
                    .HasForeignKey(d => d.ProductId)
                    .HasConstraintName("FK_ShoppingCartItem_ProductId_Product_Id");
-           });
-
-           modelBuilder.Entity<SpecificationAttribute>(entity =>
-           {
-               entity.ToTable("SpecificationAttribute");
-
-               entity.HasIndex(e => e.SpecificationAttributeGroupId, "IX_SpecificationAttribute_SpecificationAttributeGroupId");
-
-               entity.HasOne(d => d.SpecificationAttributeGroup).WithMany(p => p.SpecificationAttributes)
-                   .HasForeignKey(d => d.SpecificationAttributeGroupId)
-                   .OnDelete(DeleteBehavior.Cascade)
-                   .HasConstraintName("FK_SpecificationAttribute_SpecificationAttributeGroupId_SpecificationAttributeGroup_Id");
-           });
-
-           modelBuilder.Entity<SpecificationAttributeGroup>(entity =>
-           {
-               entity.ToTable("SpecificationAttributeGroup");
-           });
+           });                      
 
            modelBuilder.Entity<SpecificationAttributeOption>(entity =>
            {
