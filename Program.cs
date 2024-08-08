@@ -95,7 +95,8 @@ builder.Services.AddScoped<IProductManufaturerMappingService, ProductManufaturer
 builder.Services.AddScoped<IUrlRecordService, UrlRecordService>();
 builder.Services.AddScoped<IPictureService, PictureService>();
 builder.Services.AddScoped<IProductPictureMappingService, ProductPictureMappingService>();
-builder.Services.AddScoped<ISpecificationAttributeService, SpecificationAttributeService>(); 
+builder.Services.AddScoped<ISpecificationAttributeService, SpecificationAttributeService>();
+builder.Services.AddScoped<ISpecificationAttributeGroupService, SpecificationAttributeGroupService>();
 
 
 
