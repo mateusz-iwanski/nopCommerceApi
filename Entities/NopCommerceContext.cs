@@ -58,6 +58,7 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<SpecificationAttribute> SpecificationAttributes { get; set; }
     public virtual DbSet<SpecificationAttributeGroup> SpecificationAttributeGroups { get; set; }
     public virtual DbSet<ProductSpecificationAttributeMapping> ProductSpecificationAttributeMappings { get; set; }
+    public virtual DbSet<SpecificationAttributeOption> SpecificationAttributeOptions { get; set; }
 
 
     #endregion
@@ -136,8 +137,7 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<Shipment> Shipments { get; set; }
     public virtual DbSet<ShipmentItem> ShipmentItems { get; set; }
     public virtual DbSet<ShippingByWeightByTotalRecord> ShippingByWeightByTotalRecords { get; set; }    
-    public virtual DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
-    public virtual DbSet<SpecificationAttributeOption> SpecificationAttributeOptions { get; set; }
+    public virtual DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }    
     public virtual DbSet<StockQuantityHistory> StockQuantityHistories { get; set; }
     public virtual DbSet<Store> Stores { get; set; }
     public virtual DbSet<StoreMapping> StoreMappings { get; set; }
@@ -204,6 +204,7 @@ public partial class NopCommerceContext : DbContext
         new SpecificationAttributeConfiguration().Configure(modelBuilder.Entity<SpecificationAttribute>());
         new SpecificationAttributeGroupConfiguration().Configure(modelBuilder.Entity<SpecificationAttributeGroup>());
         new ProductSpecificationAttributeMappingConfiguration().Configure(modelBuilder.Entity<ProductSpecificationAttributeMapping>());
+        new SpecificationAttributeOptionConfigure().Configure(modelBuilder.Entity<SpecificationAttributeOption>());
 
         #endregion
 
@@ -1277,20 +1278,6 @@ public partial class NopCommerceContext : DbContext
                    .HasForeignKey(d => d.ProductId)
                    .HasConstraintName("FK_ShoppingCartItem_ProductId_Product_Id");
            });                      
-
-           modelBuilder.Entity<SpecificationAttributeOption>(entity =>
-           {
-               entity.ToTable("SpecificationAttributeOption");
-
-               entity.HasIndex(e => e.SpecificationAttributeId, "IX_SpecificationAttributeOption_SpecificationAttributeId");
-
-               entity.Property(e => e.ColorSquaresRgb).HasMaxLength(100);
-
-               entity.HasOne(d => d.SpecificationAttribute).WithMany(p => p.SpecificationAttributeOptions)
-                   .HasForeignKey(d => d.SpecificationAttributeId)
-                   .HasConstraintName("FK_SpecificationAttributeOption_SpecificationAttributeId_SpecificationAttribute_Id");
-           });
-
 
            modelBuilder.Entity<StockQuantityHistory>(entity =>
            {
