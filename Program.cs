@@ -39,6 +39,8 @@ using nopCommerceApi.Validations.SpecificationAttributeGroup;
 using nopCommerceApi.Services.SpecificationAttribute;
 using nopCommerceApi.Validations.SpecificationAttributeOption;
 using nopCommerceApi.Validations.ProductSpecificationAttributeMapping;
+using nopCommerceApi.Services.Video;
+using nopCommerceApi.Validations.ProductVideo;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -101,6 +103,8 @@ builder.Services.AddScoped<ISpecificationAttributeService, SpecificationAttribut
 builder.Services.AddScoped<ISpecificationAttributeGroupService, SpecificationAttributeGroupService>();
 builder.Services.AddScoped<ISpecificationAttributeOptionService, SpecificationAttributeOptionService>();
 builder.Services.AddScoped<IProductSpecificationAttributeMappingService, ProductSpecificationAttributeMappingService>();
+builder.Services.AddScoped<IVideoService, VideoService>();
+builder.Services.AddScoped<IProductVideoService, ProductVideoService>();
 
 
 // Configure services for api user controllers
@@ -221,6 +225,12 @@ builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyCont
 //ProductSpecificationAttributeMapping
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductSpecificationAttributeMappingCreateDtoValidator>());
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductSpecificationAttributeMappingUpdateDtoValidator>());
+
+//ProductVideo
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductVideoCreateValidator>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductVideoUpdateValidator>());
+
+
 
 #region Product
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UpdateProductTagValidator>());
