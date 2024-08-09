@@ -37,6 +37,8 @@ using nopCommerceApi.Validations.ProductPicture;
 using nopCommerceApi.Validations.SpecificationAttribute;
 using nopCommerceApi.Validations.SpecificationAttributeGroup;
 using nopCommerceApi.Services.SpecificationAttribute;
+using nopCommerceApi.Validations.SpecificationAttributeOption;
+using nopCommerceApi.Validations.ProductSpecificationAttributeMapping;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -96,7 +98,7 @@ builder.Services.AddScoped<IUrlRecordService, UrlRecordService>();
 builder.Services.AddScoped<IPictureService, PictureService>();
 builder.Services.AddScoped<IProductPictureMappingService, ProductPictureMappingService>();
 builder.Services.AddScoped<ISpecificationAttributeService, SpecificationAttributeService>();
-builder.Services.AddScoped<ISpecificationAttributeGroupService, SpecificationAttributeGroupService>();
+builder.Services.AddScoped<SpecificationAttributeGroupService, SpecificationAttributeGroupService>();
 
 
 
@@ -211,6 +213,13 @@ builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyCont
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<SpecificationAttributeGroupCreateValidator>());
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<SpecificationAttributeGroupUpdateValidator>());
 
+// SpecificationAttributeOption
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<SpecificationAttributeOptionCreateValidator>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<SpecificationAttributeOptionUpdateValidator>());
+
+//ProductSpecificationAttributeMapping
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductSpecificationAttributeMappingCreateDtoValidator>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductSpecificationAttributeMappingUpdateDtoValidator>());
 
 #region Product
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UpdateProductTagValidator>());
