@@ -11,7 +11,7 @@ namespace nopCommerceApi.Models.SpecyficationAttributeGroup
         /// ### Gets or sets the name
         /// </summary>
         [Required]
-        public string Name { get; set; } = null!;
+        public string Name { get; set; }
 
         /// <summary>
         /// ## DisplayOrder
