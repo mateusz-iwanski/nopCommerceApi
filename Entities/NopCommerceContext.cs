@@ -59,6 +59,8 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<SpecificationAttributeGroup> SpecificationAttributeGroups { get; set; }
     public virtual DbSet<ProductSpecificationAttributeMapping> ProductSpecificationAttributeMappings { get; set; }
     public virtual DbSet<SpecificationAttributeOption> SpecificationAttributeOptions { get; set; }
+    public virtual DbSet<Video> Videos { get; set; }
+    public virtual DbSet<ProductVideo> ProductVideos { get; set; }
 
 
     #endregion
@@ -119,8 +121,7 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<ProductAttributeValuePicture> ProductAttributeValuePictures { get; set; }
     public virtual DbSet<ProductReview> ProductReviews { get; set; }
     public virtual DbSet<ProductReviewHelpfulness> ProductReviewHelpfulnesses { get; set; }
-    public virtual DbSet<ProductReviewReviewTypeMapping> ProductReviewReviewTypeMappings { get; set; }
-    public virtual DbSet<ProductVideo> ProductVideos { get; set; }
+    public virtual DbSet<ProductReviewReviewTypeMapping> ProductReviewReviewTypeMappings { get; set; }    
     public virtual DbSet<ProductWarehouseInventory> ProductWarehouseInventories { get; set; }
     public virtual DbSet<QueuedEmail> QueuedEmails { get; set; }
     public virtual DbSet<RecurringPayment> RecurringPayments { get; set; }
@@ -147,8 +148,7 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<TopicTemplate> TopicTemplates { get; set; }    
     public virtual DbSet<VendorAttribute> VendorAttributes { get; set; }
     public virtual DbSet<VendorAttributeValue> VendorAttributeValues { get; set; }
-    public virtual DbSet<VendorNote> VendorNotes { get; set; }
-    public virtual DbSet<Video> Videos { get; set; }    
+    public virtual DbSet<VendorNote> VendorNotes { get; set; }    
     public virtual DbSet<ZettleRecord> ZettleRecords { get; set; }
     */
 
@@ -205,6 +205,8 @@ public partial class NopCommerceContext : DbContext
         new SpecificationAttributeGroupConfiguration().Configure(modelBuilder.Entity<SpecificationAttributeGroup>());
         new ProductSpecificationAttributeMappingConfiguration().Configure(modelBuilder.Entity<ProductSpecificationAttributeMapping>());
         new SpecificationAttributeOptionConfigure().Configure(modelBuilder.Entity<SpecificationAttributeOption>());
+        new VideoConfiguration().Configure(modelBuilder.Entity<Video>());
+        new ProductVideoConfiguration().Configure(modelBuilder.Entity<ProductVideo>());
 
         #endregion
 
@@ -1038,23 +1040,7 @@ public partial class NopCommerceContext : DbContext
                    .HasForeignKey(d => d.ReviewTypeId)
                    .HasConstraintName("FK_ProductReview_ReviewType_Mapping_ReviewTypeId_ReviewType_Id");
            });
-
-           modelBuilder.Entity<ProductVideo>(entity =>
-           {
-               entity.ToTable("ProductVideo");
-
-               entity.HasIndex(e => e.ProductId, "IX_ProductVideo_ProductId");
-
-               entity.HasIndex(e => e.VideoId, "IX_ProductVideo_VideoId");
-
-               entity.HasOne(d => d.Product).WithMany(p => p.ProductVideos)
-                   .HasForeignKey(d => d.ProductId)
-                   .HasConstraintName("FK_ProductVideo_ProductId_Product_Id");
-
-               entity.HasOne(d => d.Video).WithMany(p => p.ProductVideos)
-                   .HasForeignKey(d => d.VideoId)
-                   .HasConstraintName("FK_ProductVideo_VideoId_Video_Id");
-           });
+           
 
            modelBuilder.Entity<ProductWarehouseInventory>(entity =>
            {
@@ -1384,13 +1370,7 @@ public partial class NopCommerceContext : DbContext
                 .HasForeignKey(d => d.VendorId)
                 .HasConstraintName("FK_VendorNote_VendorId_Vendor_Id");
         });
-
-        modelBuilder.Entity<Video>(entity =>
-        {
-            entity.ToTable("Video");
-
-            entity.Property(e => e.VideoUrl).HasMaxLength(1000);
-        });
+        
 
         modelBuilder.Entity<ZettleRecord>(entity =>
         {
