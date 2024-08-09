@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using nopCommerceApi.Models.SpecificationAttribute;
+using nopCommerceApi.Models.SpecificationAttributeOption;
 using nopCommerceApi.Models.SpecyficationAttribute;
 using nopCommerceApi.Models.SpecyficationAttributeGroup;
 using nopCommerceApi.Services.SpecificationAttribute;
@@ -18,12 +20,18 @@ namespace nopCommerceApi.Controllers.SpecificationAttribute
     public class SpecificationAttributeController : ControllerBase
     {
         private readonly ISpecificationAttributeService _specificationAttributeService;
-        private readonly SpecificationAttributeGroupService _specificationAttributeGroupService;
+        private readonly ISpecificationAttributeGroupService _specificationAttributeGroupService;
+        private readonly ISpecificationAttributeOptionService _specificationAttributeOptionService;
 
-        public SpecificationAttributeController(ISpecificationAttributeService specificationAttributeService, SpecificationAttributeGroupService specificationAttributeGroupService)
+        public SpecificationAttributeController(
+            ISpecificationAttributeService specificationAttributeService, 
+            ISpecificationAttributeGroupService specificationAttributeGroupService,
+            ISpecificationAttributeOptionService specificationAttributeOptionService
+            )
         {
             _specificationAttributeService = specificationAttributeService;
             _specificationAttributeGroupService = specificationAttributeGroupService;
+            _specificationAttributeOptionService = specificationAttributeOptionService;
         }
 
         #region specificationAttributeService
@@ -35,6 +43,16 @@ namespace nopCommerceApi.Controllers.SpecificationAttribute
         public async Task<IActionResult> GetAllSpecificationAttributes()
         {
             var specificationAttributes = await _specificationAttributeService.GetAllAsync();
+            return Ok(specificationAttributes);
+        }
+
+        /// <summary>
+        /// Get all specification attributes with associate group and options
+        /// </summary>
+        [HttpGet("detail")]
+        public async Task<IActionResult> GetAllSpecificationAttributesDetail()
+        {
+            var specificationAttributes = await _specificationAttributeService.GetAllDetailAsync();
             return Ok(specificationAttributes);
         }
 
@@ -163,5 +181,73 @@ namespace nopCommerceApi.Controllers.SpecificationAttribute
         }
 
         #endregion
+
+        #region SpecificationAttributeOption
+
+        /// <summary>
+        /// Get all specification attribute options associate to specification attributes
+        /// </summary>
+        [HttpGet("option")]
+        public async Task<IActionResult> GetAllSpecificationAttributeOptions()
+        {
+            var specificationAttributeOptions = await _specificationAttributeOptionService.GetAllAsync();
+            return Ok(specificationAttributeOptions);
+        }
+
+        /// <summary>
+        /// Get specification attribute option by id associate to specification attributes
+        /// </summary>
+        [HttpGet("option/{id}")]
+        public async Task<IActionResult> GetSpecificationAttributeOptionById(int id)
+        {
+            var specificationAttributeOption = await _specificationAttributeOptionService.GetByIdAsync(id);
+            return Ok(specificationAttributeOption);
+        }
+
+        /// <summary>
+        /// Create a specification attribute option associate to specification attributes
+        /// </summary>
+        [HttpPost("option")]
+        public async Task<IActionResult> CreateSpecificationAttributeOption([FromBody] SpecificationAttributeOptionCreateDto specificationAttributeOptionCreateDto)
+        {
+            var specificationAttributeOption = await _specificationAttributeOptionService.CreateAsync(specificationAttributeOptionCreateDto);
+            return Created("specificationAttributeOptions", specificationAttributeOption);
+        }
+
+        /// <summary>
+        /// Update a specification attribute option associate to specification attributes
+        /// </summary>
+        [HttpPut("option")]
+        public async Task<IActionResult> UpdateSpecificationAttributeOption([FromBody] SpecificationAttributeOptionUpdateDto specificationAttributeOptionUpdateDto)
+        {
+            await _specificationAttributeOptionService.UpdateAsync(specificationAttributeOptionUpdateDto);
+
+            return Ok(specificationAttributeOptionUpdateDto);
+        }
+
+        /// <summary>
+        /// Delete a specification attribute option associate to specification attributes
+        /// </summary>
+        [HttpDelete("option/{id}")]
+        public async Task<IActionResult> DeleteSpecificationAttributeOption(int id)
+        {
+            await _specificationAttributeOptionService.DeleteAsync(id);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Get specification attribute options by the specification attribute ID it is associated with
+        /// </summary>
+        /// <param name="specificationAttributeId"></param>
+        /// <returns></returns>
+        [HttpGet("option/specification-attribute/{specificationAttributeId}")]
+        public async Task<IActionResult> GetAllBySpecificationAttributeIdAsync(int specificationAttributeId)
+        {
+            var specificationAttributeOptions = await _specificationAttributeOptionService.GetAllBySpecificationAttributeIdAsync(specificationAttributeId);
+            return Ok(specificationAttributeOptions);
+        }
+
+        #endregion
+
     }
 }
