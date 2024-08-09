@@ -98,8 +98,9 @@ builder.Services.AddScoped<IUrlRecordService, UrlRecordService>();
 builder.Services.AddScoped<IPictureService, PictureService>();
 builder.Services.AddScoped<IProductPictureMappingService, ProductPictureMappingService>();
 builder.Services.AddScoped<ISpecificationAttributeService, SpecificationAttributeService>();
-builder.Services.AddScoped<SpecificationAttributeGroupService, SpecificationAttributeGroupService>();
-
+builder.Services.AddScoped<ISpecificationAttributeGroupService, SpecificationAttributeGroupService>();
+builder.Services.AddScoped<ISpecificationAttributeOptionService, SpecificationAttributeOptionService>();
+builder.Services.AddScoped<IProductSpecificationAttributeMappingService, ProductSpecificationAttributeMappingService>();
 
 
 // Configure services for api user controllers
@@ -314,6 +315,7 @@ app.UseSwagger();
 app.UseSwaggerUI(app =>
 {
     app.SwaggerEndpoint("/swagger/v1/swagger.json", "nopCommerceApi v1");
+    app.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None); // Collapse all controllers by default
 });
 
 // Authorize users
