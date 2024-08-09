@@ -12,11 +12,13 @@ using nopCommerceApi.Models.ProductCategory;
 using nopCommerceApi.Models.ProductManufacturer;
 using nopCommerceApi.Models.ProductPicture;
 using nopCommerceApi.Models.ProductSpecificationAttributeMapping;
+using nopCommerceApi.Models.ProductVideo;
 using nopCommerceApi.Models.SpecificationAttribute;
 using nopCommerceApi.Models.SpecificationAttributeOption;
 using nopCommerceApi.Models.SpecyficationAttribute;
 using nopCommerceApi.Models.SpecyficationAttributeGroup;
 using nopCommerceApi.Models.UrlRecord;
+using nopCommerceApi.Models.Video;
 
 namespace nopCommerceApi.MappingProfile
 {
@@ -377,10 +379,35 @@ namespace nopCommerceApi.MappingProfile
             CreateMap<ProductSpecificationAttributeMappingCreateDto, ProductSpecificationAttributeMapping>();
 
             // update
-            CreateMap<ProductSpecificationAttributeMappingUpdateDto, ProductSpecificationAttributeMapping>();            
+            CreateMap<ProductSpecificationAttributeMappingUpdateDto, ProductSpecificationAttributeMapping>();
 
             #endregion
 
+            #region Video
+
+            // get
+            CreateMap<Video, VideoDto>();
+
+            // set 
+            CreateMap<VideoCreateDto, Video>();
+
+            // update
+            CreateMap<VideoUpdateDto, Video>();
+
+            #endregion
+
+            #region ProductVideo
+
+            // get
+            CreateMap<ProductVideo, ProductVideoDto>();
+
+            // set 
+            CreateMap<ProductVideoCreateDto, ProductVideo>();
+
+            // update
+            CreateMap<ProductVideoUpdateDto, ProductVideo>();
+
+            #endregion
         }
     }
 }
