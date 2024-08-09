@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Exceptions;
+using nopCommerceApi.Models.SpecificationAttribute;
 using nopCommerceApi.Models.SpecyficationAttribute;
 
 namespace nopCommerceApi.Services.SpecificationAttribute
@@ -14,6 +15,7 @@ namespace nopCommerceApi.Services.SpecificationAttribute
         Task<SpecificationAttributeDto> GetByNameAsync(string name);
         Task<bool> UpdateAsync(SpecificationAttributeUpdateDto specificationAttributeUpdateDto);
         Task<bool> DeleteAsync(int id);
+        Task<IEnumerable<SpecificationAttributeDetailsDto>> GetAllDetailAsync();
     }
 
     public class SpecificationAttributeService : BaseService, ISpecificationAttributeService
@@ -23,6 +25,17 @@ namespace nopCommerceApi.Services.SpecificationAttribute
         public SpecificationAttributeService(NopCommerceContext context, IMapper mapper, ILogger<SpecificationAttributeService> logger) : base(context, mapper, logger)
         {
             _context = context;
+        }
+
+        // get all specification attributes with SpecificationAttributeGroupDto and List<SpecificationAttributeOptionDto>
+        public async Task<IEnumerable<SpecificationAttributeDetailsDto>> GetAllDetailAsync()
+        {
+            var specificationAttributes = await _context.SpecificationAttributes
+               .Include(sa => sa.SpecificationAttributeGroup)
+               .Include(sa => sa.SpecificationAttributeOptions)
+               .ToListAsync();
+
+            return _mapper.Map<IEnumerable<SpecificationAttributeDetailsDto>>(specificationAttributes);
         }
 
         public async Task<IEnumerable<SpecificationAttributeDto>> GetAllAsync()
