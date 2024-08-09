@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Exceptions;
 using nopCommerceApi.Models.SpecyficationAttribute;
@@ -7,11 +8,12 @@ namespace nopCommerceApi.Services.SpecificationAttribute
 {
     public interface ISpecificationAttributeService
     {
-        SpecificationAttributeDto Create(SpecificationAttributeCreateDto specificationAttributeCreateDto);
-        IEnumerable<SpecificationAttributeDto> GetAll();
-        SpecificationAttributeDto GetById(int id);
-        SpecificationAttributeDto GetByName(string name);
-        bool Update(int id, SpecificationAttributeUpdateDto specificationAttributeUpdateDto);
+        Task<SpecificationAttributeDto> CreateAsync(SpecificationAttributeCreateDto specificationAttributeCreateDto);
+        Task<IEnumerable<SpecificationAttributeDto>> GetAllAsync();
+        Task<SpecificationAttributeDto> GetByIdAsync(int id);
+        Task<SpecificationAttributeDto> GetByNameAsync(string name);
+        Task<bool> UpdateAsync(SpecificationAttributeUpdateDto specificationAttributeUpdateDto);
+        Task<bool> DeleteAsync(int id);
     }
 
     public class SpecificationAttributeService : BaseService, ISpecificationAttributeService
@@ -23,16 +25,16 @@ namespace nopCommerceApi.Services.SpecificationAttribute
             _context = context;
         }
 
-        public IEnumerable<SpecificationAttributeDto> GetAll()
+        public async Task<IEnumerable<SpecificationAttributeDto>> GetAllAsync()
         {
-            var specificationAttributes = _context.SpecificationAttributes.ToList();
+            var specificationAttributes = await _context.SpecificationAttributes.ToListAsync();
 
             return _mapper.Map<IEnumerable<SpecificationAttributeDto>>(specificationAttributes);
         }
 
-        public SpecificationAttributeDto GetById(int id)
+        public async Task<SpecificationAttributeDto> GetByIdAsync(int id)
         {
-            var specificationAttribute = _context.SpecificationAttributes.Find(id);
+            var specificationAttribute = await _context.SpecificationAttributes.FindAsync(id);
             if (specificationAttribute == null)
             {
                 throw new NotFoundExceptions($"The specification attribute with id {id} was not found.");
@@ -41,41 +43,55 @@ namespace nopCommerceApi.Services.SpecificationAttribute
             return _mapper.Map<SpecificationAttributeDto>(specificationAttribute);
         }
 
-        public SpecificationAttributeDto Create(SpecificationAttributeCreateDto specificationAttributeCreateDto)
+        public async Task<SpecificationAttributeDto> CreateAsync(SpecificationAttributeCreateDto specificationAttributeCreateDto)
         {
             var specificationAttribute = _mapper.Map<Entities.Usable.SpecificationAttribute>(specificationAttributeCreateDto);
 
             _context.SpecificationAttributes.Add(specificationAttribute);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return _mapper.Map<SpecificationAttributeDto>(specificationAttribute);
         }
 
-        public bool Update(int id, SpecificationAttributeUpdateDto specificationAttributeUpdateDto)
+        public async Task<bool> UpdateAsync(SpecificationAttributeUpdateDto specificationAttributeUpdateDto)
         {
-            var specificationAttribute = _context.SpecificationAttributes.Find(id);
-            specificationAttributeUpdateDto.Id = id;
+            var specificationAttribute = await _context.SpecificationAttributes.FindAsync(specificationAttributeUpdateDto.Id);
+            specificationAttributeUpdateDto.Id = specificationAttributeUpdateDto.Id;
 
             if (specificationAttribute == null)
             {
-                throw new NotFoundExceptions($"The specification attribute with id {id} was not found.");
+                throw new NotFoundExceptions($"The specification attribute with id {specificationAttributeUpdateDto.Id} was not found.");
             }
 
             _mapper.Map(specificationAttributeUpdateDto, specificationAttribute);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return true;
         }
 
-        public SpecificationAttributeDto GetByName(string name)
+        public async Task<SpecificationAttributeDto> GetByNameAsync(string name)
         {
-            var specificationAttribute = _context.SpecificationAttributes.FirstOrDefault(sa => sa.Name == name);
+            var specificationAttribute = await _context.SpecificationAttributes.FirstOrDefaultAsync(sa => sa.Name == name);
             if (specificationAttribute == null)
             {
                 throw new NotFoundExceptions($"The specification attribute with name {name} was not found.");
             }
 
             return _mapper.Map<SpecificationAttributeDto>(specificationAttribute);
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var specificationAttribute = await _context.SpecificationAttributes.FindAsync(id);
+            if (specificationAttribute == null)
+            {
+                throw new NotFoundExceptions($"The specification attribute with id {id} was not found.");
+            }
+
+            _context.SpecificationAttributes.Remove(specificationAttribute);
+            await _context.SaveChangesAsync();
+
+            return true;
         }
 
     }
