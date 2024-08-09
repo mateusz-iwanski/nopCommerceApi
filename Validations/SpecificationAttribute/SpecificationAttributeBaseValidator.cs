@@ -17,6 +17,11 @@ namespace nopCommerceApi.Validations.SpecificationAttribute
             RuleFor(x => x.DisplayOrder)
                 .GreaterThanOrEqualTo(0)
                 .WithMessage("The display order must be greater or equal 0.");
+
+            // check SpecificationAttributeGroup exists   
+            RuleFor(x => x.SpecificationAttributeGroupId)
+                .Must(id => _context.SpecificationAttributeGroups.Any(sag => sag.Id == id))
+                .WithMessage("The specification attribute group does not exist.");
         }
     }
 }
