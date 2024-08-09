@@ -10,7 +10,7 @@ namespace nopCommerceApi.Validations.SpecificationAttributeGroup
         {
             // name must be unique
             RuleFor(x => x.Name)
-                .Must((dto, name) => !context.SpecificationAttributeGroups.Any(x => x.Name == name && x.Id != dto.Id))
+                .Must((dto, name) => !context.SpecificationAttributeGroups.Any(x => x.Name == name))
                 .WithMessage("The name must be unique.");
         }
     }
