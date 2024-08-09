@@ -2,7 +2,7 @@
 using nopCommerceApi.Entities;
 using nopCommerceApi.Entities.Usable;
 using nopCommerceApi.Exceptions;
-using nopCommerceApi.Models.Address;
+using nopCommerceApi.Models.AddressAttribute;
 
 namespace nopCommerceApi.Services
 {

@@ -2,7 +2,9 @@
 using nopCommerceApi.Entities.Usable;
 using nopCommerceApi.Models;
 using nopCommerceApi.Models.Address;
+using nopCommerceApi.Models.AddressAttribute;
 using nopCommerceApi.Models.Category;
+using nopCommerceApi.Models.Country;
 using nopCommerceApi.Models.Customer;
 using nopCommerceApi.Models.Manufacturer;
 using nopCommerceApi.Models.Picture;
@@ -17,6 +19,7 @@ using nopCommerceApi.Models.SpecificationAttribute;
 using nopCommerceApi.Models.SpecificationAttributeOption;
 using nopCommerceApi.Models.SpecyficationAttribute;
 using nopCommerceApi.Models.SpecyficationAttributeGroup;
+using nopCommerceApi.Models.State;
 using nopCommerceApi.Models.UrlRecord;
 using nopCommerceApi.Models.Video;
 

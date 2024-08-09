@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Models.Address;
 
-namespace nopCommerceApi.Validations
+namespace nopCommerceApi.Validations.Address
 {
     public class AddressCreateDtoValidator : BaseValidator<AddressCreateDto>
     {

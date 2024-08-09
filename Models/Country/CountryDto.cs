@@ -1,4 +1,4 @@
-﻿namespace nopCommerceApi.Models.Address
+﻿namespace nopCommerceApi.Models.Country
 {
     /// <summary>
     /// Country Data Transfer Object

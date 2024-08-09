@@ -1,4 +1,6 @@
-﻿namespace nopCommerceApi.Models.Address
+﻿using nopCommerceApi.Models.Country;
+
+namespace nopCommerceApi.Models.State
 {
     /// <summary>
     /// StateProvince Data Transfer Object

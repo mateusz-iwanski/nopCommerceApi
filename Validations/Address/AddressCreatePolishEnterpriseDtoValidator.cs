@@ -6,7 +6,7 @@ using nopCommerceApi.Models.Address;
 using System.Reflection.Metadata;
 using System.Xml;
 
-namespace nopCommerceApi.Validations
+namespace nopCommerceApi.Validations.Address
 {
     public class AddressCreatePolishEnterpriseDtoValidator : BaseValidator<AddressCreatePolishEnterpriseDto>
     {

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
-using nopCommerceApi.Models.Address;
+using nopCommerceApi.Models.Country;
 using nopCommerceApi.Services;
 
 namespace nopCommerceApi.Controllers.Address

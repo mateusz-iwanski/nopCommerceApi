@@ -109,7 +109,7 @@ namespace nopCommerceApi.Models.Address
             }
         }
 
-        public static bool IsEnterpriseAddress(Entities.Usable.Address address, DbSet<AddressAttribute> addressAtributeDbSet)
+        public static bool IsEnterpriseAddress(Entities.Usable.Address address, DbSet<Entities.Usable.AddressAttribute> addressAtributeDbSet)
         {
             string xmlString = address.CustomAttributes;
 

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace nopCommerceApi.Models.Address
+namespace nopCommerceApi.Models.AddressAttribute
 {
     /// <summary>
     /// Additional attribute for address

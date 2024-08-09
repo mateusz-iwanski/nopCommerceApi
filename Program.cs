@@ -41,6 +41,7 @@ using nopCommerceApi.Validations.SpecificationAttributeOption;
 using nopCommerceApi.Validations.ProductSpecificationAttributeMapping;
 using nopCommerceApi.Services.Video;
 using nopCommerceApi.Validations.ProductVideo;
+using nopCommerceApi.Validations.Address;
 
 
 var builder = WebApplication.CreateBuilder(args);

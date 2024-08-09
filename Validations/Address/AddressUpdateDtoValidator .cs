@@ -4,7 +4,7 @@ using nopCommerceApi.Models.Address;
 using System.Reflection;
 using System.Text.Json.Serialization;
 
-namespace nopCommerceApi.Validations
+namespace nopCommerceApi.Validations.Address
 {
     public class AddressUpdateDtoValidator : BaseValidator<AddressUpdateDto>
     {

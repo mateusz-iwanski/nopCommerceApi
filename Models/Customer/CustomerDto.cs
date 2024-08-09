@@ -1,6 +1,8 @@
 ﻿using nopCommerceApi.Entities;
 using nopCommerceApi.Exceptions;
 using nopCommerceApi.Models.Address;
+using nopCommerceApi.Models.Country;
+using nopCommerceApi.Models.State;
 using System.ComponentModel.DataAnnotations;
 
 namespace nopCommerceApi.Models.Customer

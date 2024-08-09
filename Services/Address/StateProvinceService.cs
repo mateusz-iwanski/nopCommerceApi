@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
-using nopCommerceApi.Models.Address;
+using nopCommerceApi.Models.State;
 
 namespace nopCommerceApi.Services
 {
