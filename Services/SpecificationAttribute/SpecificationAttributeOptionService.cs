@@ -8,7 +8,17 @@ using nopCommerceApi.Models.SpecificationAttributeOption;
 
 namespace nopCommerceApi.Services.SpecificationAttribute
 {
-    public class SpecificationAttributeOptionService : BaseService
+    public interface ISpecificationAttributeOptionService
+    {
+        Task<SpecificationAttributeOptionDto> CreateAsync(SpecificationAttributeOptionCreateDto specificationAttributeOptionCreateDto);
+        Task DeleteAsync(int id);
+        Task<List<SpecificationAttributeOptionDto>> GetAllAsync();
+        Task<List<SpecificationAttributeOptionDto>> GetAllBySpecificationAttributeIdAsync(int specificationAttributeId);
+        Task<SpecificationAttributeOptionDto> GetByIdAsync(int id);
+        Task<SpecificationAttributeOptionDto> UpdateAsync(SpecificationAttributeOptionUpdateDto specificationAttributeOptionUpdateDto);
+    }
+
+    public class SpecificationAttributeOptionService : BaseService, ISpecificationAttributeOptionService
     {
         private readonly NopCommerceContext _context;
 
@@ -65,7 +75,7 @@ namespace nopCommerceApi.Services.SpecificationAttribute
 
             return _mapper.Map<SpecificationAttributeOptionDto>(specificationAttributeOption);
         }
-        
+
         // delete a specification attribute option
         public async Task DeleteAsync(int id)
         {
