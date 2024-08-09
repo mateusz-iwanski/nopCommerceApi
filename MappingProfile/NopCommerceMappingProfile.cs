@@ -11,6 +11,9 @@ using nopCommerceApi.Models.ProductAttribute;
 using nopCommerceApi.Models.ProductCategory;
 using nopCommerceApi.Models.ProductManufacturer;
 using nopCommerceApi.Models.ProductPicture;
+using nopCommerceApi.Models.ProductSpecificationAttributeMapping;
+using nopCommerceApi.Models.SpecificationAttribute;
+using nopCommerceApi.Models.SpecificationAttributeOption;
 using nopCommerceApi.Models.SpecyficationAttribute;
 using nopCommerceApi.Models.SpecyficationAttributeGroup;
 using nopCommerceApi.Models.UrlRecord;
@@ -329,6 +332,9 @@ namespace nopCommerceApi.MappingProfile
 
             // get
             CreateMap<SpecificationAttribute, SpecificationAttributeDto>();
+            CreateMap<SpecificationAttribute, SpecificationAttributeDetailsDto>()
+                .ForMember(dest => dest.SpecificationAttributeGroup, opt => opt.MapFrom(src => src.SpecificationAttributeGroup))
+                .ForMember(dest => dest.SpecificationAttributeOption, opt => opt.MapFrom(src => src.SpecificationAttributeOptions)); 
 
             // set 
             CreateMap<SpecificationAttributeCreateDto, SpecificationAttribute>();
@@ -348,6 +354,33 @@ namespace nopCommerceApi.MappingProfile
             // update
             CreateMap<SpecificationAttributeGroupUpdateDto, SpecificationAttributeGroup>();
             #endregion
+
+            #region SpecyficationAttributeOption
+
+            // get
+            CreateMap<SpecificationAttributeOption, SpecificationAttributeOptionDto>();
+
+            // set 
+            CreateMap<SpecificationAttributeOptionCreateDto, SpecificationAttributeOption>();
+
+            // update
+            CreateMap<SpecificationAttributeOptionUpdateDto, SpecificationAttributeOption>();
+
+            #endregion
+
+            #region ProductSpecificationAttributeMapping
+
+            // get
+            CreateMap<ProductSpecificationAttributeMapping, ProductSpecificationAttributeMappingDto>();
+
+            // set 
+            CreateMap<ProductSpecificationAttributeMappingCreateDto, ProductSpecificationAttributeMapping>();
+
+            // update
+            CreateMap<ProductSpecificationAttributeMappingUpdateDto, ProductSpecificationAttributeMapping>();            
+
+            #endregion
+
         }
     }
 }
