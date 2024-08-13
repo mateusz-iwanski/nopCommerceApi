@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Models.Customer;
 
@@ -6,7 +7,7 @@ namespace nopCommerceApi.Services.Customer
 {
     public interface ICustomerRoleService
     {
-        IEnumerable<CustomerRoleDto> GetAll();
+        Task<IEnumerable<CustomerRoleDto>> GetAllAsync();
     }
 
     public class CustomerRoleService : ICustomerRoleService
@@ -20,9 +21,11 @@ namespace nopCommerceApi.Services.Customer
             _mapper = mapper;
         }
 
-        public IEnumerable<CustomerRoleDto> GetAll()
+        public async Task<IEnumerable<CustomerRoleDto>> GetAllAsync()
         {
-            var customerRoles = _context.CustomerRoles.ToList();
+            var customerRoles = await _context.CustomerRoles
+                .AsNoTracking()
+                .ToListAsync();
             var customerRoleDtos = _mapper.Map<List<CustomerRoleDto>>(customerRoles);
 
             return customerRoleDtos;

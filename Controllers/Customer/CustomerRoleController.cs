@@ -22,12 +22,19 @@ namespace nopCommerceApi.Controllers.Customer
         /// <summary>
         /// Get all nopCommerce customer roles
         /// </summary>
-        /// <returns></returns>
+        /// <remarks>
+        /// The customer roles in nopCommerce enable you to form groups of your web store users. \
+        /// You can create various groups, such as store admins, shoppers, vendors, and others. \
+        /// \
+        /// If you don't need this option just leave this field empty. \
+        /// In order to use this functionality, you have to disable the following \
+        /// setting: Configuration > Settings > Catalog > Ignore ACL rules (sitewide).
+        /// </remarks>
         [HttpGet]
         //[Authorize(ApiUserRoles = "Admin,User,Viewer")]
-        public ActionResult<CustomerRole> GetAll()
+        public async Task<ActionResult<CustomerRole>> GetAll()
         {
-            var customerRoleDtos = _customerRoleService.GetAll();
+            var customerRoleDtos = await _customerRoleService.GetAllAsync();
             return Ok(customerRoleDtos);
         }
     }
