@@ -173,10 +173,10 @@ namespace nopCommerceApi.MappingProfile
             CreateMap<Category, CategoryDto>();
 
             // create
-            CreateMap<CreateCategoryDto, Category>();
+            CreateMap<CategoryCreateDto, Category>();
 
             //update
-            CreateMap<UpdateCategoryDto, Category>();
+            CreateMap<CategoryUpdateDto, Category>();
 
             #endregion
 

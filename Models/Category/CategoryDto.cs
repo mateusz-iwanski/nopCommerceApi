@@ -26,8 +26,8 @@ namespace nopCommerceApi.Models.Category
         /// <summary>
         /// ## ParentCategoryId
         /// ### Gets or sets the parent category identifier for this category.
-        /// #### Leave this field empty to make this the root level category.
-        /// *Default = 1*
+        /// #### Set 0 to make this the root level category.
+        /// *Default = 0*
         /// </summary>
         [Required]
         public virtual int ParentCategoryId { get; set; }
@@ -35,6 +35,7 @@ namespace nopCommerceApi.Models.Category
         /// <summary>
         /// ## PictureId
         /// ### Gets or sets the picture identifier
+        /// #### Set 0 to not use a picture for this category.
         /// *Defalut = 0*
         /// </summary>
         public virtual int PictureId { get; set; }
@@ -178,7 +179,7 @@ namespace nopCommerceApi.Models.Category
         /// ### Gets or sets a value of used category template identifier
         /// #### Look on System -> Templates -> Category templates
         /// #### Doc: https://docs.nopcommerce.com/en/running-your-store/system-administration/templates.html
-        /// *Default = 2*
+        /// *Default = 1*
         /// </summary>
         public virtual int CategoryTemplateId { get; set; }
 

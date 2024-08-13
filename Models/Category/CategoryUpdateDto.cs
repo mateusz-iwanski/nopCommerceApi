@@ -2,11 +2,8 @@
 
 namespace nopCommerceApi.Models.Category
 {
-    public class UpdateCategoryDto : CategoryDto
+    public class CategoryUpdateDto : CategoryDto
     {
-        [JsonIgnore]
-        public override int Id { get; set; }
-
         [JsonIgnore]
         public override DateTime UpdatedOnUtc { get; set; } = DateTime.Now;
     }
