@@ -27,7 +27,7 @@ namespace nopCommerceApi.Controllers.StateProvince
         /// </summary>
         [HttpGet]
         [Authorize(Roles = "Admin,User,Viewer")]
-        public ActionResult<StateProvince> GetAll()
+        public ActionResult<Entities.Usable.StateProvince> GetAll()
         {
             var stateProvinceDtos = _stateProvinceService.GetAll();
             return Ok(stateProvinceDtos);
