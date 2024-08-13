@@ -6,6 +6,7 @@ using nopCommerceApi.Entities;
 using nopCommerceApi.Entities.Usable;
 using nopCommerceApi.Exceptions;
 using nopCommerceApi.Models.Address;
+using nopCommerceApi.Models.Manufacturer;
 using nopCommerceApi.Validations;
 using System.Text.Json;
 
@@ -13,13 +14,13 @@ namespace nopCommerceApi.Services
 {
     public interface IAddressService
     {
-        IEnumerable<AddressDetailsDto> GetAll();
-        Address CreateWithNip(AddressCreatePolishEnterpriseDto newAdressDto);
-        bool UpdateWithNip(int id, AddressUpdatePolishEnterpriseDto updateAddressDto);
-        Address Create(AddressCreateDto addressDto);
-        bool Delete(int id);
-        bool Update(int id, AddressUpdateDto updateAddressDto);
-        AddressDetailsDto GetById(int id);
+        Task<IEnumerable<AddressDetailsDto>> GetAllAsync();
+        Task<Address> CreateWithNipAsync(AddressCreatePolishEnterpriseDto newAdressDto);
+        Task<AddressDto> UpdateWithNipAsync(AddressUpdatePolishEnterpriseDto updateAddressDto);
+        Task<Address> CreateAsync(AddressCreateDto addressDto);
+        Task<bool> DeleteAsync(int id);
+        Task<AddressDto> UpdateAsync(AddressUpdateDto updateAddressDto);
+        Task<AddressDetailsDto> GetByIdAsync(int id);
     }
 
     public class AddressService : BaseService, IAddressService
@@ -29,23 +30,26 @@ namespace nopCommerceApi.Services
         {
         }
 
-        public IEnumerable<AddressDetailsDto> GetAll()
+        public async Task<IEnumerable<AddressDetailsDto>> GetAllAsync()
         {
-            var detailsAddresses = _context.Addresses
+            var detailsAddresses = await _context.Addresses
                .Include(a => a.Country)
                .Include(a => a.StateProvince).ThenInclude(c => c.Country)
-               .ToList();
+               .AsNoTracking()
+               .ToListAsync();
             var addressDtos = _mapper.Map<List<AddressDetailsDto>>(detailsAddresses);
 
             return addressDtos;
         }
 
-        public AddressDetailsDto GetById(int id) {             
-            var address = _context.Addresses
+        public async Task<AddressDetailsDto> GetByIdAsync(int id)
+        {
+            var address = await _context.Addresses
                 .Include(a => a.Country)
                 .Include(a => a.StateProvince).ThenInclude(c => c.Country)
-                .FirstOrDefault(a => a.Id == id);
-            
+                .AsNoTracking()
+                .FirstOrDefaultAsync(a => a.Id == id);
+
             if (address == null) throw new NotFoundExceptions($"Address with {id} not found.");
 
             var addressDto = _mapper.Map<AddressDetailsDto>(address);
@@ -59,17 +63,16 @@ namespace nopCommerceApi.Services
         /// Polish enterprises have an additional field NIP, nop commerce doesn't have this property default in the addrres.
         /// Nip has to be added as a custom attribute to address.
         /// </summary>
-        public Address CreateWithNip(AddressCreatePolishEnterpriseDto newAdressDto)
+        public async Task<Address> CreateWithNipAsync(AddressCreatePolishEnterpriseDto newAdressDto)
         {
             var address = _mapper.Map<Address>(newAdressDto);
-            
-            var addressAttribute = _context.AddressAttributes
-                .FirstOrDefault(c => c.Name == "NIP" && c.AttributeControlTypeId == 4);
+
+            var addressAttribute = await _context.AddressAttributes
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.Name == "NIP" && c.AttributeControlTypeId == 4);
 
             // If the additional attribute does not exist, create it
             // NopCommerce default doesn't have NIP field in address
-
-            // TODO: Add AddressAttribute to the seeder
             if (addressAttribute == null)
             {
                 addressAttribute = new AddressAttribute
@@ -78,25 +81,27 @@ namespace nopCommerceApi.Services
                     IsRequired = false,
                     AttributeControlTypeId = 4,
                     DisplayOrder = 0,
-                };                
+                };
                 _context.AddressAttributes.Add(addressAttribute);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
 
             // Get Country->Poland ID
-            var country = _context.Countries.FirstOrDefault(c => c.Name == "Poland");
+            var country = await _context.Countries
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.Name == "Poland");
 
 
             // Add NIP to the address as a custom attribute
             address.CustomAttributes =
                     $"<Attributes><AddressAttribute ID=\"{addressAttribute.Id}\"><AddressAttributeValue><Value>{newAdressDto.Nip}</Value></AddressAttributeValue></AddressAttribute></Attributes>";
-            
+
             // For polish addresses, the country is always Poland
-            address.Country = country;
+            address.CountryId = country.Id;
             address.CreatedOnUtc = DateTime.Now;
 
             _context.Addresses.Add(address);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return address;
         }
@@ -110,122 +115,80 @@ namespace nopCommerceApi.Services
         /// If property not set in the request body, it will not be updated.
         /// Cant set empty string on: Company, City, Email, Address1, PhoneNumber. If you don't want to update, just remove from body.
         /// </remarks>
-        public bool UpdateWithNip(int id, AddressUpdatePolishEnterpriseDto updateAddressDto)
+        public async Task<AddressDto> UpdateWithNipAsync(AddressUpdatePolishEnterpriseDto updateAddressDto)
         {
-            var address = _context.Addresses
-                .Include(a => a.Country)
-                .Include(a => a.StateProvince)
-                .FirstOrDefault(a => a.Id == id);
+            var id = updateAddressDto.Id;
 
-            var addressAttribute = _context.AddressAttributes
-                .FirstOrDefault(c => c.Name == "NIP" && c.AttributeControlTypeId == 4);
+            var address = await _context.Addresses                
+                .FirstOrDefaultAsync(a => a.Id == id);
 
-            if (address == null) throw new NotFoundExceptions($"Address with {id} not found.");
+            updateAddressDto.CreatedOnUtc = address.CreatedOnUtc;
+            updateAddressDto.CountryId = address.CountryId;
 
-            // Only update this fields which are not null
-            // when send json without fields, this fields will not updated to default value
-            if (updateAddressDto.FirstName != null)
-                address.FirstName = updateAddressDto.FirstName;
-            if (updateAddressDto.LastName != null)
-                address.LastName = updateAddressDto.LastName;
-            if (updateAddressDto.Email != null)
-                address.Email = updateAddressDto.Email;
-            if (updateAddressDto.Company != null)
-                address.Company = updateAddressDto.Company;
-            if (updateAddressDto.County != null)
-                address.County = updateAddressDto.County;
-            if (updateAddressDto.City != null)
-                address.City = updateAddressDto.City;
-            if (updateAddressDto.Address1 != null)
-                address.Address1 = updateAddressDto.Address1;
-            if (updateAddressDto.Address2 != null)
-                address.Address2 = updateAddressDto.Address2;
-            if (updateAddressDto.ZipPostalCode != null)
-                address.ZipPostalCode = updateAddressDto.ZipPostalCode;
-            if (updateAddressDto.PhoneNumber != null)
-                address.PhoneNumber = updateAddressDto.PhoneNumber;
+            var addressAttribute = await _context.AddressAttributes
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.Name == "NIP" && c.AttributeControlTypeId == 4);
 
-            // Set to Poland every time, this function is only for Polish enterprises
-            address.Country = _context.Countries.FirstOrDefault(c => c.Name == "Poland");
+            updateAddressDto.CustomAttributes =
+                $"<Attributes><AddressAttribute ID=\"{addressAttribute.Id}\"><AddressAttributeValue><Value>{updateAddressDto.Nip}</Value></AddressAttributeValue></AddressAttribute></Attributes>";
 
-            // Validate if the NIP already exists in the database
-            // but exclude the updated object from the check
-            if (!string.IsNullOrEmpty(updateAddressDto.Nip))
-            {
-                var addresses = _context.Addresses.ToList();
+            _mapper.Map(updateAddressDto, address);
+             
+            _context.Addresses.Update(address);
 
-                var filteredAddresses = addresses.Where(addr => AddressDto.GetValueFromCustomAttribute(addr.CustomAttributes) == updateAddressDto.Nip).ToList();
-                // Exclude the updated object from the check
-                filteredAddresses = filteredAddresses.Where(addr => addr.Id != updateAddressDto.Id).ToList();
+            await _context.SaveChangesAsync();
 
-                address.CustomAttributes = filteredAddresses.Count == 0 ?
-                    $"<Attributes><AddressAttribute ID=\"{addressAttribute.Id}\"><AddressAttributeValue><Value>{updateAddressDto.Nip}</Value></AddressAttributeValue></AddressAttribute></Attributes>"
-                    : throw new BadRequestException("NIP already exists in the database, it should be unique.");
-            }
+            var addressDto = _mapper.Map<AddressDto>(address);
 
-            _context.SaveChanges();
-
-            return true;
+            return addressDto;
         }
 
-        public Address Create(AddressCreateDto addressDto)
+        public async Task<Address> CreateAsync(AddressCreateDto addressDto)
         {
             var address = _mapper.Map<Address>(addressDto);
 
             _context.Addresses.Add(address);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return address;
         }
 
-        public bool Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            var address = _context.Addresses.FirstOrDefault(a => a.Id == id);
+            var address = await _context.Addresses
+                .AsNoTracking()
+                .FirstOrDefaultAsync(a => a.Id == id);
 
             if (address == null) throw new NotFoundExceptions($"Address with {id} not found.");
 
             _context.Addresses.Remove(address);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return true;
         }
 
-        public bool Update(int id, AddressUpdateDto updateAddressDto)
+        public async Task<AddressDto> UpdateAsync(AddressUpdateDto updateAddressDto)
         {
-            var address = _context.Addresses.FirstOrDefault(a => a.Id == id);
+            var id = updateAddressDto.Id;
+
+            var address = await _context.Addresses
+                .FirstOrDefaultAsync(a => a.Id == id);
 
             if (address == null) throw new NotFoundExceptions($"Address with {id} not found.");
 
             // If is enterprise address, can't update
-            if (AddressDto.IsEnterpriseAddress(address, _context.AddressAttributes))
-                throw new BadRequestException("Address is enterprise, can\'t update. Use update-with-nip enterprise addresses.");
+            //if (AddressDto.IsEnterpriseAddress(address, _context.AddressAttributes))
+            //    throw new BadRequestException("Address is enterprise, can\'t update. Use update-with-nip enterprise addresses.");
 
-            if (updateAddressDto.FirstName != null)
-                address.FirstName = updateAddressDto.FirstName;
-            if (updateAddressDto.LastName != null)
-                address.LastName = updateAddressDto.LastName;
-            if (updateAddressDto.Email != null)
-                address.Email = updateAddressDto.Email;
-            if (updateAddressDto.Company != null)
-                address.Company = updateAddressDto.Company;
-            if (updateAddressDto.County != null)
-                address.County = updateAddressDto.County;
-            if (updateAddressDto.City != null)
-                address.City = updateAddressDto.City;
-            if (updateAddressDto.Address1 != null)
-                address.Address1 = updateAddressDto.Address1;
-            if (updateAddressDto.Address2 != null)
-                address.Address2 = updateAddressDto.Address2;
-            if (updateAddressDto.ZipPostalCode != null)
-                address.ZipPostalCode = updateAddressDto.ZipPostalCode;
-            if (updateAddressDto.PhoneNumber != null)
-                address.PhoneNumber = updateAddressDto.PhoneNumber;
-            if (updateAddressDto.CountryId != null)
-                address.CountryId = updateAddressDto.CountryId;
+            _mapper.Map(updateAddressDto, address);
 
-            _context.SaveChanges();
+            _context.Addresses.Update(address);
 
-            return true;
+            await _context.SaveChangesAsync();
+
+            var addressDto = _mapper.Map<AddressDto>(address);
+
+            return addressDto;
         }
     }
 
