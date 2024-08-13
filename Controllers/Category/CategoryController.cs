@@ -24,9 +24,9 @@ namespace nopCommerceApi.Controllers.Category
         /// Get all categories
         /// </summary>
         [HttpGet]
-        public IEnumerable<CategoryDto> GetAll()
+        public async Task<IEnumerable<CategoryDto>> GetAll()
         {
-            var categoriesDto = _categoryService.GetAll();
+            var categoriesDto = await _categoryService.GetAllAsync();
             return categoriesDto;
         }
 
@@ -34,9 +34,9 @@ namespace nopCommerceApi.Controllers.Category
         /// Get category by id
         /// </summary>
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var categoryDto = _categoryService.GetById(id);
+            var categoryDto = await _categoryService.GetByIdAsync(id);
 
             return Ok(categoryDto);
         }
@@ -45,19 +45,19 @@ namespace nopCommerceApi.Controllers.Category
         /// Create a new category
         /// </summary>
         [HttpPost]
-        public IActionResult Create([FromBody] CreateCategoryDto categoryDto)
+        public async Task<IActionResult> Create([FromBody] CategoryCreateDto categoryDto)
         {
-            var category = _categoryService.Create(categoryDto);
+            var category = await _categoryService.CreateAsync(categoryDto);
             return Created($"api/category/{ category.Id}", category);
         }
 
         /// <summary>
         /// Update category 
         /// </summary>
-        [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] UpdateCategoryDto categoryDto)
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] CategoryUpdateDto categoryDto)
         {
-            var category = _categoryService.Update(id, categoryDto);
+            var category = await _categoryService.UpdateAsync(categoryDto);
             return Ok(category);
         }
 
@@ -65,9 +65,9 @@ namespace nopCommerceApi.Controllers.Category
         /// Delete category
         /// </summary>
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var result = _categoryService.Delete(id);
+            var result = await _categoryService.DeleteAsync(id);
             return Ok(result);
         }        
     }
