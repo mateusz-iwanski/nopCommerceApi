@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Models.Country;
 
@@ -6,23 +7,20 @@ namespace nopCommerceApi.Services.Country
 {
     public interface ICountryService
     {
-        IEnumerable<CountryDto> GetAll();
+        Task<IEnumerable<CountryDto>> GetAllAsync();
     }
 
     public class CountryService : BaseService, ICountryService
     {
-        private readonly NopCommerceContext _context;
-        private readonly IMapper _mapper;
-
         public CountryService(
-            NopCommerceContext context, IMapper mapper, ILogger<AddressAttributeService> logger
+            NopCommerceContext context, IMapper mapper, ILogger<CountryService> logger
             ) : base(context, mapper, logger)
         {
         }
 
-        public IEnumerable<CountryDto> GetAll()
+        public async Task<IEnumerable<CountryDto>> GetAllAsync()
         {
-            var countries = _context.Countries.ToList();
+            var countries = await _context.Countries.ToListAsync();
             var countryDtos = _mapper.Map<List<CountryDto>>(countries);
 
             return countryDtos;

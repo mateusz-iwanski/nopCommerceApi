@@ -26,10 +26,10 @@ namespace nopCommerceApi.Controllers.Country
         /// Get all countries 
         /// </summary>
         [HttpGet]
-        [Authorize(Roles = "Admin,User,Viewer")]
-        public ActionResult<CountryDto> GetAll()
+        //[Authorize(Roles = "Admin,User,Viewer")]
+        public async Task<ActionResult<CountryDto>> GetAll()
         {
-            var countryDtos = _countryService.GetAll();
+            var countryDtos = await _countryService.GetAllAsync();
             return Ok(countryDtos);
         }
     }
