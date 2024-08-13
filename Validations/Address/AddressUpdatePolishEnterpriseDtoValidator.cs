@@ -18,35 +18,39 @@ namespace nopCommerceApi.Validations.Address
         {
             _context = context;
 
+            // check id exists
+            RuleFor(x => x.Id)
+                .NotEmpty()
+                .Must(id =>
+                {
+                    return _context.Addresses.Any(a => a.Id == id);
+                })
+                .WithMessage("The address with the given id does not exist.");
+
             // Validate nip format
             RuleFor(x => x.Nip)
                 .MaximumLength(12)
                 .Matches(@"^((PL)?[0-9]{10})$")
-                .WithMessage("The NIP format is invalid. Properly format is with/without prefix \"PL\" and 10 digits. Can't be empty, if you don't want to update, just remove from body.");
+                .WithMessage("The NIP format is invalid. Properly format is with/without prefix \"PL\" and 10 digits. Can't be empty");
 
-            // Validate empty properties 
+            // Validate if the NIP already exists in the database, exclude updated address
+            RuleFor(x => new { x.Nip, x.Id } )
+                .Must(obj =>
+                {
+                    var addresses = _context.Addresses.ToList();
+                    var filteredAddresses = addresses.Where(addr => AddressDto.GetValueFromCustomAttribute(addr.CustomAttributes) == obj.Nip && addr.Id != obj.Id).ToList();
 
-            RuleFor(x => x.Company)
-                .Must(company => company == null || !string.IsNullOrWhiteSpace(company))
-                .WithMessage("The Company name can't be empty. If you don't want to update, just remove from body.");
+                    return filteredAddresses.Count == 0 ? true : false;
+                })
+                .WithMessage("The NIP already exists in the database.");
 
-            RuleFor(x => x.City)
-                .Must(city => city == null || !string.IsNullOrWhiteSpace(city))
-                .WithMessage("The City name can't be empty. If you don't want to update, just remove from body.");
-
-            RuleFor(x => x.Address1)
-                .Must(address => address == null || !string.IsNullOrWhiteSpace(address))
-                .WithMessage("The Address1 name can't be empty. If you don't want to update, just remove from body.");
-
-            RuleFor(x => x.PhoneNumber)
-                .Must(phoneNumber => phoneNumber == null || !string.IsNullOrWhiteSpace(phoneNumber))
-                .WithMessage("The PhoneNumber name can't be empty. If you don't want to update, just remove from body.");
-
-            // Check if address is enterprise
-            RuleFor(x => x)
-                .Must(address => _context.Addresses.Any(a => a.Id == address.Id && a.CustomAttributes != null && a.CustomAttributes != string.Empty))
-                .WithMessage("Address is not enterprise, can't update. Use enterprise with NIP addresses.")
-                .When(address => address != null);
+            // check state province exists
+            RuleFor(x => x.StateProvinceId)
+                .Must((stateProvince, cancellation) =>
+                {
+                    return stateProvince.StateProvinceId == null || _context.StateProvinces.Any(sp => sp.Id == stateProvince.StateProvinceId);
+                })
+                .WithMessage("The state province does not exist.");
         }
     }
 }
