@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Config;
 using nopCommerceApi.Entities;
-using nopCommerceApi.Models.ProductAttribute;
+using nopCommerceApi.Models.ProductAttributeMapping;
 
 namespace nopCommerceApi.Validations.ProductAttribute
 {
