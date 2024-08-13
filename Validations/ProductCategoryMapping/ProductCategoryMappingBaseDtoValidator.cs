@@ -6,12 +6,12 @@ using nopCommerceApi.Models.ProductCategory;
 
 namespace nopCommerceApi.Validations.ProductCategory
 {
-    public class ProductCategoryMappingBaseValidator<T> : BaseValidator<T> where T : ProductCategoryMappingDto
+    public class ProductCategoryMappingBaseDtoValidator<T> : BaseValidator<T> where T : ProductCategoryMappingDto
     {
         protected readonly IMySettings _settings;
         protected readonly NopCommerceContext _context;
 
-        public ProductCategoryMappingBaseValidator(NopCommerceContext context, IMySettings settings)
+        public ProductCategoryMappingBaseDtoValidator(NopCommerceContext context, IMySettings settings)
         {
             _context = context;
             _settings = settings;

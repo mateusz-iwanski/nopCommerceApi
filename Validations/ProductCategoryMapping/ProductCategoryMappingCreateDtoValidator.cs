@@ -7,9 +7,9 @@ using nopCommerceApi.Validations.ProductAttribute;
 
 namespace nopCommerceApi.Validations.ProductCategory
 {
-    public class ProductCategoryMappingCreateValidator : ProductCategoryMappingBaseValidator<ProductCategoryMappingCreateDto>
+    public class ProductCategoryMappingCreateDtoValidator : ProductCategoryMappingBaseDtoValidator<ProductCategoryMappingCreateDto>
     {
-        public ProductCategoryMappingCreateValidator(NopCommerceContext context, IMySettings settings) : base(context, settings)
+        public ProductCategoryMappingCreateDtoValidator(NopCommerceContext context, IMySettings settings) : base(context, settings)
         {
             // category id and product id should be unique
             RuleFor(x => new { x.CategoryId, x.ProductId })

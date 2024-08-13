@@ -2,8 +2,9 @@
 using nopCommerceApi.Entities.Usable;
 using nopCommerceApi.Models.ProductCategory;
 using nopCommerceApi.Services.Category;
+using nopCommerceApi.Services.Product;
 
-namespace nopCommerceApi.Controllers.Category
+namespace nopCommerceApi.Controllers.Product
 {
     [Route("api/category/mapping")]
     public class ProductCategoryController : ControllerBase

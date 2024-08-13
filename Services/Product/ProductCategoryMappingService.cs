@@ -3,8 +3,9 @@ using nopCommerceApi.Entities;
 using nopCommerceApi.Entities.Usable;
 using nopCommerceApi.Exceptions;
 using nopCommerceApi.Models.ProductCategory;
+using nopCommerceApi.Services.Category;
 
-namespace nopCommerceApi.Services.Category
+namespace nopCommerceApi.Services.Product
 {
     public interface IProductCategoryMappingService
     {

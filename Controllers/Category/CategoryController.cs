@@ -3,6 +3,7 @@ using nopCommerceApi.Entities.Usable;
 using nopCommerceApi.Models.Category;
 using nopCommerceApi.Models.ProductCategory;
 using nopCommerceApi.Services.Category;
+using nopCommerceApi.Services.Product;
 
 namespace nopCommerceApi.Controllers.Category
 {
