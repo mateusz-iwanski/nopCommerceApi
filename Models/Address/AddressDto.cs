@@ -17,64 +17,123 @@ namespace nopCommerceApi.Models.Address
     /// </remarks>
     public class AddressDto : BaseDto
     {
-        public virtual int? Id { get; set; }
         /// <summary>
-        /// Gets the first name
+        /// ## Id
+        /// ### Gets or sets the entity identifier
+        /// </summary>
+        public virtual int Id { get; set; }
+
+        /// <summary>
+        /// ## CountryId
+        /// ### Gets or sets the country identifier
+        /// </summary>
+        public virtual int? CountryId { get; set; }
+
+        /// <summary>
+        /// ## StateProvinceId
+        /// ### Gets or sets the state/province identifier
+        /// *Defaul = null*
+        /// </summary>
+        public virtual int? StateProvinceId { get; set; }
+
+        /// <summary>
+        /// ## FirstName
+        /// ### Gets or sets the first name
+        /// *Defaul = null*
         /// </summary>
         public virtual string? FirstName { get; set; }
 
         /// <summary>
-        /// Gets the last name
+        /// ## LastName
+        /// ### Gets or sets the last name
+        /// *Defaul = null*
         /// </summary>
         public virtual string? LastName { get; set; }
 
         /// <summary>
-        /// Gets the email
+        /// ## Email
+        /// ## Gets or sets the email
+        /// *Defaul = null*
         /// </summary>
         [EmailAddress]
-        public virtual string Email { get; set; }
+        public virtual string? Email { get; set; }
 
         /// <summary>
-        /// Gets the company
+        /// ## Company
+        /// ### Gets or sets the company        
+        /// *Defaul = null*
         /// </summary>
         public virtual string? Company { get; set; }
 
         /// <summary>
-        /// Gets the county
+        /// ## County
+        /// ### Gets or sets the county
+        /// *Defaul = null*
         /// </summary>
         public virtual string? County { get; set; }
 
         /// <summary>
-        /// Gets the city
+        /// ## City
+        /// ### Gets or sets the city
+        /// *Defaul = null*
         /// </summary>
+        [Required]
         public virtual string? City { get; set; }
 
         /// <summary>
-        /// Gets the address 1
+        /// ## Address1
+        /// ### Gets or sets the address 1
+        /// *Defaul = null*
         /// </summary>
+        [Required]
         public virtual string? Address1 { get; set; }
 
         /// <summary>
-        /// Gets the address 2
+        /// ## Address2
+        /// ### Gets or sets the address 2
+        /// *Defaul = null*
         /// </summary>
         public virtual string? Address2 { get; set; }
 
         /// <summary>
-        /// Gets the zip/postal code
+        /// ## ZipPostalCode
+        /// ### Gets or sets the zip/postal code
+        /// *Defaul = null*
         /// </summary>
         public virtual string? ZipPostalCode { get; set; }
 
         /// <summary>
-        /// Gets the phone number
+        /// ## PhoneNumber
+        /// ### Gets or sets the phone number
+        /// *Defaul = null*
         /// </summary>
         public virtual string? PhoneNumber { get; set; }
 
         /// <summary>
-        /// Gets the fax number
+        /// ## FaxNumber
+        /// ### Gets or sets the fax number
+        /// *Defaul = null*
         /// </summary>
         public virtual string? FaxNumber { get; set; }
 
-        
+        /// <summary>
+        /// ## CustomAttributes
+        /// ### Gets or sets the custom attributes (see "AddressAttribute" entity for more info).
+        /// #### It's in XML Format
+        /// *Defaul = null*
+        /// </summary>
+        [JsonIgnore]
+        public virtual string? CustomAttributes { get; set; }
+
+        /// <summary>
+        /// ## CreatedOnUtc        
+        /// ### Gets or sets the date and time of instance creation
+        /// *Defaul = DateTime.Now*
+        /// </summary>
+        [JsonIgnore]
+        public virtual DateTime CreatedOnUtc { get; set; }
+
+
         /// <summary>
         /// Get Value from CustomAttributes
         /// 

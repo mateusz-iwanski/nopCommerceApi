@@ -1,4 +1,5 @@
 ﻿using nopCommerceApi.Entities;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace nopCommerceApi.Models.Address
@@ -7,10 +8,6 @@ namespace nopCommerceApi.Models.Address
     /// Address Data Transfer Object for updating
     /// </summary>
     public class AddressUpdateDto : AddressDto 
-    {
-        /// <summary>
-        /// Update id of country
-        /// </summary>
-        public int? CountryId { get; set; }
+    {        
     }
 }

@@ -12,27 +12,20 @@ namespace nopCommerceApi.Models.Address
     public class AddressDetailsDto : AddressDto
     {
         /// <summary>
-        /// Gets the Nip
+        /// ## NIP
+        /// ### Gets the Nip
         /// </summary>
         public string? NIP { get; set; }
 
         /// <summary>
-        /// Gets the province ID
-        /// </summary>
-        public int? StateProvinceId { get; set; }
-
-        /// <summary>
-        /// Gets the country ID
-        /// </summary>
-        public int? CountryId { get; set; }
-
-        /// <summary>
-        /// Gets the country object
+        /// ## Country
+        /// ### Gets the country object
         /// </summary>
         public CountryDto? Country { get; set; }
 
         /// <summary>
-        /// Gets the state province object
+        /// ## StateProvince
+        /// ### Gets the state province object
         /// </summary>
         public StateProvinceDto? StateProvince { get; set; }
     }

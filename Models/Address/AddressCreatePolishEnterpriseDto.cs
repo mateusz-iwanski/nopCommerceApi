@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace nopCommerceApi.Models.Address
 {
@@ -21,28 +22,27 @@ namespace nopCommerceApi.Models.Address
     /// </remarks> 
     public class AddressCreatePolishEnterpriseDto : AddressDto
     {
+        [JsonIgnore]
+        public override int Id { get; set; }
+
         /// <summary>
-        /// Sets the company
+        /// ## Company
+        /// ### Sets the company
         /// </summary>
         [Required]
         public override string Company { get; set; }
 
         /// <summary>
-        /// Sets the Nip
+        /// ## Nip
+        /// ### Sets the Nip
         /// </summary>
         [Required]
         public string Nip { get; set; }
-
+        
         /// <summary>
-        /// Sets the City
+        /// It's always Poland
         /// </summary>
-        [Required]
-        public override string City { get; set; }
-
-        /// <summary>
-        /// Sets the address1
-        /// </summary>
-        [Required]
-        public override string Address1 { get; set; }
+        [JsonIgnore]
+        public override int? CountryId { get; set; }
     }
 }

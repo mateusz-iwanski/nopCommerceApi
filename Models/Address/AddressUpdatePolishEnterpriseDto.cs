@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace nopCommerceApi.Models.Address
 {
@@ -10,9 +11,16 @@ namespace nopCommerceApi.Models.Address
         public int Id { get; set; }
 
         /// <summary>
-        /// Update Nip
+        /// ## Nip
+        /// ### Update Nip
         /// </summary>
         [Required]
         public string Nip { get; set; }
+
+        /// <summary>
+        /// It's always Poland
+        /// </summary>
+        [JsonIgnore]
+        public override int? CountryId { get; set; }
     }
 }

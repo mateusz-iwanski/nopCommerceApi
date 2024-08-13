@@ -8,22 +8,9 @@ namespace nopCommerceApi.Models.Address
     /// </summary>
     public class AddressCreateDto : AddressDto
     {
-        /// <summary>
-        /// Sets the first name
-        /// </summary>
-        [Required]
-        public override string FirstName { get; set; }
+        [JsonIgnore]
+        public override int Id { get; set; }
 
-        /// <summary>
-        /// Sets the last name
-        /// </summary>
-        [Required]
-        public override string LastName { get; set; }
-
-        /// <summary>
-        /// Sets country ID
-        /// </summary>
-        [Required]
-        public int CountryId { get; set; }
+        public override DateTime CreatedOnUtc { get; set; } = DateTime.Now;
     }
 }
