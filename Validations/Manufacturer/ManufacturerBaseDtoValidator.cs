@@ -5,12 +5,12 @@ using nopCommerceApi.Models.Manufacturer;
 
 namespace nopCommerceApi.Validations.Manufacturer
 {
-    public class ManufacturerBaseValidator<T> : BaseValidator<T> where T : ManufacturerDto
+    public class ManufacturerBaseDtoValidator<T> : BaseValidator<T> where T : ManufacturerDto
     {
         protected readonly IMySettings _settings;
         protected readonly NopCommerceContext _context;
 
-        public ManufacturerBaseValidator(NopCommerceContext context, IMySettings settings)
+        public ManufacturerBaseDtoValidator(NopCommerceContext context, IMySettings settings)
         {
             _context = context;
             _settings = settings;

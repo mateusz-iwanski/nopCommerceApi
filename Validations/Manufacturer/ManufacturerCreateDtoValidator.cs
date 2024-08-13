@@ -5,9 +5,9 @@ using nopCommerceApi.Models.Manufacturer;
 
 namespace nopCommerceApi.Validations.Manufacturer
 {
-    public class ManufacturerCreateValidator : ManufacturerBaseValidator<ManufacturerCreateDto>
+    public class ManufacturerCreateDtoValidator : ManufacturerBaseDtoValidator<ManufacturerCreateDto>
     {
-        public ManufacturerCreateValidator(NopCommerceContext context, IMySettings settings) : base(context, settings)
+        public ManufacturerCreateDtoValidator(NopCommerceContext context, IMySettings settings) : base(context, settings)
         {
             // check name is unique
             RuleFor(x => x.Name)

@@ -5,9 +5,9 @@ using nopCommerceApi.Models.Manufacturer;
 
 namespace nopCommerceApi.Validations.Manufacturer
 {
-    public class ManufacturerUpdateValidator : ManufacturerBaseValidator<ManufacturerUpdateDto>
+    public class ManufacturerUpdateDtoValidator : ManufacturerBaseDtoValidator<ManufacturerUpdateDto>
     {
-        public ManufacturerUpdateValidator(NopCommerceContext context, IMySettings settings) : base(context, settings)
+        public ManufacturerUpdateDtoValidator(NopCommerceContext context, IMySettings settings) : base(context, settings)
         {
             // check manufacturer exists
             RuleFor(x => x.Id)
