@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using nopCommerceApi.Entities;
+using nopCommerceApi.Entities.Usable;
 using nopCommerceApi.Models.Address;
 using System.Reflection;
 using System.Text.Json.Serialization;
@@ -14,27 +15,40 @@ namespace nopCommerceApi.Validations.Address
         {
             _context = context;
 
+            // check id exists
+            RuleFor(x => x.Id)
+                .NotEmpty()
+                .Must(id =>
+                {
+                    return _context.Addresses.Any(a => a.Id == id);
+                })
+                .WithMessage("The address with the given id does not exist.");
+
             // Check if the country exists
             RuleFor(x => x.CountryId)
-                .Must(countryId => countryId == null || _context.Countries.Any(c => c.Id == countryId))
-                .WithMessage("ID of Country is incorrect, send correct ID.")
-                .When(x => x.CountryId.HasValue);
+                .NotEmpty()
+                .Must((country, cancellation) =>
+                {
+                    return _context.Countries.Any(c => c.Id == country.CountryId);
+                })
+                .WithMessage("The country does not exist.");
 
-            RuleFor(x => x.FirstName)
-                .Must(firstName => firstName == null || !string.IsNullOrWhiteSpace(firstName))
-                .WithMessage("The First Name can't be empty. If you don't want to update, just remove from body.");
+            // check state province exists
+            RuleFor(x => x.StateProvinceId)
+                .Must((stateProvince, cancellation) =>
+                {
+                    return stateProvince.StateProvinceId == null || _context.StateProvinces.Any(sp => sp.Id == stateProvince.StateProvinceId);
+                })
+                .WithMessage("The state province does not exist.");
 
-            RuleFor(x => x.LastName)
-                .Must(lastName => lastName == null || !string.IsNullOrWhiteSpace(lastName))
-                .WithMessage("The Last Name can't be empty. If you don't want to update, just remove from body.");
-
-            RuleFor(x => x.PhoneNumber)
-                .Must(phoneNumber => phoneNumber == null || !string.IsNullOrWhiteSpace(phoneNumber))
-                .WithMessage("The Phone number can't be empty. If you don't want to update, just remove from body.");
-
-            RuleFor(x => x.CountryId)
-                .Must(countryId => countryId == null || !string.IsNullOrWhiteSpace(countryId.ToString()))
-                .WithMessage("The Country ID number can't be empty. If you don't want to update, just remove from body.");
+            // If is enterprise address, can't update
+            RuleFor(x => x.Id)
+                .Must(id =>
+                {
+                    var address = _context.Addresses.Find(id);
+                    return !AddressDto.IsEnterpriseAddress(address, _context.AddressAttributes);
+                })
+                .WithMessage("Address is enterprise, can not update. Use update-with-nip enterprise addresses.");
         }
 
     }
