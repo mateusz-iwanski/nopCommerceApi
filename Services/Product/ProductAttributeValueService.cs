@@ -2,7 +2,7 @@
 using nopCommerceApi.Entities;
 using nopCommerceApi.Entities.Usable;
 using nopCommerceApi.Exceptions;
-using nopCommerceApi.Models.ProductAttribute;
+using nopCommerceApi.Models.ProductAttributeValue;
 
 namespace nopCommerceApi.Services.Product
 {

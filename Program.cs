@@ -44,6 +44,8 @@ using nopCommerceApi.Validations.ProductVideo;
 using nopCommerceApi.Validations.Address;
 using nopCommerceApi.Services.Country;
 using nopCommerceApi.Services.StateProvince;
+using nopCommerceApi.Validations.ProductAttributeValue;
+using nopCommerceApi.Validations.ProductAttributeMapping;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -175,16 +177,16 @@ builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyCont
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductCategoryMappingCreateDtoValidator>());
 
 // Product-Attribute-Value
-builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateProductAttributeValueDtoValidator>());
-builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UpdateProductAttributeValueDtoValidator>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductAttributeValueCreateDtoValidator>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductAttributeValueUpdateDtoValidator>());
 
 // Product-Attribute
-builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateProductAttributeDtoValidator>());
-builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UpdateProductAttributeDtoValidator>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductAttributeCreateDtoValidator>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductAttributeUpdateDtoValidator>());
 
 // Product-Attribute-Mapping
-builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateProductProductAttributeMappingDtoValidator>());
-builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UpdateProductProductAttributeMappingDtoValidator>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductProductAttributeMappingCreateDtoValidator>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductProductAttributeMappingUpdateDtoValidator>());
 
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductAttributeWithMappingCreateDtoValidator>());
 

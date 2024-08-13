@@ -8,15 +8,16 @@ using System.Linq;
 using nopCommerceApi.Entities.Usable;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Newtonsoft.Json;
+using nopCommerceApi.Models.ProductAttributeMapping;
 
 namespace nopCommerceApi.Services.Product
 {
     public interface IProductAttributeService
     {
-        (ProductAttribute, ProductProductAttributeMapping) Create(ProductAttributeWithMappingCreateDto productAttributeWithMappingCreateDto);
-        IEnumerable<ProductAttributeDto> GetAll();
-        ProductAttributeDto GetById(int id);
-        bool Update(int id, ProductAttributeUpdateDto productAttributeDtoUpdate);
+        Task<(ProductAttribute, ProductProductAttributeMapping)> CreateAsync(ProductAttributeWithMappingCreateDto productAttributeWithMappingCreateDto);
+        Task<IEnumerable<ProductAttributeDto>> GetAllAsync();
+        Task<ProductAttributeDto> GetByIdAsync(int id);
+        Task<bool> UpdateAsync(ProductAttributeUpdateDto productAttributeDtoUpdate);
     }
 
     public class ProductAttributeService : BaseService, IProductAttributeService
@@ -25,20 +26,22 @@ namespace nopCommerceApi.Services.Product
         {
         }
 
-        // get all product attributes
-        public IEnumerable<ProductAttributeDto> GetAll()
+        public async Task<IEnumerable<ProductAttributeDto>> GetAllAsync()
         {
-            var productAttributes = _context.ProductAttributes.ToList();
+            var productAttributes = await _context.ProductAttributes
+                .AsNoTracking()
+                .ToListAsync();
 
             var productAttributesDto = _mapper.Map<IEnumerable<ProductAttributeDto>>(productAttributes);
 
             return productAttributesDto;
         }
 
-        // get by id
-        public ProductAttributeDto GetById(int id)
+        public async Task<ProductAttributeDto> GetByIdAsync(int id)
         {
-            var productAttribute = _context.ProductAttributes.FirstOrDefault(x => x.Id == id);
+            var productAttribute = await _context.ProductAttributes
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (productAttribute == null) throw new NotFoundExceptions($"Product attribute with id {id} not found");
 
@@ -47,11 +50,8 @@ namespace nopCommerceApi.Services.Product
             return productAttributeDto;
         }
 
-        // create product attribute
-        public (ProductAttribute, ProductProductAttributeMapping) Create(ProductAttributeWithMappingCreateDto productAttributeWithMappingCreateDto)
+        public async Task<(ProductAttribute, ProductProductAttributeMapping)> CreateAsync(ProductAttributeWithMappingCreateDto productAttributeWithMappingCreateDto)
         {
-
-
             var productAttribute = new ProductAttribute
             {
                 Name = productAttributeWithMappingCreateDto.Name,
@@ -59,11 +59,10 @@ namespace nopCommerceApi.Services.Product
             };
 
             _context.ProductAttributes.Add(productAttribute);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             int id = productAttribute.Id;
 
-            
             var productProductAttributeMapping = new ProductProductAttributeMapping
             {
                 ProductAttributeId = productAttribute.Id,
@@ -82,28 +81,22 @@ namespace nopCommerceApi.Services.Product
 
             _context.ProductProductAttributeMappings.Add(productProductAttributeMapping);
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return (productAttribute, productProductAttributeMapping);
         }
 
-        // update product attribute
-        public bool Update(int id, ProductAttributeUpdateDto productAttributeDtoUpdate)
+        public async Task<bool> UpdateAsync(ProductAttributeUpdateDto productAttributeDtoUpdate)
         {
-            var productAttribute = _context.ProductAttributes.FirstOrDefault(x => x.Id == id);
-
-            if (productAttribute == null) throw new NotFoundExceptions($"Product attribute with id {id} not found");
-
-            productAttributeDtoUpdate.Id = id;
+            var productAttribute = await _context.ProductAttributes.FirstOrDefaultAsync(x => x.Id == productAttributeDtoUpdate.Id);
 
             _mapper.Map(productAttributeDtoUpdate, productAttribute);
 
-            _context.SaveChanges();
+            _context.ProductAttributes.Update(productAttribute);
+
+            await _context.SaveChangesAsync();
 
             return true;
         }
-
-
-
     }
 }

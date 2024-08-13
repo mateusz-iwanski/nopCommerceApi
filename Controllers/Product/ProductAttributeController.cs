@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 using nopCommerceApi.Entities.Usable;
 using nopCommerceApi.Models.ProductAttribute;
+using nopCommerceApi.Models.ProductAttributeMapping;
+using nopCommerceApi.Models.ProductAttributeValue;
 using nopCommerceApi.Services.Product;
 
 namespace nopCommerceApi.Controllers.Product
-{    
+{
     [Route("api/product/attribute")]
     [ApiController]
     public class ProductAttributeController : ControllerBase
@@ -27,9 +30,9 @@ namespace nopCommerceApi.Controllers.Product
         /// #### Doc: https://docs.nopcommerce.com/en/running-your-store/catalog/products/product-attributes.html
         /// </remarks>
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var productAttributes = _productAttributeService.GetAll();
+            var productAttributes = await _productAttributeService.GetAllAsync();
 
             return Ok(productAttributes);
         }
@@ -41,9 +44,9 @@ namespace nopCommerceApi.Controllers.Product
         /// #### Doc: https://docs.nopcommerce.com/en/running-your-store/catalog/products/product-attributes.html
         /// </remarks>
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var productAttribute = _productAttributeService.GetById(id);
+            var productAttribute = await _productAttributeService.GetByIdAsync(id);
 
             return Ok(productAttribute);
         }
@@ -57,30 +60,30 @@ namespace nopCommerceApi.Controllers.Product
         /// </remarks>
 
         [HttpPost("add")]
-        public IActionResult Create([FromBody] ProductAttributeWithMappingCreateDto productAttributeWithMappingCreateDto)
+        public async Task<IActionResult> Create([FromBody] ProductAttributeWithMappingCreateDto productAttributeWithMappingCreateDto)
         {
 
-            (ProductAttribute productAttribute, ProductProductAttributeMapping productProductAttributeMapping) = _productAttributeService.Create(productAttributeWithMappingCreateDto);
+            (ProductAttribute productAttribute, ProductProductAttributeMapping productProductAttributeMapping) = await _productAttributeService.CreateAsync(productAttributeWithMappingCreateDto);
 
             return Created($"api/product/attribute/{productAttribute.Id}", null);
 
         }
 
         /// <summary>
-        /// Update product
+        /// Update product attribute
         /// </summary>
         /// <remarks>
         /// #### Doc: https://docs.nopcommerce.com/en/running-your-store/catalog/products/product-attributes.html
         /// </remarks>
-        [HttpPut("update/{id}")]
-        public IActionResult Update(int id, [FromBody] ProductAttributeUpdateDto productAttributeUpdateDto)
+        [HttpPut("update")]
+        public async Task<IActionResult> UpdateAsync([FromBody] ProductAttributeUpdateDto productAttributeUpdateDto)
         {
-            var productAttribute = _productAttributeService.Update(id, productAttributeUpdateDto);
+            var productAttribute = await _productAttributeService.UpdateAsync(productAttributeUpdateDto);
 
             return Ok(productAttribute);
         }
 
-        #endregion
+        #endregion        
 
         #region Value
 
