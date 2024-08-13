@@ -29,10 +29,10 @@ namespace nopCommerceApi.Controllers.Address
         /// Get all addresses with details
         /// </summary>
         [HttpGet]
-        //[Authorize(Roles = "Admin,User,Viewer")]
-        public ActionResult<AddressDetailsDto> GetAll()
+        //// [Authorize(Roles = "Admin,User,Viewer")]
+        public async Task<ActionResult<AddressDetailsDto>> GetAll()
         {
-            var adressesDtos = _addressService.GetAll();
+            var adressesDtos = await _addressService.GetAllAsync();
 
             return Ok(adressesDtos);
         }
@@ -42,10 +42,10 @@ namespace nopCommerceApi.Controllers.Address
         /// Get address with details by ID  
         /// </summary>
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin,User,Viewer")]
-        public ActionResult<AddressDetailsDto> GetById([FromRoute] int id)
+        // [Authorize(Roles = "Admin,User,Viewer")]
+        public async Task<ActionResult<AddressDetailsDto>> GetById([FromRoute] int id)
         {
-            var address = _addressService.GetById(id);
+            var address = await _addressService.GetByIdAsync(id);
 
             return Ok(address);
         }
@@ -58,10 +58,10 @@ namespace nopCommerceApi.Controllers.Address
         /// Default nopCommerce not have this feature.
         /// </remarks> 
         [HttpPost("add-with-nip")]
-        [Authorize(Roles = "Admin,User")]
-        public ActionResult CreateWithNipPl([FromBody] AddressCreatePolishEnterpriseDto createAddressDto)
+        // [Authorize(Roles = "Admin,User")]
+        public async Task<ActionResult> CreateWithNipPl([FromBody] AddressCreatePolishEnterpriseDto createAddressDto)
         {
-            var address = _addressService.CreateWithNip(createAddressDto);
+            var address = await _addressService.CreateWithNipAsync(createAddressDto);
 
             return Created($"/api/address/{address.Id}", address);
         }
@@ -70,19 +70,13 @@ namespace nopCommerceApi.Controllers.Address
         /// <summary>
         /// Update address for Polish enterprises with NIP
         /// </summary>
-        /// <remarks>
-        /// If you don't want to update certain fields, don't add them to your requests. \
-        /// If you do not add some of a fields to the request, this fields will not be updated.
-        /// </remarks>
-        [Authorize(Roles = "Admin,User")]
-        [HttpPut("update-with-nip/{id}")]
-        public ActionResult UpdateWithNip(int id, [FromBody] AddressUpdatePolishEnterpriseDto updateAddressDto)
+        // [Authorize(Roles = "Admin,User")]
+        [HttpPut("update-with-nip")]
+        public async Task<ActionResult> UpdateWithNip([FromBody] AddressUpdatePolishEnterpriseDto updateAddressDto)
         {
-            updateAddressDto.Id = id;
+            var addressDto = await _addressService.UpdateWithNipAsync(updateAddressDto);
 
-            _addressService.UpdateWithNip(id, updateAddressDto);
-            
-            return Ok(updateAddressDto);
+            return Ok(addressDto);
         }
 
         // Has test
@@ -90,10 +84,10 @@ namespace nopCommerceApi.Controllers.Address
         /// Creating address for individual person
         /// </summary>
         [HttpPost("add")]
-        //[Authorize(Roles = "Admin,User")]
-        public ActionResult Create([FromBody] AddressCreateDto createAddressDto)
+        //// [Authorize(Roles = "Admin,User")]
+        public async Task<ActionResult> Create([FromBody] AddressCreateDto createAddressDto)
         {
-            var address = _addressService.Create(createAddressDto);
+            var address = await _addressService.CreateAsync(createAddressDto);
 
             return Created($"/api/address/{address.Id}", address);
         }
@@ -103,25 +97,21 @@ namespace nopCommerceApi.Controllers.Address
         /// Delete address by ID
         /// </summary>
         [HttpDelete("delete/{id}")]
-        [Authorize(Roles = "Admin,User")]
-        public ActionResult Delete(int id)
+        // [Authorize(Roles = "Admin,User")]
+        public async Task<ActionResult> Delete(int id)
         {
-            _addressService.Delete(id);
+            await _addressService.DeleteAsync(id);
             return Ok();
         }
 
         /// <summary>
         /// Update address by ID (without NIP)
         /// </summary>
-        /// <remarks>
-        /// If you don't want to update certain fields, don't add them to your requests.
-        /// If you do not add some of a fields to the request, this fields will not be updated.
-        /// </remarks>
-        [HttpPut("update/{id}")]
-        [Authorize(Roles = "Admin,User")]
-        public ActionResult Update(int id, [FromBody] AddressUpdateDto updateAddressDto)
+        [HttpPut("update")]
+        // [Authorize(Roles = "Admin,User")]
+        public async Task<ActionResult> Update([FromBody] AddressUpdateDto updateAddressDto)
         {
-            _addressService.Update(id, updateAddressDto);
+            await _addressService.UpdateAsync(updateAddressDto);
 
             return Ok(updateAddressDto);
         }
