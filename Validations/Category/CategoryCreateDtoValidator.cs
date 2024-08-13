@@ -4,9 +4,9 @@ using nopCommerceApi.Models.Category;
 
 namespace nopCommerceApi.Validations.Category
 {
-    public class CreateCategoryDtoValidator : CategoryDtoBaseValidator<CreateCategoryDto>
+    public class CategoryCreateDtoValidator : CategoryBaseDtoValidator<CategoryCreateDto>
     {
-        public CreateCategoryDtoValidator(NopCommerceContext context) : base(context)
+        public CategoryCreateDtoValidator(NopCommerceContext context) : base(context)
         {
             // check name is unique
             RuleFor(x => x.Name)
