@@ -21,6 +21,14 @@ namespace nopCommerceApi.Validations.Address
                     return _context.Countries.Any(c => c.Id == country.CountryId);
                 })
                 .WithMessage("The country does not exist.");
+
+            // check state province exists
+            RuleFor(x => x.StateProvinceId)
+                .Must((stateProvince, cancellation) =>
+                {
+                    return stateProvince.StateProvinceId == null || _context.StateProvinces.Any(sp => sp.Id == stateProvince.StateProvinceId);
+                })
+                .WithMessage("The state province does not exist.");
         }
     }
 }
