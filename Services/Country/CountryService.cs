@@ -2,7 +2,7 @@
 using nopCommerceApi.Entities;
 using nopCommerceApi.Models.Country;
 
-namespace nopCommerceApi.Services
+namespace nopCommerceApi.Services.Country
 {
     public interface ICountryService
     {

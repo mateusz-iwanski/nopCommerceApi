@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Models.Country;
-using nopCommerceApi.Services;
+using nopCommerceApi.Services.Country;
 
-namespace nopCommerceApi.Controllers.Address
+namespace nopCommerceApi.Controllers.Country
 {
     /// <summary>
     /// Controller for country operations
