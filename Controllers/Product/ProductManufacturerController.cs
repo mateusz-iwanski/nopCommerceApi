@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using nopCommerceApi.Models.ProductManufacturer;
 using nopCommerceApi.Services.Manufacturer;
+using nopCommerceApi.Services.Product;
 
 namespace nopCommerceApi.Controllers.Product
 {
