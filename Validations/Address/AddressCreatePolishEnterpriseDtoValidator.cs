@@ -26,6 +26,14 @@ namespace nopCommerceApi.Validations.Address
                 .Matches(@"^((PL)?[0-9]{10})$")
                 .WithMessage("The NIP format is invalid. Properly format is with/without prefix \"PL\" and 10 digits.");
 
+            // check state province exists
+            RuleFor(x => x.StateProvinceId)
+                .Must((stateProvince, cancellation) =>
+                {
+                    return stateProvince.StateProvinceId == null || _context.StateProvinces.Any(sp => sp.Id == stateProvince.StateProvinceId);
+                })
+                .WithMessage("The state province does not exist.");
+
             // Validate if the NIP already exists in the database
             RuleFor(x => x.Nip)
                 .Must(nip =>
@@ -35,7 +43,7 @@ namespace nopCommerceApi.Validations.Address
 
                     return filteredAddresses.Count == 0 ? true : false;
                 })
-                .WithMessage("The NIP already exists in the database.");
+                .WithMessage("The NIP already exists in the database.");            
         }
 
 
