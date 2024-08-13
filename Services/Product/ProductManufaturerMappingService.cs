@@ -5,7 +5,7 @@ using nopCommerceApi.Entities.Usable;
 using nopCommerceApi.Exceptions;
 using nopCommerceApi.Models.ProductManufacturer;
 
-namespace nopCommerceApi.Services.Manufacturer
+namespace nopCommerceApi.Services.Product
 {
     public interface IProductManufaturerMappingService
     {
@@ -87,6 +87,6 @@ namespace nopCommerceApi.Services.Manufacturer
 
             return productManufacturerMappingDtos;
         }
-        
+
     }
 }
