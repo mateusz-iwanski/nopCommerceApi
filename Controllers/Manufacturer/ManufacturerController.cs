@@ -37,10 +37,10 @@ namespace nopCommerceApi.Controllers.Manufacturer
             return Created($"api/manufacturer/{manufacturer.Id}", manufacturer);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] ManufacturerUpdateDto manufacturerDto)
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] ManufacturerUpdateDto manufacturerDto)
         {
-            var manufacturer = await _manufacturerService.UpdateAsync(id, manufacturerDto);
+            var manufacturer = await _manufacturerService.UpdateAsync(manufacturerDto);
             return Ok(manufacturer);
         }
 

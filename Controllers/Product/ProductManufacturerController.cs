@@ -2,7 +2,7 @@
 using nopCommerceApi.Models.ProductManufacturer;
 using nopCommerceApi.Services.Manufacturer;
 
-namespace nopCommerceApi.Controllers.Manufacturer
+namespace nopCommerceApi.Controllers.Product
 {
     [Route("api/manufacturer/mapping")]
     [ApiController]

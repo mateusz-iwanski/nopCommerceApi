@@ -11,14 +11,14 @@ namespace nopCommerceApi.Services.Manufacturer
     {
         Task<ManufacturerDto> CreateAsync(ManufacturerCreateDto manufacturerCreateDto);
         Task<IEnumerable<ManufacturerDto>> GetAllAsync();
-        Task<ManufacturerDto> UpdateAsync(int id, ManufacturerUpdateDto manufacturerUpdateDto);
+        Task<ManufacturerDto> UpdateAsync(ManufacturerUpdateDto manufacturerUpdateDto);
         Task<ManufacturerDto> GetByIdAsync(int id);
         Task<bool> DeleteAsync(int id);
     }
 
     public class ManufacturerService : BaseService, IManufacturerService
     {
-        public ManufacturerService(NopCommerceContext context, IMapper mapper, ILogger<CategoryService> logger) : base(context, mapper, logger) { }
+        public ManufacturerService(NopCommerceContext context, IMapper mapper, ILogger<ManufacturerService> logger) : base(context, mapper, logger) { }
 
         // get all manufacturers asynchronously
         public async Task<IEnumerable<ManufacturerDto>> GetAllAsync()
@@ -42,18 +42,10 @@ namespace nopCommerceApi.Services.Manufacturer
         }
 
         // update manufacturer asynchronously
-        public async Task<ManufacturerDto> UpdateAsync(int id, ManufacturerUpdateDto manufacturerUpdateDto)
+        public async Task<ManufacturerDto> UpdateAsync(ManufacturerUpdateDto manufacturerUpdateDto)
         {
-            var manufacturer = await _context.Manufacturers.FirstOrDefaultAsync(c => c.Id == id);
+            var manufacturer = await _context.Manufacturers.FirstOrDefaultAsync(c => c.Id == manufacturerUpdateDto.Id);
 
-            manufacturerUpdateDto.Id = id;
-
-            if (manufacturer == null) throw new NotFoundExceptions($"Manufacturer with id {id} not found");
-
-            if (_context.Manufacturers.Any(m => m.Name == manufacturerUpdateDto.Name && manufacturerUpdateDto.Id != m.Id))
-                throw new BadRequestException("Manufacturer name already exists in the database. Must be unique.");
-
-            
             manufacturerUpdateDto.CreatedOnUtc = manufacturer.CreatedOnUtc;
 
             _mapper.Map(manufacturerUpdateDto, manufacturer);
@@ -71,6 +63,7 @@ namespace nopCommerceApi.Services.Manufacturer
             var manufacturer = _mapper.Map<Entities.Usable.Manufacturer>(manufacturerCreateDto);
 
             _context.Manufacturers.Add(manufacturer);
+
             await _context.SaveChangesAsync();
 
             var manufacturerDto = _mapper.Map<ManufacturerDto>(manufacturer);
