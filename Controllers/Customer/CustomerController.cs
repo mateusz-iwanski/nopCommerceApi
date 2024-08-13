@@ -23,9 +23,9 @@ namespace nopCommerceApi.Controllers.Customer
         /// </summary>
         [HttpGet]
         //[Authorize(ApiUserRoles = "Admin,User,Viewer")]
-        public IEnumerable<CustomerDto> GetAll()
+        public async Task<IEnumerable<CustomerDto>> GetAllAsync()
         {
-            var customers = _customerService.GetAll();
+            var customers = await _customerService.GetAllAsync();
             return customers;
         }
 
@@ -38,9 +38,9 @@ namespace nopCommerceApi.Controllers.Customer
         /// Default nopCommerce customer role is Registered.
         /// </remarks>
         [HttpPost("add-base-pl")]
-        public IActionResult CreateBasePL([FromBody] CustomerCreateBaseDto createCustomerDto)
+        public async Task<IActionResult> CreateBasePL([FromBody] CustomerCreateBaseDto createCustomerDto)
         {
-            var customer = _customerService.CreateBasePL(createCustomerDto);
+            var customer = await _customerService.CreateBasePLAsync(createCustomerDto);
             return Ok(customer);
         }
 
@@ -50,10 +50,10 @@ namespace nopCommerceApi.Controllers.Customer
         /// Link the address to the nopCommerce customer
         /// </summary>
         [HttpPost("connect-with/address/{customerGuid}/{shippingAddressId}")]
-        public IActionResult ConnectToAddress(Guid customerGuid, int shippingAddressId)
+        public async Task<IActionResult> ConnectToAddress(Guid customerGuid, int shippingAddressId)
         {
-            if(!_customerService.ConnectToAddress(customerGuid, shippingAddressId))
-                throw new BadRequestException("Customer or address not found.");
+            await _customerService.ConnectToAddressAsync(customerGuid, shippingAddressId);
+
             return Created();
         }
     }

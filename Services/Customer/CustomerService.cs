@@ -16,9 +16,9 @@ namespace nopCommerceApi.Services.Customer
 {
     public interface ICustomerService
     {
-        IEnumerable<CustomerDto> GetAll();
-        string CreateBasePL(CustomerCreateBaseDto createCustomerDto);
-        bool ConnectToAddress(Guid customerGuid, int addressId);
+        Task<IEnumerable<CustomerDto>> GetAllAsync();
+        Task<string> CreateBasePLAsync(CustomerCreateBaseDto createCustomerDto);
+        Task<bool> ConnectToAddressAsync(Guid customerGuid, int addressId);
     }
 
     public class CustomerService : ICustomerService
@@ -34,17 +34,17 @@ namespace nopCommerceApi.Services.Customer
             _mapper = mapper;
             _settings = settings;
         }
-        
-        public IEnumerable<CustomerDto> GetAll()
+
+        public async Task<IEnumerable<CustomerDto>> GetAllAsync()
         {
-            var customers = _context.Customers
+            var customers = await _context.Customers
                 .Include(c => c.Language)
                 .Include(c => c.Country)
                 .Include(c => c.StateProvince)
                 .Include(c => c.Currency)
-                .ToList();
+                .AsNoTracking()
+                .ToListAsync();
 
-            //var customers = _context.Customers.ToList();
             var customerDtos = _mapper.Map<List<CustomerDto>>(customers);
 
             return customerDtos;
@@ -56,15 +56,14 @@ namespace nopCommerceApi.Services.Customer
         /// </summary>
         /// <param name="createCustomerDto"></param>
         /// <returns></returns>
-        public string CreateBasePL(CustomerCreateBaseDto createCustomerDto)
+        public async Task<string> CreateBasePLAsync(CustomerCreateBaseDto createCustomerDto)
         {
             var customer = _mapper.Map<Entities.Usable.Customer>(createCustomerDto);
 
             var languageId = _context.Languages.FirstOrDefault(l => l.UniqueSeoCode == "pl").Id;
             var currenyId = _context.Currencies.FirstOrDefault(c => c.CurrencyCode == "PLN").Id;
             var countryId = _context.Countries.FirstOrDefault(c => c.TwoLetterIsoCode == "PL").Id;
-            
-            // customer connect to role with customer [Customer_CustomerRole_Mapping]
+
             var customerRole = _context.CustomerRoles.FirstOrDefault(cr => cr.SystemName == "Registered");
             customer.CustomerRoles.Add(customerRole);
 
@@ -73,37 +72,35 @@ namespace nopCommerceApi.Services.Customer
             customer.CountryId = countryId;
 
             _context.Customers.Add(customer);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
-            // add password
             _context.CustomerPasswords.Add(CustomerPasswordManager.CreatePassword(customer, createCustomerDto.Password, _settings));
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             string jsonString = createCustomerDto.JsonSerializeReferenceLoopHandlingIgnore();
 
             return jsonString;
         }
 
-        public bool ConnectToAddress(Guid customerGuid, int addressId)
+        public async Task<bool> ConnectToAddressAsync(Guid customerGuid, int addressId)
         {
-            var customer = _context.Customers.FirstOrDefault(c => c.CustomerGuid == customerGuid);
-            var address = _context.Addresses.FirstOrDefault(a => a.Id == addressId);
+            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.CustomerGuid == customerGuid);
+            var address = await _context.Addresses.FirstOrDefaultAsync(a => a.Id == addressId);
 
             if (customer != null && address != null)
             {
-                // Check if the address is already associated with another customer
-                var existingCustomer = _context.Customers.FirstOrDefault(c => c.Addresses.Any(a => a.Id == addressId && c.Id != customer.Id));
+                var existingCustomer = await _context.Customers.FirstOrDefaultAsync(c => c.Addresses.Any(a => a.Id == addressId && c.Id != customer.Id));
                 if (existingCustomer != null)
                 {
                     throw new BadRequestException("This address is already associated with another customer.");
                 }
 
                 customer.Addresses.Add(address);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
             else
             {
-                throw new NotFoundExceptions("This address or customer does not exists.");
+                throw new NotFoundExceptions("This address or customer does not exist.");
             }
 
             return true;
