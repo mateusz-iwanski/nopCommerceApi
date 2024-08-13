@@ -13,7 +13,7 @@ namespace nopCommerceApi.Controllers.Picture
     /// #### Every file name should be format like this - for example for product with id 1:
     /// #### 0000001_{product name}.jpeg - (product name with dash) = 0000001_product-name.jpeg
     /// </summary>
-    [Route("picture")]
+    [Route("api/picture")]
     [ApiController]
     public class PictureController : ControllerBase
     {
@@ -30,9 +30,9 @@ namespace nopCommerceApi.Controllers.Picture
         /// Gte all pictures
         /// </summary>
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var pictures = _pictureService.GetAll();
+            var pictures = await _pictureService.GetAllAsync();
             return Ok(pictures);
         }
 
@@ -40,9 +40,9 @@ namespace nopCommerceApi.Controllers.Picture
         /// Get picture by id
         /// </summary>
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var picture = _pictureService.GetById(id);
+            var picture = await _pictureService.GetByIdAsync(id);
             return Ok(picture);
         }
 
@@ -50,9 +50,10 @@ namespace nopCommerceApi.Controllers.Picture
         /// Create a picture
         /// </summary>
         [HttpPost]
-        public IActionResult Create([FromBody] PictureCreateDto pictureCreateDto)
+        public async Task<IActionResult> Create([FromBody] PictureCreateDto pictureCreateDto)
         {
-            var picture = _pictureService.Create(pictureCreateDto);
+            var picture = await _pictureService.CreateAsync(pictureCreateDto);
+
             return Created("pictures", picture);
         }
 
@@ -62,10 +63,10 @@ namespace nopCommerceApi.Controllers.Picture
         /// <remarks>
         /// Upload file with proper name. Look on GetProperNameForPictureFile.
         /// </remarks>
-        [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] PictureUpdateDto pictureUpdateDto)
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] PictureUpdateDto pictureUpdateDto)
         {
-            _pictureService.Update(id, pictureUpdateDto);
+            await _pictureService.UpdateAsync(pictureUpdateDto);
 
             return Ok(pictureUpdateDto);
         }
@@ -74,9 +75,9 @@ namespace nopCommerceApi.Controllers.Picture
         /// Delete a picture
         /// </summary>
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _pictureService.Delete(id);
+            await _pictureService.DeleteAsync(id);
 
             return NoContent();
         }
@@ -90,9 +91,9 @@ namespace nopCommerceApi.Controllers.Picture
         /// Just change the picture name to the proper name. 
         /// </remarks>
         [HttpGet("proper-name/{pictureId}")]
-        public IActionResult GetProperNameForPictureFile(int pictureId)
+        public async Task<IActionResult> GetProperNameForPictureFile(int pictureId)
         {
-            var properName = _pictureService.ProperNameForPictureFile(pictureId);
+            var properName = await _pictureService.ProperNameForPictureFileAsync(pictureId);
             return Ok(properName);
         }
 

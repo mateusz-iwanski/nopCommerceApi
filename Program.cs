@@ -195,8 +195,8 @@ builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyCont
 
 
 // Manufacturer
-builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ManufacturerCreateValidator>());
-builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ManufacturerUpdateValidator>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ManufacturerCreateDtoValidator>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ManufacturerUpdateDtoValidator>());
 
 // ProductManufacturerMapping
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductManufacturerMappingCreateValidator>());
@@ -206,8 +206,8 @@ builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyCont
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UrlRecordUpdateDtoValidator>());
 
 // PictureService
-builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<PictureCreateValidator>());
-builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<PictureUpdateValidator>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<PictureCreateDtoValidator>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<PictureUpdateDtoValidator>());
 
 // ProductPictureMapping
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductPictureMappingCreateDtoValidator>());

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Entities.Usable;
 using nopCommerceApi.Exceptions;
@@ -8,12 +9,12 @@ namespace nopCommerceApi.Services.Picture
 {
     public interface IPictureService
     {
-        PictureDto Create(PictureCreateDto pictureCreateDto);
-        bool Delete(int id);
-        IEnumerable<PictureDto> GetAll();
-        PictureDto GetById(int id);
-        bool Update(int id, PictureUpdateDto pictureUpdateDto);
-        string ProperNameForPictureFile(int pictureId);
+        Task<PictureDto> CreateAsync(PictureCreateDto pictureCreateDto);
+        Task<bool> DeleteAsync(int id);
+        Task<IEnumerable<PictureDto>> GetAllAsync();
+        Task<PictureDto> GetByIdAsync(int id);
+        Task<bool> UpdateAsync(PictureUpdateDto pictureUpdateDto);
+        Task<string> ProperNameForPictureFileAsync(int pictureId);
     }
 
     public class PictureService : BaseService, IPictureService
@@ -25,16 +26,16 @@ namespace nopCommerceApi.Services.Picture
             _context = context;
         }
 
-        public IEnumerable<PictureDto> GetAll()
+        public async Task<IEnumerable<PictureDto>> GetAllAsync()
         {
-            var pictures = _context.Pictures.ToList();
+            var pictures = await _context.Pictures.ToListAsync();
 
             return _mapper.Map<IEnumerable<PictureDto>>(pictures);
         }
 
-        public PictureDto GetById(int id)
+        public async Task<PictureDto> GetByIdAsync(int id)
         {
-            var picture = _context.Pictures.Find(id);
+            var picture = await _context.Pictures.FindAsync(id);
             if (picture == null)
             {
                 throw new NotFoundExceptions($"The picture with id {id} was not found.");
@@ -43,49 +44,44 @@ namespace nopCommerceApi.Services.Picture
             return _mapper.Map<PictureDto>(picture);
         }
 
-        public PictureDto Create(PictureCreateDto pictureCreateDto)
+        public async Task<PictureDto> CreateAsync(PictureCreateDto pictureCreateDto)
         {
             var picture = _mapper.Map<Entities.Usable.Picture>(pictureCreateDto);
 
             _context.Pictures.Add(picture);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return _mapper.Map<PictureDto>(picture);
         }
 
-        public bool Update(int id, PictureUpdateDto pictureUpdateDto)
+        public async Task<bool> UpdateAsync(PictureUpdateDto pictureUpdateDto)
         {
-            var picture = _context.Pictures.Find(id);
-            pictureUpdateDto.Id = id;
-
-            if (picture == null)
-            {
-                throw new NotFoundExceptions($"The picture with id {id} was not found.");
-            }
+            var picture = await _context.Pictures.FindAsync(pictureUpdateDto.Id);
 
             _mapper.Map(pictureUpdateDto, picture);
-            _context.SaveChanges();
+
+            await _context.SaveChangesAsync();
 
             return true;
         }
 
-        public bool Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            var picture = _context.Pictures.Find(id);
+            var picture = await _context.Pictures.FindAsync(id);
             if (picture == null)
             {
                 throw new NotFoundExceptions($"The picture with id {id} was not found.");
             }
 
             _context.Pictures.Remove(picture);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return true;
         }
 
-        public string ProperNameForPictureFile(int pictureId)
+        public async Task<string> ProperNameForPictureFileAsync(int pictureId)
         {
-            var picture = _context.Pictures.Find(pictureId);
+            var picture = await _context.Pictures.FindAsync(pictureId);
             if (picture == null)
             {
                 throw new NotFoundExceptions($"The picture with id {pictureId} was not found.");
