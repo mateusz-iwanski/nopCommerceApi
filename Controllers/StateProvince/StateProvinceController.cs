@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities.Usable;
 using nopCommerceApi.Models;
-using nopCommerceApi.Services;
+using nopCommerceApi.Services.StateProvince;
 
-namespace nopCommerceApi.Controllers.Address
+namespace nopCommerceApi.Controllers.StateProvince
 {
     /// <summary>
     /// State Province Controller

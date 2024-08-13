@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Models.State;
 
-namespace nopCommerceApi.Services
+namespace nopCommerceApi.Services.StateProvince
 {
     public interface IStateProvinceService
     {

@@ -43,6 +43,7 @@ using nopCommerceApi.Services.Video;
 using nopCommerceApi.Validations.ProductVideo;
 using nopCommerceApi.Validations.Address;
 using nopCommerceApi.Services.Country;
+using nopCommerceApi.Services.StateProvince;
 
 
 var builder = WebApplication.CreateBuilder(args);
