@@ -1,35 +1,41 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Entities.Usable;
 using nopCommerceApi.Exceptions;
 using nopCommerceApi.Models.ProductAttributeValue;
+using System;
 
 namespace nopCommerceApi.Services.Product
 {
     public interface IProductAttributeValueService
     {
-        ProductAttributeValue Create(int attributeId, ProductAttributeValueDtoCreate productAttributeValueCreateDto);
-        bool Delete(int id);
-        IEnumerable<ProductAttributeValueDto> GetAll();
-        ProductAttributeValueDto GetById(int id);
-        bool Update(int id, ProductAttributeValueUpdateDto productAttributeValueUpdateDto);
+        Task<ProductAttributeValue> CreateAsync(int attributeId, ProductAttributeValueDtoCreate productAttributeValueCreateDto);
+        Task<bool> DeleteAsync(int id);
+        Task<IEnumerable<ProductAttributeValueDto>> GetAllAsync();
+        Task<ProductAttributeValueDto> GetByIdAsync(int id);
+        Task<bool> UpdateAsync(ProductAttributeValueUpdateDto productAttributeValueUpdateDto);
     }
 
     public class ProductAttributeValueService : BaseService, IProductAttributeValueService
     {
         public ProductAttributeValueService(NopCommerceContext context, IMapper mapper, ILogger<ProductService> logger) : base(context, mapper, logger) { }
 
-        public IEnumerable<ProductAttributeValueDto> GetAll()
+        public async Task<IEnumerable<ProductAttributeValueDto>> GetAllAsync()
         {
-            var productAttributeValues = _context.ProductAttributeValues.ToList();
+            var productAttributeValues = await _context.ProductAttributeValues
+                .AsNoTracking()
+                .ToListAsync();
             var productAttributeValuesDto = _mapper.Map<IEnumerable<ProductAttributeValueDto>>(productAttributeValues);
 
             return productAttributeValuesDto;
         }
 
-        public ProductAttributeValueDto GetById(int id)
+        public async Task<ProductAttributeValueDto> GetByIdAsync(int id)
         {
-            var productsAttributeValue = _context.ProductAttributeValues.FirstOrDefault(p => p.Id == id);
+            var productsAttributeValue = await _context.ProductAttributeValues
+                .AsNoTracking()
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             if (productsAttributeValue == null) throw new NotFoundExceptions($"Product attribute value with id {id} not found");
 
@@ -38,41 +44,46 @@ namespace nopCommerceApi.Services.Product
             return productAttributeValueDto;
         }
 
-        public ProductAttributeValue Create(int attributeId, ProductAttributeValueDtoCreate productAttributeValueCreateDto)
+        public async Task<ProductAttributeValue> CreateAsync(int attributeId, ProductAttributeValueDtoCreate productAttributeValueCreateDto)
         {
-            productAttributeValueCreateDto.ProductAttributeMappingId = attributeId;
+            // get product attribute mapping by attribute id
+            var productProductAttributeMappings = _context.ProductProductAttributeMappings.FirstOrDefault(p => p.ProductAttributeId == attributeId);
+
+            if (productProductAttributeMappings == null) throw new NotFoundExceptions($"Product attribute mapping with product attribute id {attributeId} not found");
+
+            productAttributeValueCreateDto.ProductAttributeMappingId = productProductAttributeMappings.Id;
 
             var productAttributeValue = _mapper.Map<ProductAttributeValue>(productAttributeValueCreateDto);
 
             _context.ProductAttributeValues.Add(productAttributeValue);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return productAttributeValue;
         }
 
-        public bool Update(int id, ProductAttributeValueUpdateDto productAttributeValueUpdateDto)
+        public async Task<bool> UpdateAsync(ProductAttributeValueUpdateDto productAttributeValueUpdateDto)
         {
-            var productAttributeValue = _context.ProductAttributeValues.FirstOrDefault(p => p.Id == id);
+            var productAttributeValue = await _context.ProductAttributeValues.FirstOrDefaultAsync(p => p.Id == productAttributeValueUpdateDto.Id);
 
-            if (productAttributeValue == null) throw new NotFoundExceptions($"Product attribute value with id {id} not found");
-
-            productAttributeValueUpdateDto.Id = id;
+            // ProductAttributeMappingId can't be updated
+            productAttributeValueUpdateDto.ProductAttributeMappingId = productAttributeValue.ProductAttributeMappingId;
 
             _mapper.Map(productAttributeValueUpdateDto, productAttributeValue);
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return true;
         }
 
-        public bool Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            var productAttributeValue = _context.ProductAttributeValues.FirstOrDefault(p => p.Id == id);
+            var productAttributeValue = await _context.ProductAttributeValues.FirstOrDefaultAsync(p => p.Id == id);
 
             if (productAttributeValue == null) throw new NotFoundExceptions($"Product attribute value with id {id} not found");
 
             _context.ProductAttributeValues.Remove(productAttributeValue);
-            _context.SaveChanges();
+
+            await _context.SaveChangesAsync();
 
             return true;
         }
