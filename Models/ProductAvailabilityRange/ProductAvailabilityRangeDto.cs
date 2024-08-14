@@ -1,4 +1,6 @@
-﻿namespace nopCommerceApi.Models.Product
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace nopCommerceApi.Models.ProductAvailabilityRange
 {
     /// <summary>
     /// Represents a product availability range
@@ -10,16 +12,19 @@
     /// </remarks>
     public class ProductAvailabilityRangeDto : BaseDto
     {
-        public int Id { get; set; }
+        public virtual int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the name
+        /// ## Name
+        /// ### Gets or sets the name
         /// </summary>
-        public string Name { get; set; }
+        [Required]
+        public virtual string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the display order
+        /// ## DisplayOrder
+        /// ### Gets or sets the display order
         /// </summary>
-        public int DisplayOrder { get; set; }
+        public virtual int DisplayOrder { get; set; }
     }
 }
