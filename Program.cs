@@ -46,6 +46,8 @@ using nopCommerceApi.Services.Country;
 using nopCommerceApi.Services.StateProvince;
 using nopCommerceApi.Validations.ProductAttributeValue;
 using nopCommerceApi.Validations.ProductAttributeMapping;
+using nopCommerceApi.Validations.ProductAvailabilityRange;
+using nopCommerceApi.Validations.Customer;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -156,7 +158,7 @@ builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyCont
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AddressCreatePolishEnterpriseDtoValidator>());
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AddressUpdatePolishEnterpriseDtoValidator>());
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AddressUpdateDtoValidator>());
-builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateBaseCustomerPLDtoValidator>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CustomerCreateBaseDtoValidator>());
 
 // Product
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductCreateMinimalValidator>());
@@ -189,6 +191,9 @@ builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyCont
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductProductAttributeMappingUpdateDtoValidator>());
 
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductAttributeWithMappingCreateDtoValidator>());
+
+// ProductAvailabilityRange
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductAvailabilityRangeCreateDtoValidator>());
 
 
 // Category

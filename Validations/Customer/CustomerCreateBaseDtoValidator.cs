@@ -3,13 +3,13 @@ using nopCommerceApi.Entities;
 using nopCommerceApi.Models.Address;
 using nopCommerceApi.Models.Customer;
 
-namespace nopCommerceApi.Validations
+namespace nopCommerceApi.Validations.Customer
 {
-    public class CreateBaseCustomerPLDtoValidator : BaseValidator<CustomerCreateBaseDto>
+    public class CustomerCreateBaseDtoValidator : BaseValidator<CustomerCreateBaseDto>
     {
         private readonly NopCommerceContext _context;
 
-        public CreateBaseCustomerPLDtoValidator(NopCommerceContext context)
+        public CustomerCreateBaseDtoValidator(NopCommerceContext context)
         {
             _context = context;
 
