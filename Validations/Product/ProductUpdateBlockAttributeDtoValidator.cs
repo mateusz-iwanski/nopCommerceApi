@@ -1,4 +1,5 @@
-﻿using nopCommerceApi.Models.Product;
+﻿using FluentValidation;
+using nopCommerceApi.Models.Product;
 
 namespace nopCommerceApi.Validations
 {
@@ -6,6 +7,9 @@ namespace nopCommerceApi.Validations
     {
         public ProductUpdateBlockAttributeDtoValidator() : base()
         {
+            // check product exists
+            RuleFor(x => x.Id)
+                .Must(id => id > 0)
         }
     }
 }

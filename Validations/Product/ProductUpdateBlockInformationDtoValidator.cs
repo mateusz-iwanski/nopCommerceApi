@@ -19,6 +19,8 @@ namespace nopCommerceApi.Validations
             _context = context;
             _settings = settings;
 
+            
+
             // Product type(enum) is required
             RuleFor(x => x.ProductTypeId)
                .Must(productTypeId =>
