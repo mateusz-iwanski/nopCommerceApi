@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using nopCommerceApi.Entities.Usable;
-using nopCommerceApi.Models.Product;
+using nopCommerceApi.Models.ProductAvailabilityRange;
 using nopCommerceApi.Services.Product;
 using System.Collections.Concurrent;
 
@@ -32,9 +32,9 @@ namespace nopCommerceApi.Controllers.Product
         /// </summary>
         /// <returns>A collection of product availability ranges.</returns>
         [HttpGet]
-        public IEnumerable<ProductAvailabilityRangeDto> GetAll()
+        public async Task<IEnumerable<ProductAvailabilityRangeDto>> GetAll()
         {
-            var productAvailabilityRangeServices = _productAvailabilityRangeService.GetAll();
+            var productAvailabilityRangeServices = await _productAvailabilityRangeService.GetAllAsync();
             return productAvailabilityRangeServices;
         }
 
@@ -44,9 +44,9 @@ namespace nopCommerceApi.Controllers.Product
         /// <param name="id">The ID of the product availability range.</param>
         /// <returns>The product availability range with the specified ID.</returns>
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var productAvailabilityRange = _productAvailabilityRangeService.GetById(id);
+            var productAvailabilityRange = await _productAvailabilityRangeService.GetByIdAsync(id);
 
             return Ok(productAvailabilityRange);
         }
@@ -58,9 +58,9 @@ namespace nopCommerceApi.Controllers.Product
         /// <param name="productAvailabilityRange">The product availability range to create.</param>
         /// <returns>The created product availability range.</returns>
         [HttpPost]
-        public IActionResult Create([FromBody] ProductAvailabilityRangeCreateDto productAvailabilityRange)
+        public async Task<IActionResult> Create([FromBody] ProductAvailabilityRangeCreateDto productAvailabilityRange)
         {
-            var productTag = _productAvailabilityRangeService.Create(productAvailabilityRange);
+            var productTag = await _productAvailabilityRangeService.CreateAsync(productAvailabilityRange);
 
             return Created($"api/product/availabilityrange/{productTag.Id}", productTag);
         }
@@ -72,9 +72,9 @@ namespace nopCommerceApi.Controllers.Product
         /// <param name="id">The ID of the product availability range to delete.</param>
         /// <returns>An HTTP 200 OK response if the deletion is successful.</returns>
         [HttpDelete("delete/{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _productAvailabilityRangeService.Delete(id);
+            await _productAvailabilityRangeService.DeleteAsync(id);
             return Ok();
         }
     }

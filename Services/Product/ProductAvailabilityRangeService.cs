@@ -1,58 +1,65 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Entities.Usable;
 using nopCommerceApi.Exceptions;
-using nopCommerceApi.Models.Product;
+using nopCommerceApi.Models.ProductAvailabilityRange;
 
 namespace nopCommerceApi.Services.Product
 {
     public interface IProductAvailabilityRangeService
     {
-        ProductAvailabilityRange Create(ProductAvailabilityRangeCreateDto productAvailabilityRangeDto);
-        IEnumerable<ProductAvailabilityRangeDto> GetAll();
-        ProductAvailabilityRangeDto GetById(int id);
-        bool Delete(int id);
+        Task<ProductAvailabilityRange> CreateAsync(ProductAvailabilityRangeCreateDto productAvailabilityRangeDto);
+        Task<IEnumerable<ProductAvailabilityRangeDto>> GetAllAsync();
+        Task<ProductAvailabilityRangeDto> GetByIdAsync(int id);
+        Task<bool> DeleteAsync(int id);
     }
 
     public class ProductAvailabilityRangeService : BaseService, IProductAvailabilityRangeService
     {
-        public ProductAvailabilityRangeService(NopCommerceContext context, IMapper mapper, ILogger<ProductAvailabilityRangeService> logger) 
-            : base(context, mapper, logger) 
-        { 
+        public ProductAvailabilityRangeService(NopCommerceContext context, IMapper mapper, ILogger<ProductAvailabilityRangeService> logger)
+            : base(context, mapper, logger)
+        {
         }
 
-        public IEnumerable<ProductAvailabilityRangeDto> GetAll()
+        public async Task<IEnumerable<ProductAvailabilityRangeDto>> GetAllAsync()
         {
-            var productAvailabilityRanges = _context.ProductAvailabilityRanges.ToList();
+            var productAvailabilityRanges = await _context.ProductAvailabilityRanges
+                .AsNoTracking()
+                .ToListAsync();
             var productAvailabilityRangeDtos = _mapper.Map<List<ProductAvailabilityRangeDto>>(productAvailabilityRanges);
 
             return productAvailabilityRangeDtos;
         }
 
-        public ProductAvailabilityRangeDto GetById(int id)
+        public async Task<ProductAvailabilityRangeDto> GetByIdAsync(int id)
         {
-            var productAvailabilityRanges = _context.ProductAvailabilityRanges.FirstOrDefault(p => p.Id == id);
+            var productAvailabilityRanges = await _context.ProductAvailabilityRanges
+                .AsNoTracking()
+                .FirstOrDefaultAsync(p => p.Id == id);
 
-            var productAvailabilityRangeDto = productAvailabilityRanges != null ? _mapper.Map<ProductAvailabilityRangeDto>(productAvailabilityRanges) : throw new NotFoundExceptions($"ProductAvailabilityRange with id {id} not found");
+            var productAvailabilityRangeDto = productAvailabilityRanges != null ? 
+                _mapper.Map<ProductAvailabilityRangeDto>(productAvailabilityRanges) : 
+                throw new NotFoundExceptions($"ProductAvailabilityRange with id {id} not found");
 
             return productAvailabilityRangeDto;
         }
 
-        public ProductAvailabilityRange Create(ProductAvailabilityRangeCreateDto productAvailabilityRangeDto)
+        public async Task<ProductAvailabilityRange> CreateAsync(ProductAvailabilityRangeCreateDto productAvailabilityRangeDto)
         {
             var productAvailabilityRange = _mapper.Map<ProductAvailabilityRange>(productAvailabilityRangeDto);
 
-            productAvailabilityRange.DisplayOrder = GetLastDisplayOrder() + 1;
+            productAvailabilityRange.DisplayOrder = await GetLastDisplayOrderAsync() + 1;
 
             _context.ProductAvailabilityRanges.Add(productAvailabilityRange);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return productAvailabilityRange;
         }
 
-        public bool Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            var productAvailabilityRange = _context.ProductAvailabilityRanges.FirstOrDefault(p => p.Id == id);
+            var productAvailabilityRange = await _context.ProductAvailabilityRanges.FirstOrDefaultAsync(p => p.Id == id);
 
             if (productAvailabilityRange == null)
             {
@@ -60,14 +67,17 @@ namespace nopCommerceApi.Services.Product
             }
 
             _context.ProductAvailabilityRanges.Remove(productAvailabilityRange);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return true;
-        }   
+        }
 
-        private int GetLastDisplayOrder()
+        private async Task<int> GetLastDisplayOrderAsync()
         {
-            var lastDisplayOrder = _context.ProductAvailabilityRanges.Max(x => x.DisplayOrder);
+            var lastDisplayOrder = await _context.ProductAvailabilityRanges
+                .AsNoTracking()
+                .MaxAsync(x => x.DisplayOrder);
+
             if (lastDisplayOrder != null)
             {
                 return lastDisplayOrder;
