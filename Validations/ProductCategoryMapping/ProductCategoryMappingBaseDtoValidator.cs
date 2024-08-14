@@ -25,6 +25,10 @@ namespace nopCommerceApi.Validations.ProductCategory
             RuleFor(x => x.ProductId)
                 .Must(productId => _context.Products.Any(c => c.Id == productId))
                 .WithMessage("The product does not exist.");
+
+            // display order mus be greater or equal than 0
+            RuleFor(x => x.DisplayOrder)
+                .GreaterThanOrEqualTo(0).WithMessage("Display order must be greater than or equal to 0.");
         }   
     }
 }
