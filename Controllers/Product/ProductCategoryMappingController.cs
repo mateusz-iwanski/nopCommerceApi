@@ -7,12 +7,13 @@ using nopCommerceApi.Services.Product;
 namespace nopCommerceApi.Controllers.Product
 {
     [Route("api/category/mapping")]
-    public class ProductCategoryController : ControllerBase
+    [ApiController]
+    public class ProductCategoryMappingController : ControllerBase
     {
         public readonly ICategoryService _categoryService;
         public readonly IProductCategoryMappingService _productCategoryMappingService;
 
-        public ProductCategoryController(IProductCategoryMappingService productCategoryMappingService)
+        public ProductCategoryMappingController(IProductCategoryMappingService productCategoryMappingService)
         {
             _productCategoryMappingService = productCategoryMappingService;
         }
@@ -21,9 +22,9 @@ namespace nopCommerceApi.Controllers.Product
         /// Get all cateogry with associated products
         /// </summary>
         [HttpGet]
-        public IEnumerable<ProductCategoryMappingDto> GetAll()
+        public async Task<IEnumerable<ProductCategoryMappingDto>> GetAll()
         {
-            var productCategoryMappingDtos = _productCategoryMappingService.GetAll();
+            var productCategoryMappingDtos = await _productCategoryMappingService.GetAllAsync();
             return productCategoryMappingDtos;
         }
 
@@ -31,9 +32,9 @@ namespace nopCommerceApi.Controllers.Product
         /// Associate a product with a category
         /// </summary>
         [HttpPost]
-        public IActionResult Create([FromBody] ProductCategoryMappingCreateDto productCategoryMappingCreateDto)
+        public async Task<IActionResult> Create([FromBody] ProductCategoryMappingCreateDto productCategoryMappingCreateDto)
         {
-            var productCategoryMapping = _productCategoryMappingService.Create(productCategoryMappingCreateDto);
+            var productCategoryMapping = await _productCategoryMappingService.CreateAsync(productCategoryMappingCreateDto);
             return Created($"api/category/mapping/{productCategoryMapping.Id}", productCategoryMapping);
         }
 
@@ -41,19 +42,19 @@ namespace nopCommerceApi.Controllers.Product
         /// Delete association between a product and a category
         /// </summary>
         [HttpDelete("{productId}/{categoryId}")]
-        public IActionResult Delete(int productId, int categoryId)
+        public async Task<IActionResult> Delete(int productId, int categoryId)
         {
-            var result = _productCategoryMappingService.Delete(productId, categoryId);
-            return Ok(result);
+            _productCategoryMappingService.DeleteAsync(productId, categoryId);
+            return Ok();
         }
 
         /// <summary>
         /// Get all product categories mappings associated with a product
         /// </summary>
         [HttpGet("product/{productId}")]
-        public IEnumerable<ProductCategoryMapping> GetAllAssociateWithProduct(int productId)
+        public async Task<IEnumerable<ProductCategoryMapping>> GetAllAssociateWithProduct(int productId)
         {
-            var productCategoryMappings = _productCategoryMappingService.GetAllAssociateWithProduct(productId);
+            var productCategoryMappings = await _productCategoryMappingService.GetAllAssociateWithProductAsync(productId);
             return productCategoryMappings;
         }
 
@@ -61,9 +62,9 @@ namespace nopCommerceApi.Controllers.Product
         /// Get all product categories mappings associated with a category
         /// </summary>
         [HttpGet("category/{categoryId}")]
-        public IEnumerable<ProductCategoryMapping> GetAllAssociateWithCategory(int categoryId)
+        public async Task<IEnumerable<ProductCategoryMapping>> GetAllAssociateWithCategory(int categoryId)
         {
-            var productCategoryMappings = _productCategoryMappingService.GetAllAssociateWithCategory(categoryId);
+            var productCategoryMappings = await _productCategoryMappingService.GetAllAssociateWithCategoryAsync(categoryId);
             return productCategoryMappings;
         }
     }
