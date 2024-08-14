@@ -7,11 +7,11 @@ namespace nopCommerceApi.Controllers.Product
 {
     [Route("api/manufacturer/mapping")]
     [ApiController]
-    public class ProductManufacturerController : ControllerBase
+    public class ProductManufacturerMappingController : ControllerBase
     {
         private readonly IProductManufaturerMappingService _productManufaturerMappingService;
 
-        public ProductManufacturerController(IManufacturerService manufacturerService, IProductManufaturerMappingService productManufaturerMappingService)
+        public ProductManufacturerMappingController(IManufacturerService manufacturerService, IProductManufaturerMappingService productManufaturerMappingService)
         {
             _productManufaturerMappingService = productManufaturerMappingService;
         }
