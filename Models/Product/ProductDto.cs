@@ -10,6 +10,8 @@ namespace nopCommerceApi.Models.Product
     /// </remarks>
     public class ProductDto : BaseDto
     {
+        public virtual int Id { get; set; }
+
         #region Product information
 
         /// <summary>
