@@ -8,13 +8,13 @@ namespace nopCommerceApi.Controllers.Product
     /// <summary>
     /// Associate product with picture
     /// </summary>
-    [Route("picture/mapping")]
+    [Route("api/picture/mapping")]
     [ApiController]
-    public class ProductPictureController : ControllerBase
+    public class ProductPictureMappingController : ControllerBase
     {
         private readonly IProductPictureMappingService _productPictureMappingService;
 
-        public ProductPictureController(IProductPictureMappingService productPictureMappingService)
+        public ProductPictureMappingController(IProductPictureMappingService productPictureMappingService)
         {
             _productPictureMappingService = productPictureMappingService;
         }
