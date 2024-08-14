@@ -17,12 +17,7 @@ namespace nopCommerceApi.Validations.ProductAttributeValue
         public ProductAttributeValueDtoBaseValidator(NopCommerceContext context, IMySettings settings)
         {
             _context = context;
-            _settings = settings;
-
-            // check if ProductAttributeMappingId exist in product
-            RuleFor(x => x.ProductAttributeMappingId)
-                .Must((productAttributeMappingId) => _context.Products.Any(p => p.Id == productAttributeMappingId))
-                .WithMessage($"The product ID that you want to map to productAttributeMappingId does not exist");
+            _settings = settings;            
 
             // check if AttributeValueTypeId is valid from settings AttributeValueTypeAvailableId
             RuleFor(x => x.AttributeValueTypeId)
@@ -42,8 +37,12 @@ namespace nopCommerceApi.Validations.ProductAttributeValue
 
             // check if associatedProductId exist as product id
             RuleFor(x => x.AssociatedProductId)
-                .Must((associatedProductId) => _context.Products.Any(p => p.Id == associatedProductId))
+                .Must((associatedProductId) => _context.Products.Any(p => p.Id == associatedProductId) || associatedProductId == 0)
                 .WithMessage("The associated product ID does not exist.");
+
+            // display order mus be greater or equal than 0
+            RuleFor(x => x.DisplayOrder)
+                .GreaterThanOrEqualTo(0).WithMessage("Display order must be greater than or equal to 0.");
 
         }
     }
