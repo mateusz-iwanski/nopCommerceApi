@@ -12,6 +12,7 @@ using nopCommerceApi.Models.Product;
 using nopCommerceApi.Models.ProductAttribute;
 using nopCommerceApi.Models.ProductAttributeMapping;
 using nopCommerceApi.Models.ProductAttributeValue;
+using nopCommerceApi.Models.ProductAvailabilityRange;
 using nopCommerceApi.Models.ProductCategory;
 using nopCommerceApi.Models.ProductManufacturer;
 using nopCommerceApi.Models.ProductPicture;
