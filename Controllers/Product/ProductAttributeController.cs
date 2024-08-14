@@ -94,9 +94,9 @@ namespace nopCommerceApi.Controllers.Product
         /// #### Doc: https://docs.nopcommerce.com/en/running-your-store/catalog/products/product-attributes.html
         /// </remarks>
         [HttpGet("value")]
-        public IEnumerable<ProductAttributeValueDto> GetAllValue()
+        public async Task<IEnumerable<ProductAttributeValueDto>> GetAllValue()
         {
-            var productAttributeValues = _productAttributeValueService.GetAll();
+            var productAttributeValues = await _productAttributeValueService.GetAllAsync();
 
             return productAttributeValues;
         }
@@ -109,9 +109,9 @@ namespace nopCommerceApi.Controllers.Product
         /// #### Doc: https://docs.nopcommerce.com/en/running-your-store/catalog/products/product-attributes.html
         /// </remarks>
         [HttpGet("value/{id}")]
-        public IActionResult GetByIdValue(int id)
+        public async Task<IActionResult> GetByIdValue(int id)
         {
-            var productAttributeValue = _productAttributeValueService.GetById(id);
+            var productAttributeValue = await _productAttributeValueService.GetByIdAsync(id);
 
             return Ok(productAttributeValue);
         }
@@ -121,13 +121,16 @@ namespace nopCommerceApi.Controllers.Product
         /// </summary>
         /// <remarks>
         /// #### Doc: https://docs.nopcommerce.com/en/running-your-store/catalog/products/product-attributes.html
+        /// #### In one action create product attribute values and associate with product attribute mapping.
+        /// #### Product attribute mapping associate product with product attribute.
         /// </remarks>
         [HttpPost("value/add-to-attribute/{attributeId}")]
-        public IActionResult CreateValue(int attributeId, [FromBody] ProductAttributeValueDtoCreate productAttributeValueCreateDto)
+        public async Task<IActionResult> CreateValue(int attributeId, [FromBody] ProductAttributeValueDtoCreate productAttributeValueCreateDto)
         {            
-            var productAttributeValue = _productAttributeValueService.Create(attributeId, productAttributeValueCreateDto);
+            var productAttributeValue = await _productAttributeValueService.CreateAsync(attributeId, productAttributeValueCreateDto);
 
-            return Ok(productAttributeValue);
+            // return created product attribute value path
+            return Created($"api/product/attribute/value/{productAttributeValue.Id}", null);
         }
 
         /// <summary>
@@ -135,13 +138,14 @@ namespace nopCommerceApi.Controllers.Product
         /// </summary>
         /// <remarks>
         /// #### Doc: https://docs.nopcommerce.com/en/running-your-store/catalog/products/product-attributes.html
+        /// #### ProductAttributeMappingId can't be updated, if you want to update it, you need to delete and create new one.
         /// </remarks>
-        [HttpPut("value/update/{id}")]
-        public IActionResult UpdateValue(int id, [FromBody] ProductAttributeValueUpdateDto productAttributeValueUpdateDto)
+        [HttpPut("value/update")]
+        public async Task<IActionResult> UpdateValue([FromBody] ProductAttributeValueUpdateDto productAttributeValueUpdateDto)
         {
-            var updated = _productAttributeValueService.Update(id, productAttributeValueUpdateDto);
+            var updated = await _productAttributeValueService.UpdateAsync(productAttributeValueUpdateDto);
 
-            return Ok($"Update product attribute value by id: {id}");
+            return Ok(updated);
         }
 
         /// <summary>
@@ -151,11 +155,11 @@ namespace nopCommerceApi.Controllers.Product
         /// #### Doc: https://docs.nopcommerce.com/en/running-your-store/catalog/products/product-attributes.html
         /// </remarks>
         [HttpDelete("value/delete/{id}")]
-        public IActionResult DeleteValue(int id)
+        public async Task<IActionResult> DeleteValue(int id)
         {
-            var deleted = _productAttributeValueService.Delete(id);
+            var deleted = await _productAttributeValueService.DeleteAsync(id);
 
-            return Ok($"Delete product attribute value by id: {id}");
+            return Ok();
         }
 
         #endregion
