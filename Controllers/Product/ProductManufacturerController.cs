@@ -60,7 +60,7 @@ namespace nopCommerceApi.Controllers.Product
         /// <summary>
         /// Get association between product and manufacturer by manufacturer id
         /// </summary>
-        [HttpGet("manufacturer/{manufaturerId}")]
+        [HttpGet("manufacturer/{manufacturerId}")]
         public async Task<IActionResult> GetByManufacturerId(int manufacturerId)
         {
             var mappings = await _productManufaturerMappingService.GetByManufacturerId(manufacturerId);
