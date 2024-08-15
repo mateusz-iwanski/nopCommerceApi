@@ -3,11 +3,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using nopCommerceApi.Entities;
-using nopCommerceApi.Models;
+using nopCommerceApi.Models.TaxCategory;
 using nopCommerceApi.Services;
 //using nopCommerceApi.Models;
 
-namespace nopCommerceApi.Controllers
+namespace nopCommerceApi.Controllers.TaxCategory
 {
     /// <summary>
     /// Controller for tax category operations
@@ -25,12 +25,11 @@ namespace nopCommerceApi.Controllers
         /// <summary>
         /// Get all tax categories
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
-        [Authorize(Roles = "Admin,User,Viewer")]
-        public ActionResult<IEnumerable<Models.TaxCategoryDto>> GetAll()
+        //[Authorize(Roles = "Admin,User,Viewer")]
+        public async Task<ActionResult<IEnumerable<TaxCategoryDto>>> GetAll()
         {
-            var taxCategories = _taxCategoryService.GetAll();
+            var taxCategories = await _taxCategoryService.GetAll();
 
             return Ok(taxCategories);
         }
