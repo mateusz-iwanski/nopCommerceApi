@@ -7,7 +7,7 @@ namespace nopCommerceApi.Validations.ProductPicture
 {
     public class ProductPictureMappingBaseDtoValidator<T> : BaseValidator<T> where T : ProductPictureMappingDto
     {
-        private readonly NopCommerceContext _context;
+        protected readonly NopCommerceContext _context;
 
         public ProductPictureMappingBaseDtoValidator(NopCommerceContext context)
         {
@@ -28,7 +28,7 @@ namespace nopCommerceApi.Validations.ProductPicture
                     return _context.Pictures.Any(p => p.Id == pictureId);
                 })
                 .WithMessage("The picture id is not exists.");
-            _context = context;
+            _context = context;                      
 
             // check display order is greater or equal to 0
             RuleFor(x => x.DisplayOrder)
