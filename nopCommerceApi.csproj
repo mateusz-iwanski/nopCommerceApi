@@ -43,8 +43,5 @@
     <None Include="nlog.config" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\Tax\" />
-  </ItemGroup>
 
 </Project>
