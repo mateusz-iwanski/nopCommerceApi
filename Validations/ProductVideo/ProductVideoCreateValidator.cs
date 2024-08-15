@@ -11,7 +11,7 @@ namespace nopCommerceApi.Validations.ProductVideo
             // check if exists ProductId and VideoId
             RuleFor(x => new { x.ProductId, x.VideoId })
                 .Must((dto) => !_context.ProductVideos.Any(p => dto.ProductId == p.ProductId && dto.VideoId == p.VideoId ))
-                .WithMessage("The product video already exists.");
+                .WithMessage("The product with the video is already associated.");
         }
     }   
 }
