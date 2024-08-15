@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using nopCommerceApi.Models.ProductPicture;
-using nopCommerceApi.Services.Picture;
+using nopCommerceApi.Services.Product;
 
 namespace nopCommerceApi.Controllers.Product
 {
@@ -66,10 +66,10 @@ namespace nopCommerceApi.Controllers.Product
         /// <summary>
         /// Update association between product and picture
         /// </summary>
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] ProductPictureMappingUpdateDto mappingDto)
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] ProductPictureMappingUpdateDto mappingDto)
         {
-            var mapping = await _productPictureMappingService.Update(id, mappingDto);
+            var mapping = await _productPictureMappingService.Update(mappingDto);
             return Ok(mapping);
         }
 
