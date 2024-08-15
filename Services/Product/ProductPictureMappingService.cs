@@ -4,7 +4,7 @@ using nopCommerceApi.Entities;
 using nopCommerceApi.Exceptions;
 using nopCommerceApi.Models.ProductPicture;
 
-namespace nopCommerceApi.Services.Picture
+namespace nopCommerceApi.Services.Product
 {
     public interface IProductPictureMappingService
     {
@@ -12,7 +12,7 @@ namespace nopCommerceApi.Services.Picture
         Task<bool> Delete(int id);
         Task<IEnumerable<ProductPictureMappingDto>> GetAll();
         Task<ProductPictureMappingDto> GetById(int id);
-        Task<bool> Update(int id, ProductPictureMappingUpdateDto ProductPictureMappingUpdateDto);
+        Task<bool> Update(ProductPictureMappingUpdateDto ProductPictureMappingUpdateDto);
         Task<IEnumerable<ProductPictureMappingDto>> GetByProductId(int productId);
     }
 
@@ -27,14 +27,18 @@ namespace nopCommerceApi.Services.Picture
 
         public async Task<IEnumerable<ProductPictureMappingDto>> GetAll()
         {
-            var productPictures = await _context.ProductPictureMappings.ToListAsync();
+            var productPictures = await _context.ProductPictureMappings
+                .AsNoTracking()
+                .ToListAsync();
 
             return _mapper.Map<IEnumerable<ProductPictureMappingDto>>(productPictures);
         }
 
         public async Task<ProductPictureMappingDto> GetById(int id)
         {
-            var productPicture = await _context.ProductPictureMappings.FindAsync(id);
+            var productPicture = await _context.ProductPictureMappings
+                .FindAsync(id);
+
             if (productPicture == null)
             {
                 throw new NotFoundExceptions($"The product picture with id {id} was not found.");
@@ -48,22 +52,17 @@ namespace nopCommerceApi.Services.Picture
             var productPicture = _mapper.Map<Entities.Usable.ProductPictureMapping>(ProductPictureMappingCreateDto);
 
             _context.ProductPictureMappings.Add(productPicture);
-            await _context.SaveChangesAsync();  
+            await _context.SaveChangesAsync();
 
             return _mapper.Map<ProductPictureMappingDto>(productPicture);
         }
 
-        public async Task<bool> Update(int id, ProductPictureMappingUpdateDto ProductPictureMappingUpdateDto)
+        public async Task<bool> Update(ProductPictureMappingUpdateDto ProductPictureMappingUpdateDto)
         {
-            var productPicture = await _context.ProductPictureMappings.FindAsync(id);
-            ProductPictureMappingUpdateDto.Id = id;
-
-            if (productPicture == null)
-            {
-                throw new NotFoundExceptions($"The product picture with id {id} was not found.");
-            }
+            var productPicture = await _context.ProductPictureMappings.FindAsync(ProductPictureMappingUpdateDto.Id);
 
             _mapper.Map(ProductPictureMappingUpdateDto, productPicture);
+
             await _context.SaveChangesAsync();
 
             return true;
@@ -86,7 +85,9 @@ namespace nopCommerceApi.Services.Picture
 
         public async Task<IEnumerable<ProductPictureMappingDto>> GetByProductId(int productId)
         {
-            var productPictures = await _context.ProductPictureMappings.Where(x => x.ProductId == productId).ToListAsync();
+            var productPictures = await _context.ProductPictureMappings
+                .AsNoTracking()
+                .Where(x => x.ProductId == productId).ToListAsync();
 
             return _mapper.Map<IEnumerable<ProductPictureMappingDto>>(productPictures);
         }
