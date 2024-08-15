@@ -2,6 +2,7 @@
 using nopCommerceApi.Exceptions;
 using nopCommerceApi.Models.Address;
 using nopCommerceApi.Models.Country;
+using nopCommerceApi.Models.Language;
 using nopCommerceApi.Models.State;
 using System.ComponentModel.DataAnnotations;
 

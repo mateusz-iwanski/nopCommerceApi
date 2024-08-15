@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using nopCommerceApi.Models;
+using nopCommerceApi.Models.Language;
 using nopCommerceApi.Services;
 
 namespace nopCommerceApi.Controllers.Language
