@@ -48,6 +48,7 @@ using nopCommerceApi.Validations.ProductAttributeValue;
 using nopCommerceApi.Validations.ProductAttributeMapping;
 using nopCommerceApi.Validations.ProductAvailabilityRange;
 using nopCommerceApi.Validations.Customer;
+using nopCommerceApi.Validations.ProductTag;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -240,12 +241,9 @@ builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyCont
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductVideoCreateValidator>());
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductVideoUpdateValidator>());
 
-
-
-#region Product
-builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UpdateProductTagValidator>());
-builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateProductTagValidator>());
-#endregion
+// ProductTag
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductTagCreateValidator>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductTagUpdateValidator>());
 
 
 
