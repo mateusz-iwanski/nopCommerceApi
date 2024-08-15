@@ -20,9 +20,9 @@ namespace nopCommerceApi.Controllers.Product
         /// Get all products
         /// </summary>
         [HttpGet]
-        public IEnumerable<ProductDto> GetAll()
+        public async Task<IEnumerable<ProductDto>> GetAll()
         {
-            var productsDto = _productService.GetAll();
+            var productsDto = await _productService.GetAll();
             return productsDto;
         }
 
@@ -31,9 +31,9 @@ namespace nopCommerceApi.Controllers.Product
         /// Get product by id
         /// </summary>
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var productDto = _productService.GetById(id);
+            var productDto = await _productService.GetById(id);
 
             return Ok(productDto);
         }
@@ -47,10 +47,10 @@ namespace nopCommerceApi.Controllers.Product
         /// Then you need to use update methods to change the default values.
         /// </remarks>
         [HttpPost("add/minimal")]
-        public IActionResult CreateMinimal([FromBody] ProductCreateMinimalDto productDto)
+        public async Task<IActionResult> CreateMinimal([FromBody] ProductCreateMinimalDto productDto)
         {
-            var product = _productService.CreateMinimal(productDto);
-            return Created($"api/product/{ product.Id}", product);
+            var product = await _productService.CreateMinimal(productDto);
+            return Created($"api/product/{product.Id}", product);
         }
 
         /// <summary>
@@ -61,9 +61,9 @@ namespace nopCommerceApi.Controllers.Product
         /// boolean will set on false and datetime on default value (null).
         /// </remarks>
         [HttpPut("update/block/information/{id}")]
-        public IActionResult UpdateBlockInformation(int id, [FromBody] ProductUpdateBlockInformationDto productDto)
+        public async Task<IActionResult> UpdateBlockInformation(int id, [FromBody] ProductUpdateBlockInformationDto productDto)
         {
-            _productService.UpdateBlockInformation(id, productDto);
+            await _productService.UpdateBlockInformation(id, productDto);
             return Ok($"Update product by id: {id}");
         }
 
@@ -74,9 +74,9 @@ namespace nopCommerceApi.Controllers.Product
         /// Note: If you do not include some fields in the request, they will be updated to default values.
         /// </remarks>
         [HttpPut("update/block/seo/{id}")]
-        public IActionResult UpdateBlockSeo(int id, [FromBody] ProductUpdateBlockSeoDto productDto)
+        public async Task<IActionResult> UpdateBlockSeo(int id, [FromBody] ProductUpdateBlockSeoDto productDto)
         {
-            _productService.UpdateBlockSeo(id, productDto);
+            await _productService.UpdateBlockSeo(id, productDto);
             return Ok($"Update product by id: {id}");
         }
 
@@ -88,9 +88,9 @@ namespace nopCommerceApi.Controllers.Product
         /// Look on Configuration → Settings → Catalog settings or for more details.        
         /// </remarks>
         [HttpPut("update/block/rating/{id}")]
-        public IActionResult UpdateBlockRating(int id, [FromBody] ProductUpdateBlockRatingDto productDto)
+        public async Task<IActionResult> UpdateBlockRating(int id, [FromBody] ProductUpdateBlockRatingDto productDto)
         {
-            _productService.UpdateBlockRating(id, productDto);
+            await _productService.UpdateBlockRating(id, productDto);
             return Ok($"Update product by id: {id}");
         }
 
@@ -101,9 +101,9 @@ namespace nopCommerceApi.Controllers.Product
         /// Note: If you do not include some fields in the request, they will be updated to default values.
         /// </remarks>
         [HttpPut("update/block/reviews/{id}")]
-        public IActionResult UpdateBlockReviews(int id, [FromBody] ProductUpdateBlockReviewsDto productDto)
+        public async Task<IActionResult> UpdateBlockReviews(int id, [FromBody] ProductUpdateBlockReviewsDto productDto)
         {
-            _productService.UpdateBlockReviews(id, productDto);
+            await _productService.UpdateBlockReviews(id, productDto);
             return Ok($"Update product by id: {id}");
         }
 
@@ -115,9 +115,9 @@ namespace nopCommerceApi.Controllers.Product
         /// </remarks>
 
         [HttpPut("update/block/giftcard/{id}")]
-        public IActionResult UpdateBlockGiftCard(int id, [FromBody] ProductUpdateBlockGiftCardDto productDto)
+        public async Task<IActionResult> UpdateBlockGiftCard(int id, [FromBody] ProductUpdateBlockGiftCardDto productDto)
         {
-            _productService.UpdateBlockGiftCard(id, productDto);
+            await _productService.UpdateBlockGiftCard(id, productDto);
             return Ok($"Update product by id: {id}");
         }
 
@@ -128,9 +128,9 @@ namespace nopCommerceApi.Controllers.Product
         /// Note: If you do not include some fields in the request, they will be updated to default values.
         /// </remarks>
         [HttpPut("update/block/download/{id}")]
-        public IActionResult UpdateBlockDownload(int id, [FromBody] ProductUpdateBlockDownloadDto productDto)
+        public async Task<IActionResult> UpdateBlockDownload(int id, [FromBody] ProductUpdateBlockDownloadDto productDto)
         {
-            _productService.UpdateBlockDownload(id, productDto);
+            await _productService.UpdateBlockDownload(id, productDto);
             return Ok($"Update product by id: {id}");
         }
 
@@ -141,9 +141,9 @@ namespace nopCommerceApi.Controllers.Product
         /// Note: If you do not include some fields in the request, they will be updated to default values.
         /// </remarks>
         [HttpPut("update/block/recurring/{id}")]
-        public IActionResult UpdateBlockRecurring(int id, [FromBody] ProductUpdateBlockRecurringDto productDto)
+        public async Task<IActionResult> UpdateBlockRecurring(int id, [FromBody] ProductUpdateBlockRecurringDto productDto)
         {
-            _productService.UpdateBlockRecurring(id, productDto);
+            await _productService.UpdateBlockRecurring(id, productDto);
             return Ok($"Update product by id: {id}");
         }
 
@@ -154,9 +154,9 @@ namespace nopCommerceApi.Controllers.Product
         /// Note: If you do not include some fields in the request, they will be updated to default values.
         /// </remarks>
         [HttpPut("update/block/rental/{id}")]
-        public IActionResult UpdateBlockRentalPrice(int id, [FromBody] ProductUpdateBlockRentalPriceDto productDto)
+        public async Task<IActionResult> UpdateBlockRentalPrice(int id, [FromBody] ProductUpdateBlockRentalPriceDto productDto)
         {
-            _productService.UpdateBlockRentalPrice(id, productDto);
+            await _productService.UpdateBlockRentalPrice(id, productDto);
             return Ok($"Update product by id: {id}");
         }
 
@@ -167,9 +167,9 @@ namespace nopCommerceApi.Controllers.Product
         /// Note: If you do not include some fields in the request, they will be updated to default values.
         /// </remarks>
         [HttpPut("update/block/shipping/{id}")]
-        public IActionResult UpdateBlockShipping(int id, [FromBody] ProductUpdateBlockShippingDto productDto)
+        public async Task<IActionResult> UpdateBlockShipping(int id, [FromBody] ProductUpdateBlockShippingDto productDto)
         {
-            _productService.UpdateBlockShipping(id, productDto);
+            await _productService.UpdateBlockShipping(id, productDto);
             return Ok($"Update product by id: {id}");
         }
 
@@ -180,9 +180,9 @@ namespace nopCommerceApi.Controllers.Product
         /// Note: If you do not include some fields in the request, they will be updated to default values.
         /// </remarks>
         [HttpPut("update/block/inventory/{id}")]
-        public IActionResult UpdateBlockInventory(int id, [FromBody] ProductUpdateBlockInventoryDto productDto)
+        public async Task<IActionResult> UpdateBlockInventory(int id, [FromBody] ProductUpdateBlockInventoryDto productDto)
         {
-            _productService.UpdateBlockInventory(id, productDto);
+            await _productService.UpdateBlockInventory(id, productDto);
             return Ok($"Update product by id: {id}");
         }
 
@@ -193,9 +193,9 @@ namespace nopCommerceApi.Controllers.Product
         /// Note: If you do not include some fields in the request, they will be updated to default values.
         /// </remarks>
         [HttpPut("update/block/attribute/{id}")]
-        public IActionResult UpdateBlockAttribute(int id, [FromBody] ProductUpdateBlockAttributeDto productDto)
+        public async Task<IActionResult> UpdateBlockAttribute(int id, [FromBody] ProductUpdateBlockAttributeDto productDto)
         {
-            _productService.UpdateBlockAttribute(id, productDto);
+            await _productService.UpdateBlockAttribute(id, productDto);
             return Ok($"Update product by id: {id}");
         }
 
@@ -207,9 +207,9 @@ namespace nopCommerceApi.Controllers.Product
         /// Note: If you do not include some fields in the request, they will be updated to default values.
         /// </remarks>
         [HttpPut("update/block/price/{id}")]
-        public IActionResult UpdateBlockPrice(int id, [FromBody] ProductUpdateBlockPriceDto productDto)
+        public async Task<IActionResult> UpdateBlockPrice(int id, [FromBody] ProductUpdateBlockPriceDto productDto)
         {
-            _productService.UpdateBlockPrice(id, productDto);
+            await _productService.UpdateBlockPrice(id, productDto);
             return Ok($"Update product by id: {id}");
         }
 
@@ -217,9 +217,9 @@ namespace nopCommerceApi.Controllers.Product
         /// Delete product by id
         /// </summary>
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _productService.Delete(id);
+            await _productService.Delete(id);
             return Ok($"Delete product by id: {id}");
         }
 
@@ -227,19 +227,19 @@ namespace nopCommerceApi.Controllers.Product
         /// Associate category to product
         /// </summary>
         [HttpPost("{productId}link/category{categoryId}")]
-        public IActionResult AssociateCategory(int productId, int categoryId)
+        public async Task<IActionResult> AssociateCategory(int productId, int categoryId)
         {
-            _productService.AssociateCategory(productId, categoryId);
+            await _productService.AssociateCategory(productId, categoryId);
             return Ok($"Associate category to product by id: {productId}");
         }
 
         /// <summary>
         /// Unassociate category to product
         /// </summary>
-        [HttpDelete( "{productId}unlink/category{categoryId}")]
-        public IActionResult UnAssociateCategory(int productId, int categoryId)
+        [HttpDelete("{productId}unlink/category{categoryId}")]
+        public async Task<IActionResult> UnAssociateCategory(int productId, int categoryId)
         {
-            _productService.UnAssociateCategory(productId, categoryId);
+            await _productService.UnAssociateCategory(productId, categoryId);
             return Ok($"Unassociate category {categoryId} from product by id: {productId}");
         }
     }
