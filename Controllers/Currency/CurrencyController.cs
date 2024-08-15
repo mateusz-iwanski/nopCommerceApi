@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Models;
-using nopCommerceApi.Services;
+using nopCommerceApi.Services.Currency;
 
-namespace nopCommerceApi.Controllers
+namespace nopCommerceApi.Controllers.Currency
 {
     /// <summary>
     /// Controller for currency operations
@@ -25,10 +25,10 @@ namespace nopCommerceApi.Controllers
         /// Get all currencies in the system
         /// </summary>
         [HttpGet]
-        [Authorize(Roles = "Admin,User,Viewer")]
-        public ActionResult<CurrencyDto> GetAll()
+        //[Authorize(Roles = "Admin,User,Viewer")]
+        public async Task<ActionResult<IEnumerable<CurrencyDto>>> GetAll()
         {
-            var currencyDtos = _currencyService.GetAll();
+            var currencyDtos = await _currencyService.GetAllAsync();
             return Ok(currencyDtos);
         }
     }

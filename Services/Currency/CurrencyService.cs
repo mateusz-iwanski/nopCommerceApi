@@ -1,27 +1,28 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Models;
 
-namespace nopCommerceApi.Services
+namespace nopCommerceApi.Services.Currency
 {
     public interface ICurrencyService
     {
-        IEnumerable<CurrencyDto> GetAll();
+        Task<IEnumerable<CurrencyDto>> GetAllAsync();
     }
 
     public class CurrencyService : BaseService, ICurrencyService
     {
-        private readonly NopCommerceContext _context;
-        private readonly IMapper _mapper;
-
         public CurrencyService(NopCommerceContext context, IMapper mapper, ILogger<AddressAttributeService> logger
             ) : base(context, mapper, logger)
         {
         }
 
-        public IEnumerable<CurrencyDto> GetAll()
+        public async Task<IEnumerable<CurrencyDto>> GetAllAsync()
         {
-            var currencies = _context.Currencies.ToList();
+            var currencies = await _context.Currencies
+                .AsNoTracking()
+                .ToListAsync();
+
             var currencyDtos = _mapper.Map<List<CurrencyDto>>(currencies);
 
             return currencyDtos;
