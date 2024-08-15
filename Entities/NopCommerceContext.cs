@@ -61,7 +61,7 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<SpecificationAttributeOption> SpecificationAttributeOptions { get; set; }
     public virtual DbSet<Video> Videos { get; set; }
     public virtual DbSet<ProductVideo> ProductVideos { get; set; }
-
+    public virtual DbSet<Store> Stores { get; set; }
 
     #endregion
 
@@ -139,8 +139,7 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<ShipmentItem> ShipmentItems { get; set; }
     public virtual DbSet<ShippingByWeightByTotalRecord> ShippingByWeightByTotalRecords { get; set; }    
     public virtual DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }    
-    public virtual DbSet<StockQuantityHistory> StockQuantityHistories { get; set; }
-    public virtual DbSet<Store> Stores { get; set; }
+    public virtual DbSet<StockQuantityHistory> StockQuantityHistories { get; set; }    
     public virtual DbSet<StoreMapping> StoreMappings { get; set; }
     public virtual DbSet<StorePickupPoint> StorePickupPoints { get; set; }    
     public virtual DbSet<TaxTransactionLog> TaxTransactionLogs { get; set; }
@@ -207,6 +206,7 @@ public partial class NopCommerceContext : DbContext
         new SpecificationAttributeOptionConfigure().Configure(modelBuilder.Entity<SpecificationAttributeOption>());
         new VideoConfiguration().Configure(modelBuilder.Entity<Video>());
         new ProductVideoConfiguration().Configure(modelBuilder.Entity<ProductVideo>());
+        new StoreConfigutration().Configure(modelBuilder.Entity<Store>());
 
         #endregion
 
@@ -1276,20 +1276,7 @@ public partial class NopCommerceContext : DbContext
                entity.HasOne(d => d.Product).WithMany(p => p.StockQuantityHistories)
                    .HasForeignKey(d => d.ProductId)
                    .HasConstraintName("FK_StockQuantityHistory_ProductId_Product_Id");
-           });
-
-           modelBuilder.Entity<Store>(entity =>
-           {
-               entity.ToTable("Store");
-
-               entity.Property(e => e.CompanyAddress).HasMaxLength(1000);
-               entity.Property(e => e.CompanyName).HasMaxLength(1000);
-               entity.Property(e => e.CompanyPhoneNumber).HasMaxLength(1000);
-               entity.Property(e => e.CompanyVat).HasMaxLength(1000);
-               entity.Property(e => e.Hosts).HasMaxLength(1000);
-               entity.Property(e => e.Name).HasMaxLength(400);
-               entity.Property(e => e.Url).HasMaxLength(400);
-           });
+           });           
 
            modelBuilder.Entity<StoreMapping>(entity =>
            {

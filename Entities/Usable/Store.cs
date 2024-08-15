@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using nopCommerceApi.Entities.NotUsable;
 
-namespace nopCommerceApi.Entities.NotUsable;
+namespace nopCommerceApi.Entities.Usable;
 
 public partial class Store
 {
