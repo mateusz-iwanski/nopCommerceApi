@@ -30,6 +30,7 @@ namespace nopCommerceApi.Models.UrlRecord
         /// <summary>
         /// ## EntityId
         /// ### Gets or set the entity id
+        /// #### For example: if EntityName = "Product" then EntityId = ProductId
         /// </summary>
         [Required]
         public virtual int EntityId { get; set; }
