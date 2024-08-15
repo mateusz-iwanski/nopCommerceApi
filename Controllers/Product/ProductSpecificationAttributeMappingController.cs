@@ -7,7 +7,7 @@ namespace nopCommerceApi.Controllers.Product
     /// <summary>
     /// Association between product and specification attribute
     /// </summary>
-    [Route("product/specification-attribute/mapping")]
+    [Route("api/product/specification-attribute/mapping")]
     [ApiController]
     public class ProductSpecificationAttributeMappingController : ControllerBase
     {
