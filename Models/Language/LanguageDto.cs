@@ -1,4 +1,4 @@
-﻿namespace nopCommerceApi.Models
+﻿namespace nopCommerceApi.Models.Language
 {
     /// <summary>
     /// Language Data Transfer Object
