@@ -26,7 +26,9 @@ namespace nopCommerceApi.Services.Video
         // get all
         public async Task<IEnumerable<VideoDto>> GetAll()
         {
-            var videos = await _context.Videos.ToListAsync();
+            var videos = await _context.Videos
+                .AsNoTracking()
+                .ToListAsync();
             var videoDtos = _mapper.Map<List<VideoDto>>(videos);
 
             return videoDtos;
@@ -35,7 +37,9 @@ namespace nopCommerceApi.Services.Video
         // get by id
         public async Task<VideoDto> GetById(int id)
         {
-            var video = await _context.Videos.FirstOrDefaultAsync(v => v.Id == id);
+            var video = await _context.Videos
+                .AsNoTracking()
+                .FirstOrDefaultAsync(v => v.Id == id);
 
             if (video == null) throw new NotFoundExceptions($"Video with id {id} not found");
 
@@ -47,7 +51,9 @@ namespace nopCommerceApi.Services.Video
         //get by url
         public async Task<VideoDto> GetByUrl(string url)
         {
-            var video = await _context.Videos.FirstOrDefaultAsync(v => v.VideoUrl == url);
+            var video = await _context.Videos
+                .AsNoTracking()
+                .FirstOrDefaultAsync(v => v.VideoUrl == url);
 
             if (video == null) throw new NotFoundExceptions($"Video with url {url} not found");
 
@@ -59,13 +65,7 @@ namespace nopCommerceApi.Services.Video
         // update
         public async Task<VideoDto> Update(VideoUpdateDto updateVideoDto)
         {
-            var id = updateVideoDto.Id;
-
-            var video = await _context.Videos.FirstOrDefaultAsync(v => v.Id == id);
-
-            updateVideoDto.Id = id;
-
-            if (video == null) throw new NotFoundExceptions($"Video with id {id} not found");
+            var video = await _context.Videos.FirstOrDefaultAsync(v => v.Id == updateVideoDto.Id);
 
             _mapper.Map(updateVideoDto, video);
 
