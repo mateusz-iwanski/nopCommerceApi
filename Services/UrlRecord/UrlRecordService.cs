@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Exceptions;
 using nopCommerceApi.Models.UrlRecord;
@@ -8,12 +9,12 @@ namespace nopCommerceApi.Services.UrlRecord
 {
     public interface IUrlRecordService
     {
-        UrlRecordDto Create(UrlRecordCreateDto urlRecordCreateDto);
-        bool Delete(int id);
-        IEnumerable<UrlRecordDto> GetAll();
-        UrlRecordDto GetById(int id);
-        bool Update(UrlRecordUpdateDto urlRecordUpdateDto);
-        UrlRecordDto GetByEntityId(int entityId);
+        Task<UrlRecordDto> CreateAsync(UrlRecordCreateDto urlRecordCreateDto);
+        Task<bool> DeleteAsync(int id);
+        Task<IEnumerable<UrlRecordDto>> GetAllAsync();
+        Task<UrlRecordDto> GetByIdAsync(int id);
+        Task<bool> UpdateAsync(UrlRecordUpdateDto urlRecordUpdateDto);
+        Task<UrlRecordDto> GetByEntityIdAsync(int entityId);
     }
 
     public class UrlRecordService : BaseService, IUrlRecordService
@@ -23,17 +24,21 @@ namespace nopCommerceApi.Services.UrlRecord
         }
 
         // get all url records
-        public IEnumerable<UrlRecordDto> GetAll()
+        public async Task<IEnumerable<UrlRecordDto>> GetAllAsync()
         {
-            var urlRecords = _context.UrlRecords.ToList();
+            var urlRecords = await _context.UrlRecords
+                .AsNoTracking()
+                .ToListAsync();
 
             return _mapper.Map<IEnumerable<UrlRecordDto>>(urlRecords);
         }
 
         // get url record by id
-        public UrlRecordDto GetById(int id)
+        public async Task<UrlRecordDto> GetByIdAsync(int id)
         {
-            var urlRecord = _context.UrlRecords.Find(id);
+            var urlRecord = await _context.UrlRecords
+                .FindAsync(id);
+
             if (urlRecord == null)
             {
                 throw new NotFoundExceptions($"The url record with id {id} was not found.");
@@ -43,49 +48,50 @@ namespace nopCommerceApi.Services.UrlRecord
         }
 
         // get by EntityId
-        public UrlRecordDto GetByEntityId(int entityId)
+        public async Task<UrlRecordDto> GetByEntityIdAsync(int entityId)
         {
-            var urlRecord = _context.UrlRecords.FirstOrDefault(x => x.EntityId == entityId);
+            var urlRecord = await _context.UrlRecords
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.EntityId == entityId);
+
             return _mapper.Map<UrlRecordDto>(urlRecord);
         }
 
         // create url record
-        public UrlRecordDto Create(UrlRecordCreateDto urlRecordCreateDto)
+        public async Task<UrlRecordDto> CreateAsync(UrlRecordCreateDto urlRecordCreateDto)
         {
             var urlRecord = _mapper.Map<Entities.Usable.UrlRecord>(urlRecordCreateDto);
 
             _context.UrlRecords.Add(urlRecord);
-            _context.SaveChanges();
+
+            await _context.SaveChangesAsync();
 
             return _mapper.Map<UrlRecordDto>(urlRecord);
         }
 
         // update url record
-        public bool Update(UrlRecordUpdateDto urlRecordUpdateDto)
+        public async Task<bool> UpdateAsync(UrlRecordUpdateDto urlRecordUpdateDto)
         {
-            var urlRecord = _context.UrlRecords.Find(urlRecordUpdateDto.Id);
-            if (urlRecord == null)
-            {
-                throw new NotFoundExceptions($"The url record with id {urlRecordUpdateDto.Id} was not found.");
-            }
+            var urlRecord = await _context.UrlRecords.FindAsync(urlRecordUpdateDto.Id);
 
             _mapper.Map(urlRecordUpdateDto, urlRecord);
-            _context.SaveChanges();
+
+            await _context.SaveChangesAsync();
 
             return true;
         }
 
         // delete url record
-        public bool Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            var urlRecord = _context.UrlRecords.Find(id);
+            var urlRecord = await _context.UrlRecords.FindAsync(id);
             if (urlRecord == null)
             {
                 throw new NotFoundExceptions($"The url record with id {id} was not found.");
             }
 
             _context.UrlRecords.Remove(urlRecord);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return true;
         }
