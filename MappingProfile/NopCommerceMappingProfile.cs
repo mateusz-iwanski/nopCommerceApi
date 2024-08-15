@@ -18,6 +18,7 @@ using nopCommerceApi.Models.ProductManufacturer;
 using nopCommerceApi.Models.ProductPicture;
 using nopCommerceApi.Models.ProductSpecificationAttributeMapping;
 using nopCommerceApi.Models.ProductTag;
+using nopCommerceApi.Models.ProductTemplate;
 using nopCommerceApi.Models.ProductVideo;
 using nopCommerceApi.Models.SpecificationAttribute;
 using nopCommerceApi.Models.SpecificationAttributeOption;

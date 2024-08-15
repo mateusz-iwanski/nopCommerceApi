@@ -7,11 +7,11 @@ namespace nopCommerceApi.Controllers.Product
     [ApiController]
     public class ProductTemplateController : ControllerBase
     {
-        private readonly IProductTemplateService productTemplateService;
+        private readonly IProductTemplateService _productTemplateService;
 
         public ProductTemplateController(IProductTemplateService productTemplateService)
         {
-            this.productTemplateService = productTemplateService;
+            _productTemplateService = productTemplateService;
         }
 
         /// <summary>
@@ -23,9 +23,9 @@ namespace nopCommerceApi.Controllers.Product
         /// Doc: https://docs.nopcommerce.com/en/running-your-store/system-administration/templates.html
         /// </remarks>
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var productTemplates = productTemplateService.GetAll();
+            var productTemplates = await _productTemplateService.GetAllAsync();
             return Ok(productTemplates);
         }
     }
