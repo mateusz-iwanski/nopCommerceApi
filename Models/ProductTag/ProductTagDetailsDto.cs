@@ -1,4 +1,6 @@
-﻿namespace nopCommerceApi.Models.Product
+﻿using nopCommerceApi.Models.Product;
+
+namespace nopCommerceApi.Models.ProductTag
 {
     /// <summary>
     /// Product tag details Data Transfer Object

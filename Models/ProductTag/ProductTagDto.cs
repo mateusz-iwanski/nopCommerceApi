@@ -1,4 +1,4 @@
-﻿namespace nopCommerceApi.Models.Product
+﻿namespace nopCommerceApi.Models.ProductTag
 {
     /// <summary>
     /// Product tag Data Transfer Object
@@ -9,6 +9,11 @@
     public class ProductTagDto : BaseDto
     {
         public virtual int Id { get; set; }
+
+        /// <summary>
+        /// ## Name
+        /// ### Gets or sets the name
+        /// </summary>
         public virtual string Name { get; set; }
     }
 }
