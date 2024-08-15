@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using nopCommerceApi.Entities.Usable;
 using nopCommerceApi.Exceptions;
-using nopCommerceApi.Models.Product;
+using nopCommerceApi.Models.ProductTag;
 using nopCommerceApi.Services.Product;
 
 namespace nopCommerceApi.Controllers.Product
@@ -18,60 +18,84 @@ namespace nopCommerceApi.Controllers.Product
         }
 
         // GET: api/product/tag
+        /// <summary>
+        /// Get all product tags
+        /// </summary>
         [HttpGet]
-        public IEnumerable<ProductTagDto> GetAll()
+        public async Task<IEnumerable<ProductTagDto>> GetAll()
         {
-            var productsTagto = _productTagService.GetAll();
+            var productsTagto = await _productTagService.GetAllAsync();
             return productsTagto;
         }
 
         // GET: api/product/tag/details
+        /// <summary>
+        /// Get all product tags with details
+        /// </summary>
         [HttpGet("details")]
-        public IEnumerable<ProductTagDto> GetAllDetails()
+        public async Task<IEnumerable<ProductTagDto>> GetAllDetails()
         {
-            var productsTagto = _productTagService.GetAllDteils();
+            var productsTagto = await _productTagService.GetAllDetailsAsync();
             return productsTagto;
         }
 
 
         // GET: api/product/tag/by-name/tag_name
+        /// <summary>
+        /// Get all product tags by tag name
+        /// </summary>
+        /// <remarks>
+        /// Search name that contains the tag name
+        /// </remarks>
         [HttpGet("by-name/{name}")]
-        public IEnumerable<ProductTagDto> GetByTag(string name)
+        public async Task<IEnumerable<ProductTagDto>> GetByTag(string name)
         {
-            var productsDto = _productTagService.GetByTag(name);
+            var productsDto = await _productTagService.GetByTagAsync(name);
             return productsDto;
         }
 
         // GET: api/product/tag/5
+        /// <summary>
+        /// Get product tag by id
+        /// </summary>
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var productDto = _productTagService.GetById(id);
+            var productDto = await _productTagService.GetByIdAsync(id);
 
             return Ok(productDto);
         }
 
         // POST: api/product/tag
+        /// <summary>
+        /// Create a new product tag
+        /// </summary>
         [HttpPost]
-        public IActionResult Create([FromBody] ProductTagCreateDto productTagDto)
+        public async Task<IActionResult> Create([FromBody] ProductTagCreateDto productTagDto)
         {
-            var productTag = _productTagService.Create(productTagDto);
+            var productTag = await _productTagService.CreateAsync(productTagDto);
             return Created($"api/product/{productTag.Id}", productTagDto);
         }
 
         // PUT: api/product/tag/5
-        [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] ProductTagUpdateDto productTagDto)
+        /// <summary>
+        /// Update a product tag
+        /// </summary>
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] ProductTagUpdateDto productTagDto)
         {
-            _productTagService.Update(id, productTagDto);
-            return Ok($"Update product by id: {id}");
+            await _productTagService.UpdateAsync(productTagDto);
+            return Ok();
         }
 
         // DELETE: api/product/tag/5
+        /// <summary>
+        /// Delete a product tag
+        /// </summary>
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var productTag = _productTagService.Delete(id);
+            var productTag = await _productTagService.DeleteAsync(id);
             return Ok(productTag);
         }
 
