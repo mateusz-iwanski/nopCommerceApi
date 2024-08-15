@@ -4,6 +4,9 @@ using nopCommerceApi.Services.UrlRecord;
 
 namespace nopCommerceApi.Controllers.UrlRecord
 {
+    /// <summary>
+    /// UrlRecord is used to store SEO-friendly URLs for entities with an SEO category.
+    /// </summary>
     [Route("url-records")]
     [ApiController]
     public class UrlRecordController : ControllerBase
@@ -18,10 +21,13 @@ namespace nopCommerceApi.Controllers.UrlRecord
         /// <summary>
         /// Get all url records
         /// </summary>
+        /// <remarks>
+        /// UrlRecord is used to store SEO-friendly URLs for entities with an SEO category.
+        /// </remarks>
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var urlRecords = _urlRecordService.GetAll();
+            var urlRecords = await _urlRecordService.GetAllAsync();
             return Ok(urlRecords);
         }
 
@@ -29,9 +35,9 @@ namespace nopCommerceApi.Controllers.UrlRecord
         /// Get url record by id
         /// </summary>
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var urlRecord = _urlRecordService.GetById(id);
+            var urlRecord = await _urlRecordService.GetByIdAsync(id);
             return Ok(urlRecord);
         }
 
@@ -39,9 +45,9 @@ namespace nopCommerceApi.Controllers.UrlRecord
         /// Create url record
         /// </summary>
         [HttpPost]
-        public IActionResult Create([FromBody] UrlRecordCreateDto urlRecordCreateDto)
+        public async Task<IActionResult> Create([FromBody] UrlRecordCreateDto urlRecordCreateDto)
         {
-            var urlRecord = _urlRecordService.Create(urlRecordCreateDto);
+            var urlRecord = await _urlRecordService.CreateAsync(urlRecordCreateDto);
             return Created("url-records", urlRecord);
         }
 
@@ -50,10 +56,10 @@ namespace nopCommerceApi.Controllers.UrlRecord
         /// Update url record
         /// </summary>
         [HttpPut]
-        public IActionResult Update([FromBody] UrlRecordUpdateDto urlRecordUpdateDto)
+        public async Task<IActionResult> Update([FromBody] UrlRecordUpdateDto urlRecordUpdateDto)
         {
-            _urlRecordService.Update(urlRecordUpdateDto);
-            
+            await _urlRecordService.UpdateAsync(urlRecordUpdateDto);
+
             return Ok(urlRecordUpdateDto);
         }
 
@@ -61,11 +67,11 @@ namespace nopCommerceApi.Controllers.UrlRecord
         /// Delete url record
         /// </summary>
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _urlRecordService.Delete(id);
+            await _urlRecordService.DeleteAsync(id);
             return Ok();
         }
-        
+
     }
 }
