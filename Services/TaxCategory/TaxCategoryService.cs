@@ -1,29 +1,27 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
-using nopCommerceApi.Models;
+using nopCommerceApi.Models.TaxCategory;
 using nopCommerceApi.Services.Product;
 
 namespace nopCommerceApi.Services
 {
     public interface ITaxCategoryService
     {
-        IEnumerable<TaxCategoryDto> GetAll();
-        int GetLastDisplayOrder();
+        Task<IEnumerable<TaxCategoryDto>> GetAll();
+        Task<int> GetLastDisplayOrder();
     }
 
     public class TaxCategoryService : BaseService, ITaxCategoryService
     {
-        private readonly NopCommerceContext _context;
-        private readonly IMapper _mapper;
-
         public TaxCategoryService(NopCommerceContext context, IMapper mapper, ILogger<ProductService> logger)
             : base(context, mapper, logger)
         {
         }
 
-        public IEnumerable<TaxCategoryDto> GetAll()
+        public async Task<IEnumerable<TaxCategoryDto>> GetAll()
         {
-            var taxCategories = _context.TaxCategories.ToList();
+            var taxCategories = await _context.TaxCategories.ToListAsync();
             var taxCategoryDtos = _mapper.Map<List<TaxCategoryDto>>(taxCategories);
 
             return taxCategoryDtos;
@@ -32,15 +30,15 @@ namespace nopCommerceApi.Services
         /// <summary>
         /// Get last display order number
         /// </summary>
-        public int GetLastDisplayOrder()
+        public async Task<int> GetLastDisplayOrder()
         {
-            var lastTaxCategory = _context.TaxCategories.OrderByDescending(d => d.DisplayOrder).FirstOrDefault();
+            var lastTaxCategory = await _context.TaxCategories.OrderByDescending(d => d.DisplayOrder).FirstOrDefaultAsync();
 
             if (lastTaxCategory == null)
             {
                 return 0;
             }
-            
+
             return lastTaxCategory.DisplayOrder;
         }
     }
