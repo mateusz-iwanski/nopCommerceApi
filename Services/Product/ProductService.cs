@@ -38,7 +38,9 @@ namespace nopCommerceApi.Services.Product
 
         public async Task<IEnumerable<ProductDto>> GetAll()
         {
-            var products = await _context.Products.ToListAsync();
+            var products = await _context.Products
+                .AsNoTracking()
+                .ToListAsync();
             var productDtos = _mapper.Map<List<ProductDto>>(products);
 
             return productDtos;
@@ -46,7 +48,9 @@ namespace nopCommerceApi.Services.Product
 
         public async Task<ProductDto> GetById(int id)
         {
-            var products = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+            var products = await _context.Products
+                .AsNoTracking()
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             if (products == null) throw new NotFoundExceptions($"Product with id {id} not found");
 
