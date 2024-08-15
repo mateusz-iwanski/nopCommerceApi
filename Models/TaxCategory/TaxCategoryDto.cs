@@ -1,4 +1,4 @@
-﻿namespace nopCommerceApi.Models
+﻿namespace nopCommerceApi.Models.TaxCategory
 {
     /// <summary>
     /// Tax Cateogry Data Transfer Object
