@@ -1,4 +1,6 @@
-﻿namespace nopCommerceApi.Models.ProductTag
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace nopCommerceApi.Models.ProductTag
 {
     /// <summary>
     /// Product tag Data Transfer Object
@@ -14,6 +16,7 @@
         /// ## Name
         /// ### Gets or sets the name
         /// </summary>
+        [Required]
         public virtual string Name { get; set; }
     }
 }
