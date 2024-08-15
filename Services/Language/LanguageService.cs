@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Models;
 
@@ -6,22 +7,22 @@ namespace nopCommerceApi.Services
 {
     public interface ILanguageService
     {
-        IEnumerable<LanguageDto> GetAll();
+        Task<IEnumerable<LanguageDto>> GetAllAsync();
     }
 
     public class LanguageService : BaseService, ILanguageService
     {
-        private readonly NopCommerceContext _context;
-        private readonly IMapper _mapper;
-
         public LanguageService(NopCommerceContext context, IMapper mapper, ILogger<AddressAttributeService> logger
             ) : base(context, mapper, logger)
         {
         }
 
-        public IEnumerable<LanguageDto> GetAll()
+        public async Task<IEnumerable<LanguageDto>> GetAllAsync()
         {
-            var languages = _context.Languages.ToList();
+            var languages = await _context.Languages
+                .AsNoTracking()
+                .ToListAsync();
+
             var languageDtos = _mapper.Map<List<LanguageDto>>(languages);
 
             return languageDtos;

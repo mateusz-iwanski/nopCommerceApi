@@ -3,9 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using nopCommerceApi.Models;
 using nopCommerceApi.Services;
 
-namespace nopCommerceApi.Controllers
+namespace nopCommerceApi.Controllers.Language
 {
     [Route("api/language")]
+    [ApiController]
     public class LanguageController : ControllerBase
     {
         private readonly ILanguageService _languageService;
@@ -19,10 +20,10 @@ namespace nopCommerceApi.Controllers
         /// Get all languages 
         /// </summary>
         [HttpGet]
-        [Authorize(Roles = "Admin,User,Viewer")]
-        public ActionResult<LanguageDto> GetAll()
+        //[Authorize(Roles = "Admin,User,Viewer")]
+        public async Task<ActionResult<IEnumerable<LanguageDto>>> GetAll()
         {
-            var languageDtos = _languageService.GetAll();
+            var languageDtos = await _languageService.GetAllAsync();
             return Ok(languageDtos);
         }
     }
