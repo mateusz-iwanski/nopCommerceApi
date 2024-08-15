@@ -28,14 +28,18 @@ namespace nopCommerceApi.Services.Product
 
         public async Task<IEnumerable<ProductSpecificationAttributeMappingDto>> GetAllAsync()
         {
-            var productSpecificationAttributeMappings = await _context.ProductSpecificationAttributeMappings.ToListAsync();
+            var productSpecificationAttributeMappings = await _context.ProductSpecificationAttributeMappings
+                .AsNoTracking()
+                .ToListAsync();
 
             return _mapper.Map<IEnumerable<ProductSpecificationAttributeMappingDto>>(productSpecificationAttributeMappings);
         }
 
         public async Task<ProductSpecificationAttributeMappingDto> GetByIdAsync(int id)
         {
-            var productSpecificationAttributeMapping = await _context.ProductSpecificationAttributeMappings.FindAsync(id);
+            var productSpecificationAttributeMapping = await _context.ProductSpecificationAttributeMappings
+                .FindAsync(id);
+
             if (productSpecificationAttributeMapping == null)
             {
                 throw new NotFoundExceptions($"The product specification attribute mapping with id {id} was not found.");
@@ -58,12 +62,8 @@ namespace nopCommerceApi.Services.Product
         {
             var productSpecificationAttributeMapping = await _context.ProductSpecificationAttributeMappings.FindAsync(productSpecificationAttributeMappingUpdateDto.Id);
 
-            if (productSpecificationAttributeMapping == null)
-            {
-                throw new NotFoundExceptions($"The product specification attribute mapping with id {productSpecificationAttributeMappingUpdateDto.Id} was not found.");
-            }
-
             _mapper.Map(productSpecificationAttributeMappingUpdateDto, productSpecificationAttributeMapping);
+
             await _context.SaveChangesAsync();
 
             return true;
@@ -86,7 +86,9 @@ namespace nopCommerceApi.Services.Product
 
         public async Task<IEnumerable<ProductSpecificationAttributeMappingDto>> GetByProductIdAsync(int productId)
         {
-            var productSpecificationAttributeMappings = await _context.ProductSpecificationAttributeMappings.Where(x => x.ProductId == productId).ToListAsync();
+            var productSpecificationAttributeMappings = await _context.ProductSpecificationAttributeMappings
+                .AsNoTracking()
+                .Where(x => x.ProductId == productId).ToListAsync();
 
             return _mapper.Map<IEnumerable<ProductSpecificationAttributeMappingDto>>(productSpecificationAttributeMappings);
         }
