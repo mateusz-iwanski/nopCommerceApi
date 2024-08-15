@@ -1,4 +1,4 @@
-﻿namespace nopCommerceApi.Models.Product
+﻿namespace nopCommerceApi.Models.ProductTemplate
 {
     /// <summary>
     /// Represents a product template.
@@ -13,22 +13,26 @@
         public int Id { get; set; }
 
         /// <summary>
-        /// Sets the template name
+        /// ## Name
+        /// ### Gets or sets the template name
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Sets the view path
+        /// ## View path
+        /// ### Gets or sets the view path
         /// </summary>
         public string ViewPath { get; set; }
 
         /// <summary>
-        /// Sets the display order
+        /// ## Display order
+        /// ### Gets or sets the display order
         /// </summary>
         public int DisplayOrder { get; set; }
 
         /// <summary>
-        /// Sets a comma-separated list of product type identifiers NOT supported by this template
+        /// ## IgnoredProductTypes
+        /// ### Sets a comma-separated list of product type identifiers NOT supported by this template
         /// </summary>
         public string IgnoredProductTypes { get; set; }
 
