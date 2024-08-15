@@ -49,6 +49,7 @@ using nopCommerceApi.Validations.ProductAttributeMapping;
 using nopCommerceApi.Validations.ProductAvailabilityRange;
 using nopCommerceApi.Validations.Customer;
 using nopCommerceApi.Validations.ProductTag;
+using nopCommerceApi.Services.TierPrice;
 
 
 var builder = WebApplication.CreateBuilder(args);
