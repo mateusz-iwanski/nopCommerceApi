@@ -25,6 +25,7 @@ using nopCommerceApi.Models.SpecificationAttributeOption;
 using nopCommerceApi.Models.SpecyficationAttribute;
 using nopCommerceApi.Models.SpecyficationAttributeGroup;
 using nopCommerceApi.Models.State;
+using nopCommerceApi.Models.TierPrice;
 using nopCommerceApi.Models.UrlRecord;
 using nopCommerceApi.Models.Video;
 
@@ -167,8 +168,15 @@ namespace nopCommerceApi.MappingProfile
 
             #region TrierPrice
 
+            // get
             CreateMap<TierPrice, TierPriceDto>();
             CreateMap<TierPrice, TierPriceDetailsDto>();
+
+            // add
+            CreateMap<TierPriceCreateDto, TierPrice>();
+
+            // set
+            CreateMap<TierPriceUpdateDto, TierPrice>();
 
             #endregion
 
