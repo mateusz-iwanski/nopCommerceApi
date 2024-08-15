@@ -12,12 +12,7 @@ namespace nopCommerceApi.Validations.UrlRecord
             RuleFor(x => x.Id)
                 .Must(id => _context.UrlRecords.Any(u => u.Id == id))
                 .WithMessage("The id is not exists.");
-
-            // id can't be empty
-            RuleFor(x => x.Id)
-                .NotEmpty()
-                .WithMessage("The id is required.");
-
+            
             // check if entity with EntityName and EntityId and LanguageId exists, exclude updated object
             RuleFor(x => new { x.EntityName, x.EntityId, x.LanguageId, x.Id })
                 .Must(obj => 
