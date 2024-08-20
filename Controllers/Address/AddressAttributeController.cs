@@ -9,7 +9,7 @@ namespace nopCommerceApi.Controllers.Address
     /// Get additional attributes for Address
     /// </summary>
     [Route("api/addressattribute")]
-    [ApiController]    
+    [ApiController]
     public class AddressAttributeController : ControllerBase
     {
         private readonly IAddressAttributeService _addressAttributeService;
@@ -28,9 +28,9 @@ namespace nopCommerceApi.Controllers.Address
         /// <returns></returns>
         [HttpGet]
         //[Authorize(Roles = "Admin,User,Viewer")]
-        public ActionResult<AddressAttribute> GetAll()
+        public async Task<ActionResult<IEnumerable<AddressAttribute>>> GetAll()
         {
-            var addressAttributeDtos = _addressAttributeService.GetAll();
+            var addressAttributeDtos = await _addressAttributeService.GetAllAsync();
             return Ok(addressAttributeDtos);
         }
     }
