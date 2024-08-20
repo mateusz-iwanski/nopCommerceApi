@@ -22,6 +22,8 @@ namespace nopCommerceApi.Models.Address
     /// </remarks> 
     public class AddressCreatePolishEnterpriseDto : AddressDto
     {
+        private DateTime _createdOnUtc { get; set; }
+
         [JsonIgnore]
         public override int Id { get; set; }
 
@@ -44,5 +46,11 @@ namespace nopCommerceApi.Models.Address
         /// </summary>
         [JsonIgnore]
         public override int? CountryId { get; set; }
+
+        public override DateTime CreatedOnUtc
+        {
+            get => _createdOnUtc;
+            set => _createdOnUtc = DateTime.Now;
+        }
     }
 }
