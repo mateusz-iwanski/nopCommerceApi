@@ -19,7 +19,7 @@ namespace nopCommerceApi.Services
         Task<AddressDetailsDto> UpdateWithNipAsync(AddressUpdatePolishEnterpriseDto updateAddressDto);
         Task<AddressDetailsDto> CreateAsync(AddressCreateDto addressDto);
         Task<bool> DeleteAsync(int id);
-        Task<AddressDetailsDto> UpdateAsync(AddressUpdateDto updateAddressDto);
+        Task<AddressDto> UpdateAsync(AddressUpdateDto updateAddressDto);
         Task<AddressDetailsDto> GetByIdAsync(int id);
     }
 
@@ -99,7 +99,6 @@ namespace nopCommerceApi.Services
 
             // For polish addresses, the country is always Poland
             address.CountryId = country.Id;
-            address.CreatedOnUtc = DateTime.Now;
 
             _context.Addresses.Add(address);
             await _context.SaveChangesAsync();
@@ -141,9 +140,7 @@ namespace nopCommerceApi.Services
 
             await _context.SaveChangesAsync();
 
-            var addressDto = _mapper.Map<AddressDto>(address);
-
-            var addressDetailsDto = _mapper.Map<AddressDetailsDto>(addressDto);
+            var addressDetailsDto = _mapper.Map<AddressDetailsDto>(address);
 
             return addressDetailsDto;
         }
@@ -153,6 +150,7 @@ namespace nopCommerceApi.Services
             var address = _mapper.Map<Address>(addressDto);
 
             _context.Addresses.Add(address);
+
             await _context.SaveChangesAsync();
 
             var addressDetailsDto = _mapper.Map<AddressDetailsDto>(address);
@@ -174,7 +172,7 @@ namespace nopCommerceApi.Services
             return true;
         }
 
-        public async Task<AddressDetailsDto> UpdateAsync(AddressUpdateDto updateAddressDto)
+        public async Task<AddressDto> UpdateAsync(AddressUpdateDto updateAddressDto)
         {
             var id = updateAddressDto.Id;
 
@@ -183,9 +181,7 @@ namespace nopCommerceApi.Services
 
             if (address == null) throw new NotFoundExceptions($"Address with {id} not found.");
 
-            // If is enterprise address, can't update
-            //if (AddressDto.IsEnterpriseAddress(address, _context.AddressAttributes))
-            //    throw new BadRequestException("Address is enterprise, can\'t update. Use update-with-nip enterprise addresses.");
+            updateAddressDto.CreatedOnUtc = address.CreatedOnUtc;
 
             _mapper.Map(updateAddressDto, address);
 
@@ -195,9 +191,7 @@ namespace nopCommerceApi.Services
 
             var addressDto = _mapper.Map<AddressDto>(address);
 
-            var addressDetailsDto = _mapper.Map<AddressDetailsDto>(addressDto);
-
-            return addressDetailsDto;
+            return addressDto;
         }
     }
 
