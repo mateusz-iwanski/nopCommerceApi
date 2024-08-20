@@ -20,7 +20,7 @@ namespace nopCommerceApi.Controllers.User
         /// Get all user API roles available in the system
         /// </summary>
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public ActionResult GetAll()
         {
             // return all roles as list in table

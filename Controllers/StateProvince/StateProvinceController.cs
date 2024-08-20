@@ -26,7 +26,7 @@ namespace nopCommerceApi.Controllers.StateProvince
         /// Get all state province
         /// </summary>
         [HttpGet]
-        [Authorize(Roles = "Admin,User,Viewer")]
+        //[Authorize(Roles = "Admin,User,Viewer")]
         public ActionResult<Entities.Usable.StateProvince> GetAll()
         {
             var stateProvinceDtos = _stateProvinceService.GetAll();
