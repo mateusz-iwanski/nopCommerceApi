@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Entities.Usable;
 using nopCommerceApi.Exceptions;
@@ -8,7 +9,7 @@ namespace nopCommerceApi.Services
 {
     public interface IAddressAttributeService
     {
-        IEnumerable<AddressAttributeDto> GetAll();
+        Task<IEnumerable<AddressAttributeDto>> GetAllAsync();
     }
 
     public class AddressAttributeService : BaseService, IAddressAttributeService
@@ -20,10 +21,9 @@ namespace nopCommerceApi.Services
         {
         }
 
-        public IEnumerable<AddressAttributeDto> GetAll()
+        public async Task<IEnumerable<AddressAttributeDto>> GetAllAsync()
         {
-
-            var addressAttributes = _context.AddressAttributes.ToList();
+            var addressAttributes = await _context.AddressAttributes.ToListAsync();
             var addressAttributeDtos = _mapper.Map<List<AddressAttributeDto>>(addressAttributes);
 
             return addressAttributeDtos;
