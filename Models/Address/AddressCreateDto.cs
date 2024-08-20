@@ -8,9 +8,15 @@ namespace nopCommerceApi.Models.Address
     /// </summary>
     public class AddressCreateDto : AddressDto
     {
+        private DateTime _createdOnUtc { get; set; }
+
         [JsonIgnore]
         public override int Id { get; set; }
 
-        public override DateTime CreatedOnUtc { get; set; } = DateTime.Now;
+        public override DateTime CreatedOnUtc
+        {
+            get => _createdOnUtc;
+            set => _createdOnUtc = DateTime.Now;
+        }
     }
 }
