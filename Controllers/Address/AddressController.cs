@@ -96,7 +96,7 @@ namespace nopCommerceApi.Controllers.Address
         /// <summary>
         /// Delete address by ID
         /// </summary>
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("{id}")]
         // [Authorize(Roles = "Admin,User")]
         public async Task<ActionResult> Delete(int id)
         {
@@ -107,7 +107,7 @@ namespace nopCommerceApi.Controllers.Address
         /// <summary>
         /// Update address by ID (without NIP)
         /// </summary>
-        [HttpPut("update")]
+        [HttpPut]
         // [Authorize(Roles = "Admin,User")]
         public async Task<ActionResult> Update([FromBody] AddressUpdateDto updateAddressDto)
         {
