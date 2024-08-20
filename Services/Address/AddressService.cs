@@ -15,11 +15,11 @@ namespace nopCommerceApi.Services
     public interface IAddressService
     {
         Task<IEnumerable<AddressDetailsDto>> GetAllAsync();
-        Task<Address> CreateWithNipAsync(AddressCreatePolishEnterpriseDto newAdressDto);
-        Task<AddressDto> UpdateWithNipAsync(AddressUpdatePolishEnterpriseDto updateAddressDto);
-        Task<Address> CreateAsync(AddressCreateDto addressDto);
+        Task<AddressDetailsDto> CreateWithNipAsync(AddressCreatePolishEnterpriseDto newAdressDto);
+        Task<AddressDetailsDto> UpdateWithNipAsync(AddressUpdatePolishEnterpriseDto updateAddressDto);
+        Task<AddressDetailsDto> CreateAsync(AddressCreateDto addressDto);
         Task<bool> DeleteAsync(int id);
-        Task<AddressDto> UpdateAsync(AddressUpdateDto updateAddressDto);
+        Task<AddressDetailsDto> UpdateAsync(AddressUpdateDto updateAddressDto);
         Task<AddressDetailsDto> GetByIdAsync(int id);
     }
 
@@ -63,7 +63,7 @@ namespace nopCommerceApi.Services
         /// Polish enterprises have an additional field NIP, nop commerce doesn't have this property default in the addrres.
         /// Nip has to be added as a custom attribute to address.
         /// </summary>
-        public async Task<Address> CreateWithNipAsync(AddressCreatePolishEnterpriseDto newAdressDto)
+        public async Task<AddressDetailsDto> CreateWithNipAsync(AddressCreatePolishEnterpriseDto newAdressDto)
         {
             var address = _mapper.Map<Address>(newAdressDto);
 
@@ -83,6 +83,7 @@ namespace nopCommerceApi.Services
                     DisplayOrder = 0,
                 };
                 _context.AddressAttributes.Add(addressAttribute);
+
                 await _context.SaveChangesAsync();
             }
 
@@ -103,7 +104,9 @@ namespace nopCommerceApi.Services
             _context.Addresses.Add(address);
             await _context.SaveChangesAsync();
 
-            return address;
+            var addressDto = _mapper.Map<AddressDetailsDto>(address);
+
+            return addressDto;
         }
 
         /// <summary>
@@ -115,7 +118,7 @@ namespace nopCommerceApi.Services
         /// If property not set in the request body, it will not be updated.
         /// Cant set empty string on: Company, City, Email, Address1, PhoneNumber. If you don't want to update, just remove from body.
         /// </remarks>
-        public async Task<AddressDto> UpdateWithNipAsync(AddressUpdatePolishEnterpriseDto updateAddressDto)
+        public async Task<AddressDetailsDto> UpdateWithNipAsync(AddressUpdatePolishEnterpriseDto updateAddressDto)
         {
             var id = updateAddressDto.Id;
 
@@ -140,17 +143,21 @@ namespace nopCommerceApi.Services
 
             var addressDto = _mapper.Map<AddressDto>(address);
 
-            return addressDto;
+            var addressDetailsDto = _mapper.Map<AddressDetailsDto>(addressDto);
+
+            return addressDetailsDto;
         }
 
-        public async Task<Address> CreateAsync(AddressCreateDto addressDto)
+        public async Task<AddressDetailsDto> CreateAsync(AddressCreateDto addressDto)
         {
             var address = _mapper.Map<Address>(addressDto);
 
             _context.Addresses.Add(address);
             await _context.SaveChangesAsync();
 
-            return address;
+            var addressDetailsDto = _mapper.Map<AddressDetailsDto>(address);
+
+            return addressDetailsDto;
         }
 
         public async Task<bool> DeleteAsync(int id)
@@ -167,7 +174,7 @@ namespace nopCommerceApi.Services
             return true;
         }
 
-        public async Task<AddressDto> UpdateAsync(AddressUpdateDto updateAddressDto)
+        public async Task<AddressDetailsDto> UpdateAsync(AddressUpdateDto updateAddressDto)
         {
             var id = updateAddressDto.Id;
 
@@ -188,7 +195,9 @@ namespace nopCommerceApi.Services
 
             var addressDto = _mapper.Map<AddressDto>(address);
 
-            return addressDto;
+            var addressDetailsDto = _mapper.Map<AddressDetailsDto>(addressDto);
+
+            return addressDetailsDto;
         }
     }
 
