@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Azure.Core;
+using Castle.Core.Resource;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using nopCommerceApi.Config;
@@ -17,8 +18,10 @@ namespace nopCommerceApi.Services.Customer
     public interface ICustomerService
     {
         Task<IEnumerable<CustomerDto>> GetAllAsync();
-        Task<string> CreateBasePLAsync(CustomerCreateBaseDto createCustomerDto);
+        Task<string> CreateBasePLAsync(CustomerPLCreateBaseDto createCustomerDto);
         Task<bool> ConnectToAddressAsync(Guid customerGuid, int addressId);
+        Task<CustomerDto> UpdatePLAsync(CustomerPLUpdateDto updateCustomerDto);
+        Task<bool> UpdatePasswordAsync(Guid customerGuid, string newPassword);
     }
 
     public class CustomerService : ICustomerService
@@ -43,7 +46,9 @@ namespace nopCommerceApi.Services.Customer
                 .Include(c => c.StateProvince)
                 .Include(c => c.Currency)
                 .AsNoTracking()
+                .Where(c => c.Active == true && c.IsSystemAccount == false)
                 .ToListAsync();
+            
 
             var customerDtos = _mapper.Map<List<CustomerDto>>(customers);
 
@@ -56,13 +61,14 @@ namespace nopCommerceApi.Services.Customer
         /// </summary>
         /// <param name="createCustomerDto"></param>
         /// <returns></returns>
-        public async Task<string> CreateBasePLAsync(CustomerCreateBaseDto createCustomerDto)
+        public async Task<string> CreateBasePLAsync(CustomerPLCreateBaseDto createCustomerDto)
         {
             var customer = _mapper.Map<Entities.Usable.Customer>(createCustomerDto);
 
             var languageId = _context.Languages.FirstOrDefault(l => l.UniqueSeoCode == "pl").Id;
             var currenyId = _context.Currencies.FirstOrDefault(c => c.CurrencyCode == "PLN").Id;
             var countryId = _context.Countries.FirstOrDefault(c => c.TwoLetterIsoCode == "PL").Id;
+            
 
             var customerRole = _context.CustomerRoles.FirstOrDefault(cr => cr.SystemName == "Registered");
             customer.CustomerRoles.Add(customerRole);
@@ -71,10 +77,14 @@ namespace nopCommerceApi.Services.Customer
             customer.CurrencyId = currenyId;
             customer.CountryId = countryId;
 
+            customer.CustomerGuid = Guid.NewGuid();
+            customer.CreatedOnUtc = DateTime.Now;
+
             _context.Customers.Add(customer);
             await _context.SaveChangesAsync();
 
-            _context.CustomerPasswords.Add(CustomerPasswordManager.CreatePassword(customer, createCustomerDto.Password, _settings));
+            _context.CustomerPasswords.AddAsync(CustomerPasswordManager.CreatePassword(customer, createCustomerDto.Password, _settings));
+
             await _context.SaveChangesAsync();
 
             string jsonString = createCustomerDto.JsonSerializeReferenceLoopHandlingIgnore();
@@ -84,7 +94,8 @@ namespace nopCommerceApi.Services.Customer
 
         public async Task<bool> ConnectToAddressAsync(Guid customerGuid, int addressId)
         {
-            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.CustomerGuid == customerGuid);
+
+            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.CustomerGuid == customerGuid && c.Active == true && c.IsSystemAccount == false);
             var address = await _context.Addresses.FirstOrDefaultAsync(a => a.Id == addressId);
 
             if (customer != null && address != null)
@@ -100,10 +111,80 @@ namespace nopCommerceApi.Services.Customer
             }
             else
             {
-                throw new NotFoundExceptions("This address or customer does not exist.");
+                throw new NotFoundExceptions("This address or customer does not exist. Active customers and customers who do not have a system account are taken into account");
             }
 
             return true;
+        }
+
+        public async Task<CustomerDto> UpdatePLAsync(CustomerPLUpdateDto updateCustomerDto)
+        {
+            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Id == updateCustomerDto.Id && c.Active == true && c.IsSystemAccount == false);
+
+            if (customer != null)
+            {
+                customer.Username = updateCustomerDto.Username;
+                customer.Email = updateCustomerDto.Email;
+                customer.FirstName = updateCustomerDto.FirstName;
+                customer.LastName = updateCustomerDto.LastName;
+                customer.Company = updateCustomerDto.Company;
+                customer.StreetAddress = updateCustomerDto.StreetAddress;
+                customer.StreetAddress2 = updateCustomerDto.StreetAddress2;
+                customer.ZipPostalCode = updateCustomerDto.ZipPostalCode;
+                customer.City = updateCustomerDto.City;
+                customer.County = updateCustomerDto.County;
+                customer.Phone = updateCustomerDto.Phone;
+                customer.IsTaxExempt = updateCustomerDto.IsTaxExempt;
+                customer.VendorId = updateCustomerDto.VendorId;
+                customer.Active = updateCustomerDto.Active;
+                customer.Deleted = updateCustomerDto.Deleted;
+                customer.IsSystemAccount = updateCustomerDto.IsSystemAccount;
+            }
+            else throw new NotFoundExceptions("Customer not found. Active customers and customers who do not have a system account are taken into account");
+
+            _context.Customers.Update(customer);
+
+            await _context.SaveChangesAsync();
+
+            var customerDto = _mapper.Map<CustomerDto>(customer);
+
+            return customerDto;
+        }
+
+        // TODO updating password not working
+        // make password change
+        public async Task<bool> UpdatePasswordAsync(Guid customerGuid, string newPassword)
+        {
+            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.CustomerGuid == customerGuid && c.Active == true && c.IsSystemAccount == false);
+
+            if (customer == null) throw new NotFoundExceptions($"Customer with guid {customerGuid} not found. Active customers and customers who do not have a system account are taken into account");
+
+            var customerPassword = await _context.CustomerPasswords.FirstOrDefaultAsync(cp => cp.CustomerId == customer.Id);
+
+            if (customerPassword == null) throw new NotFoundExceptions($"Customer password with id {customerGuid} not found");
+
+            if (string.IsNullOrEmpty(newPassword)) throw new BadRequestException("Password can't be empty");
+
+            // TODO: make password length configurable from settings.ini
+            if (newPassword.Length < 6) throw new BadRequestException("Password must be at least 6 characters long");
+
+            var cusomtomerPasswordManager = CustomerPasswordManager.CreatePassword(customer, newPassword, _settings);
+
+            var addPassword = new Entities.Usable.CustomerPassword
+            {
+                CustomerId = customer.Id,
+                Password = cusomtomerPasswordManager.Password,
+                PasswordFormatId = cusomtomerPasswordManager.PasswordFormatId,
+                PasswordSalt = cusomtomerPasswordManager.PasswordSalt,
+                CreatedOnUtc = cusomtomerPasswordManager.CreatedOnUtc
+            };
+
+            await _context.CustomerPasswords.AddAsync(addPassword);
+
+            await _context.SaveChangesAsync();
+
+            return true;
+
         }
     }
 }
