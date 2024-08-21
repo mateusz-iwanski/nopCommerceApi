@@ -4,9 +4,9 @@ using System.Text.Json.Serialization;
 namespace nopCommerceApi.Models.Customer
 {
     /// <summary>
-    /// <c>CustomerCreateBaseDto</c> uses for creating nopCommerce customer
+    /// <c>CustomerPLCreateBaseDto</c> uses for creating nopCommerce Polish customer
     /// </summary>
-    public class CustomerCreateBaseDto : BaseDto 
+    public class CustomerPLCreateBaseDto : BaseDto 
     {
         private bool _isTaxExempt = false; // every PL customer is not tax exempt
         private int _vendorId = 0; // disable multi-vendor option
@@ -23,10 +23,9 @@ namespace nopCommerceApi.Models.Customer
 
         /// <summary>
         /// ## Password
-        /// ### Sets the email
-        /// </summary>
-        [Required]
-        public string Password { get; set; }
+        /// ### Sets the password
+        /// </summary>                
+        public virtual string? Password { get; set; }
 
         /// <summary>
         /// ## Email
@@ -41,7 +40,7 @@ namespace nopCommerceApi.Models.Customer
         /// ### Automatically sets the guid
         /// </summary>
         [JsonIgnore]
-        public virtual Guid CustomerGuid { get; set; } = Guid.NewGuid();
+        public virtual Guid CustomerGuid { get; set; }
 
         /// <summary>
         /// ## FirstName
@@ -133,6 +132,6 @@ namespace nopCommerceApi.Models.Customer
         }
 
         [JsonIgnore]
-        public DateTime CreatedOnUtc { get; set; } = DateTime.UtcNow;
+        public virtual DateTime CreatedOnUtc { get; set; }
     }
 }
