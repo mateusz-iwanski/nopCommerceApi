@@ -40,6 +40,8 @@ namespace nopCommerceApi.Services.Customer
                     break;
             }
 
+            customerPassword.PasswordFormatId = settings.PasswordFormat;
+
             return customerPassword;
         }
 
