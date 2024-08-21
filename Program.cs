@@ -157,11 +157,17 @@ builder.Services.AddAuthentication(option =>
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
 
 // Configure custom validators
+
+// Address
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AddressCreateDtoValidator>());
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AddressCreatePolishEnterpriseDtoValidator>());
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AddressUpdatePolishEnterpriseDtoValidator>());
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AddressUpdateDtoValidator>());
-builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CustomerCreateBaseDtoValidator>());
+
+// Customer
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CustomerPLCreateDtoValidator>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CustomerPLUpdateDtoValidator>());
+
 
 // Product
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductCreateMinimalValidator>());
