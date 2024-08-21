@@ -66,7 +66,7 @@ namespace nopCommerceApi.MappingProfile
             CreateMap<Customer, CustomerDto>();
 
             // create
-            CreateMap<CustomerCreateBaseDto, Customer>()
+            CreateMap<CustomerPLCreateBaseDto, Customer>()
                .ForMember(x => x.Email, opt => opt.MapFrom(y => y.Email.Trim()))
                .ForMember(x => x.Username, opt => opt.MapFrom(y => y.Username.Trim()))
                .ForMember(x => x.FirstName, opt => opt.MapFrom(y => y.FirstName.Trim()))
@@ -78,6 +78,9 @@ namespace nopCommerceApi.MappingProfile
                .ForMember(x => x.City, opt => opt.MapFrom(y => y.City.Trim()))
                .ForMember(x => x.County, opt => opt.MapFrom(y => y.County.Trim()))
                .ForMember(x => x.Phone, opt => opt.MapFrom(y => y.Phone.Trim()));
+
+            //set
+            CreateMap<CustomerPLUpdateDto, Customer>();
 
             #endregion
 
