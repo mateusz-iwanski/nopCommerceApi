@@ -27,7 +27,7 @@ namespace nopCommerceApi.Models.Customer
         public virtual string? Phone { get; set; }
         public virtual string? VatNumber { get; set; }
         public virtual string? SystemName { get; set; }
-        public virtual bool IsSystemAccount { get; set; } = false;
+        public virtual bool IsSystemAccount { get; set; }
 
         public virtual AddressDto? BillingAddress { get; set; }
         public virtual AddressDto? ShippingAddress { get; set; }
@@ -38,7 +38,7 @@ namespace nopCommerceApi.Models.Customer
         public virtual Guid CustomerGuid { get; set; }
         public virtual bool IsTaxExempt { get; set; }
         public virtual int VendorId { get; set; }
-        public virtual bool Active { get; set; } = true;
+        public virtual bool Active { get; set; }
         public virtual bool Deleted { get; set; }
     }
 }
