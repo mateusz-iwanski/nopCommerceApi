@@ -123,14 +123,17 @@ namespace nopCommerceApi.Controllers.Product
         /// #### Doc: https://docs.nopcommerce.com/en/running-your-store/catalog/products/product-attributes.html
         /// #### In one action create product attribute values and associate with product attribute mapping.
         /// #### Product attribute mapping associate product with product attribute.
+        /// #### For example: product id 1 has attribute color id 10, so we want to add value 'Blue' to attribute color for this product.
+        /// #### If we want to do white color for product id 2, we need to set product id 2 and attribute color id 10 and add value 'White' to attribute.
+        /// #### Product id 1 will have only 'Blue' color, product id 2 will have only 'White' color and product id 2 and 1 will both have attribute color id 10.
         /// </remarks>
         [HttpPost("value/add-to-attribute/{attributeId}")]
         public async Task<IActionResult> CreateValue(int attributeId, [FromBody] ProductAttributeValueDtoCreate productAttributeValueCreateDto)
         {            
-            var productAttributeValue = await _productAttributeValueService.CreateAsync(attributeId, productAttributeValueCreateDto);
+            var productAttributeValueDto = await _productAttributeValueService.CreateAsync(attributeId, productAttributeValueCreateDto);
 
             // return created product attribute value path
-            return Created($"api/product/attribute/value/{productAttributeValue.Id}", null);
+            return Created($"api/product/attribute/value/{productAttributeValueDto.Id}", productAttributeValueDto);
         }
 
         /// <summary>
@@ -145,7 +148,7 @@ namespace nopCommerceApi.Controllers.Product
         {
             var updated = await _productAttributeValueService.UpdateAsync(productAttributeValueUpdateDto);
 
-            return Ok(updated);
+            return Ok();
         }
 
         /// <summary>
