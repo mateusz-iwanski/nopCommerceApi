@@ -59,7 +59,7 @@ namespace nopCommerceApi.Controllers.Product
         /// #### Doc: https://docs.nopcommerce.com/en/running-your-store/catalog/products/product-attributes.html
         /// </remarks>
 
-        [HttpPost("add")]
+        [HttpPost]
         public async Task<IActionResult> Create([FromBody] ProductAttributeWithMappingCreateDto productAttributeWithMappingCreateDto)
         {
 
@@ -75,7 +75,7 @@ namespace nopCommerceApi.Controllers.Product
         /// <remarks>
         /// #### Doc: https://docs.nopcommerce.com/en/running-your-store/catalog/products/product-attributes.html
         /// </remarks>
-        [HttpPut("update")]
+        [HttpPut]
         public async Task<IActionResult> UpdateAsync([FromBody] ProductAttributeUpdateDto productAttributeUpdateDto)
         {
             var productAttribute = await _productAttributeService.UpdateAsync(productAttributeUpdateDto);
@@ -140,7 +140,7 @@ namespace nopCommerceApi.Controllers.Product
         /// #### Doc: https://docs.nopcommerce.com/en/running-your-store/catalog/products/product-attributes.html
         /// #### ProductAttributeMappingId can't be updated, if you want to update it, you need to delete and create new one.
         /// </remarks>
-        [HttpPut("value/update")]
+        [HttpPut("value/")]
         public async Task<IActionResult> UpdateValue([FromBody] ProductAttributeValueUpdateDto productAttributeValueUpdateDto)
         {
             var updated = await _productAttributeValueService.UpdateAsync(productAttributeValueUpdateDto);
@@ -154,7 +154,7 @@ namespace nopCommerceApi.Controllers.Product
         /// <remarks>
         /// #### Doc: https://docs.nopcommerce.com/en/running-your-store/catalog/products/product-attributes.html
         /// </remarks>
-        [HttpDelete("value/delete/{id}")]
+        [HttpDelete("value/{id}")]
         public async Task<IActionResult> DeleteValue(int id)
         {
             var deleted = await _productAttributeValueService.DeleteAsync(id);
