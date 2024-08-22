@@ -79,7 +79,7 @@ namespace nopCommerceApi.Controllers.Picture
         {
             await _pictureService.DeleteAsync(id);
 
-            return NoContent();
+            return Ok();
         }
 
         /// <summary>
