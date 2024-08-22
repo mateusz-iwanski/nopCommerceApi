@@ -166,7 +166,9 @@ namespace nopCommerceApi.Services.Customer
             if (string.IsNullOrEmpty(newPassword)) throw new BadRequestException("Password can't be empty");
 
             // TODO: make password length configurable from settings.ini
-            if (newPassword.Length < 6) throw new BadRequestException("Password must be at least 6 characters long");
+            if (newPassword.Length < _settings.PasswordMinLength) throw new BadRequestException($"Password must be at least {_settings.PasswordMinLength} characters long");
+
+            if (newPassword.Length > _settings.PasswordMaxLength) throw new BadRequestException($"Password must be at most {_settings.PasswordMaxLength} characters long");
 
             var cusomtomerPasswordManager = CustomerPasswordManager.CreatePassword(customer, newPassword, _settings);
 
