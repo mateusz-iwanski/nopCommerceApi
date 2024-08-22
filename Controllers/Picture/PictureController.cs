@@ -54,7 +54,7 @@ namespace nopCommerceApi.Controllers.Picture
         {
             var picture = await _pictureService.CreateAsync(pictureCreateDto);
 
-            return Created("pictures", picture);
+            return Created($"api/picture/{picture.Id}", picture);
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace nopCommerceApi.Controllers.Picture
         {
             await _pictureService.UpdateAsync(pictureUpdateDto);
 
-            return Ok(pictureUpdateDto);
+            return Ok();
         }
 
         /// <summary>
