@@ -68,7 +68,7 @@ namespace nopCommerceApi.Controllers.Category
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _categoryService.DeleteAsync(id);
-            return Ok(result);
+            return Ok();
         }        
     }
 }
