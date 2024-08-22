@@ -226,7 +226,7 @@ namespace nopCommerceApi.Controllers.Product
         /// <summary>
         /// Associate category to product
         /// </summary>
-        [HttpPost("{productId}link/category{categoryId}")]
+        [HttpPost("{productId}/link/category/{categoryId}")]
         public async Task<IActionResult> AssociateCategory(int productId, int categoryId)
         {
             await _productService.AssociateCategory(productId, categoryId);
@@ -236,7 +236,7 @@ namespace nopCommerceApi.Controllers.Product
         /// <summary>
         /// Unassociate category to product
         /// </summary>
-        [HttpDelete("{productId}unlink/category{categoryId}")]
+        [HttpDelete("{productId}/unlink/category/{categoryId}")]
         public async Task<IActionResult> UnAssociateCategory(int productId, int categoryId)
         {
             await _productService.UnAssociateCategory(productId, categoryId);
