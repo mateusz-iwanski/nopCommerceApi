@@ -10,7 +10,7 @@ namespace nopCommerceApi.Services.Product
 {
     public interface IProductAttributeValueService
     {
-        Task<ProductAttributeValue> CreateAsync(int attributeId, ProductAttributeValueDtoCreate productAttributeValueCreateDto);
+        Task<ProductAttributeValueDto> CreateAsync(int attributeId, ProductAttributeValueDtoCreate productAttributeValueCreateDto);
         Task<bool> DeleteAsync(int id);
         Task<IEnumerable<ProductAttributeValueDto>> GetAllAsync();
         Task<ProductAttributeValueDto> GetByIdAsync(int id);
@@ -44,7 +44,7 @@ namespace nopCommerceApi.Services.Product
             return productAttributeValueDto;
         }
 
-        public async Task<ProductAttributeValue> CreateAsync(int attributeId, ProductAttributeValueDtoCreate productAttributeValueCreateDto)
+        public async Task<ProductAttributeValueDto> CreateAsync(int attributeId, ProductAttributeValueDtoCreate productAttributeValueCreateDto)
         {
             // get product attribute mapping by attribute id
             var productProductAttributeMappings = _context.ProductProductAttributeMappings.FirstOrDefault(p => p.ProductAttributeId == attributeId);
@@ -58,7 +58,9 @@ namespace nopCommerceApi.Services.Product
             _context.ProductAttributeValues.Add(productAttributeValue);
             await _context.SaveChangesAsync();
 
-            return productAttributeValue;
+            var productAttributeValueDto = _mapper.Map<ProductAttributeValueDto>(productAttributeValue);
+
+            return productAttributeValueDto;
         }
 
         public async Task<bool> UpdateAsync(ProductAttributeValueUpdateDto productAttributeValueUpdateDto)
