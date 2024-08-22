@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using nopCommerceApi.Config;
 using nopCommerceApi.Entities;
 using nopCommerceApi.Models.Customer;
 
@@ -8,14 +9,19 @@ namespace nopCommerceApi.Validations.Customer
     {
         private readonly NopCommerceContext _context;   
 
-        public CustomerPLCreateDtoValidator(NopCommerceContext context) 
+        public CustomerPLCreateDtoValidator(NopCommerceContext context, IMySettings settings) 
         {
             _context = context;
 
             //password has to be at least 6 characters long
             RuleFor(x => x.Password)
-                .MinimumLength(6)
-                .WithMessage("Password must be at least 6 characters long.");
+                .MinimumLength(settings.PasswordMinLength)
+                .WithMessage($"Password must be at least {settings.PasswordMinLength} characters long.");
+
+            // password has max length
+            RuleFor(x => x.Password)
+                .MaximumLength(settings.PasswordMaxLength)
+                .WithMessage($"Password must be at most {settings.PasswordMaxLength} characters long.");
 
             //password is required
             RuleFor(x => x.Password)
