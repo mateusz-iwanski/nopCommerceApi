@@ -54,6 +54,12 @@ namespace nopCommerceApi.Config
         [Option(Alias = "CustomerPassword.PasswordSaltKeySize")]
         int PasswordSaltKeySize { get; }
 
+        [Option(Alias = "CustomerPassword.PasswordMinLength")]
+        int PasswordMinLength { get; }
+
+        [Option(Alias = "CustomerPassword.PasswordMaxLength")]
+        int PasswordMaxLength { get; }
+
         // nopCommerce file path
         [Option(Alias = "NopCommerceFilePath.ThumbsPath")]
         string ThumbsPath { get; }
