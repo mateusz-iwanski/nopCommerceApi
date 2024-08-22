@@ -8,7 +8,7 @@ using nopCommerceApi.Services.Customer;
 
 namespace nopCommerceApi.Controllers.Customer
 {
-    [Route("api/customer-role")]
+    [Route("api/customer/role")]
     [ApiController]
     public class CustomerRoleController : ControllerBase
     {
