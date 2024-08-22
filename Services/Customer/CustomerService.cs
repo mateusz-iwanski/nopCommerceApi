@@ -18,10 +18,11 @@ namespace nopCommerceApi.Services.Customer
     public interface ICustomerService
     {
         Task<IEnumerable<CustomerDto>> GetAllAsync();
-        Task<string> CreateBasePLAsync(CustomerPLCreateBaseDto createCustomerDto);
+        Task<CustomerDto> CreateBasePLAsync(CustomerPLCreateBaseDto createCustomerDto);
         Task<bool> ConnectToAddressAsync(Guid customerGuid, int addressId);
         Task<CustomerDto> UpdatePLAsync(CustomerPLUpdateDto updateCustomerDto);
         Task<bool> UpdatePasswordAsync(Guid customerGuid, string newPassword);
+        Task<CustomerDto> GetByIdAsync(int id);
     }
 
     public class CustomerService : ICustomerService
@@ -61,7 +62,7 @@ namespace nopCommerceApi.Services.Customer
         /// </summary>
         /// <param name="createCustomerDto"></param>
         /// <returns></returns>
-        public async Task<string> CreateBasePLAsync(CustomerPLCreateBaseDto createCustomerDto)
+        public async Task<CustomerDto> CreateBasePLAsync(CustomerPLCreateBaseDto createCustomerDto)
         {
             var customer = _mapper.Map<Entities.Usable.Customer>(createCustomerDto);
 
@@ -87,9 +88,22 @@ namespace nopCommerceApi.Services.Customer
 
             await _context.SaveChangesAsync();
 
-            string jsonString = createCustomerDto.JsonSerializeReferenceLoopHandlingIgnore();
+            var customerDto = _mapper.Map<CustomerDto>(customer);
 
-            return jsonString;
+            return customerDto;
+        }
+
+        public async Task<CustomerDto> GetByIdAsync(int id)
+        {
+            var customer = await _context.Customers
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.Id == id && c.Active == true && c.IsSystemAccount == false);
+
+            if (customer == null) throw new NotFoundExceptions($"Customer with id {id} not found. Active customers and customers who do not have a system account are taken into account");
+
+            var customerDto = _mapper.Map<CustomerDto>(customer);
+
+            return customerDto;
         }
 
         public async Task<bool> ConnectToAddressAsync(Guid customerGuid, int addressId)

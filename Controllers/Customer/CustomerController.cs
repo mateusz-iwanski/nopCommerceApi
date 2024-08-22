@@ -33,6 +33,18 @@ namespace nopCommerceApi.Controllers.Customer
             return customers;
         }
 
+        // get by id
+        // GET: api/customer/{id}
+        /// <summary>
+        /// Get nopCommerce customer by ID
+        /// </summary>
+        [HttpGet("{id}")]
+        public async Task<CustomerDto> GetByIdAsync(int id)
+        {
+            var customer = await _customerService.GetByIdAsync(id);
+            return customer;
+        }
+
         // POST: api/customer/add-base-pl
         // Has tests
         /// <summary>
@@ -45,7 +57,7 @@ namespace nopCommerceApi.Controllers.Customer
         public async Task<IActionResult> CreateBasePL([FromBody] CustomerPLCreateBaseDto createCustomerDto)
         {
             var customer = await _customerService.CreateBasePLAsync(createCustomerDto);
-            return Ok(customer);
+            return Created($"api/customer/{customer.Id}", customer);
         }
 
         // POST: api/customer/connect-with/address/{customerGuid}/{shippingAddressId}
@@ -95,7 +107,7 @@ namespace nopCommerceApi.Controllers.Customer
                 throw new BadRequestException("Password update failed");
             }
 
-            return Ok();
+            return Ok(result);
         }
 
     }
