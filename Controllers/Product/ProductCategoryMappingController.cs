@@ -41,10 +41,10 @@ namespace nopCommerceApi.Controllers.Product
         /// <summary>
         /// Delete association between a product and a category
         /// </summary>
-        [HttpDelete("{productId}/{categoryId}")]
+        [HttpDelete("product/{productId}/category/{categoryId}")]
         public async Task<IActionResult> Delete(int productId, int categoryId)
         {
-            _productCategoryMappingService.DeleteAsync(productId, categoryId);
+            await _productCategoryMappingService.DeleteAsync(productId, categoryId);
             return Ok();
         }
 
