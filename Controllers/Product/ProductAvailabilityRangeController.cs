@@ -71,7 +71,7 @@ namespace nopCommerceApi.Controllers.Product
         /// </summary>
         /// <param name="id">The ID of the product availability range to delete.</param>
         /// <returns>An HTTP 200 OK response if the deletion is successful.</returns>
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             await _productAvailabilityRangeService.DeleteAsync(id);
