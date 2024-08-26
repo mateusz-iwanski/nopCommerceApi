@@ -15,7 +15,7 @@ namespace nopCommerceApi.Controllers.SpecificationAttribute
     /// Note: Specification attribute need to have option and group! If not, it will be ignored.
     /// For example: Product (specification attribute group) -> color (specification attribute) -> red, blue, green (specification attribute option)
     /// </summary>
-    [Route("specification-attribute")]
+    [Route("api/specification-attribute")]
     [ApiController]
     public class SpecificationAttributeController : ControllerBase
     {
@@ -167,7 +167,7 @@ namespace nopCommerceApi.Controllers.SpecificationAttribute
         public async Task<IActionResult> DeleteSpecificationAttributeGroup(int id)
         {
             await _specificationAttributeGroupService.DeleteAsync(id);
-            return NoContent();
+            return Ok();
         }
 
         /// <summary>
