@@ -7,28 +7,25 @@ namespace nopCommerceApi.Services.StateProvince
 {
     public interface IStateProvinceService
     {
-        IEnumerable<StateProvinceDto> GetAll();
+        Task<IEnumerable<StateProvinceDto>> GetAllAsync();
     }
 
     public class StateProvinceService : BaseService, IStateProvinceService
     {
-        private readonly NopCommerceContext _context;
-        private readonly IMapper _mapper;
-
         public StateProvinceService(NopCommerceContext context, IMapper mapper, ILogger<AddressAttributeService> logger
             ) : base(context, mapper, logger)
         {
         }
 
         /// <summary>
-        /// Get all state provinces with details
+        /// Get all state provinces with details asynchronously
         /// </summary>
-        public IEnumerable<StateProvinceDto> GetAll()
+        public async Task<IEnumerable<StateProvinceDto>> GetAllAsync()
         {
-            var stateProvince = _context
+            var stateProvince = await _context
                 .StateProvinces
                 .Include(c => c.Country)
-                .ToList();
+                .ToListAsync();
 
             var stateProvinceDtos = _mapper.Map<List<StateProvinceDto>>(stateProvince);
 
