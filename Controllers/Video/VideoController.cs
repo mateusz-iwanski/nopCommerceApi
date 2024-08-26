@@ -5,7 +5,7 @@ using nopCommerceApi.Services.Video;
 
 namespace nopCommerceApi.Controllers.Video
 {
-    [Route("api/Video")]
+    [Route("api/video")]
     [ApiController]
     public class VideoController : ControllerBase
     {
