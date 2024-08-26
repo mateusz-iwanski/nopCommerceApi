@@ -61,6 +61,11 @@ namespace nopCommerceApi.Services.Product
         {
             var productPicture = await _context.ProductPictureMappings.FindAsync(ProductPictureMappingUpdateDto.Id);
 
+            if (productPicture == null)
+            {
+                throw new NotFoundExceptions($"The product picture with id {ProductPictureMappingUpdateDto.Id} was not found.");
+            }
+
             _mapper.Map(ProductPictureMappingUpdateDto, productPicture);
 
             await _context.SaveChangesAsync();
