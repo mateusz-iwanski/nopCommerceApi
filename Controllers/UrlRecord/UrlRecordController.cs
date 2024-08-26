@@ -7,7 +7,7 @@ namespace nopCommerceApi.Controllers.UrlRecord
     /// <summary>
     /// UrlRecord is used to store SEO-friendly URLs for entities with an SEO category.
     /// </summary>
-    [Route("url-records")]
+    [Route("api/url-records")]
     [ApiController]
     public class UrlRecordController : ControllerBase
     {
