@@ -6,8 +6,11 @@
     /// <remarks>
     /// This object should be used only for the get method in controller
     /// </remarks>
-    public class TaxCategoryDto
+    public class TaxCategoryDto : BaseDto
     {
+
+        public int Id { get; set; }
+
         /// <summary>
         /// Gets the name
         /// </summary>
