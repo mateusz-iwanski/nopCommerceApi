@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using nopCommerceApi.Entities;
+using nopCommerceApi.Exceptions;
 using nopCommerceApi.Models.TaxCategory;
 using nopCommerceApi.Services.Product;
 
@@ -10,6 +11,7 @@ namespace nopCommerceApi.Services
     {
         Task<IEnumerable<TaxCategoryDto>> GetAll();
         Task<int> GetLastDisplayOrder();
+        Task<TaxCategoryDto> GetByNameAsync(string name);
     }
 
     public class TaxCategoryService : BaseService, ITaxCategoryService
@@ -41,5 +43,22 @@ namespace nopCommerceApi.Services
 
             return lastTaxCategory.DisplayOrder;
         }
+
+        /// <summary>
+        /// Get tax category by name
+        /// </summary>
+        public async Task<TaxCategoryDto> GetByNameAsync(string name)
+        {
+            var taxCategory = await _context.TaxCategories
+                .AsNoTracking()
+                .FirstOrDefaultAsync(t => t.Name == name);
+
+            if (taxCategory == null) throw new NotFoundExceptions($"TaxCategory with name {name} not found.");
+
+            var taxCategoryDto = _mapper.Map<TaxCategoryDto>(taxCategory);
+
+            return taxCategoryDto;
+        }
+
     }
 }
