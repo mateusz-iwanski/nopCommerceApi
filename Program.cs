@@ -51,6 +51,7 @@ using nopCommerceApi.Validations.Customer;
 using nopCommerceApi.Validations.ProductTag;
 using nopCommerceApi.Services.TierPrice;
 using nopCommerceApi.Services.Currency;
+using nopCommerceApi.Services.Tax;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -92,6 +93,7 @@ builder.Services.AddScoped<ICustomerRoleService, CustomerRoleService>();
 builder.Services.AddScoped<ILanguageService, LanguageService>();
 builder.Services.AddScoped<IStateProvinceService, StateProvinceService>();
 builder.Services.AddScoped<ITaxCategoryService, TaxCategoryService>();
+builder.Services.AddScoped<ITaxRateService, TaxRateService>();
 builder.Services.AddScoped<ITierPriceService, TierPriceService>();
 builder.Services.AddScoped<IAddressAttributeService, AddressAttributeService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
