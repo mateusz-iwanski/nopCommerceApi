@@ -10,8 +10,8 @@ namespace nopCommerceApi.Seeder
     public class TaxCategorySeeder
     {
         private readonly NopCommerceContext _context;
-        private readonly string _defaultTaxCategoryNamePL23 = "PL-23% (Podstawowa)";
-        private readonly string _defaultTaxCategoryNamePL8 = "PL-8% (Podstawowa)";
+        private readonly string _defaultTaxCategoryNamePL23 = "PL_23_procent_podstawowa";
+        private readonly string _defaultTaxCategoryNamePL8 = "PL_8_procent_podstawowa";
 
         public TaxCategorySeeder(NopCommerceContext context)
         {
