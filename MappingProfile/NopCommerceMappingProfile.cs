@@ -26,10 +26,12 @@ using nopCommerceApi.Models.SpecificationAttributeOption;
 using nopCommerceApi.Models.SpecyficationAttribute;
 using nopCommerceApi.Models.SpecyficationAttributeGroup;
 using nopCommerceApi.Models.State;
+using nopCommerceApi.Models.Tax;
 using nopCommerceApi.Models.TaxCategory;
 using nopCommerceApi.Models.TierPrice;
 using nopCommerceApi.Models.UrlRecord;
 using nopCommerceApi.Models.Video;
+using nopCommerceApi.Services.Tax;
 
 namespace nopCommerceApi.MappingProfile
 {
@@ -115,9 +117,11 @@ namespace nopCommerceApi.MappingProfile
 
             #endregion
 
-            #region TaxCategory
+            #region Tax
             //get
             CreateMap<TaxCategory, TaxCategoryDto>();
+            CreateMap<TaxRate, TaxRateDto>();
+
             #endregion
 
             #region Product
