@@ -15,20 +15,20 @@ namespace nopCommerceApi.Models.Product
         /// ## ShortDescription
         /// ### Short description is the text that is displayed in product list i.e. category / manufacturer pages.
         /// </summary>
-        public virtual string ShortDescription { get; set; }
+        public virtual string? ShortDescription { get; set; }
 
         /// <summary>
         /// ## FullDescription
         /// ### Full description is the text that is displayed in product page.
         /// </summary>
-        public virtual string FullDescription { get; set; }
+        public virtual string? FullDescription { get; set; }
 
 
         /// <summary>
         /// ## ManufacturerPartNumber
         /// ### Set the manufacturer part number.
         /// </summary>
-        public virtual string ManufacturerPartNumber { get; set; }
+        public virtual string? ManufacturerPartNumber { get; set; }
 
         /// <summary>        
         /// ## Published
@@ -208,7 +208,7 @@ namespace nopCommerceApi.Models.Product
         /// ### This comment is for internal use only, not visible for customers.
         /// *Defaul = null*
         /// </summary>
-        public virtual string AdminComment { get; set; }
+        public virtual string? AdminComment { get; set; }
 
         /// <summary>
         /// ## UpdatedOnUtc
