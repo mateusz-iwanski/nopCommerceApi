@@ -550,7 +550,7 @@ namespace nopCommerceApi.Models.Product
         /// * ManageStock (1): Track inventory for the product.
         /// * ManageStockByAttributes (2): Track inventory for the product by product attributes.
         /// </summary>
-        [JsonIgnore] public virtual int ManageInventoryMethodId { get; set; } = 0;
+        [JsonIgnore] public virtual int ManageInventoryMethodId { get; set; } = 1;
 
         /// <summary>
         /// ## StockQuantity
@@ -559,7 +559,7 @@ namespace nopCommerceApi.Models.Product
         /// #### Enabled only if ManageInventoryMethodId is set to ManageStock (1)
         /// *Default = 1000*
         /// </summary>
-        [JsonIgnore] public virtual int StockQuantity { get; set; } = 1000;
+        [JsonIgnore] public virtual int StockQuantity { get; set; } = 0;
 
 
         /// <summary>
@@ -659,7 +659,7 @@ namespace nopCommerceApi.Models.Product
         /// #### Allow customers to subscribe to a notification list for a product that has gone out of stock.
         /// *Default = false*
         /// </summary>
-        [JsonIgnore] public virtual bool AllowBackInStockSubscriptions { get; set; } = false;
+        [JsonIgnore] public virtual bool AllowBackInStockSubscriptions { get; set; } = true;
 
         /// <summary>
         /// ## OrderMinimumQuantity
