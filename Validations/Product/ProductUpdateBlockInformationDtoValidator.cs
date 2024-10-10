@@ -63,7 +63,7 @@ namespace nopCommerceApi.Validations
 
             // ParentGroupedProductId has to exist
             RuleFor(x => x.ParentGroupedProductId)
-                .Must(parentGroupedProductId => _context.Products.Any(c => c.Id == parentGroupedProductId))
+                .Must(parentGroupedProductId => _context.Products.Any(c => c.Id == parentGroupedProductId || parentGroupedProductId == 0))
                 .WithMessage("The parent grouped product does not exist.");
         }
     }
