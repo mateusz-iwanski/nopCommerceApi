@@ -5,7 +5,7 @@ VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "nopCommerceApi", "nopCommerceApi.csproj", "{B0A20402-FF98-4C75-A347-FA020A393B6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{EDBB2072-CB9D-4ADA-9964-76D894DB8956}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{EDBB2072-CB9D-4ADA-9964-76D894DB8956}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
