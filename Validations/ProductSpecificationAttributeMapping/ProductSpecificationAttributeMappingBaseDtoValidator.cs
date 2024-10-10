@@ -19,8 +19,8 @@ namespace nopCommerceApi.Validations.ProductSpecificationAttributeMapping
 
             // check specification attribute option id exists
             RuleFor(x => x.SpecificationAttributeOptionId)
-                .Must(x => _context.SpecificationAttributes.Find(x) != null)
-                .WithMessage("Specification attribute id does not exist");
+                .Must(x => _context.SpecificationAttributeOptions.Find(x) != null)
+                .WithMessage("Specification attribute option id does not exist");
 
             // check display order is greater or equal to 0
             RuleFor(x => x.DisplayOrder)
