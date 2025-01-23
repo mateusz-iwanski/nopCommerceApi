@@ -56,6 +56,8 @@ public partial class Category
 
     public bool ManuallyPriceRange { get; set; }
 
+    public bool RestrictFromVendors { get; set; }
+
     public virtual ICollection<ProductCategoryMapping> ProductCategoryMappings { get; set; } = new List<ProductCategoryMapping>();
 
     public virtual ICollection<Discount> Discounts { get; set; } = new List<Discount>();
