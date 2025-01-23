@@ -123,7 +123,7 @@ builder.Services.AddScoped<IProductVideoService, ProductVideoService>();
 builder.Services.AddScoped<IApiUserAccountService, ApiUserAccountService>();
 builder.Services.AddScoped<IApiUserService, ApiUserService>();
 
-// Register Seeder
+//// Register Seeder
 builder.Services.AddScoped<TaxCategorySeeder>();
 builder.Services.AddScoped<AdminApiUserSeeder>();
 builder.Services.AddScoped<CustomerRolesSeeder>();
@@ -267,7 +267,6 @@ builder.Services.AddSwaggerGen(options =>
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     options.IncludeXmlComments(xmlPath);
 
-
     // Define the Bearer security scheme
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
@@ -301,7 +300,7 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
-// Run seeders
+//Run seeders
 using (var scope = app.Services.CreateScope())
 {
     var taxCategorySeeder = scope.ServiceProvider.GetRequiredService<TaxCategorySeeder>();
