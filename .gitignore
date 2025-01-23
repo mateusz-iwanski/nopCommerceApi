@@ -5,6 +5,7 @@
 
 # Users list with login data
 users.json
+appsettings.json
 
 # User-specific files
 *.rsuser
