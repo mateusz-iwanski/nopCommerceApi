@@ -58,10 +58,10 @@ namespace nopCommerceApi.Services.Product
                 Description = productAttributeWithMappingCreateDto.Description
             };
 
-            _context.ProductAttributes.Add(productAttribute);
+            var productAtributeAdded = _context.ProductAttributes.Add(productAttribute);
             await _context.SaveChangesAsync();
 
-            int id = productAttribute.Id;
+            int id = productAtributeAdded.Entity.Id;
 
             var productProductAttributeMapping = new ProductProductAttributeMapping
             {
