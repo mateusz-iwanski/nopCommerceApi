@@ -44,7 +44,7 @@ namespace nopCommerceApi.Controllers.Category
         /// <summary>
         /// Create a new category
         /// </summary>
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] CategoryCreateDto categoryDto)
         {
             var category = await _categoryService.CreateAsync(categoryDto);
