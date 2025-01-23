@@ -552,7 +552,7 @@ public partial class Product
     /// if this property is set to false, then we do not need to load tier prices navigation property
     /// </remarks>
     /// </summary>
-    public bool HasTierPrices { get; set; }
+    // public bool HasTierPrices { get; set; }  Thies fields is not available in nopCommerce 4.8
 
     /// <summary>
     /// Gets or sets a value indicating whether this product has discounts applied
@@ -561,7 +561,7 @@ public partial class Product
     /// if this property is set to false, then we do not need to load Applied Discounts navigation property
     /// </remarks>
     /// </summary>
-    public bool HasDiscountsApplied { get; set; }
+    // public bool HasDiscountsApplied { get; set; }  Thies fields is not available in nopCommerce 4.8
 
     /// <summary>
     /// Gets or sets the weight
