@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using nopCommerceApi.Exceptions;
+using System;
 using System.Diagnostics;
 using System.Text;
 
@@ -34,36 +35,31 @@ namespace nopCommerceApi.Middleware
             {
                 await HandleExceptionAsync(context, exception, 401);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                _logger.LogError(ex, ex.Message);
-                if (Debugger.IsAttached)
-                {
-                    await context.Response.WriteAsync(ex.Message);
-                    Debug.WriteLine($"ERROR ==== {ex.Message}");
-                }
-                else
-                {
-                    context.Response.StatusCode = 500;  // internal server error
-                    await context.Response.WriteAsync("Something went wrong");
-                }
+                await HandleExceptionAsync(context, exception, 400);
             }
         }
 
         private async Task HandleExceptionAsync(HttpContext context, Exception exception, int statusCode)
         {
-            var correlationId = Guid.NewGuid().ToString();            
-
-            var response = context.Response;
-            response.ContentType = "application/json";
-            response.StatusCode = statusCode;
+            var correlationId = Guid.NewGuid().ToString();
 
             var errorResponse = new ErrorResponse
             {
                 StatusCode = statusCode,
                 Message = exception.Message,
-                Detail = _env.IsDevelopment() ? exception.StackTrace : null
+                Detail = _env.IsDevelopment() ? exception.StackTrace : null,
+                HelpLink = exception.HelpLink ?? null,
+                Source = exception.Source ?? null,
+                InnerMessage = exception.InnerException?.Message ?? null
             };
+
+            context.Items["ErrorResponse"] = errorResponse;
+
+            var response = context.Response;
+            response.ContentType = "application/json";
+            response.StatusCode = statusCode;
 
             var logErrorBuild = new StringBuilder()
                 .Append($"Error {correlationId}|")
@@ -71,15 +67,16 @@ namespace nopCommerceApi.Middleware
                 .Append($"Response: {JsonConvert.SerializeObject(errorResponse)}");
 
             _logger.LogError(exception, logErrorBuild.ToString());
-
-            await response.WriteAsync(JsonConvert.SerializeObject(errorResponse));
         }
     }
 
     public class ErrorResponse
     {
         public int StatusCode { get; set; }
-        public string Message { get; set; }
-        public string Detail { get; set; }
+        public string? Message { get; set; }
+        public string? Detail { get; set; }
+        public string? HelpLink { get; set; }
+        public string? Source { get; set; }
+        public string? InnerMessage { get; set; }
     }
 }
