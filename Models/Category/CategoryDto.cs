@@ -213,5 +213,10 @@ namespace nopCommerceApi.Models.Category
         /// *Default = Datetime.Now (when update)*
         /// </summary>
         public virtual DateTime UpdatedOnUtc { get; set; }
+
+        /// <summary>
+        /// *Default = false*
+        /// </summary>
+        public virtual bool RestrictFromVendors { get; set; }
     }
 }
