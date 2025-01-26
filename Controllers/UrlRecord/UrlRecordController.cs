@@ -55,7 +55,7 @@ namespace nopCommerceApi.Controllers.UrlRecord
         /// <summary>
         /// Update url record
         /// </summary>
-        [HttpPut]
+        [HttpPut("update/product/{entityId}/entity-name/{entityName}")]
         public async Task<IActionResult> Update([FromBody] UrlRecordUpdateDto urlRecordUpdateDto)
         {
             await _urlRecordService.UpdateAsync(urlRecordUpdateDto);
