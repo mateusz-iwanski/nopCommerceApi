@@ -11,7 +11,7 @@ namespace nopCommerceApi.Validations.UrlRecord
             // check that id exists
             RuleFor(x => x.Id)
                 .Must(id => _context.UrlRecords.Any(u => u.Id == id))
-                .WithMessage("The id is not exists.");
+                .WithMessage("The url record id is not exists.");
             
             // check if entity with EntityName and EntityId and LanguageId exists, exclude updated object
             RuleFor(x => new { x.EntityName, x.EntityId, x.LanguageId, x.Id })
