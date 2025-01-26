@@ -11,8 +11,8 @@ namespace nopCommerceApi.Services.SpecificationAttribute
         Task<SpecificationAttributeGroupDto> CreateAsync(SpecificationAttributeGroupCreateDto specificationAttributeGroupCreateDto);
         Task<bool> DeleteAsync(int id);
         Task<IEnumerable<SpecificationAttributeGroupDto>> GetAllAsync();
-        Task<SpecificationAttributeGroupDto> GetByIdAsync(int id);
-        Task<SpecificationAttributeGroupDto> GetByNameAsync(string name);
+        Task<SpecificationAttributeGroupDto?> GetByIdAsync(int id);
+        Task<SpecificationAttributeGroupDto?> GetByNameAsync(string name);
         Task<bool> UpdateAsync(SpecificationAttributeGroupUpdateDto specificationAttributeGroupUpdateDto);
     }
 
@@ -32,13 +32,11 @@ namespace nopCommerceApi.Services.SpecificationAttribute
             return _mapper.Map<IEnumerable<SpecificationAttributeGroupDto>>(specificationAttributeGroups);
         }
 
-        public async Task<SpecificationAttributeGroupDto> GetByIdAsync(int id)
+        public async Task<SpecificationAttributeGroupDto?> GetByIdAsync(int id)
         {
             var specificationAttributeGroup = await _context.SpecificationAttributeGroups.FindAsync(id);
             if (specificationAttributeGroup == null)
-            {
-                throw new NotFoundExceptions($"The specification attribute group with id {id} was not found.");
-            }
+                return null;
 
             return _mapper.Map<SpecificationAttributeGroupDto>(specificationAttributeGroup);
         }
@@ -82,13 +80,11 @@ namespace nopCommerceApi.Services.SpecificationAttribute
             return true;
         }
 
-        public async Task<SpecificationAttributeGroupDto> GetByNameAsync(string name)
+        public async Task<SpecificationAttributeGroupDto?> GetByNameAsync(string name)
         {
             var specificationAttributeGroup = await _context.SpecificationAttributeGroups.FirstOrDefaultAsync(x => x.Name == name);
             if (specificationAttributeGroup == null)
-            {
-                throw new NotFoundExceptions($"The specification attribute group with name {name} was not found.");
-            }
+                return null;
 
             return _mapper.Map<SpecificationAttributeGroupDto>(specificationAttributeGroup);
         }
