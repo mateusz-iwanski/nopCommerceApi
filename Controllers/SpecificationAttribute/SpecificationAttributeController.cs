@@ -177,6 +177,9 @@ namespace nopCommerceApi.Controllers.SpecificationAttribute
         public async Task<IActionResult> GetSpecificationAttributeGroupByName(string name)
         {
             var specificationAttributeGroup = await _specificationAttributeGroupService.GetByNameAsync(name);
+            if (specificationAttributeGroup == null)
+                return NotFound();
+
             return Ok(specificationAttributeGroup);
         }
 
