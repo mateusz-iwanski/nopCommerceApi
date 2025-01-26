@@ -50,7 +50,7 @@ namespace nopCommerceApi.Controllers.Product
         public async Task<IActionResult> CreateMinimal([FromBody] ProductCreateMinimalDto productDto)
         {
             var product = await _productService.CreateMinimal(productDto);
-            return Created($"api/product/{product.Id}", product);
+            return Ok(product);
         }
 
         /// <summary>
