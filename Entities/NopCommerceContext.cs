@@ -81,6 +81,7 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<Video> Videos { get; set; }
     public virtual DbSet<ProductVideo> ProductVideos { get; set; }
     public virtual DbSet<Store> Stores { get; set; }
+    public virtual DbSet<PictureBinary> PictureBinaries { get; set; }
 
     #endregion
 
@@ -130,7 +131,6 @@ public partial class NopCommerceContext : DbContext
     public virtual DbSet<OrderItem> OrderItems { get; set; }
     public virtual DbSet<OrderNote> OrderNotes { get; set; }
     public virtual DbSet<PermissionRecord> PermissionRecords { get; set; }
-    public virtual DbSet<PictureBinary> PictureBinaries { get; set; }
     public virtual DbSet<Poll> Polls { get; set; }
     public virtual DbSet<PollAnswer> PollAnswers { get; set; }
     public virtual DbSet<PollVotingRecord> PollVotingRecords { get; set; }
@@ -221,6 +221,7 @@ public partial class NopCommerceContext : DbContext
         new VideoConfiguration().Configure(modelBuilder.Entity<Video>());
         new ProductVideoConfiguration().Configure(modelBuilder.Entity<ProductVideo>());
         new StoreConfigutration().Configure(modelBuilder.Entity<Store>());
+        new PictureBinaryConfiguration().Configure(modelBuilder.Entity<PictureBinary>());
 
         #endregion
 
