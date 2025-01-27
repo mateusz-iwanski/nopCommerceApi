@@ -117,6 +117,7 @@ builder.Services.AddScoped<ISpecificationAttributeOptionService, SpecificationAt
 builder.Services.AddScoped<IProductSpecificationAttributeMappingService, ProductSpecificationAttributeMappingService>();
 builder.Services.AddScoped<IVideoService, VideoService>();
 builder.Services.AddScoped<IProductVideoService, ProductVideoService>();
+builder.Services.AddScoped<IPictureBinaryService, PictureBinaryService>();
 
 
 // Configure services for api user controllers
@@ -226,6 +227,9 @@ builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyCont
 // PictureService
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<PictureCreateDtoValidator>());
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<PictureUpdateDtoValidator>());
+
+// PitureBinaryService
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<PictureBinaryCreateDtoValidator>());
 
 // ProductPictureMapping
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ProductPictureMappingCreateDtoValidator>());
