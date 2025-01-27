@@ -61,8 +61,8 @@ namespace Tests
         #region GetById
         [Theory]
         [InlineData("1")] // Assuming 1 is a valid ID and exists
-        [InlineData("")] // Empty string, shoud return GetAll data        [InlineData("")] // Empty string, shoud return GetAll data
-        [InlineData(null)] // Null, should return GetAll data
+        [InlineData("")] // Empty string, shoud return GetAllAsync data        [InlineData("")] // Empty string, shoud return GetAllAsync data
+        [InlineData(null)] // Null, should return GetAllAsync data
         public async Task GetById_WithParamater_ReturnsOkResult(string queryParams)
         {
             // Act
