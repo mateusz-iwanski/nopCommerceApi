@@ -301,6 +301,19 @@ namespace nopCommerceApi.MappingProfile
 
             #endregion
 
+            #region PictureBinary
+
+            // get
+            CreateMap<PictureBinary, PictureBinaryDto>();
+
+            // set 
+            CreateMap<PictureBinaryCreateDto, PictureBinary>();
+
+            // update
+            CreateMap<PictureBinaryUpdateDto, PictureBinary>();
+
+            #endregion
+
             #region ProductPictureMapping
 
             // get
