@@ -14,6 +14,7 @@ namespace nopCommerceApi.Services.Manufacturer
         Task<ManufacturerDto> UpdateAsync(ManufacturerUpdateDto manufacturerUpdateDto);
         Task<ManufacturerDto> GetByIdAsync(int id);
         Task<bool> DeleteAsync(int id);
+        Task<ManufacturerDto> GetByProductIdAsync(int productId);
     }
 
     public class ManufacturerService : BaseService, IManufacturerService
@@ -37,6 +38,20 @@ namespace nopCommerceApi.Services.Manufacturer
             if (manufacturer == null) throw new NotFoundExceptions($"Manufacturer with id {id} not found");
 
             var manufacturerDto = _mapper.Map<ManufacturerDto>(manufacturer);
+
+            return manufacturerDto;
+        }
+
+        // get by product id
+        public async Task<ManufacturerDto> GetByProductIdAsync(int productId)
+        {
+            var manufacturerMapping = await _context.ProductManufacturerMappings
+                .Include(pmm => pmm.Manufacturer)
+                .FirstOrDefaultAsync(pmm => pmm.ProductId == productId);
+
+            if (manufacturerMapping == null) throw new NotFoundExceptions($"Manufacturer for product with id {productId} not found");
+
+            var manufacturerDto = _mapper.Map<ManufacturerDto>(manufacturerMapping.Manufacturer);
 
             return manufacturerDto;
         }
