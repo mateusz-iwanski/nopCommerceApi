@@ -39,6 +39,50 @@ namespace nopCommerceApi.Controllers.Product
         }
 
         /// <summary>
+        /// Get manufacturer name
+        /// </summary>
+        [HttpGet("manufacturer/name/{name}")]
+        public async Task<IActionResult> GetByManufacturer(string name)
+        {
+            var productDto = await _productService.GetByManufacturer(name);
+
+            return Ok(productDto);
+        }
+
+        /// <summary>
+        /// Get manufacturer by product id
+        /// </summary>
+        [HttpGet("{productId}/manufacturer")]
+        public async Task<IActionResult> GetManufacturerByProductId(int productId)
+        {
+            var manufacturer = await _productService.GetManufacturerByProductId(productId);
+            return Ok(manufacturer);
+        }
+
+        /// <summary>
+        /// Get manufacturer id
+        /// </summary>
+        [HttpGet("manufacturer/id/{id}")]
+        public async Task<IActionResult> GetByManufacturer(int id)
+        {
+            var productDto = await _productService.GetByManufacturer(id);
+
+            return Ok(productDto);
+        }
+
+        // GET: api/product/5
+        /// <summary>
+        /// Get product by id
+        /// </summary>
+        [HttpGet("sku/{sku}")]
+        public async Task<IActionResult> GetBySku(string sku)
+        {
+            var productDto = await _productService.GetBySku(sku);
+
+            return Ok(productDto);
+        }
+
+        /// <summary>
         /// Create a new product with minimal information and all rest fields set to default values
         /// </summary>
         /// <remarks>
