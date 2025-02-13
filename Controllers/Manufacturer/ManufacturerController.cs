@@ -51,6 +51,16 @@ namespace nopCommerceApi.Controllers.Manufacturer
             return Ok(result);
         }
 
-        
+        /// <summary>
+        /// Get manufacturer by product id
+        /// </summary>
+        [HttpGet("product/{productId}")]
+        public async Task<IActionResult> GetByProductId(int productId)
+        {
+            var manufacturer = await _manufacturerService.GetByProductIdAsync(productId);
+            return Ok(manufacturer);
+        }
+
+
     }
 }
