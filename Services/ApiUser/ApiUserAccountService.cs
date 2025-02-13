@@ -18,7 +18,7 @@ namespace nopCommerceApi.Services.User
     public interface IApiUserAccountService
     {
         void RegisterUser(ApiUserRegisterDto registerUserDto);
-        string GenerateJwt(ApiUserLoginDto loginDto);
+        Dictionary<string, object> GenerateJwt(ApiUserLoginDto loginDto);
     }
 
     /// <summary>
@@ -79,7 +79,7 @@ namespace nopCommerceApi.Services.User
         /// <summary>
         /// JWT generation for the user authentication
         /// </summary>
-        public string GenerateJwt(ApiUserLoginDto loginDto)
+        public Dictionary<string, object> GenerateJwt(ApiUserLoginDto loginDto)
         {
             var users = ApiUserService.GetUsersFromJson(_settings.UsersFilePath);
 
@@ -114,7 +114,11 @@ namespace nopCommerceApi.Services.User
                 );
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            return tokenHandler.WriteToken(token);  
+
+            return new Dictionary<string, object> {
+                { "token", tokenHandler.WriteToken(token) },
+                { "expire", expires }
+            } ;  
         }
     }
 }
