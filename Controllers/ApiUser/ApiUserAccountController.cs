@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 using nopCommerceApi.Models.User;
 using nopCommerceApi.Services.User;
 
@@ -44,7 +45,9 @@ namespace nopCommerceApi.Controllers.User
         [HttpPost("login")]
         public ActionResult Login([FromBody] ApiUserLoginDto loginDto)
         {
-            string token = _accountService.GenerateJwt(loginDto);
+            // include token (string), expire (datetime)
+            Dictionary<string, object> token = _accountService.GenerateJwt(loginDto);
+            
             return Ok(token);
         }
     }
