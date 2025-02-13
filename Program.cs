@@ -52,6 +52,7 @@ using nopCommerceApi.Validations.ProductTag;
 using nopCommerceApi.Services.TierPrice;
 using nopCommerceApi.Services.Currency;
 using nopCommerceApi.Services.Tax;
+using nopCommerceApi.Services.DeliveryDayte;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -75,7 +76,12 @@ var settings = new ConfigurationBuilder<IMySettings>()
                 .UseIniFile("appsettings.ini")
                 .Build();
 
-
+// Load configuration from Docker secret
+var secretPath = "/run/secrets/appsettings_json";
+if (File.Exists(secretPath))
+{
+    builder.Configuration.AddJsonFile(secretPath, optional: false, reloadOnChange: true);
+}
 
 // Register IMySettings - custom settings
 builder.Services.AddSingleton<IMySettings>(settings);
@@ -118,6 +124,7 @@ builder.Services.AddScoped<IProductSpecificationAttributeMappingService, Product
 builder.Services.AddScoped<IVideoService, VideoService>();
 builder.Services.AddScoped<IProductVideoService, ProductVideoService>();
 builder.Services.AddScoped<IPictureBinaryService, PictureBinaryService>();
+builder.Services.AddScoped<IDeliveryDateService, DeliveryDateService>();
 
 
 // Configure services for api user controllers
