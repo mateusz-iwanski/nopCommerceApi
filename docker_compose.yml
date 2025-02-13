@@ -1,0 +1,11 @@
+version: '3.1'
+
+services:
+  your-service:
+    image: your-image
+    secrets:
+      - appsettings_json
+
+secrets:
+  appsettings_json:
+    external: true
