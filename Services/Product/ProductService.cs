@@ -6,6 +6,7 @@ using nopCommerceApi.Entities;
 using nopCommerceApi.Entities.NotUsable;
 using nopCommerceApi.Entities.Usable;
 using nopCommerceApi.Exceptions;
+using nopCommerceApi.Models.Manufacturer;
 using nopCommerceApi.Models.Product;
 
 namespace nopCommerceApi.Services.Product
@@ -14,6 +15,7 @@ namespace nopCommerceApi.Services.Product
     {
         Task<IEnumerable<ProductDto>> GetAll();
         Task<ProductDto> GetById(int id);
+        Task<ProductDto> GetBySku(string sku);
         Task<Entities.Usable.Product> CreateMinimal(ProductCreateMinimalDto productDto);
         Task<bool> Delete(int id);
         Task<bool> UpdateBlockInformation(int id, ProductUpdateBlockInformationDto productDto);
@@ -30,16 +32,22 @@ namespace nopCommerceApi.Services.Product
         Task<bool> UpdateBlockPrice(int id, ProductUpdateBlockPriceDto productDto);
         Task<bool> UnAssociateCategory(int productId, int categoryId);
         Task<bool> AssociateCategory(int productId, int categoryId);
+        Task<IEnumerable<ProductDto>> GetByManufacturer(string manufacturerName);
+        Task<IEnumerable<ProductDto>> GetByManufacturer(int manufacturerId);
+        Task<ManufacturerDto> GetManufacturerByProductId(int productId);
     }
 
     public class ProductService : BaseService, IProductService
     {
         public ProductService(NopCommerceContext context, IMapper mapper, ILogger<ProductService> logger) : base(context, mapper, logger) { }
 
+
+        // TEST TEST
         public async Task<IEnumerable<ProductDto>> GetAll()
         {
             var products = await _context.Products
                 .AsNoTracking()
+                .Take(1000)
                 .ToListAsync();
             var productDtos = _mapper.Map<List<ProductDto>>(products);
 
@@ -57,6 +65,81 @@ namespace nopCommerceApi.Services.Product
             var productDto = _mapper.Map<ProductDto>(products);
 
             return productDto;
+        }
+
+        public async Task<ProductDto> GetBySku(string sku)
+        {
+            var products = await _context.Products
+                .AsNoTracking()
+                .FirstOrDefaultAsync(p => p.Sku == sku);
+
+            if (products == null) throw new NotFoundExceptions($"Product with id {sku} not found");
+
+            var productDto = _mapper.Map<ProductDto>(products);
+
+            return productDto;
+        }
+
+        public async Task<IEnumerable<ProductDto>> GetByManufacturer(string manufacturerName)
+        {
+            var manufacturer = await _context.Manufacturers
+                .FirstOrDefaultAsync(m => m.Name == manufacturerName);
+
+            if (manufacturer == null)
+            {
+                throw new NotFoundExceptions($"Manufacturer with name {manufacturerName} not found");
+            }
+
+            var products = await _context.Products
+                .Include(p => p.ProductManufacturerMappings)
+                .Where(p => p.ProductManufacturerMappings.Any(pmm => pmm.ManufacturerId == manufacturer.Id))
+                .AsNoTracking()
+                .ToListAsync();
+
+            if (!products.Any())
+            {
+                throw new NotFoundExceptions($"No products found for manufacturer with name {manufacturerName}");
+            }
+
+            var productDtos = _mapper.Map<List<ProductDto>>(products);
+
+            return productDtos;
+        }
+
+        public async Task<ManufacturerDto> GetManufacturerByProductId(int productId)
+        {
+            var product = await _context.Products
+                .Include(p => p.ProductManufacturerMappings)
+                .ThenInclude(pmm => pmm.Manufacturer)
+                .FirstOrDefaultAsync(p => p.Id == productId);
+
+            if (product == null) throw new NotFoundExceptions($"Product with id {productId} not found");
+
+            var manufacturerMapping = product.ProductManufacturerMappings.FirstOrDefault();
+            if (manufacturerMapping == null) throw new NotFoundExceptions($"Manufacturer for product with id {productId} not found");
+
+            var manufacturerDto = _mapper.Map<ManufacturerDto>(manufacturerMapping.Manufacturer);
+
+            return manufacturerDto;
+        }
+
+
+        public async Task<IEnumerable<ProductDto>> GetByManufacturer(int manufacturerId)
+        {
+            var products = await _context.Products
+                .Include(p => p.ProductManufacturerMappings)
+                .Where(p => p.ProductManufacturerMappings.Any(pmm => pmm.ManufacturerId == manufacturerId))
+                .AsNoTracking()
+                .ToListAsync();
+
+            if (!products.Any())
+            {
+                throw new NotFoundExceptions($"No products found for manufacturer with id {manufacturerId}");
+            }
+
+            var productDtos = _mapper.Map<List<ProductDto>>(products);
+
+            return productDtos;
         }
 
         public async Task<Entities.Usable.Product> CreateMinimal(ProductCreateMinimalDto productDto)
