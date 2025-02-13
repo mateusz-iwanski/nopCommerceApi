@@ -6,6 +6,7 @@ using nopCommerceApi.Models.AddressAttribute;
 using nopCommerceApi.Models.Category;
 using nopCommerceApi.Models.Country;
 using nopCommerceApi.Models.Customer;
+using nopCommerceApi.Models.DelivaeryDate;
 using nopCommerceApi.Models.Language;
 using nopCommerceApi.Models.Manufacturer;
 using nopCommerceApi.Models.Picture;
@@ -311,6 +312,19 @@ namespace nopCommerceApi.MappingProfile
 
             // update
             CreateMap<PictureBinaryUpdateDto, PictureBinary>();
+
+            #endregion
+
+            #region DeliveryDate
+
+            // get
+            CreateMap<DeliveryDate, DeliveryDateDto>();
+
+            // set 
+            CreateMap<DeliveryDateCreateDto, DeliveryDate>();
+
+            // update
+            CreateMap<DeliveryDateUpdateDto, DeliveryDateDto>();
 
             #endregion
 
