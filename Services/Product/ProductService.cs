@@ -47,7 +47,7 @@ namespace nopCommerceApi.Services.Product
         {
             var products = await _context.Products
                 .AsNoTracking()
-                .Take(1000)
+                .Take(1500)
                 .ToListAsync();
             var productDtos = _mapper.Map<List<ProductDto>>(products);
 
