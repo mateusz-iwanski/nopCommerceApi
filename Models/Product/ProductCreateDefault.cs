@@ -525,9 +525,9 @@ namespace nopCommerceApi.Models.Product
         /// <summary>
         /// ## AdditionalShippingCharge
         /// ### Set the additional shipping charge.
-        /// *Default = 10m.*
+        /// *Default = 0m.*
         /// </summary>
-        [JsonIgnore] public virtual decimal AdditionalShippingCharge { get; set; } = 10m;
+        [JsonIgnore] public virtual decimal AdditionalShippingCharge { get; set; } = 0m;
 
         /// <summary>
         /// ## DeliveryDateId
